@@ -1,3 +1,4 @@
+import hashlib
 import os
 from sasha import SASHACFG
 from sasha.core.plugins import _MediaPlugin
@@ -16,6 +17,14 @@ class SourceAudio(_MediaPlugin):
     def duration_ms(self):
         samples, samplerate = self.read( )
         return (len(samples) / float(samplerate)) * 1000.
+
+    @property
+    def md5(self):
+        f = open(self.path, 'r')
+        hash = hashlib.new('md5')
+        hash.update(f.read( ))
+        f.close( )
+        return hash.hexdigest( )
 
     ### PUBLIC METHODS ###
 
