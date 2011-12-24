@@ -23,17 +23,30 @@ class Event(_DomainObject):
             instrument_id INTEGER NOT NULL,
             performer_id INTEGER NOT NULL,
             idiom_id INTEGER NOT NULL,
+            md5 VARCHAR(32) NOT NULL,
             FOREIGN KEY (instrument_id) REFERENCES instruments(id),
             FOREIGN KEY (performer_id) REFERENCES performers(id),
             FOREIGN KEY (idiom_id) REFERENCES idioms(id)
         )
    '''
 
-    __slots__ = ('_name', '_ID', '_idiom', '_instrument', '_performer')
+    __slots__ = ('_ID', '_idiom', '_instrument', '_md5', '_name', '_performer')
 
     ### PRIVATE METHODS ###
 
-    @staticmethod
+    @classmethod
+    def _get_id_from_md5(md5):
+        dbc = SASHACFG.get_sqlite3( )
+        cur = dbc.cursor( )
+        result = cur.execute('SELECT id FROM events WHERE md5 == ?',
+            (md5,)).fetchall( )
+        if not result:
+            raise ValueError("No Event with name '%s'" % md5)
+        cur.close( )
+        dbc.close( )
+        return result[0][0]
+
+    @classmethod
     def _get_id_from_name(name):
         dbc = SASHACFG.get_sqlite3( )
         cur = dbc.cursor( )
@@ -45,8 +58,15 @@ class Event(_DomainObject):
         dbc.close( )
         return result[0][0]
 
+    @classmethod
+    def _get_id_from_string(klass, string):
+        if string.startswith('md5:'):
+            return klass._get_id_from_md5(string[4:])
+        return klass._get_id_from_string(string)
+
     def _init_attributes(self, attrdict):
         object.__setattr__(self, '_ID', int(attrdict['id']))
+        object.__setattr__(self, '_md5', str(attrdict['md5']))
         object.__setattr__(self, '_name', str(attrdict['name']))
         object.__setattr__(self, '_instrument', Instrument(attrdict['instrument_id']))
         object.__setattr__(self, '_performer', Performer(attrdict['performer_id']))
@@ -73,6 +93,10 @@ class Event(_DomainObject):
     @property
     def instrument(self):
         return self._instrument
+
+    @property
+    def md5(self):
+        return self._md5
 
     @property
     def performer(self):

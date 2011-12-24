@@ -68,6 +68,10 @@ class _DomainObject(_Immutable):
         dbc.close( )
         return result[0][0]
 
+    @classmethod
+    def _get_id_from_string(klass, string):
+        return klass._get_id_from_string(string)
+
     def _init_attributes(self, attrdict):
         raise Exception('Not implemented in %s' % self.__class__.__name__)
 
@@ -80,7 +84,7 @@ class _DomainObject(_Immutable):
         elif isinstance(arg, int):
             return arg
         elif isinstance(arg, str):
-            return klass._get_id_from_name(arg)
+            return klass._get_id_from_string(arg)
         else:
             raise ValueError('Cannot instantiate %s from argument %s.' % (klass.__name__, arg))
 

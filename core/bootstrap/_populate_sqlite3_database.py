@@ -69,6 +69,12 @@ def _populate_sqlite3_database( ):
         cur.execute("INSERT INTO events(name, idiom_id, instrument_id, performer_id) VALUES(?, ?, ?, ?)",
             (event['main']['name'], idiom_id, instrument_id, performer_id))
 
+    # now that events are populated, update with md5 information
+    for x in Event.get_all( ):
+        ID = x.ID
+        sa = SourceAudio(ID)
+        cur.execute("UPDATE events SET md5 = ? WHERE id == ?", (sa.md5, ID))
+
 #    for x in cur.execute('SELECT * FROM events').fetchall( ):
 #        print x
 
