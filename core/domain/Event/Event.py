@@ -23,7 +23,7 @@ class Event(_DomainObject):
             instrument_id INTEGER NOT NULL,
             performer_id INTEGER NOT NULL,
             idiom_id INTEGER NOT NULL,
-            md5 VARCHAR(32) NOT NULL,
+            md5 VARCHAR(32) UNIQUE,
             FOREIGN KEY (instrument_id) REFERENCES instruments(id),
             FOREIGN KEY (performer_id) REFERENCES performers(id),
             FOREIGN KEY (idiom_id) REFERENCES idioms(id)
@@ -34,7 +34,7 @@ class Event(_DomainObject):
 
     ### PRIVATE METHODS ###
 
-    @classmethod
+    @staticmethod
     def _get_id_from_md5(md5):
         dbc = SASHACFG.get_sqlite3( )
         cur = dbc.cursor( )
@@ -46,7 +46,7 @@ class Event(_DomainObject):
         dbc.close( )
         return result[0][0]
 
-    @classmethod
+    @staticmethod
     def _get_id_from_name(name):
         dbc = SASHACFG.get_sqlite3( )
         cur = dbc.cursor( )
@@ -62,7 +62,7 @@ class Event(_DomainObject):
     def _get_id_from_string(klass, string):
         if string.startswith('md5:'):
             return klass._get_id_from_md5(string[4:])
-        return klass._get_id_from_string(string)
+        return klass._get_id_from_name(string)
 
     def _init_attributes(self, attrdict):
         object.__setattr__(self, '_ID', int(attrdict['id']))

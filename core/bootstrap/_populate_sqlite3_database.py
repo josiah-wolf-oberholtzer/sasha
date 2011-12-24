@@ -1,5 +1,7 @@
 import sqlite3
 from sasha import SASHACFG
+from sasha import Event
+from sasha.plugins import SourceAudio
 from sasha.core.bootstrap._get_fixtures import _get_fixtures
 
 
@@ -69,16 +71,16 @@ def _populate_sqlite3_database( ):
         cur.execute("INSERT INTO events(name, idiom_id, instrument_id, performer_id) VALUES(?, ?, ?, ?)",
             (event['main']['name'], idiom_id, instrument_id, performer_id))
 
+    print '...ok!'
+
+    dbc.commit( )
+
     # now that events are populated, update with md5 information
     for x in Event.get_all( ):
         ID = x.ID
-        sa = SourceAudio(ID)
-        cur.execute("UPDATE events SET md5 = ? WHERE id == ?", (sa.md5, ID))
-
-#    for x in cur.execute('SELECT * FROM events').fetchall( ):
-#        print x
+        md5 = SourceAudio(ID).md5
+        print ID, md5
+        cur.execute("UPDATE events SET md5 = ? WHERE id == ?", (md5, ID))
 
     dbc.commit( )
     dbc.close( )
-
-    print '...ok!'
