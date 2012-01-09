@@ -1,0 +1,2 @@
+class Dynamic(object):
+    pass

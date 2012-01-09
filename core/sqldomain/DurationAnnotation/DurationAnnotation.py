@@ -1,0 +1,2 @@
+class DurationAnnotation(object):
+    pass

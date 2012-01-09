@@ -1,0 +1,2 @@
+class CommentAnnotation(object):
+    pass

@@ -1,0 +1,2 @@
+class Fingering(object):
+    pass
