@@ -1,2 +1,0 @@
-class DurationAnnotation(object):
-    pass

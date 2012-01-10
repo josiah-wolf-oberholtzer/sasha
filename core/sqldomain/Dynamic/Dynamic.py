@@ -1,2 +1,0 @@
-class Dynamic(object):
-    pass

@@ -1,2 +1,0 @@
-class DifficultyAnnotation(object):
-    pass

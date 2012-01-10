@@ -1,2 +1,0 @@
-class Idiom(object):
-    pass
