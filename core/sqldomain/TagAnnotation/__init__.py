@@ -1,1 +1,0 @@
-from TagAnnotation import TagAnnotation

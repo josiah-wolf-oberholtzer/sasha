@@ -6,7 +6,8 @@ from InstrumentModel import InstrumentModel
 from Partial import Partial
 from Performer import Performer
 from RecordingLocation import RecordingLocation
-from TagAnnotation import TagAnnotation
+from Tag import Tag
 
-from _ScalarAnnotation import _ScalarAnnotation
 from _DomainObject import _DomainObject
+from _ScalarAnnotation import _ScalarAnnotation
+from _Taxonomy import _Taxonomy
