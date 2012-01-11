@@ -5,8 +5,6 @@ from sasha import SASHACFG
 from sasha.core.sqldomain._Base import _Base
 from sasha.core.sqldomain._DomainObject import _DomainObject
 from sasha.core.wrappers import AudioDB
-from sasha.core.wrappers import Playback
-from sasha.plugins.audio import SourceAudio
 
 
 class Event(_Base, _DomainObject):
@@ -32,11 +30,13 @@ class Event(_Base, _DomainObject):
 
     @property
     def source_audio(self):
+        from sasha.plugins.audio import SourceAudio
         return SourceAudio(self)
 
     ### PUBLIC METHODS ###
 
     def query_audiodb(self, method, limit = 10):
+        from sasha.core.wrappers import AudioDB
         assert isinstance(limit, int) and 0 < limit
         if method in SASHACFG['audioDB']:
             adb = AudioDB(method)

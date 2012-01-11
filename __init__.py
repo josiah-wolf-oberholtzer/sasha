@@ -6,10 +6,11 @@ from core.config import SashaConfig
 SASHACFG = SashaConfig( )
 del SashaConfig
 
-from sasha.core.domain import Event
-from sasha.core.domain import Idiom
-from sasha.core.domain import Instrument
-from sasha.core.domain import Performer
+#from sasha.core.domain import Event
+#from sasha.core.domain import Idiom
+#from sasha.core.domain import Instrument
+#from sasha.core.domain import Performer
+from sasha.core.sqldomain import *
 from sasha.core.wrappers import AudioDB
 del core
 

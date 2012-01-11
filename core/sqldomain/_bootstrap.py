@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sasha import SASHACFG
 from sasha.core.bootstrap._get_fixtures import _get_fixtures
 from sasha.core.sqldomain import *
+from sasha.plugins import SourceAudio
 
 
 def _bootstrap( ):
@@ -67,6 +68,12 @@ def _bootstrap( ):
         session.add(fingering)
 
         event = Event(fingering=fingering, instrument=instrument, name=name, performer=performer)
+
+        md5 = SourceAudio(event).md5
+        if Event.get(md5=md5):
+            raise Exception('Duplicate MD5 found.')
+        event.md5 = md5
+    
         session.add(event)
 
     session.commit( )
