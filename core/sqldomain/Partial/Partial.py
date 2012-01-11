@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
+from sasha.core.sqldomain._Base import _Base
 from sasha.core.sqldomain._DomainObject import _DomainObject
 
 
-class Partial(_DomainObject):
+class Partial(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 

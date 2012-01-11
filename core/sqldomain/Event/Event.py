@@ -2,13 +2,14 @@ from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
 from sasha import SASHACFG
+from sasha.core.sqldomain._Base import _Base
 from sasha.core.sqldomain._DomainObject import _DomainObject
 from sasha.core.wrappers import AudioDB
 from sasha.core.wrappers import Playback
 from sasha.plugins.audio import SourceAudio
 
 
-class Event(_DomainObject):
+class Event(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 

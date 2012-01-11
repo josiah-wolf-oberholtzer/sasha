@@ -9,7 +9,7 @@ class _Taxonomy(object):
     ### SQLALCHEMY ###
 
     __tablename__ = 'taxonomies'
-    id = Column(Integer, primary_key=True)
+
     name = Column(String)
     kind = Column(String)
     hierarchical = Column(Boolean)
@@ -21,5 +21,3 @@ class _Taxonomy(object):
     @declared_attr
     def children(cls):
         return relationship(str(cls.__name__), backref=backref('parent', remote_side=lambda: cls.id))
-    
-_Taxonomy = declarative_base(cls=_Taxonomy)

@@ -2,10 +2,11 @@ from sqlalchemy import Column, ForeignKey, Integer, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 
+from sasha.core.sqldomain._Base import _Base
 from sasha.core.sqldomain._DomainObject import _DomainObject
 
 
-class Fingering(_DomainObject):
+class Fingering(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 
