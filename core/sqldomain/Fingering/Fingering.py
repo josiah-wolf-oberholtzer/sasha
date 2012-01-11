@@ -20,3 +20,4 @@ class Fingering(_Base, _DomainObject):
             Column('fingering_id', Integer, ForeignKey('fingerings.id')),
             Column('instrument_key_id', Integer, ForeignKey('instrument_keys.id')))
         return relationship('InstrumentKey', secondary=association_table, backref='fingerings')
+

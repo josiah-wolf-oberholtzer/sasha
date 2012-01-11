@@ -1,6 +1,10 @@
 import os
 import sqlite3
 from ConfigParser import ConfigParser
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from sasha import SASHAROOT
 from sasha.core.mixins import _ImmutableDictionary
 
@@ -51,6 +55,13 @@ class SashaConfig(_ImmutableDictionary):
 
     def get_binary(self, name):
         return self['binaries'][name]
+
+    def get_session(self):
+        dbpath = os.path.join(self.get_media_path('databases'),
+            self['sqlite3']['sqlalchemy'])
+        engine = create_engine('sqlite:///%s' % dbpath)
+        session = sessionmaker(bind=engine)( )
+        return session
 
     def get_sqlite3(self):
         path = os.path.join(

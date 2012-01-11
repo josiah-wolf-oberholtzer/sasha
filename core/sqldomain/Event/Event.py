@@ -14,7 +14,6 @@ class Event(_Base, _DomainObject):
     ### SQLALCHEMY ###
 
     description = Column(String, nullable=True)
-    filename = Column(String)
     fingering_id = Column(Integer, ForeignKey('fingerings.id'))
     fingering = relationship('Fingering', backref='events')
     instrument_id = Column(Integer, ForeignKey('instruments.id'))
@@ -22,6 +21,7 @@ class Event(_Base, _DomainObject):
     instrument_model_id = Column(Integer, ForeignKey('instrument_models.id'))
     instrument_model = relationship('InstrumentModel', backref='events')
     md5 = Column(String)
+    name = Column(String)
     performer_id = Column(Integer, ForeignKey('performers.id'))
     performer = relationship('Performer', backref='events')
     recording_date = Column(Date, nullable = True)
