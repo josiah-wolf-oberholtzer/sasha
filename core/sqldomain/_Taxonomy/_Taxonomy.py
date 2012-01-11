@@ -6,6 +6,8 @@ from sqlalchemy.orm import backref, relationship
 
 class _Taxonomy(object):
 
+    ### SQLALCHEMY ###
+
     __tablename__ = 'taxonomies'
     id = Column(Integer, primary_key=True)
     name = Column(String)
