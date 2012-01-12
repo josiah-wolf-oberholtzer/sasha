@@ -9,3 +9,4 @@ class Performer(_Base, _DomainObject):
     ### SQLALCHEMY ###
 
     name = Column(String)
+    description = Column(String)

@@ -6,4 +6,3 @@ from InstrumentModel import InstrumentModel
 from Partial import Partial
 from Performer import Performer
 from RecordingLocation import RecordingLocation
-from Tag import Tag

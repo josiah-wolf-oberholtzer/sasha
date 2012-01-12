@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
+from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHACFG
 from sasha.core.sqldomain._Base import _Base
@@ -11,6 +12,8 @@ class Event(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 
+    __table_args__ = (UniqueConstraint('id', 'md5', 'name'), { })
+
     description = Column(String, nullable=True)
     fingering_id = Column(Integer, ForeignKey('fingerings.id'))
     fingering = relationship('Fingering', backref='events')
@@ -18,8 +21,8 @@ class Event(_Base, _DomainObject):
     instrument = relationship('Instrument', backref='events')
     instrument_model_id = Column(Integer, ForeignKey('instrument_models.id'))
     instrument_model = relationship('InstrumentModel', backref='events')
-    md5 = Column(String)
-    name = Column(String)
+    md5 = Column(String, unique=True)
+    name = Column(String, unique=True)
     performer_id = Column(Integer, ForeignKey('performers.id'))
     performer = relationship('Performer', backref='events')
     recording_date = Column(Date, nullable = True)
