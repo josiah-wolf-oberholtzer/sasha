@@ -16,8 +16,8 @@ class _DomainObject(object):
 
     def __repr__(self):
         if hasattr(self, 'name'):
-            return '%s(%r)' % (type(self).__name__, self.name)
-        return '%s()' % type(self).__name__
+            return '<%s(%r)>' % (type(self).__name__, self.name)
+        return '<%s()>' % type(self).__name__
 
     ### PUBLIC METHODS ###
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Date, ForeignKey, Integer, String
+from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
@@ -29,6 +29,12 @@ class Event(_Base, _DomainObject):
     recording_location_id = Column(Integer, ForeignKey('recording_locations.id'))
     recording_location = relationship('RecordingLocation', backref='events')
 
+    ### OVERRIDES ###
+
+    def __repr__(self):
+        return '<%s(%r, %s)>' % (type(self).__name__, str(self.name),
+            [str(x.name) for x in self.fingering.instrument_keys])
+
     ### PUBLIC ATTRIBUTES ###
 
     @property
@@ -46,3 +52,23 @@ class Event(_Base, _DomainObject):
             return adb.query(self, limit)
         else:
             raise ValueError('Unknown search method "%s".' % repr(method))
+
+    @staticmethod
+    def query_keys(instrument_name, with_keys = [ ], without_keys = [ ]):
+        from sasha.core.sqldomain import Fingering, Instrument, InstrumentKey
+        instrument = Instrument.get(name=instrument_name)[0]
+        query = SASHACFG.get_session( ).query(Event).\
+            filter_by(instrument=instrument).\
+            join('fingering', 'instrument_keys').\
+            join(Instrument)
+
+        to_intersect = [query.filter(InstrumentKey.name.in_([key])) for key in with_keys]
+        with_query = query.intersect(*to_intersect).distinct( )
+
+        without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct( )
+
+        if with_keys and without_keys:
+            return with_query.except_(without_query)
+        elif with_keys:
+            return with_query
+        return query.except_(without_query)

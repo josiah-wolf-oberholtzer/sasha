@@ -20,6 +20,12 @@ class Fingering(_Base, _DomainObject):
             cls.metadata,
             Column('fingering_id', Integer, ForeignKey('fingerings.id')),
             Column('instrument_key_id', Integer, ForeignKey('instrument_keys.id')))
-#            ForeignKeyConstraint(['instrument_id', 'instrument_id'], ['fingerings.instrument_id', 'instrument_keys.instrument_id']), link_to_name=True)
+#            ForeignKeyConstraint(['fingering_id', 'instrument_key_id'], ['fingerings.id', 'instrument_keys.id']))
+        return relationship('InstrumentKey',
+            secondary=association_table, backref='fingerings')
 
-        return relationship('InstrumentKey', secondary=association_table, backref='fingerings')
+    ### OVERRIDES ###
+
+    def __repr__(self):
+        return '<%s(%r, %s)>' % (type(self).__name__, str(self.instrument.name),
+            [str(x.name) for x in self.instrument_keys])
