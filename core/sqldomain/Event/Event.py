@@ -13,6 +13,12 @@ class Event(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 
+    __fixture_paths__ = (
+        'fingering.instrument_keys.name',
+        'instrument.name',
+        'name',
+        'performer.name',
+    )
     __table_args__ = (UniqueConstraint('id', 'md5', 'name'), { })
 
     description = Column(String, nullable=True)
