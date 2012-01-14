@@ -62,13 +62,65 @@ class Event(_Base, _DomainObject):
             join('fingering', 'instrument_keys').\
             join(Instrument)
 
-        to_intersect = [query.filter(InstrumentKey.name.in_([key])) for key in with_keys]
-        with_query = query.intersect(*to_intersect).distinct( )
+        with_query = None
+        if with_keys:
+            to_intersect = [query.filter(InstrumentKey.name.in_([key])) for key in with_keys]
+            with_query = query.intersect(*to_intersect).distinct( )
 
-        without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct( )
+        without_query = None
+        if without_keys:
+            without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct( )
 
         if with_keys and without_keys:
             return with_query.except_(without_query)
         elif with_keys:
             return with_query
-        return query.except_(without_query)
+        elif without_keys:
+            return query.except_(without_query)
+        return query.distinct( )
+
+    @staticmethod
+    def query_pitches(with_pitches = [ ], without_pitches = [ ]):
+        from sasha.core.sqldomain import Partial
+        query = SASHACFG.get_session( ).query(Event).\
+            join(Partial)
+
+        with_query = None
+        if with_pitches:
+            to_intersect = [query.filter(Partial.pitch_number.in_([x])) for x in with_pitches]
+            with_query = query.intersect(*to_intersect).distinct( )
+
+        without_query = None
+        if without_pitches:
+            without_query = query.filter(Partial.pitch_number.in_(without_keys)).distinct( )
+
+        if with_pitches and without_pitches:
+            return with_query.except_(without_query)
+        elif with_pitches:
+            return with_query
+        elif without_pitches:
+            query.except_(without_query)
+        return query.distinct( )
+
+    @staticmethod
+    def query_pitch_classes(with_pcs = [ ], without_pcs = [ ]):
+        from sasha.core.sqldomain import Partial
+        query = SASHACFG.get_session( ).query(Event).\
+            join(Partial)
+
+        with_query = None
+        if with_pcs:
+            to_intersect = [query.filter(Partial.pitch_class_number.in_([x])) for x in with_pitches]
+            with_query = query.intersect(*to_intersect).distinct( )
+
+        without_query = None
+        if without_pcs:
+            without_query = query.filter(Partial.pitch_class_number.in_(without_keys)).distinct( )
+
+        if with_pitches and without_pitches:
+            return with_query.except_(without_query)
+        elif with_pitches:
+            return with_query
+        elif without_pitches:
+            return query.except_(without_query)
+        return query

@@ -28,8 +28,6 @@ def _bootstrap( ):
         data = fixture['main']
         session.add(Performer(name=data['name']))
 
-    session.commit( )
-
     # INSTRUMENTS, KEYS
     for fixture in fixtures['instruments']:
         data = fixture['main']
@@ -38,17 +36,12 @@ def _bootstrap( ):
         instrument_keys = filter(None, data['idiom_schema'].split(' '))
         for instrument_key in instrument_keys:
             session.add(InstrumentKey(name=instrument_key, instrument=instrument))
-
-    session.commit( )
-
     for fixture in fixtures['instruments']:
         data = fixture['main']
         if data['parent_name']:
             child = session.query(Instrument).filter_by(name=data['name']).one( )
             parent = session.query(Instrument).filter_by(name=data['parent_name']).one( )
             child.parent = parent
-
-    session.commit( )
     
     # EVENTS, FINGERINGS
     for fixture in fixtures['events']:
@@ -65,6 +58,7 @@ def _bootstrap( ):
 
         fingering = Fingering(instrument=instrument)
         fingering.instrument_keys.extend(instrument_keys)
+        fingering.compact_representation = fingering._generate_compact_representation( )
         session.add(fingering)
 
         event = Event(fingering=fingering, instrument=instrument, name=name, performer=performer)
