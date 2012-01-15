@@ -10,10 +10,10 @@ from sasha.plugins.analysis.PartialTrackingAnalysis import PartialTrackingAnalys
 
 class ChordAnalysis(_MediaPlugin):
 
+    __requires__ = PartialTrackingAnalysis
     __slots__ = ('_asset', '_event', '_pitches', '_pitch_classes',)
 
     _media = 'analyses'
-    _requires = (PartialTrackingAnalysis,)
     _suffix = 'chord'
 
     def __init__(self, arg):

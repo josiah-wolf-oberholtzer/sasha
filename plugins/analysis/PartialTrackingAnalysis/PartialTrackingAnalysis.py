@@ -6,8 +6,9 @@ from sasha.plugins.audio.SourceAudio import SourceAudio
 
 class PartialTrackingAnalysis(_MediaPlugin):
 
+    __requires__ = SourceAudio
+
     _media = 'analyses'
-    _requires = (SourceAudio,)
     _suffix = 'partials'
 
     ### PRIVATE METHODS ###

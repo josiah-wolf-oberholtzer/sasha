@@ -4,8 +4,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHACFG
-from sasha.core.sqldomain._Base import _Base
-from sasha.core.sqldomain._DomainObject import _DomainObject
+from sasha.core.domain._Base import _Base
+from sasha.core.domain._DomainObject import _DomainObject
 from sasha.core.wrappers import AudioDB
 
 
@@ -75,7 +75,7 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_keys(instrument_name, with_keys = [ ], without_keys = [ ]):
-        from sasha.core.sqldomain import Fingering, Instrument, InstrumentKey
+        from sasha.core.domain import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
         query = SASHACFG.get_session( ).query(Event).\
             filter_by(instrument=instrument).\
@@ -101,7 +101,7 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_pitches(with_pitches = [ ], without_pitches = [ ]):
-        from sasha.core.sqldomain import Partial
+        from sasha.core.domain import Partial
 
         with_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in with_pitches]
         without_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in without_pitches]
@@ -128,7 +128,7 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_pitch_classes(with_pcs = [ ], without_pcs = [ ]):
-        from sasha.core.sqldomain import Partial
+        from sasha.core.domain import Partial
 
         with_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in with_pcs]
         without_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in without_pcs]

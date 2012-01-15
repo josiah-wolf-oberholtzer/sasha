@@ -7,8 +7,9 @@ from sasha.plugins.audio.SourceAudio import SourceAudio
 
 class MP3Audio(_MediaPlugin):
 
+    __requires__ = SourceAudio
+
     _media = 'mp3s'
-    _requires = (SourceAudio,)
     _suffix = 'mp3'
 
     ### PUBLIC METHODS ###

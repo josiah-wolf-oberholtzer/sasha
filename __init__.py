@@ -10,7 +10,7 @@ del SashaConfig
 #from sasha.core.domain import Idiom
 #from sasha.core.domain import Instrument
 #from sasha.core.domain import Performer
-from sasha.core.sqldomain import *
+from sasha.core.domain import *
 from sasha.core.wrappers import AudioDB
 del core
 

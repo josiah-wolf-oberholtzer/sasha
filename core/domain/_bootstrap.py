@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 from sasha import SASHACFG
 from sasha.core.bootstrap._get_fixtures import _get_fixtures
-from sasha.core.sqldomain import *
+from sasha.core.domain import *
 from sasha.plugins import SourceAudio
 from sasha.plugins import ChordAnalysis
 

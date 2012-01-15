@@ -4,8 +4,9 @@ from sasha.plugins.analysis import ChromaAnalysis
 
 class ChromaNotation(_Notation):
 
+    __requires__ = ChromaAnalysis
+
     _label = 'chroma'
-    _requires = (ChromaAnalysis,)
 
     ### PRIVATE METHODS ###
 

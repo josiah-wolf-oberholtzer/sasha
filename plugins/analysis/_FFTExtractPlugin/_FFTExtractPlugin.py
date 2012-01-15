@@ -8,9 +8,10 @@ from sasha.plugins.audio import SourceAudio
 
 class _FFTExtractPlugin(_MediaPlugin):
 
+    __requires__ = SourceAudio
     __slots__ = ('_asset', '_event', '_mean', '_std')
+
     _media = 'analyses'
-    _requires = (SourceAudio,)
 
     def __init__(self, arg):
         _MediaPlugin.__init__(self, arg)

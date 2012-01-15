@@ -5,8 +5,9 @@ from sasha.plugins.analysis import ChordAnalysis
 
 class ChordNotation(_Notation):
 
+    __requires__ = ChordAnalysis
+
     _label = 'chord'
-    _requires = (ChordAnalysis,)
     _sublabels = ('concert', 'transposed')
 
     ### PRIVATE METHODS ###

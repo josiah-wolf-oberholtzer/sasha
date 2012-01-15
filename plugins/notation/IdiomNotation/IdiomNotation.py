@@ -18,4 +18,3 @@ class IdiomNotation(_Notation):
         lily.score_block.append(Markup(diagram))
 
         return lily
-
