@@ -6,7 +6,12 @@ from sasha.core.sqldomain._DomainObject import _DomainObject
 
 class Performer(_Base, _DomainObject):
 
+    __fixture_paths__ = (
+        'description',
+        'name',
+    )
+
     ### SQLALCHEMY ###
 
-    name = Column(String)
     description = Column(String)
+    name = Column(String)

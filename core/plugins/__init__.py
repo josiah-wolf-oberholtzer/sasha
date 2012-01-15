@@ -1,2 +1,1 @@
-from _Plugin import _Plugin
-from _MediaPlugin import _MediaPlugin
+from generate_plugin_tree import generate_plugin_tree

@@ -5,7 +5,7 @@ from sasha.core.plugins._Plugin import _Plugin
 
 class _MediaPlugin(_Plugin):
 
-    __slots__ = ('_asset', '_event')
+    __slots__ = ('_asset', '_client')
 
     _label = None
     _media = None
@@ -19,7 +19,7 @@ class _MediaPlugin(_Plugin):
     ### PRIVATE METHODS ###
 
     def _build_path(self, sublabel = None):
-        name = str(self.event.name)
+        name = str(self.client.name)
         if self.label:
             name += '.%s' % self.label
         if sublabel is not None and len(sublabel):

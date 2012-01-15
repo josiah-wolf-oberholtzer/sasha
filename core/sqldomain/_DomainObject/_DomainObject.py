@@ -35,6 +35,9 @@ class _DomainObject(object):
             for subpath in path[1:]:
                 if isinstance(result, (tuple, list)):
                     result = [getattr(x, subpath) for x in result]
+                elif isinstance(result, type(None)):
+                    result = ''
+                    break
                 else:
                     result = getattr(result, subpath)
             if isinstance(result, (list, tuple)):

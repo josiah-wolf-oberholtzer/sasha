@@ -1,37 +1,44 @@
+from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
+
 from sasha import Event
 from sasha.core.mixins import _Immutable
 
 
 class _Plugin(_Immutable):
 
-    _requires = tuple( )
-    __slots__ = ('_event',)
+    __client_class__ = Event
+    __requires__ = None
+    __slots__ = ('_client',)
 
     def __init__(self, arg):
-        if not isinstance(arg, Event):
-            if hasattr(arg, 'event') and isinstance(arg.event, Event):
-                arg = arg.event
+        if not isinstance(arg, self.__client_class__):
+            client_class_name = uppercamelcase_to_underscore_delimited_lowercase(self.__client_class__.__name__)
+            if hasattr(arg, client_class_name) and \
+                isinstance(getattr(arg, client_class_name), self.__client_class__):
+                arg = getattr(arg, client_class_name)
             elif isinstance(arg, str):
-                if arg.startswith('md5:'):
+                if arg.startswith('md5:') and self.__client_class__ == Event:
                     arg = Event.get(md5=arg[4:])[0]
+                elif hasattr(self.__client_class__, 'name'):
+                    arg = self.__client_class__.get(name=arg)[0]
                 else:
-                    arg = Event.get(name=arg)[0]
+                    raise ValueError('Cannot instantiate %s from %s' % (self.__client_class__.__name__, repr(arg)))
             elif isinstance(arg, int):
-                arg = Event.get(id=arg)[0]
+                arg = self.__client_class__.get(id=arg)[0]
             else:
-                raise ValueError('Cannot instantiate an Event from %s' % repr(arg))
-        object.__setattr__(self, '_event', arg)
+                raise ValueError('Cannot instantiate %s from %s' % (self.__client_class__.__name__, repr(arg)))
+        object.__setattr__(self, '_client', arg)
 
     ### OVERRIDES ###
 
     def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, repr(self.event.name))
+        return '<%s(%s)>' % (self.__class__.__name__, repr(self.client))
 
     ### PUBLIC ATTRIBUTES ###
 
     @property
-    def event(self):
-        return self._event
+    def client(self):
+        return self._client
 
     @property
     def requires(self):

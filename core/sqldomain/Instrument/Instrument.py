@@ -9,6 +9,11 @@ from sasha.core.sqldomain._DomainObject import _DomainObject
 
 class Instrument(_Base, _DomainObject):
 
+    __fixture_paths__ = (
+        'name',
+        'parent.name',
+    )
+
     ### SQLALCHEMY ###
 
     __table_args__ = (UniqueConstraint('id', 'name', 'parent_id'), { })
