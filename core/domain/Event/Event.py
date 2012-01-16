@@ -40,8 +40,7 @@ class Event(_Base, _DomainObject):
     ### OVERRIDES ###
 
     def __repr__(self):
-        return '<%s(%r, %s)>' % (type(self).__name__, str(self.name),
-            [str(x.name) for x in self.fingering.instrument_keys])
+        return '<%s(%r)>' % (type(self).__name__, str(self.name))
 
     ### PUBLIC ATTRIBUTES ###
 

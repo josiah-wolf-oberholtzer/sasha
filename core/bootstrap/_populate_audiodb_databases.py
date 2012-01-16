@@ -7,7 +7,7 @@ def _populate_audiodb_databases( ):
         
     print 'POPULATING AUDIODB DATABASES:'
 
-    events = Event.get_all( )
+    events = Event.get( )
     for name in SASHACFG['audioDB']:
        print '\tPOPULATING %s:' % name,
        adb = AudioDB(name)

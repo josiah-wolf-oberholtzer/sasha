@@ -1,4 +1,6 @@
 import os
+from tempfile import NamedTemporaryFile
+
 from sasha import SASHACFG
 from sasha import SASHAROOT
 from sasha.core.wrappers._Wrapper import _Wrapper
@@ -65,7 +67,6 @@ class AudioDB(_Wrapper):
 
     def populate(self, events):
         from sasha.core.domain import Event
-        from sasha.plugins.audio import SourceAudio
         from sasha.plugins.analysis import LogPowerAnalysis
 
         assert len(events) and all([isinstance(x, Event) for x in events])
@@ -81,7 +82,7 @@ class AudioDB(_Wrapper):
         feature_file = open(feature_file_path, 'w')
 
         for event in events:
-            key_file.write('%s\n' % SourceAudio(event).path)
+            key_file.write('%s\n' % event.name)
             log_power_file.write('%s\n' % LogPowerAnalysis(event).path)
             feature_file.write('%s\n' % self.klass(event).path)
 
@@ -98,27 +99,44 @@ class AudioDB(_Wrapper):
 
         out, err = self._exec(command)
 
-    def query(self, event, n = 10):
+
+    def query(self, target, n = 10, events = [ ]):
         from sasha.core.domain import Event
 
+        if not isinstance(target, Event):
+            target = Event(target)
         assert 0 < n
+        assert all([isinstance(x, Event) for x in events])
 
-        if not isinstance(event, Event):
-            event = Event(event)
+        feature = self.klass(target)
 
-        feature = self.klass(event)
+        command = '%s -d %s -Q sequence -e -l 20 -R 2.0 -f %s' % \
+            (self.executable, self.path, feature.path)
 
-        command = '%s -d %s -Q sequence -e -n 10 -l 20 -r %d -R 2.0 -f %s' % \
-            (self.executable, self.path, n + 1, feature.path)
-
-        out, err = self._exec(command)
+        if events:
+            if target not in events:
+                events.append(target)
+            events = sorted(set(events))
+            tempfile = NamedTemporaryFile(
+                mode='w',
+                dir=os.path.join(SASHAROOT, 'tmp'),
+                delete=False)
+            for event in events:
+                tempfile.write('%s\n' % event.name)
+            tempfile.close( )
+            command += ' -n %d -K %s' % (len(events), tempfile.name)
+            out, err = self._exec(command)
+        else:
+            command += ' -n %d' % (n + 1)
+            out, err = self._exec(command)
 
         q = filter(None, [x.split( ) for x in out.split('\n')])
 
         results = [ ]
         for x in q[1:n+1]:
             distance = int(x[1])
-            event = Event(os.path.basename(x[0]))
+            name = os.path.basename(x[0])
+            event = Event.get(name=name)[0]
             results.append((distance, event))
 
         return tuple(results)
