@@ -110,7 +110,7 @@ class AudioDB(_Wrapper):
 
         feature = self.klass(target)
 
-        command = '%s -d %s -Q sequence -e -l 20 -R 2.0 -f %s' % \
+        command = '%s -d %s -Q sequence -e -l 16 -R 2.0 -f %s -n 10' % \
             (self.executable, self.path, feature.path)
 
         if events:
@@ -124,16 +124,16 @@ class AudioDB(_Wrapper):
             for event in events:
                 tempfile.write('%s\n' % event.name)
             tempfile.close( )
-            command += ' -n %d -K %s' % (len(events), tempfile.name)
+            command += ' -r %d -K %s' % (len(events), tempfile.name)
             out, err = self._exec(command)
         else:
-            command += ' -n %d' % (n + 1)
+            command += ' -r %d' % (n + 1)
             out, err = self._exec(command)
 
         q = filter(None, [x.split( ) for x in out.split('\n')])
 
         results = [ ]
-        for x in q[1:n+1]:
+        for x in q[1:]:
             distance = int(x[1])
             name = os.path.basename(x[0])
             event = Event.get(name=name)[0]
