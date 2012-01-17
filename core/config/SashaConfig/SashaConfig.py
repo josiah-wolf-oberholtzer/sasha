@@ -45,10 +45,6 @@ class SashaConfig(_ImmutableDictionary):
     @environment.setter
     def environment(self, value):
         assert value in ['testing', 'development', 'deployment']
-        if value != self._environment:
-            from sasha.core.domain import _identity_map
-            for map in _identity_map.itervalues( ):
-                map.clear( )
         self._environment = value
 
     ### PUBLIC METHODS ###
