@@ -3,7 +3,7 @@ from ConfigParser import ConfigParser
 from sasha.core.mixins import _ImmutableDictionary
 
 
-class _Fixture(_ImmutableDictionary):
+class Fixture(_ImmutableDictionary):
 
     def __init__(self, path):
 
