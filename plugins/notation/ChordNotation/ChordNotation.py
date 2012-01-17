@@ -25,7 +25,7 @@ class ChordNotation(_Notation):
                 if note_head.written_pitch == pitch:
                     note_head.tweak.color = SchemeColor('grey%d' % color)
         score, treble_staff, bass_staff = make_piano_sketch_score_from_leaves([chord])
-        LilyPondComment(self.event.name, 'before')(score)
+        LilyPondComment(self.client.name, 'before')(score)
 
         return score
 

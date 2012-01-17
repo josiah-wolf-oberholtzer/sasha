@@ -4,7 +4,7 @@ from sasha.core.domain import Event
 
 def _delete_media_assets( ):
 
-    events = Event.get_all( )
+    events = Event.get( )
     
     klasses = [eval('plugins.' + x) \
         for x in filter(lambda x: not x.startswith('_'), dir(plugins))]

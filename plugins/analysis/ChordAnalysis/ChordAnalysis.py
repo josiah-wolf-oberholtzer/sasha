@@ -4,14 +4,14 @@ from abjad.tools.pitchtools import NamedChromaticPitch
 from abjad.tools.pitchtools import NamedChromaticPitchClass
 from abjad.tools.pitchtools import NumberedChromaticPitch
 from abjad.tools.pitchtools import NumberedChromaticPitchClass
-from sasha.core.plugins import _MediaPlugin
+from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.plugins.analysis.PartialTrackingAnalysis import PartialTrackingAnalysis
 
 
 class ChordAnalysis(_MediaPlugin):
 
     __requires__ = PartialTrackingAnalysis
-    __slots__ = ('_asset', '_event', '_pitches', '_pitch_classes',)
+    __slots__ = ('_asset', '_client', '_pitches', '_pitch_classes',)
 
     _media = 'analyses'
     _suffix = 'chord'
@@ -27,7 +27,7 @@ class ChordAnalysis(_MediaPlugin):
         pta = PartialTrackingAnalysis(self)
         tracks = pta.read( )   
         if not tracks:
-            raise Exception('Cannot find any partial tracks for "%s"' % self.event.name)
+            raise Exception('Cannot find any partial tracks for "%s"' % self.client.name)
     
         db_threshold = -7
 

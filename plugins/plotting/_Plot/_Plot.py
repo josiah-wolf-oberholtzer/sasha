@@ -4,7 +4,7 @@ if matplotlib.get_backend( ) != 'agg':
     matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from sasha import SASHACFG
-from sasha.core.plugins import _MediaPlugin
+from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
 
 class _Plot(_MediaPlugin):

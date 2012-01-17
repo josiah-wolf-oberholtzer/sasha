@@ -1,7 +1,7 @@
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 
-from sasha import Event
 from sasha.core.mixins import _Immutable
+from sasha.core.domain import Event
 
 
 class _Plugin(_Immutable):
@@ -11,12 +11,12 @@ class _Plugin(_Immutable):
     __slots__ = ('_client',)
 
     def __init__(self, arg):
+
         if not isinstance(arg, self.__client_class__):
             client_class_name = uppercamelcase_to_underscore_delimited_lowercase(self.__client_class__.__name__)
-            if hasattr(arg, client_class_name) and \
-                isinstance(getattr(arg, client_class_name), self.__client_class__):
-                arg = getattr(arg, client_class_name)
-            elif isinstance(arg, str):
+            if hasattr(arg, 'client') and isinstance(arg.client, self.__client_class__):
+                arg = arg.client
+            elif isinstance(arg, (str, unicode)):
                 if arg.startswith('md5:') and self.__client_class__ == Event:
                     arg = Event.get(md5=arg[4:])[0]
                 elif hasattr(self.__client_class__, 'name'):

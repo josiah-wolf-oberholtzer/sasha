@@ -1,6 +1,6 @@
 import os
 import struct
-from sasha.core.plugins import _MediaPlugin
+from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.plugins.audio.SourceAudio import SourceAudio
 
 

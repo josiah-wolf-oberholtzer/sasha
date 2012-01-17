@@ -12,7 +12,7 @@ class IdiomNotation(_Notation):
         from abjad.tools.lilypondfiletools import make_basic_lilypond_file
         from abjad.tools.markuptools import Markup
 
-        idiom = self.event.idiom.idiom
+        idiom = self.client.keys
         diagram = SaxophoneFingeringDiagram( )(idiom)
         lily = make_basic_lilypond_file( )
         lily.score_block.append(Markup(diagram))

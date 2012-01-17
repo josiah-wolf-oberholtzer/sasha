@@ -1,7 +1,7 @@
 import os
 from numpy import mean
 from numpy import std
-from sasha.core.plugins import _MediaPlugin
+from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import FFTExtract
 from sasha.plugins.audio import SourceAudio
 
@@ -9,7 +9,7 @@ from sasha.plugins.audio import SourceAudio
 class _FFTExtractPlugin(_MediaPlugin):
 
     __requires__ = SourceAudio
-    __slots__ = ('_asset', '_event', '_mean', '_std')
+    __slots__ = ('_asset', '_client', '_mean', '_std')
 
     _media = 'analyses'
 

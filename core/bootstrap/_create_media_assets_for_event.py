@@ -33,7 +33,7 @@ def _create_media_assets_for_event(args):
         assets = klasses
 
     for asset in assets:
-        logger.info('WRITING [%04d]: %s' % (event.ID, asset.__name__))
+        logger.info('WRITING [%04d]: %s' % (event.id, asset.__name__))
         try:
             asset(event).write(parallel = False)
         except:

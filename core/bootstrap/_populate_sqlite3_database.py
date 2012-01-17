@@ -76,7 +76,7 @@ def _populate_sqlite3_database( ):
     dbc.commit( )
 
     # now that events are populated, update with md5 information
-    for x in Event.get_all( ):
+    for x in Event.get( ):
         ID = x.ID
         md5 = SourceAudio(ID).md5
         print ID, md5
