@@ -1,5 +1,5 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.bootstrap.Fixture import Fixture
 from sasha.core.exceptions import MalformedFixtureError
 
@@ -7,7 +7,7 @@ from sasha.core.exceptions import MalformedFixtureError
 def _verify_instrument_fixtures( ):
     print 'VERIFYING INSTRUMENT FIXTURES:'
 
-    path = os.path.join(SASHACFG.get_media_path('fixtures'), 'instruments')
+    path = os.path.join(SASHA.get_media_path('fixtures'), 'instruments')
 
     for file in filter(lambda x: x.endswith('.fixture'), os.listdir(path)):
         fullpath = os.path.join(path, file)

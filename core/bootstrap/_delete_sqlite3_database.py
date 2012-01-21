@@ -1,10 +1,10 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 
 
 def _delete_sqlite3_database( ):
     
-    path = os.path.join(SASHACFG.get_media_path('databases'),
-        SASHACFG['sqlite3']['sqlite3'])
+    path = os.path.join(SASHA.get_media_path('databases'),
+        SASHA['sqlite3']['sqlite3'])
     if os.path.exists(path):
         os.remove(path)

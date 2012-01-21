@@ -3,7 +3,7 @@ import matplotlib
 if matplotlib.get_backend( ) != 'agg':
     matplotlib.use('agg')
 import matplotlib.pyplot as plt
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
 

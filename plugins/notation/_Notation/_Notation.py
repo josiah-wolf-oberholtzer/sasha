@@ -1,5 +1,5 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import Convert
 from sasha.core.wrappers import _Wrapper
@@ -16,8 +16,8 @@ class _Notation(_MediaPlugin):
 
     def _path_to_lily_path(self, path):
         path = path.rpartition(self.file_suffix)[0]
-        path = path.partition(SASHACFG.get_media_path('scores'))[-1]
-        return SASHACFG.get_media_path('lilypond') + path + 'ly'
+        path = path.partition(SASHA.get_media_path('scores'))[-1]
+        return SASHA.get_media_path('lilypond') + path + 'ly'
 
     def _path_to_pdf_path(self, path):
         path = path.rpartition(self.file_suffix)[0]
@@ -33,7 +33,7 @@ class _Notation(_MediaPlugin):
         png_path = self._build_path(sublabel)
         write_expr_to_ly(lily, lily_path, print_status = False)
         cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
-            (SASHACFG.get_binary('lilypond'),
+            (SASHA.get_binary('lilypond'),
             self.resolution,
             self.aa_factor,
             suffixless_path,

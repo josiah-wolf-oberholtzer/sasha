@@ -1,5 +1,5 @@
 import sqlite3
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.domain import *
 
 
@@ -7,7 +7,7 @@ def _create_sqlite3_database( ):
     
     print 'CREATING SQLITE3 DATABASE:',
 
-    dbc = SASHACFG.get_sqlite3( )
+    dbc = SASHA.get_sqlite3( )
     cur = dbc.cursor( )
 
     cur.execute('DROP TABLE IF EXISTS events')

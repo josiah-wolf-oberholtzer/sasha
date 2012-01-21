@@ -1,7 +1,7 @@
 from sasha import *
 
 
-SASHACFG.environment = 'testing'
+SASHA.environment = 'testing'
 
 def test_InstrumentKey___init___01( ):
     instrument_key = InstrumentKey( )

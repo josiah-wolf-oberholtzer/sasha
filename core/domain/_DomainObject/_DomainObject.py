@@ -6,7 +6,7 @@ from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from sqlalchemy.ext.declarative import declared_attr
 
-from sasha import SASHACFG
+from sasha import SASHA
 
 
 class _DomainObject(object):
@@ -65,7 +65,7 @@ class _DomainObject(object):
             if isinstance(result, (list, tuple)):
                 result = ' '.join(result)
             config.set('main', '.'.join(path), result)
-        directory = os.path.join(SASHACFG.get_media_path('fixtures'), self.__tablename__)
+        directory = os.path.join(SASHA.get_media_path('fixtures'), self.__tablename__)
         if not os.path.exists(directory):
             os.mkdir(directory)
         fixture_path = os.path.join(directory,
@@ -78,11 +78,11 @@ class _DomainObject(object):
     @classmethod
     def get(cls, **kwargs):
         if kwargs:
-            return SASHACFG.get_session( ).query(cls).filter_by(**kwargs).all( )
-        return SASHACFG.get_session( ).query(cls).all( )
+            return SASHA.get_session( ).query(cls).filter_by(**kwargs).all( )
+        return SASHA.get_session( ).query(cls).all( )
 
     @classmethod
     def get_one(cls, **kwargs):
         if kwargs:
-            return SASHACFG.get_session( ).query(cls).filter_by(**kwargs).one( )
-        return SASHACFG.get_session( ).query(cls).one( )
+            return SASHA.get_session( ).query(cls).filter_by(**kwargs).one( )
+        return SASHA.get_session( ).query(cls).one( )

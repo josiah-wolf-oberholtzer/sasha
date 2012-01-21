@@ -4,7 +4,7 @@ from abjad.tools.pitchtools import NamedChromaticPitch
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.bootstrap._get_fixtures import _get_fixtures
 from sasha.core.domain import *
 from sasha.plugins import SourceAudio
@@ -15,15 +15,15 @@ def _bootstrap( ):
 
     fixtures = _get_fixtures( )
 
-    dbpath = os.path.join(SASHACFG.get_media_path('databases'),
-        SASHACFG['sqlite3']['sqlalchemy'])    
+    dbpath = os.path.join(SASHA.get_media_path('databases'),
+        SASHA['sqlite3']['sqlalchemy'])    
     engine = create_engine('sqlite:///%s' % dbpath)
 
     metadata = Event.metadata
     metadata.drop_all(engine)
     metadata.create_all(engine)
 
-    session = SASHACFG.get_session( )
+    session = SASHA.get_session( )
 
     # PERFORMERS
     for fixture in fixtures['performers']:

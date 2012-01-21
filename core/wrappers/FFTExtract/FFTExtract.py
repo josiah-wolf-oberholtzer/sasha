@@ -1,7 +1,7 @@
 import numpy
 import os
 import struct
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha import SASHAROOT
 from sasha.core.wrappers._Wrapper import _Wrapper
 
@@ -54,7 +54,7 @@ class FFTExtract(_Wrapper):
 
     @property
     def executable(self):
-        return SASHACFG.get_binary('fftextract')
+        return SASHA.get_binary('fftextract')
 
     @property
     def plan_path(self):

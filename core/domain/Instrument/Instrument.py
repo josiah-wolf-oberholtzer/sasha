@@ -3,7 +3,7 @@ from sqlalchemy.orm import backref, relationship
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.schema import UniqueConstraint
 
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.domain._Base import _Base
 from sasha.core.domain._DomainObject import _DomainObject
 
@@ -32,4 +32,4 @@ class Instrument(_Base, _DomainObject):
     @classmethod
     def with_events(cls):
         from sasha.core.domain.Event import Event
-        return SASHACFG.get_session( ).query(cls).join(Event).distinct( ).all( )
+        return SASHA.get_session( ).query(cls).join(Event).distinct( ).all( )

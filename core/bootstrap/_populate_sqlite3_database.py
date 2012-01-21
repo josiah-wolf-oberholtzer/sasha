@@ -1,5 +1,5 @@
 import sqlite3
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha import Event
 from sasha.plugins import SourceAudio
 from sasha.core.bootstrap._get_fixtures import _get_fixtures
@@ -9,7 +9,7 @@ def _populate_sqlite3_database( ):
 
     print 'POPULATING SQLITE3 DATABASE:',
 
-    dbc = SASHACFG.get_sqlite3( )
+    dbc = SASHA.get_sqlite3( )
     cur = dbc.cursor( )
 
     fixtures = _get_fixtures( )  

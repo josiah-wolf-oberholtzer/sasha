@@ -1,6 +1,6 @@
 import hashlib
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import Playback
 from scikits.audiolab import Sndfile
@@ -28,7 +28,7 @@ class SourceAudio(_MediaPlugin):
 
     @property
     def path(self):
-        return os.path.join(SASHACFG.get_media_path(self.media_type),
+        return os.path.join(SASHA.get_media_path(self.media_type),
             self.client.name)
 
     ### PUBLIC METHODS ###

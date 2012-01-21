@@ -1,6 +1,6 @@
 import logging
 
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.bootstrap._create_audiodb_databases import _create_audiodb_databases
 from sasha.core.bootstrap._create_sqlite_database import _create_sqlite_database
 from sasha.core.bootstrap._delete_all_assets import _delete_all_assets

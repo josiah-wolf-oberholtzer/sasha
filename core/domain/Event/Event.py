@@ -5,7 +5,7 @@ from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.domain._Base import _Base
 from sasha.core.domain._DomainObject import _DomainObject
 from sasha.core.wrappers import AudioDB
@@ -82,7 +82,7 @@ class Event(_Base, _DomainObject):
     def query_audiodb(self, method, limit = 10):
         from sasha.core.wrappers import AudioDB
         assert isinstance(limit, int) and 0 < limit
-        if method in SASHACFG['audioDB']:
+        if method in SASHA['audioDB']:
             adb = AudioDB(method)
             return adb.query(self, limit)
         else:
@@ -92,7 +92,7 @@ class Event(_Base, _DomainObject):
     def query_keys(instrument_name, with_keys = [ ], without_keys = [ ]):
         from sasha.core.domain import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
-        query = SASHACFG.get_session( ).query(Event).\
+        query = SASHA.get_session( ).query(Event).\
             filter_by(instrument=instrument).\
             join('fingering', 'instrument_keys').\
             join(Instrument)
@@ -121,7 +121,7 @@ class Event(_Base, _DomainObject):
         with_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in with_pitches]
         without_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in without_pitches]
 
-        query = SASHACFG.get_session( ).query(Event).\
+        query = SASHA.get_session( ).query(Event).\
             join(Partial)
 
         with_query = None
@@ -148,7 +148,7 @@ class Event(_Base, _DomainObject):
         with_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in with_pcs]
         without_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in without_pcs]
 
-        query = SASHACFG.get_session( ).query(Event).\
+        query = SASHA.get_session( ).query(Event).\
             join(Partial)
 
         with_query = None

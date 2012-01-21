@@ -1,5 +1,5 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.exceptions import UnmatchedSourceMaterialError
 
 
@@ -7,10 +7,10 @@ def _verify_source_material_integrity( ):
 
     print 'VERIFYING SOURCE MATERIAL INTEGRITY:',
 
-    fixture_path = os.path.join(SASHACFG.get_media_path('fixtures'), 'events')
+    fixture_path = os.path.join(SASHA.get_media_path('fixtures'), 'events')
     fixture_filenames = filter(lambda x: x.endswith('.fixture'), os.listdir(fixture_path))
 
-    audio_path = SASHACFG.get_media_path('source_audio')
+    audio_path = SASHA.get_media_path('source_audio')
     audio_filenames = filter(lambda x: not x.startswith('.'), os.listdir(audio_path))
 
     unmatched_fixtures = [ ]

@@ -1,5 +1,5 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha import SASHAROOT
 from sasha.core.bootstrap.Fixture import Fixture
 from sasha.core.exceptions import MalformedFixtureError
@@ -8,7 +8,7 @@ from sasha.core.exceptions import MalformedFixtureError
 def _verify_event_fixtures( ):
     print 'VERIFYING EVENT FIXTURES:'
 
-    path = os.path.join(SASHACFG.get_media_path('fixtures'), 'events')
+    path = os.path.join(SASHA.get_media_path('fixtures'), 'events')
 
     for file in filter(lambda x: x.endswith('.fixture'), os.listdir(path)):
         fullpath = os.path.join(path, file)

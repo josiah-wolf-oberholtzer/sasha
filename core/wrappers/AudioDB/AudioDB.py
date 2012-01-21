@@ -1,7 +1,7 @@
 import os
 from tempfile import NamedTemporaryFile
 
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha import SASHAROOT
 from sasha.core.wrappers._Wrapper import _Wrapper
 
@@ -11,7 +11,7 @@ class AudioDB(_Wrapper):
     __slots__ = ('_klass', '_name', '_path')
 
     def __init__(self, name):
-        path, klass = SASHACFG.get_audiodb_parameters(name)
+        path, klass = SASHA.get_audiodb_parameters(name)
         object.__setattr__(self, '_klass', klass)
         object.__setattr__(self, '_name', name)
         object.__setattr__(self, '_path', path)
@@ -25,7 +25,7 @@ class AudioDB(_Wrapper):
 
     @property
     def executable(self):
-        return SASHACFG.get_binary('audiodb')
+        return SASHA.get_binary('audiodb')
 
     @property
     def exists(self):

@@ -1,5 +1,5 @@
 import os
-from sasha import SASHACFG
+from sasha import SASHA
 from sasha.core.plugins._Plugin import _Plugin
 
 
@@ -26,7 +26,7 @@ class _MediaPlugin(_Plugin):
             name += '__%s' % sublabel
         if self.file_suffix:
             name += '.%s' % self.file_suffix
-        return os.path.join(SASHACFG.get_media_path(self.media_type), name)
+        return os.path.join(SASHA.get_media_path(self.media_type), name)
 
     ### PUBLIC ATTRIBUTES ###
 

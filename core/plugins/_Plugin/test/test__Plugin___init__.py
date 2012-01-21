@@ -4,7 +4,7 @@ from sasha import *
 from sasha.core.plugins._Plugin import _Plugin
 
 
-SASHACFG.environment = 'testing'
+SASHA.environment = 'testing'
 
 def test__Plugin___init___01( ):
     event = Event.get(id=1)[0]

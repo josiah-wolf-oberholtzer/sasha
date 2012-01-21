@@ -3,7 +3,7 @@ SASHAROOT = os.path.abspath(os.path.dirname(__file__))
 del os
 
 from core.config import SashaConfig
-SASHACFG = SashaConfig( )
+SASHA = SashaConfig( )
 del SashaConfig
 
 #from sasha.core.domain import Event
