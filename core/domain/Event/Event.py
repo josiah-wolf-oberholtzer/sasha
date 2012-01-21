@@ -1,3 +1,5 @@
+from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
+from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from abjad.tools.pitchtools import NamedChromaticPitch, NamedChromaticPitchClass
 from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
@@ -45,6 +47,11 @@ class Event(_Base, _DomainObject):
     ### PUBLIC ATTRIBUTES ###
 
     @property
+    def canonical_name(self):
+        cls_name = uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
+        return '%s__%s' % (cls_name, self.md5)
+
+    @property
     def source_audio(self):
         from sasha.plugins.audio import SourceAudio
         return SourceAudio(self)
@@ -62,6 +69,14 @@ class Event(_Base, _DomainObject):
         return tuple(set([NamedChromaticPitchClass(x.pitch_class_number) for x in self.partials]))
 
     ### PUBLIC METHODS ###
+
+    @classmethod
+    def from_canonical_name_prefix(cls, name):
+        parts = name.split('__')
+        cls_name = underscore_delimited_lowercase_to_uppercamelcase(parts[0])
+        if cls_name != cls.__name__:
+            return None
+        return cls.get(md5=parts[1])[0]
 
     def query_audiodb(self, method, limit = 10):
         from sasha.core.wrappers import AudioDB

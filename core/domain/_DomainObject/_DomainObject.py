@@ -2,6 +2,7 @@ from ConfigParser import ConfigParser
 import os
 
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
+from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from sqlalchemy.ext.declarative import declared_attr
 
 from sasha import SASHACFG
@@ -24,7 +25,26 @@ class _DomainObject(object):
             return '<%s(%r)>' % (type(self).__name__, self.name)
         return '<%s()>' % type(self).__name__
 
+    ### PUBLIC ATTRIBUTES ###
+
+    @property
+    def canonical_name(self):
+        cls_name = uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
+        if hasattr(self, 'name'):
+            return '%s__%s' % (cls_name, str(self.name))
+        return '%s__%s' % (cls_name, self.id)
+
     ### PUBLIC METHODS ###
+
+    @classmethod
+    def from_canonical_name_prefix(cls, name):
+        parts = name.split('__')
+        cls_name = underscore_delimited_lowercase_to_uppercamelcase(parts[0])
+        if cls_name != cls.__name__:
+            return None
+        if not parts[1].isdigit( ):
+            return cls.get(name=parts[1])
+        return cls.get(id=int(parts[1]))
 
     def write_fixture(self):
         config = ConfigParser( )
@@ -55,3 +75,9 @@ class _DomainObject(object):
         if kwargs:
             return SASHACFG.get_session( ).query(cls).filter_by(**kwargs).all( )
         return SASHACFG.get_session( ).query(cls).all( )
+
+    @classmethod
+    def get_one(cls, **kwargs):
+        if kwargs:
+            return SASHACFG.get_session( ).query(cls).filter_by(**kwargs).one( )
+        return SASHACFG.get_session( ).query(cls).one( )
