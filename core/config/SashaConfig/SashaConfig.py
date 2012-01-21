@@ -1,7 +1,6 @@
 import inspect
 import logging
 import os
-import sqlite3
 from ConfigParser import ConfigParser
 
 from sqlalchemy import create_engine
@@ -107,17 +106,7 @@ class SashaConfig(_ImmutableDictionary):
 
     def get_session(self):
         dbpath = os.path.join(self.get_media_path('databases'),
-            self['sqlite3']['sqlalchemy'])
+            self['sqlite']['sqlite'])
         engine = create_engine('sqlite:///%s' % dbpath)
         session = sessionmaker(bind=engine)( )
         return session
-
-    def get_sqlite3(self):
-        path = os.path.join(
-            self['media_root'][self.environment],
-            self['media']['databases'],
-            self['sqlite3']['sqlite3'])
-        if not os.path.isabs(path):
-            path = os.path.abspath(os.path.join(SASHAROOT, path))
-        return sqlite3.Connection(path)
-

@@ -16,14 +16,17 @@ from sasha.core.bootstrap._populate_sqlite_secondary import _populate_sqlite_sec
 class Bootstrap(object):
 
     def __call__(self):
+        SASHA.logger.info('BOOTSTRAP: Start')       
         self.delete_sqlite_database( )
+        self.delete_audiodb_databases( )
+        # self.delete_all_assets( )
         self.create_sqlite_database( )
         self.populate_sqlite_primary( )
-        self.populate_assets( )
-        self.delete_audiodb_databases( )
+        self.populate_all_assets( )
         self.create_audiodb_databases( )
         self.populate_audiodb( )
         self.populate_sqlite_secondary( )
+        SASHA.logger.info('BOOTSTRAP: Stop')
 
     ### PUBLIC METHODS ###
 
