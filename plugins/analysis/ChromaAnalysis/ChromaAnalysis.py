@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class ChromaAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'chroma'
+    file_suffix = 'chroma'
 
     ### PUBLIC METHODS ###
 

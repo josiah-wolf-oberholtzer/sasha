@@ -9,8 +9,8 @@ class MP3Audio(_MediaPlugin):
 
     __requires__ = SourceAudio
 
-    _media = 'mp3s'
-    _suffix = 'mp3'
+    media_type = 'mp3s'
+    file_suffix = 'mp3'
 
     ### PUBLIC METHODS ###
 

@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class LogPowerAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'log_power'
+    file_suffix = 'log_power'
 
     ### PUBLIC METHODS ###
 

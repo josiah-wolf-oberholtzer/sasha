@@ -7,10 +7,10 @@ class _MediaPlugin(_Plugin):
 
     __slots__ = ('_asset', '_client')
 
-    _label = None
-    _media = None
-    _sublabels = ( )
-    _suffix = None
+    file_suffix = None
+    media_type = None
+    plugin_label = None
+    plugin_sublabels = ( )
 
     def __init__(self, arg):
         _Plugin.__init__(self, arg)
@@ -19,14 +19,14 @@ class _MediaPlugin(_Plugin):
     ### PRIVATE METHODS ###
 
     def _build_path(self, sublabel = None):
-        name = str(self.client.name)
-        if self.label:
-            name += '.%s' % self.label
-        if sublabel is not None and len(sublabel):
+        name = str(self.client.canonical_name)
+        if self.plugin_label:
+            name += '.%s' % self.plugin_label
+        if sublabel is not None and sublable in self.plugin_sublabels:
             name += '__%s' % sublabel
-        if self.suffix:
-            name += '.%s' % self.suffix
-        return os.path.join(SASHACFG.get_media_path(self.media), name)
+        if self.file_suffix:
+            name += '.%s' % self.file_suffix
+        return os.path.join(SASHACFG.get_media_path(self.media_type), name)
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -46,26 +46,10 @@ class _MediaPlugin(_Plugin):
         raise Exception('Bad path: %s' % repr(self.path))
 
     @property
-    def label(self):
-        return self._label
-
-    @property
-    def media(self):
-        return self._media
-
-    @property
     def path(self):
-        if len(self.sublabels):
+        if len(self.plugin_sublabels):
             path = { }
-            for sublabel in self.sublabels:
+            for sublabel in self.plugin_sublabels:
                 path[sublabel] = self._build_path(sublabel)
             return path
         return self._build_path( )
-
-    @property
-    def sublabels(self):
-        return self._sublabels
-
-    @property
-    def suffix(self):
-        return self._suffix

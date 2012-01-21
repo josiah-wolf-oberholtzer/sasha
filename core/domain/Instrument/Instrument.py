@@ -11,6 +11,7 @@ from sasha.core.domain._DomainObject import _DomainObject
 class Instrument(_Base, _DomainObject):
 
     __fixture_paths__ = (
+        'description',
         'name',
         'parent.name',
     )
@@ -19,6 +20,7 @@ class Instrument(_Base, _DomainObject):
 
     __table_args__ = (UniqueConstraint('id', 'name', 'parent_id'), { })
 
+    description = Column(String)
     name = Column(String, unique=True)
     parent_id = Column(Integer, ForeignKey('instruments.id'), nullable=True)
     @declared_attr

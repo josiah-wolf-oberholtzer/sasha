@@ -1,3 +1,5 @@
+import inspect
+import logging
 import os
 import sqlite3
 from ConfigParser import ConfigParser
@@ -11,7 +13,7 @@ from sasha.core.mixins import _ImmutableDictionary
 
 class SashaConfig(_ImmutableDictionary):
 
-    __slots__ = ('_environment',)
+    __slots__ = ('_environment', '_logger')
 
     def __init__(self, environment = 'development'):
         parser = ConfigParser(dict_type = dict)
@@ -27,6 +29,14 @@ class SashaConfig(_ImmutableDictionary):
             dict.__setitem__(self, section, _ImmutableDictionary( ))
             for option, value in parser.items(section):
                 dict.__setitem__(self[section], option, value)
+
+        self._logger = logging.getLogger('sasha')
+        self.logger.setLevel(logging.DEBUG)
+        handler = logging.FileHandler(os.path.join(SASHAROOT, self['logging']['logfile']))
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -47,26 +57,11 @@ class SashaConfig(_ImmutableDictionary):
         assert value in ['testing', 'development', 'deployment']
         self._environment = value
 
+    @property
+    def logger(self):
+        return self._logger
+
     ### PUBLIC METHODS ###
-
-    def get_binary(self, name):
-        return self['binaries'][name]
-
-    def get_session(self):
-        dbpath = os.path.join(self.get_media_path('databases'),
-            self['sqlite3']['sqlalchemy'])
-        engine = create_engine('sqlite:///%s' % dbpath)
-        session = sessionmaker(bind=engine)( )
-        return session
-
-    def get_sqlite3(self):
-        path = os.path.join(
-            self['media_root'][self.environment],
-            self['media']['databases'],
-            self['sqlite3']['sqlite3'])
-        if not os.path.isabs(path):
-            path = os.path.abspath(os.path.join(SASHAROOT, path))
-        return sqlite3.Connection(path)
 
     def get_audiodb_parameters(self, name):
         from sasha.core.wrappers import AudioDB
@@ -88,6 +83,20 @@ class SashaConfig(_ImmutableDictionary):
 
         return db_path, klass
 
+    def get_binary(self, name):
+        return self['binaries'][name]
+
+    def get_domain_classes(self):
+        from sasha.core import domain
+        from sasha.core.domain._DomainObject import _DomainObject
+        klasses = [ ]
+        for x in dir(domain):
+            klass = getattr(domain, x)
+            if hasattr(klass, '__bases__') and \
+                _DomainObject in inspect.getmro(klass):
+                klasses.append(klass)
+        return tuple(klasses)
+
     def get_media_path(self, name):
         path = os.path.join(
             self['media_root'][self.environment],
@@ -95,3 +104,20 @@ class SashaConfig(_ImmutableDictionary):
         if not os.path.isabs(path):
             path = os.path.abspath(os.path.join(SASHAROOT, path))
         return path
+
+    def get_session(self):
+        dbpath = os.path.join(self.get_media_path('databases'),
+            self['sqlite3']['sqlalchemy'])
+        engine = create_engine('sqlite:///%s' % dbpath)
+        session = sessionmaker(bind=engine)( )
+        return session
+
+    def get_sqlite3(self):
+        path = os.path.join(
+            self['media_root'][self.environment],
+            self['media']['databases'],
+            self['sqlite3']['sqlite3'])
+        if not os.path.isabs(path):
+            path = os.path.abspath(os.path.join(SASHAROOT, path))
+        return sqlite3.Connection(path)
+

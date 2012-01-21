@@ -7,8 +7,8 @@ class ChordNotation(_Notation):
 
     __requires__ = ChordAnalysis
 
-    _label = 'chord'
-    _sublabels = ('concert', 'transposed')
+    _plugin_label = 'chord'
+    _plugin_sublabels = ('concert', 'transposed')
 
     ### PRIVATE METHODS ###
 

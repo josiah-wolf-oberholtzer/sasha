@@ -8,8 +8,8 @@ class PartialTrackingAnalysis(_MediaPlugin):
 
     __requires__ = SourceAudio
 
-    _media = 'analyses'
-    _suffix = 'partials'
+    media_type = 'analyses'
+    file_suffix = 'partials'
 
     ### PRIVATE METHODS ###
 

@@ -13,8 +13,8 @@ class ChordAnalysis(_MediaPlugin):
     __requires__ = PartialTrackingAnalysis
     __slots__ = ('_asset', '_client', '_pitches', '_pitch_classes',)
 
-    _media = 'analyses'
-    _suffix = 'chord'
+    media_type = 'analyses'
+    file_suffix = 'chord'
 
     def __init__(self, arg):
         _MediaPlugin.__init__(self, arg)

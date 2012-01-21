@@ -1,6 +1,6 @@
 import os
 from sasha import SASHACFG
-from sasha.core.bootstrap._Fixture import _Fixture
+from sasha.core.bootstrap.Fixture import Fixture
 
 
 def _get_fixtures( ):
@@ -11,13 +11,13 @@ def _get_fixtures( ):
     instruments_path = os.path.join(SASHACFG.get_media_path('fixtures'), 'instruments')
     performers_path = os.path.join(SASHACFG.get_media_path('fixtures'), 'performers')
     
-    fixtures['events'] = tuple([_Fixture(os.path.join(events_path, filename)) for filename in \
+    fixtures['events'] = tuple([Fixture(os.path.join(events_path, filename)) for filename in \
         filter(lambda x: x.endswith('.fixture'), os.listdir(events_path))])
 
-    fixtures['instruments'] = tuple([_Fixture(os.path.join(instruments_path, filename)) for filename in \
+    fixtures['instruments'] = tuple([Fixture(os.path.join(instruments_path, filename)) for filename in \
         filter(lambda x: x.endswith('.fixture'), os.listdir(instruments_path))])
 
-    fixtures['performers'] = tuple([_Fixture(os.path.join(performers_path, filename)) for filename in \
+    fixtures['performers'] = tuple([Fixture(os.path.join(performers_path, filename)) for filename in \
         filter(lambda x: x.endswith('.fixture'), os.listdir(performers_path))])
 
     return fixtures

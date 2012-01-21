@@ -11,7 +11,7 @@ class _FFTExtractPlugin(_MediaPlugin):
     __requires__ = SourceAudio
     __slots__ = ('_asset', '_client', '_mean', '_std')
 
-    _media = 'analyses'
+    media_type = 'analyses'
 
     def __init__(self, arg):
         _MediaPlugin.__init__(self, arg)

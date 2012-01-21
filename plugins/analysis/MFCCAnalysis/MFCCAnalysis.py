@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class MFCCAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'mfcc'
+    file_suffix = 'mfcc'
 
     ### PUBLIC METHODS ###
 

@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class LinearSpectrumAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'linear_spectrum'
+    file_suffix = 'linear_spectrum'
 
     ### PUBLIC METHODS ###
 

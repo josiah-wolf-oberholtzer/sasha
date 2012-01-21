@@ -8,8 +8,8 @@ from scikits.audiolab import Sndfile
 
 class SourceAudio(_MediaPlugin):
 
-    _media = 'source_audio'
-    _suffix = ''
+    media_type = 'source_audio'
+    file_suffix = ''
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -25,6 +25,11 @@ class SourceAudio(_MediaPlugin):
         hash.update(f.read( ))
         f.close( )
         return hash.hexdigest( )
+
+    @property
+    def path(self):
+        return os.path.join(SASHACFG.get_media_path(self.media_type),
+            self.client.name)
 
     ### PUBLIC METHODS ###
 

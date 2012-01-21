@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class ConstantQAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'constant_q'
+    file_suffix = 'constant_q'
 
     ### PUBLIC METHODS ###
 

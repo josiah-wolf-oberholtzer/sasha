@@ -1,6 +1,6 @@
 import os
 from sasha import SASHACFG
-from sasha.core.bootstrap._Fixture import _Fixture
+from sasha.core.bootstrap.Fixture import Fixture
 from sasha.core.exceptions import MalformedFixtureError
 
 
@@ -14,7 +14,7 @@ def _verify_instrument_fixtures( ):
 
         print '\t%s:' % fullpath,
 
-        fixture = _Fixture(fullpath)
+        fixture = Fixture(fullpath)
 
         errors = [ ]
 

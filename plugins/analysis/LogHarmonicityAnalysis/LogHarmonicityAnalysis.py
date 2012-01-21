@@ -5,7 +5,7 @@ from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
 
 class LogHarmonicityAnalysis(_FFTExtractPlugin):
 
-    _suffix = 'log_harmonicity'
+    file_suffix = 'log_harmonicity'
 
     ### PUBLIC METHODS ###
 

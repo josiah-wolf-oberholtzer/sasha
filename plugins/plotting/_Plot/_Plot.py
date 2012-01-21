@@ -9,8 +9,8 @@ from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
 class _Plot(_MediaPlugin):
 
-    _media = 'plots'
-    _suffix = 'png'
+    media_type = 'plots'
+    file_suffix = 'png'
 
     _width = 8
 

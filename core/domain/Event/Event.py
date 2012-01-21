@@ -14,6 +14,7 @@ from sasha.core.wrappers import AudioDB
 class Event(_Base, _DomainObject):
 
     __fixture_paths__ = (
+        'description',
         'fingering.instrument_keys.name',
         'instrument.name',
         'name',
