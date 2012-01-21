@@ -46,7 +46,26 @@ class AudioDB(_Wrapper):
     @property
     def status(self):
         out, err = self._exec('%s -d %s -S' % (self.executable, self.path))
-        print out
+        lines = filter(None, out.split('\n'))
+        status = { }
+        status['num_files'] = int(lines[0].partition(':')[-1])
+        status['data_dim'] = int(lines[1].partition(':')[-1])
+        status['total_vectors'] = int(lines[2].partition(':')[-1])
+        status['available_vectors'] = int(lines[3].partition(':')[-1])
+        status['total_bytes'] = int(lines[4].partition(':')[-1].split()[0])
+        status['available_bytes'] = int(lines[5].partition(':')[-1].split()[0])
+        flags = lines[6].partition(':')[-1].split()
+        for flag in flags:
+            name = flag.partition('[')[0]
+            value = flag.partition('[')[-1][:-1]
+            if value == 'on':
+                value = True
+            else:
+                value = False
+            status[name] = value
+        status['null_count'] = int(lines[7].split()[2])
+        status['small_sequence_count'] = int(lines[7].split()[-1])
+        return status
 
     ### PUBLIC METHODS ###
 
