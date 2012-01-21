@@ -1,6 +1,5 @@
 import logging
 import multiprocessing
-from sasha import Event
 from sasha.core.bootstrap._create_media_assets_for_event \
     import _create_media_assets_for_event
 

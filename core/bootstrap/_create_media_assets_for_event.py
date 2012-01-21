@@ -1,7 +1,6 @@
 import multiprocessing
 import sys
 import traceback
-from sasha.core.domain import Event
 from sasha.plugins import *
 
 
