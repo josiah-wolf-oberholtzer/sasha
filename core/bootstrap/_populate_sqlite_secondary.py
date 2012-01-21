@@ -4,7 +4,7 @@ from sasha import *
 from sasha.plugins import ChordAnalysis
 
 
-def _populate_sqlite_secondary( )
+def _populate_sqlite_secondary( ):
 
     SASHA.logger.info('Populate SQLite secondary objects.')
 
@@ -19,6 +19,6 @@ def _populate_sqlite_secondary( )
             session.add(Partial(event=event,
                 pitch_number=pitch_number,
                 pitch_class_number=pitch_class_number,
-                octave_number=octave_number
+                octave_number=octave_number))
 
     session.commit( )

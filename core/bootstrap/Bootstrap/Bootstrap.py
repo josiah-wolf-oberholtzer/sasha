@@ -5,8 +5,7 @@ from sasha.core.bootstrap._create_audiodb_databases import _create_audiodb_datab
 from sasha.core.bootstrap._create_sqlite_database import _create_sqlite_database
 from sasha.core.bootstrap._delete_all_assets import _delete_all_assets
 from sasha.core.bootstrap._delete_audiodb_databases import _delete_audiodb_databases
-from sasha.core.bootstrap._delete_sqlite_databases import _delete_sqlite_databases
-from sasha.core.bootstrap._get_fixtures import _get_fixtures
+from sasha.core.bootstrap._delete_sqlite_database import _delete_sqlite_database
 from sasha.core.bootstrap._populate_all_assets import _populate_all_assets
 from sasha.core.bootstrap._populate_audiodb_databases import _populate_audiodb_databases
 from sasha.core.bootstrap._populate_sqlite_primary import _populate_sqlite_primary
@@ -43,7 +42,7 @@ class Bootstrap(object):
         _delete_audiodb_databases( )
 
     def delete_sqlite_database(self):
-        _delete_sqlite_databases( )
+        _delete_sqlite_database( )
 
     def get_fixtures( ):
         _get_fixtures( )

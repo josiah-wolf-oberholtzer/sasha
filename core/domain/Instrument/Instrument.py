@@ -12,6 +12,7 @@ class Instrument(_Base, _DomainObject):
 
     __fixture_paths__ = (
         'description',
+        'instrument_keys.name',
         'name',
         'parent.name',
     )

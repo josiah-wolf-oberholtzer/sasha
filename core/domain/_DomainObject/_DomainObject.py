@@ -7,8 +7,6 @@ from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from sqlalchemy.ext.declarative import declared_attr
 
 from sasha import SASHA
-from sasha.core.bootstrap import Fixture
-
 
 class _DomainObject(object):
 
@@ -56,11 +54,13 @@ class _DomainObject(object):
 
     @classmethod
     def get_fixtures(cls):
+        from sasha.core.bootstrap import Fixture
         fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
+        print fixtures_path
         cls_name = uppercamelcase_to_underscore_delimited_lowercase(cls.__name__)
         fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
             os.listdir(fixtures_path))
-        return [Fixture(x) for x in fixture_files]
+        return [Fixture(os.path.join(fixtures_path, x)) for x in fixture_files]
 
     @classmethod
     def get_one(cls, **kwargs):

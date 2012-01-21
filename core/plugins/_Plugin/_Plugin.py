@@ -1,11 +1,12 @@
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 
 from sasha.core.mixins import _Immutable
+from sasha.core.domain import Event
 
 
 class _Plugin(_Immutable):
 
-    __client_class__ = None
+    __client_class__ = Event
     __requires__ = None
     __slots__ = ('_client',)
 
