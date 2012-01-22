@@ -98,6 +98,8 @@ class AudioDB(_Wrapper):
         from sasha.plugins.analysis import LogPowerAnalysis
 
         assert len(events) and all([isinstance(x, Event) for x in events])
+        assert all([LogPowerAnalysis(x).exists for x in events])
+        assert all([self.klass(x).exists for x in events])
         
         tmp_path = os.path.join(SASHAROOT, 'tmp')
 
