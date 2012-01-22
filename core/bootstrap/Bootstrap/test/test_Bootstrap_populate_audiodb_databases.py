@@ -21,4 +21,4 @@ def test_Bootstrap_populate_audiodb_databases_01( ):
 
     for name in SASHA['audioDB']:
         adb = AudioDB(name)
-        assert adb.num_files == event_count
+        assert adb.status['num_files'] == event_count

@@ -58,3 +58,9 @@ class Bootstrap(object):
 
     def populate_sqlite_secondary(self):
         _populate_sqlite_secondary( )
+
+    def rebuild_sqlite_database(self):
+        _delete_sqlite_database( )
+        _create_sqlite_database( )
+        _populate_sqlite_primary( )
+#        _populate_sqlite_secondary( )

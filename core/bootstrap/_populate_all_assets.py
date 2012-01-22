@@ -11,6 +11,7 @@ def _populate_all_assets( ):
     SASHA.logger.info('Populating all assets.')
 
     for domain_class in SASHA.get_domain_classes( ):
+        SASHA.logger.info('Populating plugins for %s.' % domain_class.__name__)
         plugins = PluginGraph(domain_class).in_order( )
         args = [[domain_class, x.id, plugins] for x in domain_class.get( )]
         if args:

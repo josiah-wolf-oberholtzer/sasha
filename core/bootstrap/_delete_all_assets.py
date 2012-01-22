@@ -10,4 +10,5 @@ def _delete_all_assets( ):
         plugins = PluginGraph(klass).in_order( )
         for instance in klass.get( ):
             for plugin in plugins:
-                plugin(instance).delete( )
+                if hasattr(plugin, 'delete'):
+                    plugin(instance).delete( )

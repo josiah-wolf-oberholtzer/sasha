@@ -1,3 +1,5 @@
+import py.test
+
 from sasha import *    
 from sasha.core.bootstrap import Bootstrap
 from sasha.core.plugins import PluginGraph
@@ -5,6 +7,7 @@ from sasha.core.plugins import PluginGraph
 
 SASHA.environment = 'testing'
 
+py.test.skip('Rebuilding assets is slow.')
 def test_Bootstrap_populate_all_assets_01( ):
     bootstrap = Bootstrap( )
     bootstrap.delete_sqlite_database( )

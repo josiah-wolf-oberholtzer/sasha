@@ -21,8 +21,8 @@ class _MediaPlugin(_Plugin):
     def _build_path(self, sublabel = None):
         name = str(self.client.canonical_name)
         if self.plugin_label:
-            name += '.%s' % self.plugin_label
-        if sublabel is not None and sublable in self.plugin_sublabels:
+            name += '__%s' % self.plugin_label
+        if sublabel is not None and sublabel in self.plugin_sublabels:
             name += '__%s' % sublabel
         if self.file_suffix:
             name += '.%s' % self.file_suffix
@@ -36,7 +36,7 @@ class _MediaPlugin(_Plugin):
 
     @property
     def exists(self):
-        if isinstance(self.path, str):
+        if isinstance(self.path, (str, unicode)):
             return os.path.exists(self.path)
         elif isinstance(self.path, dict):
             exists = { }

@@ -1,4 +1,6 @@
+import copy
 from itertools import groupby
+
 from sasha.plugins.notation._Notation import _Notation
 from sasha.plugins.analysis import ChordAnalysis
 
@@ -7,8 +9,8 @@ class ChordNotation(_Notation):
 
     __requires__ = ChordAnalysis
 
-    _plugin_label = 'chord'
-    _plugin_sublabels = ('concert', 'transposed')
+    plugin_label = 'chord'
+    plugin_sublabels = ('concert', 'transposed')
 
     ### PRIVATE METHODS ###
 
@@ -25,12 +27,15 @@ class ChordNotation(_Notation):
                 if note_head.written_pitch == pitch:
                     note_head.tweak.color = SchemeColor('grey%d' % color)
         score, treble_staff, bass_staff = make_piano_sketch_score_from_leaves([chord])
-        LilyPondComment(self.client.name, 'before')(score)
+        LilyPondComment(str(self.client.name), 'before')(score)
 
         return score
 
     def _get_pitches_and_colors(self):
-        analysis = ChordAnalysis(self).read( )
+        analysis = ChordAnalysis(self)
+        assert analysis.exists
+        analysis = analysis.read( )
+
         color_scalar = 60
         pitches = [x[0] for x in analysis]
         abs_amplitudes = [abs(x[1]) for x in analysis]
@@ -47,12 +52,22 @@ class ChordNotation(_Notation):
     ### PUBLIC METHODS ###
 
     def write(self, sublabel = None, **kwargs):
-        try:
-            lily = self._build_lily( )
-            object.__setattr__(self, '_asset', lily)
+        from abjad.tools.leaftools import iterate_leaves_forward_in_expr
+        from abjad.tools.pitchtools import MelodicChromaticInterval
+        from abjad.tools.pitchtools import transpose_pitch_carrier_by_melodic_interval
+
+        lily = self._build_lily( )
+        object.__setattr__(self, '_asset', lily)
+
+        transposed = self._build_lily( )
+        transposition = MelodicChromaticInterval(self.client.instrument.transposition)
+        for leaf in iterate_leaves_forward_in_expr(transposed):
+            transpose_pitch_carrier_by_melodic_interval(leaf, transposition)
+
+        if sublabel is None:
             self._save_lily_to_png(lily, 'concert')
-        except:
-            import sys
-            import traceback
-            exc_type, exc_value, exc_traceback = sys.exc_info( )
-            print '\n'.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+            self._save_lily_to_png(transposed, 'transposed')
+        elif sublabel == 'concert':
+            self._save_lily_to_png(lily, 'concert')
+        elif sublabel == 'transposed':
+            self._save_lily_to_png(transposed, 'transposed')

@@ -7,7 +7,7 @@ class PartialTrackingPlot(_Plot):
 
     __requires__ = PartialTrackingAnalysis
 
-    _label = 'partials'
+    plugin_label = 'partials'
 
     def _build_plot(self):
         pta = PartialTrackingAnalysis(self)

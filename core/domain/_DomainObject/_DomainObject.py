@@ -56,7 +56,6 @@ class _DomainObject(object):
     def get_fixtures(cls):
         from sasha.core.bootstrap import Fixture
         fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
-        print fixtures_path
         cls_name = uppercamelcase_to_underscore_delimited_lowercase(cls.__name__)
         fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
             os.listdir(fixtures_path))

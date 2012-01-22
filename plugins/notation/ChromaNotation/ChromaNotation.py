@@ -6,7 +6,7 @@ class ChromaNotation(_Notation):
 
     __requires__ = ChromaAnalysis
 
-    _label = 'chroma'
+    plugin_label = 'chroma'
 
     ### PRIVATE METHODS ###
 

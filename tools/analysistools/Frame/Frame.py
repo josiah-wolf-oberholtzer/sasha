@@ -1,5 +1,8 @@
-import numpy
 from bisect import *
+
+import numpy
+
+from sasha import SASHA
 from sasha.core.mixins import _Immutable
 from sasha.tools.analysistools.Peak import Peak
 
@@ -30,6 +33,8 @@ class Frame(_Immutable):
     ### OVERRIDES ###
 
     def __call__(self, **kwargs):
+        SASHA.logger.info('Calculating FFT @ %d' % self.offset)
+
         peaks = [ ]
         fft = rfft(self.windowed_audio)
         mag = abs(fft)

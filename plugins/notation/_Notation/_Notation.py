@@ -15,22 +15,24 @@ class _Notation(_MediaPlugin):
     ### PRIVATE METHODS ###
 
     def _path_to_lily_path(self, path):
-        path = path.rpartition(self.file_suffix)[0]
+        path = self._strip_file_suffix(path)
         path = path.partition(SASHA.get_media_path('scores'))[-1]
-        return SASHA.get_media_path('lilypond') + path + 'ly'
+        return SASHA.get_media_path('lilypond') + path + '.ly'
 
-    def _path_to_pdf_path(self, path):
-        path = path.rpartition(self.file_suffix)[0]
-        return path + 'pdf'
+    def _path_to_ps_path(self, path):
+        return self._strip_file_suffix(path) + '.ps'
 
-    def _path_tofile_suffixless_path(self, path):
+    def _strip_file_suffix(self, path):
         return path.partition('.%s' % self.file_suffix)[0]
 
     def _save_lily_to_png(self, lily, sublabel = None):
         from abjad.tools.iotools import write_expr_to_ly
-        lily_path = self._path_to_lily_path(self._build_path(sublabel))
-        suffixless_path = self._path_tofile_suffixless_path(self._build_path(sublabel))
+
         png_path = self._build_path(sublabel)
+        lily_path = self._path_to_lily_path(png_path)
+        suffixless_path = self._strip_file_suffix(png_path)
+        ps_path = self._path_to_ps_path(png_path)
+
         write_expr_to_ly(lily, lily_path, print_status = False)
         cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
             (SASHA.get_binary('lilypond'),
@@ -39,6 +41,16 @@ class _Notation(_MediaPlugin):
             suffixless_path,
             lily_path)
         out, err = _Wrapper( )._exec(cmd)
+
+        # sometimes LilyPond doesn't delete the PostScript
+        if os.path.exists(ps_path):
+            os.remove(ps_path)
+
+        # sometimes LilyPond (or something else?) appends '.old'
+        if os.path.exists(png_path + '.old'):
+            os.remove(png_path)
+            os.rename(png_path + '.old', png_path)
+
         Convert( )(png_path, png_path)
 
     ### PUBLIC ATTRIBUTES ###
@@ -55,9 +67,12 @@ class _Notation(_MediaPlugin):
 
     def delete(self, sublabel = None):
         if sublabel is None:
-            for path in self.path.keys( ):
-                if os.path.exists(path):
-                    os.remove(path)
+            if isinstance(self.path, dict):
+                for path in self.path.keys( ):
+                    if os.path.exists(path):
+                        os.remove(path)
+            elif os.path.exists(self.path):
+                os.remove(self.path)
         elif sublabel in self.plugin_sublabels:
             if os.path.exists(self.path[sublabel]):
                 os.remove(self.path[sublabel])

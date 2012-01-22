@@ -15,6 +15,7 @@ class Instrument(_Base, _DomainObject):
         'instrument_keys.name',
         'name',
         'parent.name',
+        'transposition',
     )
 
     ### SQLALCHEMY ###
@@ -24,6 +25,7 @@ class Instrument(_Base, _DomainObject):
     description = Column(String)
     name = Column(String, unique=True)
     parent_id = Column(Integer, ForeignKey('instruments.id'), nullable=True)
+    transposition = Column(Integer)
     @declared_attr
     def children(cls):
         return relationship('Instrument', backref=backref('parent', remote_side=lambda: cls.id))
