@@ -1,4 +1,5 @@
 from abjad.tools.markuptools import MarkupCommand
+from abjad.tools.schemetools import SchemePair
 
 
 class LilyPondSaxDiagram(object):
@@ -55,11 +56,14 @@ class LilyPondSaxDiagram(object):
         size = "#'(size . %f)" % size
         thickness = "#'(thickness . %f)" % thickness
 
-        command = MarkupCommand('woodwind-diagram', [instrument, user_draw_commands], None)
-        command = MarkupCommand('override', [size], [command])
-        command = MarkupCommand('override', [thickness], [command])
+        diagram = MarkupCommand('woodwind-diagram', [instrument, user_draw_commands], None)
+        diagram = MarkupCommand('override', [size], [diagram])
+        diagram = MarkupCommand('override', [thickness], [diagram])
+        diagram = MarkupCommand('scale', [SchemePair(1.5, 1.5)], [diagram])
+        diagram = MarkupCommand('with-dimensions', [SchemePair(-2.5, 2.5), SchemePair(0, 15)], [diagram])
+#        diagram = MarkupCommand('rounded-box', None, [diagram])
 
-        return command
+        return diagram
 
 
         

@@ -1,23 +1,22 @@
 from abjad import *
 from sasha import Instrument
 from sasha.core.mixins import _Immutable
-from sasha.tools.diagramtools import SaxophoneFingeringDiagram
+from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 
 class Collection(_Immutable):
 
     __slots__ = ('_instrument', '_pairs')
 
-    def __init__(self, instrument, pairs):
-        assert isinstance(instrument, Instrument)
-        assert instrument.idiom_schema is not None
-        assert len(pairs)
-        
-        for pair in pairs:
-            if not pitchtools.is_chromatic_pitch_name(pair[0]):
-                raise ValueError('Expected pitch name, got %s' % pair[0])
-            if not all([x in instrument.idiom_schema for x in pair[1]]):
-                raise ValueError('Unexpected key name in %s' % pair[1])
+    def __init__(self, instrument_name, pairs):
+        instrument = Instrument.get_one(name=instrument_name)
+
+        pairs = list(pairs)
+        for i, pair in enumerate(pairs):
+            pitch = pitchtools.NamedChromaticPitch(pair[0])
+            fingering = pair[1]
+            pairs[i] = tuple([pitch, fingering])
+        pairs = tuple(pairs)
 
         object.__setattr__(self, '_instrument', instrument)
         object.__setattr__(self, '_pairs', pairs)
@@ -46,14 +45,13 @@ class Collection(_Immutable):
         staff = Staff([ ])
         for pair in self:
             pitch, fingering = pair
-            diagram = SaxophoneFingeringDiagram( )(fingering)
+            diagram = LilyPondSaxDiagram( )(fingering)
             note = Note(pitch, 1)
             markuptools.Markup(diagram, 'up')(note)
             staff.append(note)
+        staff.override.text_script.staff_padding = 2
         score = Score([staff])
-        score.override.bar_number.break_visibility = schemetools.SchemeFunction("'#(#f #t #t)")
-        score.override.bar_number.stencil = schemetools.SchemeFunction('(make-stencil-boxer 0.1 0.25 ly:text-interface::print)')
         score.override.time_signature.stencil = False
-        score.set.bar_number_visibility = schemetools.SchemeFunction("all-bar-numbers-visible")
-        marktools.LilyPondCommandMark('bar " "', 'before')(staff[0])
+#        score.set.bar_number_visibility = schemetools.SchemeFunction("all-bar-numbers-visible")
+        marktools.BarLine('|.')(staff[-1])
         return score
