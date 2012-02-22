@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from abjad.tools.pitchtools import NamedChromaticPitch, NamedChromaticPitchClass
@@ -70,6 +73,18 @@ class Event(_Base, _DomainObject):
         return tuple(set([NamedChromaticPitchClass(x.pitch_class_number) for x in self.partials]))
 
     ### PUBLIC METHODS ###
+
+    def export_assets_to_path(self, destination, klasses=[]):
+        name = self.name.partition('.')[0]
+        for klass in klasses:
+            asset = klass(self)
+            if isinstance(asset.path, str):
+                newname = os.path.basename(asset.path).replace(self.canonical_name, name)
+                shutil.copy(asset.path, os.path.join(destination, newname))
+            elif isinstance(asset.path, dict):
+                for path in asset.path.values():
+                    newname = os.path.basename(path).replace(self.canonical_name, name)
+                    shutil.copy(path, os.path.join(destination, newname))
 
     @classmethod
     def from_canonical_name_prefix(cls, name):

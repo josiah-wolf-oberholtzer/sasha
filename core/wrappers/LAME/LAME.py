@@ -9,7 +9,12 @@ class LAME(_Wrapper):
     def __call__(self, input, output):
         cmd = '%s -V0 %s %s' % \
            (self.executable, input, output)
-        out, err = self._exec(cmd)    
+        print cmd
+        out, err = self._exec(cmd)
+        if err:
+            print err
+        if out:
+            print out
 
     ### PUBLIC ATTRIBUTES ###
 
