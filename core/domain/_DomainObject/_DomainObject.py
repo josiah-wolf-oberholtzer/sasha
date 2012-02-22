@@ -48,9 +48,13 @@ class _DomainObject(object):
 
     @classmethod
     def get(cls, **kwargs):
+        session = SASHA.get_session( )
         if kwargs:
-            return SASHA.get_session( ).query(cls).filter_by(**kwargs).all( )
-        return SASHA.get_session( ).query(cls).all( )
+            objects = session.query(cls).filter_by(**kwargs).all( )
+        else:
+            objects = session.query(cls).all( )
+        session.close( )
+        return objects
 
     @classmethod
     def get_fixtures(cls):
@@ -63,9 +67,13 @@ class _DomainObject(object):
 
     @classmethod
     def get_one(cls, **kwargs):
+        session = SASHA.get_session( )
         if kwargs:
-            return SASHA.get_session( ).query(cls).filter_by(**kwargs).one( )
-        return SASHA.get_session( ).query(cls).one( )
+            objects = session.query(cls).filter_by(**kwargs).one( )
+        else:
+            objects = session.query(cls).one( )
+        session.close( )
+        return objects
 
     def write_fixture(self):
         config = ConfigParser( )

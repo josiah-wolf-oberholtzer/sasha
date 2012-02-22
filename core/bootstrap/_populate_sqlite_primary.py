@@ -13,21 +13,26 @@ def _populate_sqlite_primary( ):
         data = fixture['main']
         session.add(Performer(name=data['name'],
             description=data['description']))
+    session.commit()
 
     # INSTRUMENTS, KEYS
     for fixture in Instrument.get_fixtures( ):
         data = fixture['main']
         instrument = Instrument(name=data['name'], transposition=int(data['transposition']))
         session.add(instrument)
+        print instrument
+        session.commit()
         instrument_keys = filter(None, data['instrument_keys.name'].split(' '))
         for instrument_key in instrument_keys:
             session.add(InstrumentKey(name=instrument_key, instrument=instrument))
+            session.commit()
     for fixture in Instrument.get_fixtures( ):
         data = fixture['main']
         if data['parent.name']:
             child = session.query(Instrument).filter_by(name=data['name']).one( )
             parent = session.query(Instrument).filter_by(name=data['parent.name']).one( )
             child.parent = parent
+        session.commit()
 
     # EVENTS, FINGERINGS
     for fixture in Event.get_fixtures( ):

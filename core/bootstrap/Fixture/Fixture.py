@@ -9,7 +9,10 @@ class Fixture(_ImmutableDictionary):
 
         assert os.path.exists(path)
         config = ConfigParser( )
-        config.read(path)
+
+        f = open(path, 'r')
+        config.readfp(f)
+        f.close()
 
         for section in config.sections( ):
             dict.__setitem__(self, section, _ImmutableDictionary( ))

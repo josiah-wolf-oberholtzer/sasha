@@ -20,9 +20,9 @@ class Instrument(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 
-    __table_args__ = (UniqueConstraint('id', 'name', 'parent_id'), { })
+    # __table_args__ = (UniqueConstraint('id', 'name'), { })
 
-    description = Column(String)
+    description = Column(String, nullable=True)
     name = Column(String, unique=True)
     parent_id = Column(Integer, ForeignKey('instruments.id'), nullable=True)
     transposition = Column(Integer)
