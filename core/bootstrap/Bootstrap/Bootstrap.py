@@ -23,7 +23,7 @@ class Bootstrap(object):
         self.populate_sqlite_primary( )
         self.populate_all_assets( )
         self.create_audiodb_databases( )
-        self.populate_audiodb( )
+        self.populate_audiodb_databases( )
         self.populate_sqlite_secondary( )
         SASHA.logger.info('BOOTSTRAP: Stop')
 

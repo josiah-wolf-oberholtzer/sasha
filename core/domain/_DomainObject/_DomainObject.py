@@ -53,7 +53,7 @@ class _DomainObject(object):
             objects = session.query(cls).filter_by(**kwargs).all( )
         else:
             objects = session.query(cls).all( )
-        session.close( )
+        #session.close( )
         return objects
 
     @classmethod
@@ -72,7 +72,7 @@ class _DomainObject(object):
             objects = session.query(cls).filter_by(**kwargs).one( )
         else:
             objects = session.query(cls).one( )
-        session.close( )
+        #session.close( )
         return objects
 
     def write_fixture(self):

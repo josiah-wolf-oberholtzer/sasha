@@ -1,11 +1,8 @@
 import os
-try:
-    import matplotlib
-    if matplotlib.get_backend( ) != 'agg':
-        matplotlib.use('agg')
-    import matplotlib.pyplot as plt
-except:
-    pass
+import matplotlib
+if matplotlib.get_backend( ) != 'agg':
+    matplotlib.use('agg')
+import matplotlib.pyplot as plt
 from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
@@ -28,7 +25,7 @@ class _Plot(_MediaPlugin):
         if self.exists:
             os.remove(self.path)
 
-    def write(self):
+    def write(self, **kwargs):
         fig = self._build_plot( )
 
         ax = fig.gca( )

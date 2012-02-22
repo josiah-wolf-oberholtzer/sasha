@@ -12,7 +12,7 @@ from sasha.core.mixins import _ImmutableDictionary
 
 class SashaConfig(_ImmutableDictionary):
 
-    __slots__ = ('_environment', '_logger')
+    __slots__ = ('_environment', '_logger', '_sessionmaker')
 
     def __init__(self, environment = 'development'):
         parser = ConfigParser(dict_type = dict)
@@ -36,6 +36,7 @@ class SashaConfig(_ImmutableDictionary):
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
+
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -108,5 +109,5 @@ class SashaConfig(_ImmutableDictionary):
         dbpath = os.path.join(self.get_media_path('databases'),
             self['sqlite']['sqlite'])
         engine = create_engine('sqlite:///%s' % dbpath)
-        session = sessionmaker(bind=engine)( )
-        return session
+        return sessionmaker(bind=engine)()
+

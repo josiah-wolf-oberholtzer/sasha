@@ -33,7 +33,7 @@ class Frame(_Immutable):
     ### OVERRIDES ###
 
     def __call__(self, **kwargs):
-        SASHA.logger.info('Calculating FFT @ %d' % self.offset)
+        #SASHA.logger.info('Calculating FFT @ %d' % self.offset)
 
         peaks = [ ]
         fft = rfft(self.windowed_audio)

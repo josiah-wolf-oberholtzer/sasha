@@ -1,6 +1,7 @@
 import copy
 from itertools import groupby
 
+from sasha import Instrument
 from sasha.plugins.notation._Notation import _Notation
 from sasha.plugins.analysis import ChordAnalysis
 
@@ -60,7 +61,8 @@ class ChordNotation(_Notation):
         object.__setattr__(self, '_asset', lily)
 
         transposed = self._build_lily( )
-        transposition = MelodicChromaticInterval(self.client.instrument.transposition)
+        instrument = Instrument.get_one(id=self.client.instrument_id)
+        transposition = MelodicChromaticInterval(instrument.transposition)
         for leaf in iterate_leaves_forward_in_expr(transposed):
             transpose_pitch_carrier_by_melodic_interval(leaf, transposition)
 

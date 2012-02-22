@@ -33,7 +33,9 @@ class Fingering(_Base, _DomainObject):
     ### OVERRIDES ###
 
     def __repr__(self):
-        return '<%s(%r, %s)>' % (type(self).__name__, str(self.instrument.name),
+        from sasha import Instrument
+        instrument = Instrument.get_one(id=self.instrument_id)
+        return '<%s(%r, %s)>' % (type(self).__name__, str(instrument.name),
             [str(x.name) for x in self.instrument_keys])
 
     ### PUBLIC ATTRIBUTES ###
