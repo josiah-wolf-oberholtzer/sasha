@@ -200,8 +200,8 @@ class Event(_Base, _DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in with_pcs]
-        without_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in without_pcs]
+        with_pcs = [float(NamedChromaticPitchClass(x)) for x in with_pcs]
+        without_pcs = [float(NamedChromaticPitchClass(x)) for x in without_pcs]
 
         query = SASHA.get_session( ).query(Event).\
             join(Partial)
