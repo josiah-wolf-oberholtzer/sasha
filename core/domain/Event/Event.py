@@ -95,6 +95,15 @@ class Event(_Base, _DomainObject):
         return cls.get(md5=parts[1])[0]
 
     def query_audiodb(self, method, limit = 10):
+        '''Query events matched against an Event instance via `method`:
+
+        ::
+
+            >>> event = Event.get_one(id=1)
+            >>> result = event.query_audiodb('mfcc', limit=10)
+
+        Returns list of 2-tuples, of Event and matching frames.
+        '''
         from sasha.core.wrappers import AudioDB
         assert isinstance(limit, int) and 0 < limit
         if method in SASHA['audioDB']:
@@ -105,6 +114,17 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_keys(instrument_name, with_keys = [ ], without_keys = [ ]):
+        '''Query events with and without keys:
+
+        ::
+
+            >>> instrument_name = Instrument.get_one('Alto Saxophone').name
+            >>> with_keys = [ ]
+            >>> without_keys = [ ]
+            >>> query = Event.query_keys(instrument_name, with_keys, without_keys)
+
+        Returns SQLAlchemy Query instance.
+        '''
         from sasha.core.domain import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
         query = SASHA.get_session( ).query(Event).\
@@ -131,6 +151,16 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_pitches(with_pitches = [ ], without_pitches = [ ]):
+        '''Query events with and without pitches:
+
+        ::
+
+            >>> with_pitches = [ ]
+            >>> without_pitches = [ ]
+            >>> query = Event.query_pitches(with_pitches=with_pitches, without_pitches=without_pitches)
+
+        Returns SQLAlchemy Query instance.
+        '''
         from sasha.core.domain import Partial
 
         with_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in with_pitches]
@@ -158,6 +188,16 @@ class Event(_Base, _DomainObject):
 
     @staticmethod
     def query_pitch_classes(with_pcs = [ ], without_pcs = [ ]):
+        '''Query events with and without pitch classes:
+
+        ::
+
+            >>> with_pcs = [ ]
+            >>> without_pcs = [ ]
+            >>> query = Event.query_pitch_classes(with_pcs=with_pcs, without_pcs=without_pcs)
+
+        Returns SQLAlchemy Query instance.
+        '''
         from sasha.core.domain import Partial
 
         with_pcs = [NamedChromaticPitch(x).chromatic_pitch_class_number for x in with_pcs]
