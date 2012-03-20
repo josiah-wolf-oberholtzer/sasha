@@ -1,3 +1,1 @@
-from _Diagram import _Diagram
 from LilyPondSaxDiagram import LilyPondSaxDiagram
-from SaxophoneFingeringDiagram import SaxophoneFingeringDiagram

@@ -1,10 +1,11 @@
+import collections
 from abjad import *
 from sasha import Instrument
-from sasha.core.mixins import _Immutable
+from sasha.core.mixins import _ImmutableDictionary
 from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 
-class Collection(_Immutable):
+class Collection(object):
 
     __slots__ = ('_instrument', '_pairs')
 
@@ -13,22 +14,18 @@ class Collection(_Immutable):
 
         pairs = list(pairs)
         for i, pair in enumerate(pairs):
-            pitch = pitchtools.NamedChromaticPitch(pair[0])
-            fingering = pair[1]
-            pairs[i] = tuple([pitch, fingering])
-        pairs = tuple(pairs)
-
-        object.__setattr__(self, '_instrument', instrument)
+            pitch = float(pitchtools.NamedChromaticPitch(pair[0]))
+            fingering = tuple(pair[1])
+            pairs[i] = (pitch, fingering)
+        
         object.__setattr__(self, '_pairs', pairs)
+        object.__setattr__(self, '_instrument', instrument)
 
     ### OVERRIDES ###
 
-    def __getitem__(self, item):
-        return self._pairs[item]
-
     def __iter__(self):
-        for x in self._pairs:
-            yield x
+        for k, v in self._pairs:
+            yield k, v
 
     def __len__(self):
         return len(self._pairs)
@@ -41,10 +38,12 @@ class Collection(_Immutable):
 
     ### PUBLIC METHOD ###
 
+    def as_dict(self):
+        return collections.OrderedDict(self._pairs)
+
     def as_score(self):
         staff = Staff([ ])
-        for pair in self:
-            pitch, fingering = pair
+        for pitch, fingering in self._pairs:
             diagram = LilyPondSaxDiagram( )(fingering)
             note = Note(pitch, 1)
             markuptools.Markup(diagram, 'up')(note)
