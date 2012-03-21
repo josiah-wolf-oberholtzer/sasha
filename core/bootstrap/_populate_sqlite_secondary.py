@@ -16,9 +16,9 @@ def _populate_sqlite_secondary( ):
             pitch = NamedChromaticPitch(pitch_number)
             pitch_class_number = pitch.chromatic_pitch_class_number
             octave_number = pitch.octave_number
-            session.add(Partial(event=event,
+            session.add(Partial(event_id=event.id,
                 pitch_number=pitch_number,
                 pitch_class_number=pitch_class_number,
-                octave_number=octave_number))
-
-    session.commit( )
+                octave_number=octave_number,
+                amplitude=amplitude))
+        session.commit( )
