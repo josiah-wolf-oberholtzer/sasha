@@ -149,13 +149,14 @@ class AudioDB(_Wrapper):
             events = sorted(set(events))
             tempfile = NamedTemporaryFile(
                 mode='w',
-                dir=os.path.join(SASHAROOT, 'tmp'),
+#                dir=os.path.join(SASHAROOT, 'tmp'),
                 delete=False)
             for event in events:
                 tempfile.write('%s\n' % event.name)
             tempfile.close( )
             command += ' -r %d -K %s' % (len(events), tempfile.name)
             out, err = self._exec(command)
+            os.unlink(tempfile.name)
         else:
             command += ' -r %d' % (n + 1)
             out, err = self._exec(command)
@@ -163,10 +164,11 @@ class AudioDB(_Wrapper):
         q = filter(None, [x.split( ) for x in out.split('\n')])
 
         results = [ ]
-        for x in q[1:]:
+        for x in q:
             distance = int(x[1])
             name = os.path.basename(x[0])
             event = Event.get(name=name)[0]
-            results.append((distance, event))
+            if event.name != target.name:
+                results.append((distance, event))
 
-        return tuple(results)
+        return tuple(results[:n])
