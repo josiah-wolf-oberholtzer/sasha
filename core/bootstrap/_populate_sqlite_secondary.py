@@ -26,8 +26,8 @@ def _populate_sqlite_secondary( ):
         session.commit( )
 
     # insert Clusters
-    chroma_kmeans = KMeansClustering('chroma', cluster_count=8, use_pca=True)
-    mfcc_kmeans = KMeansClustering('mfcc', cluster_count=8, use_pca=True)
+    chroma_kmeans = KMeansClustering('chroma', cluster_count=8, use_pca=False)
+    mfcc_kmeans = KMeansClustering('mfcc', cluster_count=8, use_pca=False)
     all_clusters = [ ]
     all_clusters.extend(chroma_kmeans())
     all_clusters.extend(mfcc_kmeans())
