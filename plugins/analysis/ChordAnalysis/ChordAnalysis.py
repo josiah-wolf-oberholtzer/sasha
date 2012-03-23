@@ -83,7 +83,7 @@ class ChordAnalysis(_MediaPlugin):
             object.__setattr__(self, '_pitches', tuple([float(x) for x in pitches]))
             object.__setattr__(self, '_pitch_classes', tuple([float(x) for x in pitch_classes]))
             return self.asset
-        raise Exception('Asset does not exist.')
+        raise Exception('Asset does not exist for event %s' % self.event.name)
 
     def write(self, **kwargs):
         object.__setattr__(self, '_asset', self._find_chord( ))

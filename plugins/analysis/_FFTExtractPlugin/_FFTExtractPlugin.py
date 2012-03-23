@@ -3,12 +3,12 @@ from numpy import mean
 from numpy import std
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import FFTExtract
-from sasha.plugins.audio import SourceAudio
+from sasha.plugins.audio import CroppedAudio
 
 
 class _FFTExtractPlugin(_MediaPlugin):
 
-    __requires__ = SourceAudio
+    __requires__ = CroppedAudio
     __slots__ = ('_asset', '_client', '_mean', '_std')
 
     media_type = 'analyses'
