@@ -4,7 +4,8 @@ import shutil
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
 from abjad.tools.pitchtools import NamedChromaticPitch, NamedChromaticPitchClass
-from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String
+from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String, Table
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
@@ -42,6 +43,15 @@ class Event(_Base, _DomainObject):
     recording_date = Column(Date, nullable = True)
     recording_location_id = Column(Integer, ForeignKey('recording_locations.id'))
     recording_location = relationship('RecordingLocation', backref='events')
+
+    @declared_attr
+    def clusters(cls):
+        association_table = Table('cluster_associations',
+            cls.metadata,
+            Column('event_id', Integer, ForeignKey('events.id')),
+            Column('cluster_id', Integer, ForeignKey('clusters.id')))
+        return relationship('Cluster',
+            secondary=association_table, backref='events')
 
     ### OVERRIDES ###
 

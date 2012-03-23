@@ -1,3 +1,4 @@
+from Cluster import Cluster
 from Event import Event
 from Fingering import Fingering
 from Instrument import Instrument
