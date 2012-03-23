@@ -2,6 +2,7 @@ from abjad.tools.pitchtools import NamedChromaticPitch
 
 from sasha import *
 from sasha.plugins import ChordAnalysis
+from sasha.tools.analysistools import KMeansClustering
 
 
 def _populate_sqlite_secondary( ):
@@ -10,6 +11,7 @@ def _populate_sqlite_secondary( ):
 
     session = SASHA.get_session( )
 
+    # insert Partials
     for event in Event.get( ):
         chord = ChordAnalysis(event).read( )
         for pitch_number, amplitude in chord:
@@ -22,3 +24,13 @@ def _populate_sqlite_secondary( ):
                 octave_number=octave_number,
                 amplitude=amplitude))
         session.commit( )
+
+    # insert Clusters
+    chroma_kmeans = KMeansClustering('chroma', cluster_count=8, use_pca=True)
+    mfcc_kmeans = KMeansClustering('mfcc', cluster_count=8, use_pca=True)
+    all_clusters = [ ]
+    all_clusters.extend(chroma_kmeans())
+    all_clusters.extend(mfcc_kmeans())
+    for cluster in all_clusters:
+        session.merge(cluster)
+    session.commit()

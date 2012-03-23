@@ -63,4 +63,4 @@ class Bootstrap(object):
         _delete_sqlite_database( )
         _create_sqlite_database( )
         _populate_sqlite_primary( )
-#        _populate_sqlite_secondary( )
+        _populate_sqlite_secondary( )

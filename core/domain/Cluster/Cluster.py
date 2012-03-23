@@ -9,12 +9,12 @@ class Cluster(_Base, _DomainObject):
 
     ### SQLALCHEMY ###
 
-    __table_args__ = (UniqueConstraint('cluster', 'feature'), { })
+#    __table_args__ = (UniqueConstraint('cluster', 'feature'), { })
 
-    cluster = Column(Integer)
-    feature = Column(String)
+    cluster_id = Column(Integer)
+    feature = Column(String(32))
 
     ### SPECIAL METHODS ###
 
     def __repr__(self):
-        return '<%s(cluster=%d, feature=%r)>' % (type(self).__name__, self.cluster, self.feature)
+        return '<%s(cluster_id=%d, feature=%r)>' % (type(self).__name__, self.cluster_id, self.feature)
