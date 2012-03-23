@@ -35,10 +35,10 @@ class Frame(_Immutable):
     def __call__(self, **kwargs):
         #SASHA.logger.info('Calculating FFT @ %d' % self.offset)
 
-        peaks = [ ]
         fft = rfft(self.windowed_audio)
-        mag = abs(fft)
 
+        peaks = [ ]
+        mag = abs(fft)
         prev_mag = numpy.abs(mag[0])
         this_mag = numpy.abs(mag[1])
         next_mag = None
