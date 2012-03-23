@@ -18,5 +18,4 @@ class MP3Audio(_MediaPlugin):
         Playback( )(self.path)
 
     def write(self, **kwargs):
-        print SourceAudio(self).path, self.path
         LAME( )(SourceAudio(self).path, self.path)
