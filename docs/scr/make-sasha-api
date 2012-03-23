@@ -1,0 +1,28 @@
+#! /usr/bin/env python
+
+import os
+from abjad.tools.documentationtools import APICrawler
+from sasha import SASHAROOT
+
+if __name__ == '__main__':
+
+    docs_path = os.path.join(SASHAROOT, 'docs', 'source')
+
+    code_core_path = os.path.join(SASHAROOT, 'core')
+    docs_core_path = os.path.join(docs_path, 'core')
+    if not os.path.exists(docs_core_path):
+        os.mkdir(docs_core_path)
+
+    code_plugins_path = os.path.join(SASHAROOT, 'plugins')
+    docs_plugins_path = os.path.join(docs_path, 'plugins')
+    if not os.path.exists(docs_plugins_path):
+        os.mkdir(docs_plugins_path)
+
+    code_tools_path = os.path.join(SASHAROOT, 'tools')
+    docs_tools_path = os.path.join(docs_path, 'tools')
+    if not os.path.exists(docs_tools_path):
+        os.mkdir(docs_tools_path)
+
+    core_modules = APICrawler(code_core_path, docs_core_path, 'sasha')()
+    plugins_modules = APICrawler(code_plugins_path, docs_plugins_path, 'sasha')()
+    tools_modules = APICrawler(code_tools_path, docs_tools_path, 'sasha')()
