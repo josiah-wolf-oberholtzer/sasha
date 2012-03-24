@@ -4,9 +4,10 @@ import os
 from abjad.tools.documentationtools import APICrawler
 from sasha import SASHAROOT
 
-if __name__ == '__main__':
 
-    docs_path = os.path.join(SASHAROOT, 'docs', 'source')
+def _collect_api_modules():
+
+    docs_path = os.path.join(SASHAROOT, 'docs', 'source', 'api')
 
     code_core_path = os.path.join(SASHAROOT, 'core')
     docs_core_path = os.path.join(docs_path, 'core')
@@ -26,3 +27,87 @@ if __name__ == '__main__':
     core_modules = APICrawler(code_core_path, docs_core_path, 'sasha')()
     plugins_modules = APICrawler(code_plugins_path, docs_plugins_path, 'sasha')()
     tools_modules = APICrawler(code_tools_path, docs_tools_path, 'sasha')()
+
+    return {
+        'core': core_modules,
+        'plugins': plugins_modules,
+        'tools': tools_modules,
+    }
+
+
+def _create_index(modules):
+    index_path = docs_path = os.path.join(SASHAROOT, 'docs', 'source', 'index.rst')
+    
+    r = []
+    r += ['SASHA API Documentation']
+    r += ['=======================']
+    r += ['.. toctree::']
+    r += ['   :maxdepth: 1']
+    r += ['']
+
+    r += ['Core']
+    r += ['----']
+    current_package = None
+    for module in modules['core']:
+        path = module.module_name.split('.')[2:-1]
+
+        package = path[0]
+        if package != current_package:
+            r += ['']
+            r += ['%s' % package]
+            r += ['%s' % ('~' * len(package))]
+            r += ['.. toctree::']
+            r += ['   :maxdepth: 1']
+            r += ['']
+            current_package = package
+
+        r += ['   api/core/%s' % '/'.join(path)]
+    r += ['']
+
+    r += ['Asset Plugins']
+    r += ['-------------']
+    current_package = None
+    for module in modules['plugins']:
+        path = module.module_name.split('.')[2:-1]
+
+        package = path[0]
+        if package != current_package:
+            r += ['']
+            r += ['%s' % package]
+            r += ['%s' % ('~' * len(package))]
+            r += ['.. toctree::']
+            r += ['   :maxdepth: 1']
+            r += ['']
+            current_package = package
+
+        r += ['   api/plugins/%s' % '/'.join(path)]
+    r += ['']
+
+    r += ['Tools']
+    r += ['-----']
+    current_package = None
+    for module in modules['tools']:
+        path = module.module_name.split('.')[2:-1]
+
+        package = path[0]
+        if package != current_package:
+            r += ['']
+            r += ['%s' % package]
+            r += ['%s' % ('~' * len(package))]
+            r += ['.. toctree::']
+            r += ['   :maxdepth: 1']
+            r += ['']
+            current_package = package
+
+        r += ['   api/tools/%s' % '/'.join(path)]
+    r += ['']
+
+    f = open(index_path, 'w')
+    f.write('\n'.join(r))
+    f.close()
+    
+
+if __name__ == '__main__':
+    modules = _collect_api_modules()
+    _create_index(modules)
+    
