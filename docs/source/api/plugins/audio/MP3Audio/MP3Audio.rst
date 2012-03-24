@@ -1,5 +1,5 @@
-sasha.plugins.audio.MP3Audio
-============================
+audio.MP3Audio
+==============
 
 .. inheritance-diagram:: sasha.plugins.audio.MP3Audio.MP3Audio.MP3Audio
    :private-bases:

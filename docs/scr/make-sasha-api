@@ -24,9 +24,9 @@ def _collect_api_modules():
     if not os.path.exists(docs_tools_path):
         os.mkdir(docs_tools_path)
 
-    core_modules = APICrawler(code_core_path, docs_core_path, 'sasha')()
-    plugins_modules = APICrawler(code_plugins_path, docs_plugins_path, 'sasha')()
-    tools_modules = APICrawler(code_tools_path, docs_tools_path, 'sasha')()
+    core_modules = APICrawler(code_core_path, docs_core_path, 'sasha', prefix='sasha.core.')()
+    plugins_modules = APICrawler(code_plugins_path, docs_plugins_path, 'sasha', prefix='sasha.plugins.')()
+    tools_modules = APICrawler(code_tools_path, docs_tools_path, 'sasha', prefix='sasha.tools.')()
 
     return {
         'core': core_modules,

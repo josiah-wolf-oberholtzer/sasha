@@ -1,5 +1,5 @@
-sasha.plugins.audio.CroppedAudio
-================================
+audio.CroppedAudio
+==================
 
 .. inheritance-diagram:: sasha.plugins.audio.CroppedAudio.CroppedAudio.CroppedAudio
    :private-bases:

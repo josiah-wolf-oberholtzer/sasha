@@ -1,5 +1,5 @@
-sasha.core.wrappers.Convert
-===========================
+wrappers.Convert
+================
 
 .. inheritance-diagram:: sasha.core.wrappers.Convert.Convert.Convert
    :private-bases:

@@ -1,5 +1,5 @@
-sasha.tools.analysistools.PeakDetectionWorker
-=============================================
+analysistools.PeakDetectionWorker
+=================================
 
 .. inheritance-diagram:: sasha.tools.analysistools.PeakDetectionWorker.PeakDetectionWorker.PeakDetectionWorker
    :private-bases:

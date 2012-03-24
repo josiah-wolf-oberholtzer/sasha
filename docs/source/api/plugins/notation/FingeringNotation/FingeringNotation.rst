@@ -1,5 +1,5 @@
-sasha.plugins.notation.FingeringNotation
-========================================
+notation.FingeringNotation
+==========================
 
 .. inheritance-diagram:: sasha.plugins.notation.FingeringNotation.FingeringNotation.FingeringNotation
    :private-bases:

@@ -1,5 +1,5 @@
-sasha.tools.diagramtools.LilyPondSaxDiagram
-===========================================
+diagramtools.LilyPondSaxDiagram
+===============================
 
 .. inheritance-diagram:: sasha.tools.diagramtools.LilyPondSaxDiagram.LilyPondSaxDiagram.LilyPondSaxDiagram
    :private-bases:

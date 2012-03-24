@@ -1,5 +1,5 @@
-sasha.core.domain.Cluster
-=========================
+domain.Cluster
+==============
 
 .. inheritance-diagram:: sasha.core.domain.Cluster.Cluster.Cluster
    :private-bases:

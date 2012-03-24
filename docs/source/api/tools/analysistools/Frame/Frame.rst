@@ -1,5 +1,5 @@
-sasha.tools.analysistools.Frame
-===============================
+analysistools.Frame
+===================
 
 .. inheritance-diagram:: sasha.tools.analysistools.Frame.Frame.Frame
    :private-bases:

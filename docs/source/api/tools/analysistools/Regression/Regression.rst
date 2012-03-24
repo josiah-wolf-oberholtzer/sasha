@@ -1,5 +1,5 @@
-sasha.tools.analysistools.Regression
-====================================
+analysistools.Regression
+========================
 
 .. inheritance-diagram:: sasha.tools.analysistools.Regression.Regression.Regression
    :private-bases:

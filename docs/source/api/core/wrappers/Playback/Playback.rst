@@ -1,5 +1,5 @@
-sasha.core.wrappers.Playback
-============================
+wrappers.Playback
+=================
 
 .. inheritance-diagram:: sasha.core.wrappers.Playback.Playback.Playback
    :private-bases:

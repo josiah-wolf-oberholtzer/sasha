@@ -1,5 +1,5 @@
-sasha.core.wrappers.AudioDB
-===========================
+wrappers.AudioDB
+================
 
 .. inheritance-diagram:: sasha.core.wrappers.AudioDB.AudioDB.AudioDB
    :private-bases:

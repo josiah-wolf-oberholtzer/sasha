@@ -1,5 +1,5 @@
-sasha.plugins.analysis.LinearSpectrumAnalysis
-=============================================
+analysis.LinearSpectrumAnalysis
+===============================
 
 .. inheritance-diagram:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis
    :private-bases:

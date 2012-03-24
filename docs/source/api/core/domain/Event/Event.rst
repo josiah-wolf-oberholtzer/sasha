@@ -1,5 +1,5 @@
-sasha.core.domain.Event
-=======================
+domain.Event
+============
 
 .. inheritance-diagram:: sasha.core.domain.Event.Event.Event
    :private-bases:

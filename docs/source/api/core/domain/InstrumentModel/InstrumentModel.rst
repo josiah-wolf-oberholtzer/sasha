@@ -1,5 +1,5 @@
-sasha.core.domain.InstrumentModel
-=================================
+domain.InstrumentModel
+======================
 
 .. inheritance-diagram:: sasha.core.domain.InstrumentModel.InstrumentModel.InstrumentModel
    :private-bases:

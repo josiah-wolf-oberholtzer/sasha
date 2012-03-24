@@ -1,5 +1,5 @@
-sasha.core.domain.RecordingLocation
-===================================
+domain.RecordingLocation
+========================
 
 .. inheritance-diagram:: sasha.core.domain.RecordingLocation.RecordingLocation.RecordingLocation
    :private-bases:

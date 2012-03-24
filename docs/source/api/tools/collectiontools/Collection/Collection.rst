@@ -1,5 +1,5 @@
-sasha.tools.collectiontools.Collection
-======================================
+collectiontools.Collection
+==========================
 
 .. inheritance-diagram:: sasha.tools.collectiontools.Collection.Collection.Collection
    :private-bases:

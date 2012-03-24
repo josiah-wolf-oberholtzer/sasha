@@ -1,5 +1,5 @@
-sasha.plugins.analysis.MFCCAnalysis
-===================================
+analysis.MFCCAnalysis
+=====================
 
 .. inheritance-diagram:: sasha.plugins.analysis.MFCCAnalysis.MFCCAnalysis.MFCCAnalysis
    :private-bases:

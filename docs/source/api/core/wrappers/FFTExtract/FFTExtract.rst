@@ -1,5 +1,5 @@
-sasha.core.wrappers.FFTExtract
-==============================
+wrappers.FFTExtract
+===================
 
 .. inheritance-diagram:: sasha.core.wrappers.FFTExtract.FFTExtract.FFTExtract
    :private-bases:

@@ -1,5 +1,5 @@
-sasha.plugins.notation.ChromaNotation
-=====================================
+notation.ChromaNotation
+=======================
 
 .. inheritance-diagram:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation
    :private-bases:

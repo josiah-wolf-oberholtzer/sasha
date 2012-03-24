@@ -1,5 +1,5 @@
-sasha.plugins.analysis.ConstantQAnalysis
-========================================
+analysis.ConstantQAnalysis
+==========================
 
 .. inheritance-diagram:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis
    :private-bases:

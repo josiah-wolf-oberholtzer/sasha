@@ -1,5 +1,5 @@
-sasha.tools.analysistools.Peak
-==============================
+analysistools.Peak
+==================
 
 .. inheritance-diagram:: sasha.tools.analysistools.Peak.Peak.Peak
    :private-bases:

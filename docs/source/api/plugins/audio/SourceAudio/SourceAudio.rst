@@ -1,5 +1,5 @@
-sasha.plugins.audio.SourceAudio
-===============================
+audio.SourceAudio
+=================
 
 .. inheritance-diagram:: sasha.plugins.audio.SourceAudio.SourceAudio.SourceAudio
    :private-bases:

@@ -1,5 +1,5 @@
-sasha.plugins.plotting.PartialTrackingPlot
-==========================================
+plotting.PartialTrackingPlot
+============================
 
 .. inheritance-diagram:: sasha.plugins.plotting.PartialTrackingPlot.PartialTrackingPlot.PartialTrackingPlot
    :private-bases:

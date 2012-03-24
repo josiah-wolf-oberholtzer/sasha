@@ -1,5 +1,5 @@
-sasha.plugins.analysis.ChromaAnalysis
-=====================================
+analysis.ChromaAnalysis
+=======================
 
 .. inheritance-diagram:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis
    :private-bases:

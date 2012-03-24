@@ -1,5 +1,5 @@
-sasha.plugins.analysis.LogHarmonicityAnalysis
-=============================================
+analysis.LogHarmonicityAnalysis
+===============================
 
 .. inheritance-diagram:: sasha.plugins.analysis.LogHarmonicityAnalysis.LogHarmonicityAnalysis.LogHarmonicityAnalysis
    :private-bases:

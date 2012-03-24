@@ -1,5 +1,5 @@
-sasha.plugins.notation.ChordNotation
-====================================
+notation.ChordNotation
+======================
 
 .. inheritance-diagram:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation
    :private-bases:

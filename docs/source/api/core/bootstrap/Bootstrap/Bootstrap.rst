@@ -1,5 +1,5 @@
-sasha.core.bootstrap.Bootstrap
-==============================
+bootstrap.Bootstrap
+===================
 
 .. inheritance-diagram:: sasha.core.bootstrap.Bootstrap.Bootstrap.Bootstrap
    :private-bases:

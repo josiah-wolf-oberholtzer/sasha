@@ -1,5 +1,5 @@
-sasha.tools.analysistools.PartialTracker
-========================================
+analysistools.PartialTracker
+============================
 
 .. inheritance-diagram:: sasha.tools.analysistools.PartialTracker.PartialTracker.PartialTracker
    :private-bases:

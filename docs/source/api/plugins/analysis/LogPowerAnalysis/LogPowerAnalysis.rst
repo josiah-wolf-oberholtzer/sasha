@@ -1,5 +1,5 @@
-sasha.plugins.analysis.LogPowerAnalysis
-=======================================
+analysis.LogPowerAnalysis
+=========================
 
 .. inheritance-diagram:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis
    :private-bases:

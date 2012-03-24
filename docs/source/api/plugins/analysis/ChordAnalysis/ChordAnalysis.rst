@@ -1,5 +1,5 @@
-sasha.plugins.analysis.ChordAnalysis
-====================================
+analysis.ChordAnalysis
+======================
 
 .. inheritance-diagram:: sasha.plugins.analysis.ChordAnalysis.ChordAnalysis.ChordAnalysis
    :private-bases:

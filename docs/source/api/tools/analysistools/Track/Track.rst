@@ -1,5 +1,5 @@
-sasha.tools.analysistools.Track
-===============================
+analysistools.Track
+===================
 
 .. inheritance-diagram:: sasha.tools.analysistools.Track.Track.Track
    :private-bases:

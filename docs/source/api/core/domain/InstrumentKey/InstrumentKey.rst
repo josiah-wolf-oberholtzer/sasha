@@ -1,5 +1,5 @@
-sasha.core.domain.InstrumentKey
-===============================
+domain.InstrumentKey
+====================
 
 .. inheritance-diagram:: sasha.core.domain.InstrumentKey.InstrumentKey.InstrumentKey
    :private-bases:

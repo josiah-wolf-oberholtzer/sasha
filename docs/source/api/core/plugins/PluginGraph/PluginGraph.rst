@@ -1,5 +1,5 @@
-sasha.core.plugins.PluginGraph
-==============================
+plugins.PluginGraph
+===================
 
 .. inheritance-diagram:: sasha.core.plugins.PluginGraph.PluginGraph.PluginGraph
    :private-bases:

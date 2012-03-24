@@ -1,5 +1,5 @@
-sasha.core.bootstrap.Fixture
-============================
+bootstrap.Fixture
+=================
 
 .. inheritance-diagram:: sasha.core.bootstrap.Fixture.Fixture.Fixture
    :private-bases:

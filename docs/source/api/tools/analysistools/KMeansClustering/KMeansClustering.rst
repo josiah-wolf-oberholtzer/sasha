@@ -1,5 +1,5 @@
-sasha.tools.analysistools.KMeansClustering
-==========================================
+analysistools.KMeansClustering
+==============================
 
 .. inheritance-diagram:: sasha.tools.analysistools.KMeansClustering.KMeansClustering.KMeansClustering
    :private-bases:

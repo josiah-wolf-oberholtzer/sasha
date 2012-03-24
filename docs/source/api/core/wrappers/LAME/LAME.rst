@@ -1,5 +1,5 @@
-sasha.core.wrappers.LAME
-========================
+wrappers.LAME
+=============
 
 .. inheritance-diagram:: sasha.core.wrappers.LAME.LAME.LAME
    :private-bases:

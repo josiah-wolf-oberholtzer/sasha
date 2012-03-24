@@ -1,4 +1,4 @@
-sasha.tools.mediatools.play
-===========================
+mediatools.play
+===============
 
 .. autofunction:: sasha.tools.mediatools.play

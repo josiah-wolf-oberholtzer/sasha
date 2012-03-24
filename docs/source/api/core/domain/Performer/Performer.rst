@@ -1,5 +1,5 @@
-sasha.core.domain.Performer
-===========================
+domain.Performer
+================
 
 .. inheritance-diagram:: sasha.core.domain.Performer.Performer.Performer
    :private-bases:

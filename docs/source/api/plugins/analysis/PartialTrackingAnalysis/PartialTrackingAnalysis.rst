@@ -1,5 +1,5 @@
-sasha.plugins.analysis.PartialTrackingAnalysis
-==============================================
+analysis.PartialTrackingAnalysis
+================================
 
 .. inheritance-diagram:: sasha.plugins.analysis.PartialTrackingAnalysis.PartialTrackingAnalysis.PartialTrackingAnalysis
    :private-bases:

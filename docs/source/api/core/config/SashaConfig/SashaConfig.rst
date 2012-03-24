@@ -1,5 +1,5 @@
-sasha.core.config.SashaConfig
-=============================
+config.SashaConfig
+==================
 
 .. inheritance-diagram:: sasha.core.config.SashaConfig.SashaConfig.SashaConfig
    :private-bases:

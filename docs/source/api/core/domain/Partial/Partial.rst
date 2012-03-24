@@ -1,5 +1,5 @@
-sasha.core.domain.Partial
-=========================
+domain.Partial
+==============
 
 .. inheritance-diagram:: sasha.core.domain.Partial.Partial.Partial
    :private-bases:

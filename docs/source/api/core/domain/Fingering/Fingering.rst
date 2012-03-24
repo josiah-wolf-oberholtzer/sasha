@@ -1,5 +1,5 @@
-sasha.core.domain.Fingering
-===========================
+domain.Fingering
+================
 
 .. inheritance-diagram:: sasha.core.domain.Fingering.Fingering.Fingering
    :private-bases:
