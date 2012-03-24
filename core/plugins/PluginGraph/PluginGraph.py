@@ -7,7 +7,7 @@ class PluginGraph(object):
     __slots__ = ('_client', '_graph')
 
     def __init__(self, client):
-        from sasha import plugins
+        import sasha.plugins
         from sasha.core.plugins._Plugin import _Plugin
 
         self._client = client
@@ -17,7 +17,7 @@ class PluginGraph(object):
             hasattr(x, '__bases__') and
             _Plugin in inspect.getmro(x) and 
             x.__client_class__ == self.client,
-            [getattr(plugins, x) for x in dir(plugins)])
+            [getattr(sasha.plugins, x) for x in dir(sasha.plugins)])
 
         def _build_subtree(target, node, reservoir):
             '''Loop through reservoir.  If a plugin's __requires__

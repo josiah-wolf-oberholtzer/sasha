@@ -11,10 +11,10 @@ class LAME(_Wrapper):
            (self.executable, input, output)
         print cmd
         out, err = self._exec(cmd)
-        if err:
-            print err
-        if out:
-            print out
+        #if err:
+        #    print err
+        #if out:
+        #    print out
 
     ### PUBLIC ATTRIBUTES ###
 

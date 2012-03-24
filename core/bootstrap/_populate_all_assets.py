@@ -15,10 +15,10 @@ def _populate_all_assets( ):
         plugins = PluginGraph(domain_class).in_order( )
         args = [[domain_class, x.id, plugins] for x in domain_class.get( )]
         if args:
-#            if 1 < multiprocessing.cpu_count( ):
-#                pool = multiprocessing.Pool( )
-#                pool.map_async(_populate_all_assets_for_object, args)
-#                pool.close( )
-#                pool.join( )
-#            else:
-            map(_populate_all_assets_for_object, args)
+            if 1 < multiprocessing.cpu_count( ):
+                pool = multiprocessing.Pool( )
+                pool.map_async(_populate_all_assets_for_object, args)
+                pool.close( )
+                pool.join( )
+            else:
+                map(_populate_all_assets_for_object, args)

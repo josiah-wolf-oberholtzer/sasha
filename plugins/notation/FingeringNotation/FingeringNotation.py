@@ -17,7 +17,7 @@ class FingeringNotation(_Notation):
         fingering = Fingering.get_one(id=self.client.fingering_id)
         key_names = [x.name for x in fingering.instrument_keys]
         diagram = LilyPondSaxDiagram()(key_names)
-        diagram = markuptools.MarkupCommand('scale', ["#'(2 . 2)"], [diagram])
+        diagram = markuptools.MarkupCommand('scale', schemetools.SchemePair(1.5, 1.5), diagram)
         markup = markuptools.Markup(diagram)
         lily = lilypondfiletools.make_basic_lilypond_file()
         lily.append(markup)

@@ -11,6 +11,4 @@ from sasha.core.wrappers import AudioDB
 from sasha.tools.mediatools import play
 
 del core
-del plugins
 del tools
-
