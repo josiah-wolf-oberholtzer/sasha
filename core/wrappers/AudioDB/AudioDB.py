@@ -3,10 +3,10 @@ from tempfile import NamedTemporaryFile
 
 from sasha import SASHA
 from sasha import SASHAROOT
-from sasha.core.wrappers._Wrapper import _Wrapper
+from sasha.core.wrappers.Wrapper import Wrapper
 
 
-class AudioDB(_Wrapper):
+class AudioDB(Wrapper):
 
     __slots__ = ('_klass', '_name', '_path')
 

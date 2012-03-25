@@ -3,10 +3,10 @@ import os
 import struct
 from sasha import SASHA
 from sasha import SASHAROOT
-from sasha.core.wrappers._Wrapper import _Wrapper
+from sasha.core.wrappers.Wrapper import Wrapper
 
 
-class FFTExtract(_Wrapper):
+class FFTExtract(Wrapper):
 
     ### PRIVATE METHODS ###
 

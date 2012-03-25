@@ -1,8 +1,8 @@
 from sasha import SASHA
-from sasha.core.wrappers._Wrapper import _Wrapper
+from sasha.core.wrappers.Wrapper import Wrapper
 
 
-class Playback(_Wrapper):
+class Playback(Wrapper):
 
     ### OVERRIDES ###
 

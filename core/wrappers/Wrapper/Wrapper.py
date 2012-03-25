@@ -3,7 +3,7 @@ import subprocess
 from sasha.core.mixins import _Immutable
 
 
-class _Wrapper(_Immutable):
+class Wrapper(_Immutable):
 
     ### CLASS ATTRIBUTES ###
 
