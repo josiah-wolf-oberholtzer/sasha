@@ -71,3 +71,17 @@ class Fingering(_Base, _DomainObject):
         compact_representation = parts[2]
         return cls.get(instrument=instrument, compact_representation=compact_representation)[0]
         
+    def find_similar_fingerings(self, n = 10):
+        results = [ ]
+        fingerings = Fingering.get(instrument_id=self.instrument_id)
+        fingerings = [x for x in fingerings if x.id != self.id]
+
+        def compare(a, b):
+            return sum([1 for x, y in zip(a, b) if x == y])
+
+        for fingering in fingerings:
+            comparison = compare(self.compact_representation, fingering.compact_representation)
+            results.append((comparison, fingering))
+
+        return [x[1] for x in sorted(results, key=lambda x: x[0], reverse=True)][:n]
+            
