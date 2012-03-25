@@ -7,6 +7,7 @@ from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 class FingeringNotation(_Notation):
 
+    __client_class__ = Fingering
     __requires__ = None
 
     plugin_label = 'fingering'
