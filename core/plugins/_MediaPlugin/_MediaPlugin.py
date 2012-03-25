@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractmethod
 import os
 from sasha import SASHA
 from sasha.core.plugins._Plugin import _Plugin
@@ -5,6 +6,9 @@ from sasha.core.plugins._Plugin import _Plugin
 
 class _MediaPlugin(_Plugin):
 
+    ### CLASS ATTRIBUTES ###
+
+    __metaclass__ = ABCMeta
     __slots__ = ('_asset', '_client')
 
     file_suffix = None
@@ -12,6 +16,9 @@ class _MediaPlugin(_Plugin):
     plugin_label = None
     plugin_sublabels = ( )
 
+    ### INITIALIZER ###
+
+    @abstractmethod
     def __init__(self, arg):
         _Plugin.__init__(self, arg)
         object.__setattr__(self, '_asset', None)

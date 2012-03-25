@@ -1,8 +1,19 @@
+from abc import ABCMeta, abstractmethod
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
 
 class _Base(object):
+
+    ### CLASS ATTRIBUTES ###
+
+    __metaclass__ = ABCMeta
+
+    ### INITIALIZER ###
+
+    @abstractmethod
+    def __init__(self, *args, **kwargs):
+        pass
 
     ### SQLALCHEMY ###
 

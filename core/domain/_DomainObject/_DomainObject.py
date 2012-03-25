@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractmethod
 from ConfigParser import ConfigParser
 import os
 
@@ -8,9 +9,19 @@ from sqlalchemy.ext.declarative import declared_attr
 
 from sasha import SASHA
 
+
 class _DomainObject(object):
 
+    ### CLASS ATTRIBUTES ###
+
     __fixture_paths__ = ( )
+    __metaclass__ = ABCMeta
+
+    ### INITIALIZER ###
+
+    @abstractmethod
+    def __init__(self, *args, **kwargs):
+        pass
 
     ### SQLALCHEMY ###
 
