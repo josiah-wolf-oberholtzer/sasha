@@ -14,9 +14,11 @@ Read-only Properties
 Methods
 -------
 
+.. automethod:: sasha.core.domain.Fingering.Fingering.Fingering.find_similar_fingerings
+
 .. automethod:: sasha.core.domain.Fingering.Fingering.Fingering.write_fixture
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 Special Methods
 ---------------

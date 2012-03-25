@@ -11,14 +11,14 @@ Read-only Properties
 
 .. autoattribute:: sasha.core.domain.InstrumentModel.InstrumentModel.InstrumentModel.canonical_name
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 Methods
 -------
 
 .. automethod:: sasha.core.domain.InstrumentModel.InstrumentModel.InstrumentModel.write_fixture
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 Special Methods
 ---------------
@@ -33,7 +33,7 @@ Special Methods
 
 .. automethod:: sasha.core.domain.InstrumentModel.InstrumentModel.InstrumentModel.__repr__
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 .. automethod:: sasha.core.domain.InstrumentModel.InstrumentModel.InstrumentModel.__setattr__
 

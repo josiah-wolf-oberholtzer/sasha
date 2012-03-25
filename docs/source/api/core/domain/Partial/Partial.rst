@@ -11,14 +11,14 @@ Read-only Properties
 
 .. autoattribute:: sasha.core.domain.Partial.Partial.Partial.canonical_name
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 Methods
 -------
 
 .. automethod:: sasha.core.domain.Partial.Partial.Partial.write_fixture
 
-   .. note:: Inherited from `sasha.core.domain._DomainObject._DomainObject._DomainObject`
+   .. note:: Inherited from `sasha.core.domain.DomainObject.DomainObject.DomainObject`
 
 Special Methods
 ---------------

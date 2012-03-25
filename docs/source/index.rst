@@ -27,6 +27,7 @@ domain
    :maxdepth: 1
 
    api/core/domain/Cluster/Cluster
+   api/core/domain/DomainObject/DomainObject
    api/core/domain/Event/Event
    api/core/domain/Fingering/Fingering
    api/core/domain/Instrument/Instrument
@@ -53,6 +54,7 @@ wrappers
    api/core/wrappers/FFTExtract/FFTExtract
    api/core/wrappers/LAME/LAME
    api/core/wrappers/Playback/Playback
+   api/core/wrappers/Wrapper/Wrapper
 
 Asset Plugins
 -------------
