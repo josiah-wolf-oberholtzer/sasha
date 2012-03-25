@@ -35,15 +35,17 @@ class Fingering(_Base, _DomainObject):
     def __repr__(self):
         from sasha import Instrument
         instrument = Instrument.get_one(id=self.instrument_id)
-        return '<%s(%r, %s)>' % (type(self).__name__, str(instrument.name),
-            [str(x.name) for x in self.instrument_keys])
+        return '<%s(%r, %r)>' % (type(self).__name__, str(instrument.name),
+            self.compact_representation)
 
     ### PUBLIC ATTRIBUTES ###
 
     @property
     def canonical_name(self):
+        from sasha import Instrument
         cls_name = uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
-        instrument_name = '_'.join(self.instrument.name.lower( ).split( ))
+        instrument = Instrument.get_one(id=self.instrument_id)
+        instrument_name = '_'.join(instrument.name.lower( ).split( ))
         return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)
 
     ### PRIVATE METHODS ###
