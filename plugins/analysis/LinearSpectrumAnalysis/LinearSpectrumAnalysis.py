@@ -1,9 +1,9 @@
 from sasha.core.wrappers import FFTExtract
 from sasha.plugins.audio import CroppedAudio
-from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
+from sasha.plugins.analysis.FFTExtractPlugin import FFTExtractPlugin
 
 
-class LinearSpectrumAnalysis(_FFTExtractPlugin):
+class LinearSpectrumAnalysis(FFTExtractPlugin):
 
     file_suffix = 'linear_spectrum'
 

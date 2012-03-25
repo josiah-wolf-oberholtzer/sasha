@@ -1,8 +1,8 @@
-from sasha.plugins.notation._Notation import _Notation
+from sasha.plugins.notation.Notation import Notation
 from sasha.plugins.analysis import ChromaAnalysis
 
 
-class ChromaNotation(_Notation):
+class ChromaNotation(Notation):
 
     __requires__ = ChromaAnalysis
 

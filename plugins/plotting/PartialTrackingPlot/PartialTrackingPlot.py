@@ -1,9 +1,9 @@
 from sasha.plugins.analysis import PartialTrackingAnalysis
-from sasha.plugins.plotting._Plot import _Plot
+from sasha.plugins.plotting.Plot import Plot
 from sasha.tools.analysistools import PartialTracker
 
 
-class PartialTrackingPlot(_Plot):
+class PartialTrackingPlot(Plot):
 
     __requires__ = PartialTrackingAnalysis
 

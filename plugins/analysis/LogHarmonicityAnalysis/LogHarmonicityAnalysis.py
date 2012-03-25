@@ -1,9 +1,9 @@
 from sasha.core.wrappers import FFTExtract
 from sasha.plugins.audio import CroppedAudio
-from sasha.plugins.analysis._FFTExtractPlugin import _FFTExtractPlugin
+from sasha.plugins.analysis.FFTExtractPlugin import FFTExtractPlugin
 
 
-class LogHarmonicityAnalysis(_FFTExtractPlugin):
+class LogHarmonicityAnalysis(FFTExtractPlugin):
 
     file_suffix = 'log_harmonicity'
 

@@ -6,7 +6,7 @@ from sasha.core.wrappers import FFTExtract
 from sasha.plugins.audio import CroppedAudio
 
 
-class _FFTExtractPlugin(_MediaPlugin):
+class FFTExtractPlugin(_MediaPlugin):
 
     __requires__ = CroppedAudio
     __slots__ = ('_asset', '_client', '_mean', '_std')

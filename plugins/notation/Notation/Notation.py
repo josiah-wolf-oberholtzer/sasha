@@ -5,7 +5,7 @@ from sasha.core.wrappers import Convert
 from sasha.core.wrappers import Wrapper
 
 
-class _Notation(_MediaPlugin):
+class Notation(_MediaPlugin):
 
     _aa_factor = 4
     _resolution = 72

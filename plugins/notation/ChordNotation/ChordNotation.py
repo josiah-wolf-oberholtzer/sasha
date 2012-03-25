@@ -2,11 +2,11 @@ import copy
 from itertools import groupby
 
 from sasha import Instrument
-from sasha.plugins.notation._Notation import _Notation
+from sasha.plugins.notation.Notation import Notation
 from sasha.plugins.analysis import ChordAnalysis
 
 
-class ChordNotation(_Notation):
+class ChordNotation(Notation):
 
     __requires__ = ChordAnalysis
 

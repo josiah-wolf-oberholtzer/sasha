@@ -6,4 +6,4 @@ from LogHarmonicityAnalysis import LogHarmonicityAnalysis
 from LogPowerAnalysis import LogPowerAnalysis
 from MFCCAnalysis import MFCCAnalysis
 from PartialTrackingAnalysis import PartialTrackingAnalysis
-from _FFTExtractPlugin import _FFTExtractPlugin
+from FFTExtractPlugin import FFTExtractPlugin

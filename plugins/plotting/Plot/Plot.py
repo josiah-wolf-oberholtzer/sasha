@@ -7,7 +7,7 @@ from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
 
-class _Plot(_MediaPlugin):
+class Plot(_MediaPlugin):
 
     media_type = 'plots'
     file_suffix = 'png'

@@ -1,11 +1,11 @@
 from abjad import *
 from sasha import *
-from sasha.plugins.notation._Notation import _Notation
+from sasha.plugins.notation.Notation import Notation
 from sasha.plugins.analysis import ChordAnalysis
 from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 
-class FingeringNotation(_Notation):
+class FingeringNotation(Notation):
 
     __client_class__ = Fingering
     __requires__ = None
