@@ -11,7 +11,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation.aa_factor
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 .. autoattribute:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation.asset
 
@@ -35,14 +35,14 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation.resolution
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation.delete
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 .. automethod:: sasha.plugins.notation.ChordNotation.ChordNotation.ChordNotation.write
 

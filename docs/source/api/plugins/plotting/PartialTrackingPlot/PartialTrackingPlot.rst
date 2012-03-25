@@ -34,11 +34,11 @@ Methods
 
 .. automethod:: sasha.plugins.plotting.PartialTrackingPlot.PartialTrackingPlot.PartialTrackingPlot.delete
 
-   .. note:: Inherited from `sasha.plugins.plotting._Plot._Plot._Plot`
+   .. note:: Inherited from `sasha.plugins.plotting.Plot.Plot.Plot`
 
 .. automethod:: sasha.plugins.plotting.PartialTrackingPlot.PartialTrackingPlot.PartialTrackingPlot.write
 
-   .. note:: Inherited from `sasha.plugins.plotting._Plot._Plot._Plot`
+   .. note:: Inherited from `sasha.plugins.plotting.Plot.Plot.Plot`
 
 Special Methods
 ---------------

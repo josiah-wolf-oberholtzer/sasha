@@ -67,6 +67,7 @@ analysis
    api/plugins/analysis/ChordAnalysis/ChordAnalysis
    api/plugins/analysis/ChromaAnalysis/ChromaAnalysis
    api/plugins/analysis/ConstantQAnalysis/ConstantQAnalysis
+   api/plugins/analysis/FFTExtractPlugin/FFTExtractPlugin
    api/plugins/analysis/LinearSpectrumAnalysis/LinearSpectrumAnalysis
    api/plugins/analysis/LogHarmonicityAnalysis/LogHarmonicityAnalysis
    api/plugins/analysis/LogPowerAnalysis/LogPowerAnalysis
@@ -90,6 +91,7 @@ notation
    api/plugins/notation/ChordNotation/ChordNotation
    api/plugins/notation/ChromaNotation/ChromaNotation
    api/plugins/notation/FingeringNotation/FingeringNotation
+   api/plugins/notation/Notation/Notation
 
 plotting
 ~~~~~~~~
@@ -97,6 +99,7 @@ plotting
    :maxdepth: 1
 
    api/plugins/plotting/PartialTrackingPlot/PartialTrackingPlot
+   api/plugins/plotting/Plot/Plot
 
 Tools
 -----

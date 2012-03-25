@@ -23,7 +23,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.mean
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. autoattribute:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.path
 
@@ -35,18 +35,18 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.std
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.delete
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.read
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.ConstantQAnalysis.ConstantQAnalysis.ConstantQAnalysis.write
 

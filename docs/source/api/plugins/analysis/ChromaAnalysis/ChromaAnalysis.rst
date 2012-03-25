@@ -23,7 +23,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.mean
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. autoattribute:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.path
 
@@ -35,18 +35,18 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.std
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.delete
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.read
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.ChromaAnalysis.ChromaAnalysis.ChromaAnalysis.write
 

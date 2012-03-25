@@ -11,7 +11,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation.aa_factor
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 .. autoattribute:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation.asset
 
@@ -35,18 +35,18 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation.resolution
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation.delete
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 .. automethod:: sasha.plugins.notation.ChromaNotation.ChromaNotation.ChromaNotation.write
 
-   .. note:: Inherited from `sasha.plugins.notation._Notation._Notation._Notation`
+   .. note:: Inherited from `sasha.plugins.notation.Notation.Notation.Notation`
 
 Special Methods
 ---------------

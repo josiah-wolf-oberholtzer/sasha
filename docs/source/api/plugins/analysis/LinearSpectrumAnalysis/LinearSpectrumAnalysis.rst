@@ -23,7 +23,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.mean
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. autoattribute:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.path
 
@@ -35,18 +35,18 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.std
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.delete
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.read
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.LinearSpectrumAnalysis.write
 

@@ -23,7 +23,7 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.mean
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. autoattribute:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.path
 
@@ -35,18 +35,18 @@ Read-only Properties
 
 .. autoattribute:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.std
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 Methods
 -------
 
 .. automethod:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.delete
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.read
 
-   .. note:: Inherited from `sasha.plugins.analysis._FFTExtractPlugin._FFTExtractPlugin._FFTExtractPlugin`
+   .. note:: Inherited from `sasha.plugins.analysis.FFTExtractPlugin.FFTExtractPlugin.FFTExtractPlugin`
 
 .. automethod:: sasha.plugins.analysis.LogPowerAnalysis.LogPowerAnalysis.LogPowerAnalysis.write
 
