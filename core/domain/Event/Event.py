@@ -173,8 +173,8 @@ class Event(_Base, _DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in with_pitches]
-        without_pitches = [NamedChromaticPitch(x).chromatic_pitch_number for x in without_pitches]
+        with_pitches = [float(NamedChromaticPitch(x)) for x in with_pitches]
+        without_pitches = [float(NamedChromaticPitch(x)) for x in without_pitches]
 
         query = SASHA.get_session( ).query(Event).\
             join(Partial)
@@ -193,7 +193,7 @@ class Event(_Base, _DomainObject):
         elif with_pitches:
             return with_query
         elif without_pitches:
-            query.except_(without_query)
+            return query.except_(without_query)
         return query.distinct( )
 
     @staticmethod
