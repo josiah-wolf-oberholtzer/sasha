@@ -27,9 +27,11 @@ def _populate_sqlite_secondary( ):
 
     # insert Clusters
     chroma_kmeans = KMeansClustering('chroma', cluster_count=8, use_pca=False)
+    constant_q_kmeans = KMeansClustering('constant_q', cluster_count=8, use_pca=False)
     mfcc_kmeans = KMeansClustering('mfcc', cluster_count=8, use_pca=False)
     all_clusters = [ ]
     all_clusters.extend(chroma_kmeans())
+    all_clusters.extend(constant_q_kmeans())
     all_clusters.extend(mfcc_kmeans())
     for cluster in all_clusters:
         session.merge(cluster)

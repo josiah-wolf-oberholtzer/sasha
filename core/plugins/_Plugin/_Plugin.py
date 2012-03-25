@@ -16,12 +16,16 @@ class _Plugin(_Immutable):
             client_class_name = uppercamelcase_to_underscore_delimited_lowercase(self.__client_class__.__name__)
             if hasattr(arg, 'client') and isinstance(arg.client, self.__client_class__):
                 arg = arg.client
+
             elif isinstance(arg, (str, unicode)) and hasattr(self.__client_class__, 'name'):
                 arg = self.__client_class__.get(name=arg)[0]
+
             elif isinstance(arg, int):
                 arg = self.__client_class__.get(id=arg)[0]
+
             else:
                 raise ValueError('Cannot instantiate %s from %s' % (self.__client_class__.__name__, repr(arg)))
+
         object.__setattr__(self, '_client', arg)
 
     ### OVERRIDES ###

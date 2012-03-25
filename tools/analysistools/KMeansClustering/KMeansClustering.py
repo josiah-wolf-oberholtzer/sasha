@@ -3,16 +3,14 @@ from sklearn import preprocessing
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sasha.core.domain import Cluster, Event
-from sasha.plugins.analysis import ChromaAnalysis, MFCCAnalysis
+from sasha.plugins.analysis import ChromaAnalysis, ConstantQAnalysis, MFCCAnalysis
 
 
 class KMeansClustering(object):
 
     def __init__(self, feature='mfcc', cluster_count=4, use_pca=False):
-        if feature == 'chroma':
-            self._feature = 'chroma'
-        elif feature == 'mfcc':
-            self._feature = 'mfcc'
+        if feature in ['chroma', 'constant_q', 'mfcc']:
+            self._feature = feature
         else:
             raise ValueError('Unknown feature name %r.' % feature)
         self._cluster_count = int(cluster_count)
@@ -59,6 +57,8 @@ class KMeansClustering(object):
     def feature_class(self):
         if self.feature == 'chroma':
             return ChromaAnalysis
+        elif self.feature == 'constant_q':
+            return ConstantQAnalysis
         elif self.feature == 'mfcc':
             return MFCCAnalysis
 

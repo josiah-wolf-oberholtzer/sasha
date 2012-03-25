@@ -13,6 +13,7 @@ class Cluster(_Base, _DomainObject):
 
     cluster_id = Column(Integer)
     feature = Column(String(32))
+    technique = Column(String(32))
 
     ### SPECIAL METHODS ###
 
