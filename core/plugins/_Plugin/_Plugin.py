@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
 from sasha.core.mixins import _Immutable
 from sasha.core.domain import Event
@@ -14,7 +14,6 @@ class _Plugin(_Immutable):
 
     ### INITIALIZER ###
 
-    @abstractmethod
     def __init__(self, arg):
 
         if not isinstance(arg, self.__client_class__):

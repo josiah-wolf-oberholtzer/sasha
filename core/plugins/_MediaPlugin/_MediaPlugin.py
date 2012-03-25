@@ -18,7 +18,6 @@ class _MediaPlugin(_Plugin):
 
     ### INITIALIZER ###
 
-    @abstractmethod
     def __init__(self, arg):
         _Plugin.__init__(self, arg)
         object.__setattr__(self, '_asset', None)

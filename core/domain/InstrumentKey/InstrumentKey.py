@@ -3,10 +3,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha.core.domain._Base import _Base
-from sasha.core.domain._DomainObject import _DomainObject
+from sasha.core.domain.DomainObject import DomainObject
 
 
-class InstrumentKey(_Base, _DomainObject):
+class InstrumentKey(_Base, DomainObject):
 
     ### SQLALCHEMY ###
 

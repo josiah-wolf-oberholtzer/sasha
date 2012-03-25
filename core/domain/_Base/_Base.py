@@ -7,11 +7,8 @@ class _Base(object):
 
     ### CLASS ATTRIBUTES ###
 
-    __metaclass__ = ABCMeta
-
     ### INITIALIZER ###
 
-    @abstractmethod
     def __init__(self, *args, **kwargs):
         pass
 

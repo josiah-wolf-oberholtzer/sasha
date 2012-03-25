@@ -11,11 +11,11 @@ from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHA
 from sasha.core.domain._Base import _Base
-from sasha.core.domain._DomainObject import _DomainObject
+from sasha.core.domain.DomainObject import DomainObject
 from sasha.core.wrappers import AudioDB
 
 
-class Event(_Base, _DomainObject):
+class Event(_Base, DomainObject):
 
     __fixture_paths__ = (
         'description',

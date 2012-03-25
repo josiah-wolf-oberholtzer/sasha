@@ -2,7 +2,7 @@ import os
 from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import Convert
-from sasha.core.wrappers import _Wrapper
+from sasha.core.wrappers import Wrapper
 
 
 class _Notation(_MediaPlugin):

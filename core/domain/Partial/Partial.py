@@ -3,10 +3,10 @@ from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
 from sasha.core.domain._Base import _Base
-from sasha.core.domain._DomainObject import _DomainObject
+from sasha.core.domain.DomainObject import DomainObject
 
 
-class Partial(_Base, _DomainObject):
+class Partial(_Base, DomainObject):
 
     ### SQLALCHEMY ###
 

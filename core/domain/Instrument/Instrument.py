@@ -5,10 +5,10 @@ from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHA
 from sasha.core.domain._Base import _Base
-from sasha.core.domain._DomainObject import _DomainObject
+from sasha.core.domain.DomainObject import DomainObject
 
 
-class Instrument(_Base, _DomainObject):
+class Instrument(_Base, DomainObject):
 
     __fixture_paths__ = (
         'description',

@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstactmethod
+from abc import ABCMeta
 import subprocess
 from sasha.core.mixins import _Immutable
 
