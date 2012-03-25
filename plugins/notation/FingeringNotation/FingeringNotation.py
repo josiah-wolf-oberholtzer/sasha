@@ -15,7 +15,7 @@ class FingeringNotation(_Notation):
     ### PRIVATE METHODS ###
 
     def _build_lily(self, *args):
-        fingering = Fingering.get_one(id=self.client.fingering_id)
+        fingering = Fingering.get_one(id=self.client.id)
         key_names = [x.name for x in fingering.instrument_keys]
         diagram = LilyPondSaxDiagram()(key_names)
         diagram = markuptools.MarkupCommand('scale', schemetools.SchemePair(1.5, 1.5), diagram)

@@ -11,7 +11,7 @@ class CroppedAudio(_MediaPlugin):
 
     file_suffix = 'aif'
     media_type = 'source_audio'
-    plugin_label = 'chroma'
+    plugin_label = 'cropped'
 
     ### PUBLIC METHODS ###
 
