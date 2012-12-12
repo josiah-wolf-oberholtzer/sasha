@@ -14,8 +14,12 @@ class MP3Audio(_MediaPlugin):
 
     ### PUBLIC METHODS ###
 
+    def delete(self):
+        if self.exists:
+            os.remove(self.path)
+
     def playback(self):
-        Playback( )(self.path)
+        Playback()(self.path)
 
     def write(self, **kwargs):
-        LAME( )(SourceAudio(self).path, self.path)
+        LAME()(SourceAudio(self).path, self.path)

@@ -10,7 +10,7 @@ class MFCCAnalysis(FFTExtractPlugin):
     ### PUBLIC METHODS ###
 
     def write(self, **kwargs):
-        self.delete( )
+        self.delete()
         audio_filename = CroppedAudio(self).path
         analysis_filename = self.path
-        FFTExtract( ).write_mfcc(audio_filename, analysis_filename)
+        FFTExtract().write_mfcc(audio_filename, analysis_filename)

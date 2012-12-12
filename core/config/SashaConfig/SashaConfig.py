@@ -24,8 +24,8 @@ class SashaConfig(_ImmutableDictionary):
         assert environment in ['testing', 'development', 'deployment']
         self._environment = environment
 
-        for section in parser.sections( ):
-            dict.__setitem__(self, section, _ImmutableDictionary( ))
+        for section in parser.sections():
+            dict.__setitem__(self, section, _ImmutableDictionary())
             for option, value in parser.items(section):
                 dict.__setitem__(self[section], option, value)
 
@@ -71,11 +71,11 @@ class SashaConfig(_ImmutableDictionary):
         db_path = os.path.join(
             self['media_root'][self.environment],
             self['media']['databases'],
-            item[0].strip( ))
+            item[0].strip())
         if not os.path.isabs(db_path):
             db_path = os.path.abspath(os.path.join(SASHAROOT, db_path))
 
-        klass_path = item[1].strip( )
+        klass_path = item[1].strip()
         module_name = klass_path.rpartition('.')[0]
         klass_name = klass_path.rpartition('.')[-1]
         module = __import__(module_name, globals(), locals(), [klass_name])
@@ -88,12 +88,12 @@ class SashaConfig(_ImmutableDictionary):
 
     def get_domain_classes(self):
         from sasha.core import domain
-        from sasha.core.domain._DomainObject import _DomainObject
+        from sasha.core.domain.DomainObject import DomainObject
         klasses = [ ]
         for x in dir(domain):
             klass = getattr(domain, x)
             if hasattr(klass, '__bases__') and \
-                _DomainObject in inspect.getmro(klass):
+                DomainObject in inspect.getmro(klass):
                 klasses.append(klass)
         return tuple(klasses)
 

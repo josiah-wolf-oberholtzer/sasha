@@ -23,7 +23,7 @@ class PartialTracker(object):
         self.peak_sort = 'strongest'
         self.use_regression = True
         self.regression_size = 8
-        for k, v in kwargs.iteritems( ):
+        for k, v in kwargs.iteritems():
             if hasattr(self, k):
                 setattr(self, k, v)
 
@@ -31,7 +31,7 @@ class PartialTracker(object):
 
     def __call__(self, frames):
 
-        regression = Regression( )
+        regression = Regression()
 
         # find links between peaks
         for i in xrange(len(frames) - 2):
@@ -251,7 +251,7 @@ class PartialTracker(object):
 
         minimum_track_size = max(2, minimum_track_size)
 
-        fig = plt.figure( )
+        fig = plt.figure()
 
         if mode == 0:
 
@@ -276,24 +276,24 @@ class PartialTracker(object):
                 zs = numpy.array([peak.amplitude for peak in track])
 
                 if x_min is None:
-                    x_min = xs.min( )
+                    x_min = xs.min()
                 else:
-                    x_min = min(x_min, xs.min( ))
+                    x_min = min(x_min, xs.min())
 
                 if x_max is None:
-                    x_max = xs.max( )
+                    x_max = xs.max()
                 else:
-                    x_max = max(x_max, xs.max( ))
+                    x_max = max(x_max, xs.max())
 
                 if y_min is None:
-                    y_min = ys.min( )
+                    y_min = ys.min()
                 else:
-                    y_min = min(y_min, ys.min( ))
+                    y_min = min(y_min, ys.min())
 
                 if y_max is None:
-                    y_max = ys.max( )
+                    y_max = ys.max()
                 else:
-                    y_max = max(y_max, ys.max( ))
+                    y_max = max(y_max, ys.max())
 
                 points = numpy.array([xs, ys]).T.reshape(-1, 1, 2)
                 segments = numpy.concatenate([points[:-1], points[1:]], axis=1)
@@ -302,18 +302,18 @@ class PartialTracker(object):
                 lc.set_array(zs)
                 lc.set_linewidth(1)
 
-                fig.gca( ).add_collection(lc)                
-                fig.gca( ).set_xlim(x_min, x_max)
-                fig.gca( ).set_ylim(y_min, y_max)
+                fig.gca().add_collection(lc)                
+                fig.gca().set_xlim(x_min, x_max)
+                fig.gca().set_ylim(y_min, y_max)
 
         elif mode == 1:
 
             for track in filter(lambda x: minimum_track_size <= len(x), tracks):
                 xs = [peak.frame_ID for peak in track]
                 ys = [peak.midis for peak in track]
-                fig.gca( ).plot(xs, ys)
+                fig.gca().plot(xs, ys)
 
-        ax = fig.gca( )            
+        ax = fig.gca()            
         ax.set_xlabel('Frames')
         ax.set_ylabel('Semitones (0 = Middle C)')
         ax.set_axis_bgcolor('black')

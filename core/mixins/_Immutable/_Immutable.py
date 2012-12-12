@@ -1,6 +1,6 @@
 class _Immutable(object):
 
-    __slots__ = ( )
+    __slots__ = ()
 
     ## OVERLOADS ##
 
@@ -22,7 +22,7 @@ class _Immutable(object):
         raise AttributeError('objects are immutable: "%s".' % self.__class__.__name__)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems( ):
+        for k, v in state.iteritems():
             object.__setattr__(self, k, v)
        
       

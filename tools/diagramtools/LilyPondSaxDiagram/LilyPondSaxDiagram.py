@@ -1,6 +1,5 @@
-from abjad.tools.markuptools import MarkupCommand
-from abjad.tools.schemetools import Scheme
-from abjad.tools.schemetools import SchemePair
+from abjad.tools import markuptools
+from abjad.tools import schemetools
 
 
 class LilyPondSaxDiagram(object):
@@ -46,19 +45,43 @@ class LilyPondSaxDiagram(object):
                 part, name = key_translation[english_name]
                 parts[part].append(name)
 
-        for key, value in parts.iteritems( ):
+        for key, value in parts.iteritems():
             #parts[key] = '(%s . (%s))' % (key, ' '.join(value))
-            parts[key] = SchemePair(key, value)
+            parts[key] = schemetools.SchemePair(key, value)
 
         instrument = 'saxophone'
-        #user_draw_commands = "#'(%s)" % ' '.join([x for x in parts.values( )])
-        user_draw_commands = Scheme(parts.values(), quoting="'")
+        user_draw_commands = schemetools.Scheme(parts.values(), quoting="'")
 
-        diagram = MarkupCommand('woodwind-diagram', Scheme(instrument, quoting="'"), user_draw_commands)
-        diagram = MarkupCommand('override', SchemePair('size', 0.5), diagram)
-        diagram = MarkupCommand('override', SchemePair('thickness', 0.1), diagram)
-        diagram = MarkupCommand('scale', SchemePair(1.5, 1.5), diagram)
-        diagram = MarkupCommand('with-dimensions', SchemePair(-2.5, 2.5), SchemePair(0, 15), diagram)
+        diagram = markuptools.MarkupCommand(
+            'woodwind-diagram',
+            schemetools.Scheme(instrument, quoting="'"),
+            user_draw_commands
+            )
+
+        diagram = markuptools.MarkupCommand(
+            'override', 
+            schemetools.SchemePair('size', 0.5), 
+            diagram
+            )
+
+        diagram = markuptools.MarkupCommand(
+            'override', 
+            schemetools.SchemePair('thickness', 0.1), 
+            diagram
+            )
+
+        diagram = markuptools.MarkupCommand(
+            'scale', 
+            schemetools.SchemePair(1.5, 1.5), 
+            diagram
+            )
+
+        diagram = markuptools.MarkupCommand(
+            'with-dimensions', 
+            schemetools.SchemePair(-2.5, 2.5), 
+            schemetools.SchemePair(0, 15), 
+            diagram
+            )
 
         return diagram
 

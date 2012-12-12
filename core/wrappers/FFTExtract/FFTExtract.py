@@ -50,6 +50,9 @@ class FFTExtract(Wrapper):
 
         out, err = self._exec(command)
 
+        if err:
+            print err
+
     ### PUBLIC ATTRIBUTES ###
 
     @property
@@ -121,4 +124,4 @@ class FFTExtract(Wrapper):
         f.write(struct.pack('i', array.shape[i])) # vector size
         for vector in array:
             f.write(struct.pack('d' * len(vector), *vector))
-        f.close( )
+        f.close()

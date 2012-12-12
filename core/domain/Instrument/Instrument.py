@@ -35,4 +35,4 @@ class Instrument(_Base, DomainObject):
     @classmethod
     def with_events(cls):
         from sasha.core.domain.Event import Event
-        return SASHA.get_session( ).query(cls).join(Event).distinct( ).all( )
+        return SASHA.get_session().query(cls).join(Event).distinct().all()

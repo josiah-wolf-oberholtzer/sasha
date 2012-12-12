@@ -1,5 +1,5 @@
-from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
-from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
+from abjad.tools import stringtools
+
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
@@ -43,9 +43,9 @@ class Fingering(_Base, DomainObject):
     @property
     def canonical_name(self):
         from sasha import Instrument
-        cls_name = uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
+        cls_name = stringtools.uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
         instrument = Instrument.get_one(id=self.instrument_id)
-        instrument_name = '_'.join(instrument.name.lower( ).split( ))
+        instrument_name = '_'.join(instrument.name.lower().split())
         return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)
 
     ### PRIVATE METHODS ###
@@ -65,10 +65,10 @@ class Fingering(_Base, DomainObject):
     def from_canonical_name_prefix(cls, name):
         from sasha import Instrument
         parts = name.split('__')
-        cls_name = underscore_delimited_lowercase_to_uppercamelcase(parts[0])
+        cls_name = stringtools.underscore_delimited_lowercase_to_uppercamelcase(parts[0])
         if cls_name != cls.__name__:
             return None
-        instrument_name = ' '.join(parts[1].split('_')).title( )
+        instrument_name = ' '.join(parts[1].split('_')).title()
         instrument = Instrument.get(name=instrument_name)[0]
         compact_representation = parts[2]
         return cls.get(instrument=instrument, compact_representation=compact_representation)[0]

@@ -3,7 +3,7 @@ SASHAROOT = os.path.abspath(os.path.dirname(__file__))
 del os
 
 from sasha.core.config import SashaConfig
-SASHA = SashaConfig( )
+SASHA = SashaConfig()
 del SashaConfig
 
 from sasha.core.domain import *

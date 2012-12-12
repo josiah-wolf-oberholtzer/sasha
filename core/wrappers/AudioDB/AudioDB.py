@@ -81,7 +81,7 @@ class AudioDB(Wrapper):
     def create(self, overwrite = True):
         if self.exists:
             if overwrite:
-                self.delete( )
+                self.delete()
             else:
                 raise Exception('Database already exists.')
         
@@ -116,9 +116,9 @@ class AudioDB(Wrapper):
             log_power_file.write('%s\n' % LogPowerAnalysis(event).path)
             feature_file.write('%s\n' % self.klass(event).path)
 
-        key_file.close( )
-        log_power_file.close( )
-        feature_file.close( )
+        key_file.close()
+        log_power_file.close()
+        feature_file.close()
 
         command = '%s -d %s -B -K %s -F %s -W %s -v 0' % \
             (self.executable, 
@@ -153,7 +153,7 @@ class AudioDB(Wrapper):
                 delete=False)
             for event in events:
                 tempfile.write('%s\n' % event.name)
-            tempfile.close( )
+            tempfile.close()
             command += ' -r %d -K %s' % (len(events), tempfile.name)
             out, err = self._exec(command)
             os.unlink(tempfile.name)
@@ -161,7 +161,7 @@ class AudioDB(Wrapper):
             command += ' -r %d' % (n + 1)
             out, err = self._exec(command)
 
-        q = filter(None, [x.split( ) for x in out.split('\n')])
+        q = filter(None, [x.split() for x in out.split('\n')])
 
         results = [ ]
         for x in q:

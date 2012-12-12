@@ -16,51 +16,51 @@ class Bootstrap(object):
 
     def __call__(self):
         SASHA.logger.info('BOOTSTRAP: Start')       
-        self.delete_sqlite_database( )
-        self.delete_audiodb_databases( )
-        # self.delete_all_assets( )
-        self.create_sqlite_database( )
-        self.populate_sqlite_primary( )
-        self.populate_all_assets( )
-        self.create_audiodb_databases( )
-        self.populate_audiodb_databases( )
-        self.populate_sqlite_secondary( )
+        self.delete_sqlite_database()
+        self.delete_audiodb_databases()
+        # self.delete_all_assets()
+        self.create_sqlite_database()
+        self.populate_sqlite_primary()
+        self.populate_all_assets()
+        self.create_audiodb_databases()
+        self.populate_audiodb_databases()
+        self.populate_sqlite_secondary()
         SASHA.logger.info('BOOTSTRAP: Stop')
 
     ### PUBLIC METHODS ###
 
     def create_audiodb_databases(self):
-        _create_audiodb_databases( )        
+        _create_audiodb_databases()        
 
     def create_sqlite_database(self):
-        _create_sqlite_database( )
+        _create_sqlite_database()
 
     def delete_all_assets(self):
-        _delete_all_assets( )
+        _delete_all_assets()
 
     def delete_audiodb_databases(self):
-        _delete_audiodb_databases( )
+        _delete_audiodb_databases()
 
     def delete_sqlite_database(self):
-        _delete_sqlite_database( )
+        _delete_sqlite_database()
 
-    def get_fixtures( ):
-        _get_fixtures( )
+    def get_fixtures():
+        _get_fixtures()
 
     def populate_all_assets(self):
-        _populate_all_assets( )
+        _populate_all_assets()
 
     def populate_audiodb_databases(self):
-        _populate_audiodb_databases( )
+        _populate_audiodb_databases()
 
     def populate_sqlite_primary(self):
-        _populate_sqlite_primary( )
+        _populate_sqlite_primary()
 
     def populate_sqlite_secondary(self):
-        _populate_sqlite_secondary( )
+        _populate_sqlite_secondary()
 
     def rebuild_sqlite_database(self):
-        _delete_sqlite_database( )
-        _create_sqlite_database( )
-        _populate_sqlite_primary( )
-        _populate_sqlite_secondary( )
+        _delete_sqlite_database()
+        _create_sqlite_database()
+        _populate_sqlite_primary()
+        _populate_sqlite_secondary()

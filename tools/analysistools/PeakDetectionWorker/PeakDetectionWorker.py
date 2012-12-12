@@ -13,14 +13,14 @@ class PeakDetectionWorker(multiprocessing.Process):
     def run(self):
         proc_name = self.name
         while True:
-            task = self.task_queue.get( )
+            task = self.task_queue.get()
             if task is None:
                 # poison pill causes worker shutdown
                 print '%s: Exiting' % proc_name
-                self.task_queue.task_done( )
+                self.task_queue.task_done()
                 break
             print '%s: %s %d' % (proc_name, task, task.offset)
             task(**self.kwargs)
-            self.task_queue.task_done( )
+            self.task_queue.task_done()
             self.result_queue.put(task)
         return

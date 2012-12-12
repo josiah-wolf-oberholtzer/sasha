@@ -16,7 +16,7 @@ class PeakDetector(object):
         self._max_peak_frequency = 4000
         self._min_peak_frequency = 100
         self._window_size = 2048
-        for k, v in kwargs.iteritems( ):
+        for k, v in kwargs.iteritems():
             if hasattr(self, k):
                 setattr(self, k, v)
 
@@ -29,29 +29,29 @@ class PeakDetector(object):
             audio = SourceAudio(audio)
         assert audio.exists
 
-        kwargs = self._get_kwargs( )
+        kwargs = self._get_kwargs()
         tasks = self._create_tasks(audio)
         frames = [ ]
 
         if parallel:
 
-            task_queue = multiprocessing.JoinableQueue( )
-            result_queue = multiprocessing.Queue( )
+            task_queue = multiprocessing.JoinableQueue()
+            result_queue = multiprocessing.Queue()
             workers = [PeakDetectionWorker(task_queue, result_queue, **kwargs)
-                for i in range(multiprocessing.cpu_count( ) * 2)]
+                for i in range(multiprocessing.cpu_count() * 2)]
             for worker in workers:
-                worker.start( )
+                worker.start()
             for task in tasks:
                 task_queue.put(task)
             for i in xrange(len(tasks)):
-                frames.append(result_queue.get( ))
+                frames.append(result_queue.get())
             for worker in workers:
                 task_queue.put(None)
-            task_queue.join( )
-            result_queue.close( )
-            task_queue.close( )
+            task_queue.join()
+            result_queue.close()
+            task_queue.close()
             for worker in workers:
-                worker.join( )
+                worker.join()
 
         else:
 
@@ -68,7 +68,7 @@ class PeakDetector(object):
     ### PRIVATE METHODS ###
 
     def _create_tasks(self, audio):
-        samples, sampling_rate = audio.read( )
+        samples, sampling_rate = audio.read()
         frames = [ ]
         offset = 0
         ID = 0
@@ -157,7 +157,7 @@ class PeakDetector(object):
 
 #        rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 
-        fig = plt.figure( )
+        fig = plt.figure()
         ax = fig.add_subplot(111)
 
         peaks = [ ]
@@ -171,8 +171,8 @@ class PeakDetector(object):
         midis = [peak.midis for peak in peaks]
         max_amp = max([peak.amplitude for peak in peaks])
         dbs = numpy.array([peak.db(max_amp) for peak in peaks])
-        dbs -= dbs.min( )
-        dbs /= dbs.max( )
+        dbs -= dbs.min()
+        dbs /= dbs.max()
 
         ax.scatter(frame_ids, midis,
             alpha = 0.5,

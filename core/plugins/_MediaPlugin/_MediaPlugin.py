@@ -14,7 +14,7 @@ class _MediaPlugin(_Plugin):
     file_suffix = None
     media_type = None
     plugin_label = None
-    plugin_sublabels = ( )
+    plugin_sublabels = ()
 
     ### INITIALIZER ###
 
@@ -46,7 +46,7 @@ class _MediaPlugin(_Plugin):
             return os.path.exists(self.path)
         elif isinstance(self.path, dict):
             exists = { }
-            for sublabel, path in self.path.iteritems( ):
+            for sublabel, path in self.path.iteritems():
                 exists[sublabel] = os.path.exists(path)
             return exists
         raise Exception('Bad path: %s' % repr(self.path))
@@ -58,4 +58,4 @@ class _MediaPlugin(_Plugin):
             for sublabel in self.plugin_sublabels:
                 path[sublabel] = self._build_path(sublabel)
             return path
-        return self._build_path( )
+        return self._build_path()

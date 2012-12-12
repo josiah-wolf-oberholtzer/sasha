@@ -1,4 +1,5 @@
-from abjad.tools.pitchtools import NamedChromaticPitch
+from abjad.tools import pitchtools
+
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
@@ -21,4 +22,4 @@ class Partial(_Base, DomainObject):
 
     def __repr__(self):
         return '<%s(%r, %s)>' % (type(self).__name__,
-            NamedChromaticPitch(self.pitch_number).chromatic_pitch_name, self.amplitude)
+            pitchtools.NamedChromaticPitch(self.pitch_number).chromatic_pitch_name, self.amplitude)

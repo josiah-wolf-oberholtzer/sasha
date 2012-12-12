@@ -34,7 +34,7 @@ class Peak(object):
             self.frequency, self.amplitude, self.phase)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems( ):
+        for k, v in state.iteritems():
             object.__setattr__(self, k, v)
         object.__setattr__(self, '_next_peak', None)
         object.__setattr__(self, '_previous_peak', None)

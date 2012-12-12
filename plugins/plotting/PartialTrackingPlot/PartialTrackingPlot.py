@@ -12,8 +12,8 @@ class PartialTrackingPlot(Plot):
     def _build_plot(self):
         pta = PartialTrackingAnalysis(self)
         assert pta.exists
-        partials = pta.read( )
+        partials = pta.read()
         assert len(partials)
-        figure = PartialTracker( ).plot(partials)
+        figure = PartialTracker().plot(partials)
         return figure
 

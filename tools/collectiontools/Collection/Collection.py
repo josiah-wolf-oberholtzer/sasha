@@ -44,7 +44,7 @@ class Collection(object):
     def as_score(self):
         staff = Staff([ ])
         for pitch, fingering in self._pairs:
-            diagram = LilyPondSaxDiagram( )(fingering)
+            diagram = LilyPondSaxDiagram()(fingering)
             note = Note(pitch, 1)
             markuptools.Markup(diagram, 'up')(note)
             staff.append(note)

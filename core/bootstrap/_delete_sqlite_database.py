@@ -3,7 +3,7 @@ import os
 from sasha import *
 
 
-def _delete_sqlite_database( ):
+def _delete_sqlite_database():
 
     SASHA.logger.info('Deleting sqlite database.')
 

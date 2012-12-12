@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sasha import *
 
 
-def _create_sqlite_database( ):
+def _create_sqlite_database():
 
     SASHA.logger.info('Creating empty SQLite database.')
 

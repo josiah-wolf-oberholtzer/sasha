@@ -1,4 +1,4 @@
-from abjad.tools.pitchtools import NamedChromaticPitch
+from abjad.tools import pitchtools
 
 
 def report_tracks(tracks):
@@ -10,4 +10,4 @@ def report_tracks(tracks):
             track.stop_frame, 
             track.db(max_amp), 
             track.semitones_centroid, 
-            NamedChromaticPitch(track.semitones_centroid).format)
+            pitchtools.NamedChromaticPitch(track.semitones_centroid).format)

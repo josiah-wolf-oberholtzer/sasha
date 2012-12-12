@@ -15,16 +15,16 @@ class SourceAudio(_MediaPlugin):
 
     @property
     def duration_ms(self):
-        samples, samplerate = self.read( )
+        samples, samplerate = self.read()
         return (len(samples) / float(samplerate)) * 1000.
 
     @property
     def md5(self):
         f = open(self.path, 'r')
         hash = hashlib.new('md5')
-        hash.update(f.read( ))
-        f.close( )
-        return hash.hexdigest( )
+        hash.update(f.read())
+        f.close()
+        return hash.hexdigest()
 
     @property
     def path(self):
@@ -34,13 +34,13 @@ class SourceAudio(_MediaPlugin):
     ### PUBLIC METHODS ###
 
     def playback(self):
-        Playback( )(self.path)
+        Playback()(self.path)
 
     def read(self):
         snd = Sndfile(self.path, 'r')
         samplerate = snd.samplerate
         samples = snd.read_frames(snd.nframes)
-        snd.close( )
+        snd.close()
         object.__setattr__(self, '_asset', (samples, samplerate))
         return samples, samplerate
 

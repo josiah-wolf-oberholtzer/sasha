@@ -4,5 +4,5 @@ from sasha.core.bootstrap import Bootstrap
 
 SASHA.environment = 'testing'
 
-def test_Bootstrap___init___01( ):
-    bootstrap = Bootstrap( )
+def test_Bootstrap___init___01():
+    bootstrap = Bootstrap()

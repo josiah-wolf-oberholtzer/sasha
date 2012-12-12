@@ -1,9 +1,8 @@
 import os
 import shutil
 
-from abjad.tools.iotools import uppercamelcase_to_underscore_delimited_lowercase
-from abjad.tools.iotools import underscore_delimited_lowercase_to_uppercamelcase
-from abjad.tools.pitchtools import NamedChromaticPitch, NamedChromaticPitchClass
+from abjad.tools import stringtools
+from abjad.tools import pitchtools
 from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
@@ -62,7 +61,7 @@ class Event(_Base, DomainObject):
 
     @property
     def canonical_name(self):
-        cls_name = uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
+        cls_name = stringtools.uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
         return '%s__%s' % (cls_name, self.md5)
 
     @property
@@ -72,7 +71,7 @@ class Event(_Base, DomainObject):
 
     @property
     def pitches(self):
-        return tuple([NamedChromaticPitch(x.pitch_number) for x in self.partials])
+        return tuple([pitchtools.NamedChromaticPitch(x.pitch_number) for x in self.partials])
 
     @property
     def pitch_names(self):
@@ -80,7 +79,7 @@ class Event(_Base, DomainObject):
 
     @property
     def pitch_classes(self):
-        return tuple(set([NamedChromaticPitchClass(x.pitch_class_number) for x in self.partials]))
+        return tuple(set([pitchtools.NamedChromaticPitchClass(x.pitch_class_number) for x in self.partials]))
 
     ### PUBLIC METHODS ###
 
@@ -99,7 +98,7 @@ class Event(_Base, DomainObject):
     @classmethod
     def from_canonical_name_prefix(cls, name):
         parts = name.split('__')
-        cls_name = underscore_delimited_lowercase_to_uppercamelcase(parts[0])
+        cls_name = underscore_delimited_lowercase_to_stringtools.uppercamelcase(parts[0])
         if cls_name != cls.__name__:
             return None
         return cls.get(md5=parts[1])[0]
@@ -137,7 +136,7 @@ class Event(_Base, DomainObject):
         '''
         from sasha.core.domain import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
-        query = SASHA.get_session( ).query(Event).\
+        query = SASHA.get_session().query(Event).\
             filter_by(instrument=instrument).\
             join('fingering', 'instrument_keys').\
             join(Instrument)
@@ -145,11 +144,11 @@ class Event(_Base, DomainObject):
         with_query = None
         if with_keys:
             to_intersect = [query.filter(InstrumentKey.name.in_([key])) for key in with_keys]
-            with_query = query.intersect(*to_intersect).distinct( )
+            with_query = query.intersect(*to_intersect).distinct()
 
         without_query = None
         if without_keys:
-            without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct( )
+            without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct()
 
         if with_keys and without_keys:
             return with_query.except_(without_query)
@@ -157,7 +156,7 @@ class Event(_Base, DomainObject):
             return with_query
         elif without_keys:
             return query.except_(without_query)
-        return query.distinct( )
+        return query.distinct()
 
     @staticmethod
     def query_pitches(with_pitches = [ ], without_pitches = [ ]):
@@ -173,20 +172,20 @@ class Event(_Base, DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pitches = [float(NamedChromaticPitch(x)) for x in with_pitches]
-        without_pitches = [float(NamedChromaticPitch(x)) for x in without_pitches]
+        with_pitches = [float(pitchtools.NamedChromaticPitch(x)) for x in with_pitches]
+        without_pitches = [float(pitchtools.NamedChromaticPitch(x)) for x in without_pitches]
 
-        query = SASHA.get_session( ).query(Event).\
+        query = SASHA.get_session().query(Event).\
             join(Partial)
 
         with_query = None
         if with_pitches:
             to_intersect = [query.filter(Partial.pitch_number.in_([x])) for x in with_pitches]
-            with_query = query.intersect(*to_intersect).distinct( )
+            with_query = query.intersect(*to_intersect).distinct()
 
         without_query = None
         if without_pitches:
-            without_query = query.filter(Partial.pitch_number.in_(without_pitches)).distinct( )
+            without_query = query.filter(Partial.pitch_number.in_(without_pitches)).distinct()
 
         if with_pitches and without_pitches:
             return with_query.except_(without_query)
@@ -194,7 +193,7 @@ class Event(_Base, DomainObject):
             return with_query
         elif without_pitches:
             return query.except_(without_query)
-        return query.distinct( )
+        return query.distinct()
 
     @staticmethod
     def query_pitch_classes(with_pcs = [ ], without_pcs = [ ]):
@@ -210,20 +209,20 @@ class Event(_Base, DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pcs = [float(NamedChromaticPitchClass(x)) for x in with_pcs]
-        without_pcs = [float(NamedChromaticPitchClass(x)) for x in without_pcs]
+        with_pcs = [float(pitchtools.NamedChromaticPitchClass(x)) for x in with_pcs]
+        without_pcs = [float(pitchtools.NamedChromaticPitchClass(x)) for x in without_pcs]
 
-        query = SASHA.get_session( ).query(Event).\
+        query = SASHA.get_session().query(Event).\
             join(Partial)
 
         with_query = None
         if with_pcs:
             to_intersect = [query.filter(Partial.pitch_class_number.in_([x])) for x in with_pcs]
-            with_query = query.intersect(*to_intersect).distinct( )
+            with_query = query.intersect(*to_intersect).distinct()
 
         without_query = None
         if without_pcs:
-            without_query = query.filter(Partial.pitch_class_number.in_(without_pcs)).distinct( )
+            without_query = query.filter(Partial.pitch_class_number.in_(without_pcs)).distinct()
 
         if with_pcs and without_pcs:
             return with_query.except_(without_query)

@@ -16,7 +16,8 @@ class PluginGraph(object):
         plugins = filter(lambda x:
             hasattr(x, '__bases__') and
             _Plugin in inspect.getmro(x) and 
-            x.__client_class__ == self.client,
+            x.__client_class__ == self.client and
+            not inspect.isabstract(x),
             [getattr(sasha.plugins, x) for x in dir(sasha.plugins)])
 
         def _build_subtree(target, node, reservoir):
@@ -47,7 +48,7 @@ class PluginGraph(object):
 
         def _depth_first(node):
             result = [ ]
-            for k, v in node.iteritems( ):
+            for k, v in node.iteritems():
                 result.append(k)
                 if v:
                     result.extend(_depth_first(v))

@@ -16,7 +16,7 @@ class CroppedAudio(_MediaPlugin):
     ### PUBLIC METHODS ###
 
     def playback(self):
-        Playback( )(self.path)
+        Playback()(self.path)
 
     def write(self, **kwargs):
         samples, samplerate = SourceAudio(self).read()
@@ -25,4 +25,4 @@ class CroppedAudio(_MediaPlugin):
         cropped_samples = samples[start:stop]
         snd = audiolab.Sndfile(self.path, 'w', audiolab.Format('aiff'), 1, samplerate)
         snd.write_frames(cropped_samples)
-        snd.close( )
+        snd.close()

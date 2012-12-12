@@ -34,8 +34,8 @@ class PartialTrackingAnalysis(_MediaPlugin):
         from sasha.tools.analysistools import Track
 
         input = open(self.path, 'rb')
-        data = input.read( )
-        input.close( )
+        data = input.read()
+        input.close()
 
         tracks = [ ]
         byte_offset = 0
@@ -64,7 +64,7 @@ class PartialTrackingAnalysis(_MediaPlugin):
 
     def write(self, **kwargs):
         object.__setattr__(self, '_asset', self._find_tracks(kwargs))
-        self.delete( )
+        self.delete()
         output = open(self.path, 'wb')
 
         # write the number of tracks as an int
@@ -80,4 +80,4 @@ class PartialTrackingAnalysis(_MediaPlugin):
                 output.write(struct.pack('dddi',
                     peak.frequency, peak.amplitude, peak.phase, peak.frame_ID))
 
-        output.close( )
+        output.close()

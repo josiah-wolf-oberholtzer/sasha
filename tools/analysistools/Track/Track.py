@@ -35,7 +35,7 @@ class Track(_Immutable):
         return len(self._peaks)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems( ):
+        for k, v in state.iteritems():
             object.__setattr__(self, k, v)
 
     ### PUBLIC ATTRIBUTES ###

@@ -1,6 +1,7 @@
+import abc
 import os
 import matplotlib
-if matplotlib.get_backend( ) != 'agg':
+if matplotlib.get_backend() != 'agg':
     matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from sasha import SASHA
@@ -16,8 +17,9 @@ class Plot(_MediaPlugin):
 
     ### PRIVATE METHODS ###
 
-    def _build_plot( ):
-        raise Exception('Not implemented here.')
+    @abc.abstractmethod
+    def _build_plot():
+        raise NotImplemented
 
     ### PUBLIC METHODS ###
 
@@ -26,11 +28,11 @@ class Plot(_MediaPlugin):
             os.remove(self.path)
 
     def write(self, **kwargs):
-        fig = self._build_plot( )
+        fig = self._build_plot()
 
-        ax = fig.gca( )
-        xlabel = ax.get_xlabel( )
-        ylabel = ax.get_ylabel( )
+        ax = fig.gca()
+        xlabel = ax.get_xlabel()
+        ylabel = ax.get_ylabel()
         font = { }
 #        font = {'fontname': 'Helvetica'}
         ax.set_xlabel(xlabel, **font)

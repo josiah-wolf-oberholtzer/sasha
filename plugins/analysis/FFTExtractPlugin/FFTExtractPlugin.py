@@ -1,3 +1,4 @@
+import abc
 import os
 from numpy import mean
 from numpy import std
@@ -36,11 +37,14 @@ class FFTExtractPlugin(_MediaPlugin):
 
     def read(self):
         if os.path.exists(self.path):
-            result = FFTExtract( ).read_analysis(self.path)
+            result = FFTExtract().read_analysis(self.path)
             object.__setattr__(self, '_asset', result)
             object.__setattr__(self, '_mean', mean(self.asset, axis=0))
             object.__setattr__(self, '_std', std(self.asset, axis=0))
             return result
         else:
-            raise Exception('Path "%s" does not exist' % path)
+            raise Exception('Path "%s" does not exist' % self.path)
 
+    @abc.abstractmethod
+    def write(self, **kwargs):
+        raise NotImplemented
