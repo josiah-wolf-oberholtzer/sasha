@@ -10,7 +10,13 @@ class AudioDB(Wrapper):
 
     __slots__ = ('_klass', '_name', '_path')
 
+    ### INITIALIZER ###
+
     def __init__(self, name):
+        import os
+        from sasha.core.wrappers import Which
+        if not os.path.isabs(self.executable):
+            assert Which()('audioDB') is not None
         path, klass = SASHA.get_audiodb_parameters(name)
         object.__setattr__(self, '_klass', klass)
         object.__setattr__(self, '_name', name)

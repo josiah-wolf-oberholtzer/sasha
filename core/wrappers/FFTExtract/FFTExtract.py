@@ -8,6 +8,14 @@ from sasha.core.wrappers.Wrapper import Wrapper
 
 class FFTExtract(Wrapper):
 
+    ### INITIALIZER ###
+
+    def __init__(self):
+        import os
+        from sasha.core.wrappers import Which
+        if not os.path.isabs(self.executable):
+            assert Which()('fftExtract') is not None
+
     ### PRIVATE METHODS ###
 
     def _execute(self,

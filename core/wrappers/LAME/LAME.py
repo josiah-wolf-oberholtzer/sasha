@@ -4,6 +4,14 @@ from sasha.core.wrappers.Wrapper import Wrapper
 
 class LAME(Wrapper):
 
+    ### INITIALIZER ###
+
+    def __init__(self):
+        import os
+        from sasha.core.wrappers import Which
+        if not os.path.isabs(self.executable):
+            assert Which()('lame') is not None
+
     ### OVERRIDES ###
 
     def __call__(self, input, output):
