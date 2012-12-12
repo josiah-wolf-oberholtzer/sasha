@@ -73,7 +73,7 @@ class Notation(_MediaPlugin):
     def delete(self, sublabel = None):
         if sublabel is None:
             if isinstance(self.path, dict):
-                for path in self.path.keys():
+                for path in self.path.values():
                     if os.path.exists(path):
                         os.remove(path)
             elif os.path.exists(self.path):
