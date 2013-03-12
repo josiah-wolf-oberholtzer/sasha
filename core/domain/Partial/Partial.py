@@ -3,11 +3,10 @@ from abjad.tools import pitchtools
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 
 
-class Partial(_Base, DomainObject):
+class Partial(DomainObject):
 
     ### SQLALCHEMY ###
 

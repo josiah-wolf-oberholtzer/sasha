@@ -4,11 +4,10 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHA
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 
 
-class Instrument(_Base, DomainObject):
+class Instrument(DomainObject):
 
     __fixture_paths__ = (
         'description',

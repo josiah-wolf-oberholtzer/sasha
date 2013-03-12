@@ -1,11 +1,10 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 
 
-class InstrumentModel(_Base, DomainObject):
+class InstrumentModel(DomainObject):
 
     ### SQLALCHEMY ###
 

@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.schema import UniqueConstraint
 
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 
 
-class Cluster(_Base, DomainObject):
+class Cluster(DomainObject):
 
     ### SQLALCHEMY ###
 

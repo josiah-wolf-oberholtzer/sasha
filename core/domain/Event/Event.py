@@ -9,12 +9,11 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha import SASHA
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 from sasha.core.wrappers import AudioDB
 
 
-class Event(_Base, DomainObject):
+class Event(DomainObject):
 
     __fixture_paths__ = (
         'description',

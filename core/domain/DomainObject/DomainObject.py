@@ -3,7 +3,9 @@ from ConfigParser import ConfigParser
 import os
 
 from abjad.tools import stringtools
+from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.ext.declarative import declarative_base
 
 from sasha import SASHA
 
@@ -15,6 +17,8 @@ class DomainObject(object):
     __fixture_paths__ = ()
 
     ### SQLALCHEMY ###
+
+    id = Column(Integer, primary_key=True)
 
     @declared_attr
     def __tablename__(cls):
@@ -104,3 +108,7 @@ class DomainObject(object):
         f = open(fixture_path, 'w')
         config.write(f)
         f.close()
+
+DomainObject = declarative_base(cls=DomainObject)
+
+

@@ -5,11 +5,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.schema import ForeignKeyConstraint, UniqueConstraint
 
-from sasha.core.domain._Base import _Base
 from sasha.core.domain.DomainObject import DomainObject
 
 
-class Fingering(_Base, DomainObject):
+class Fingering(DomainObject):
 
     ### SQLALCHEMY ###
 
