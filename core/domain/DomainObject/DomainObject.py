@@ -22,7 +22,7 @@ class DomainObject(object):
 
     @declared_attr
     def __tablename__(cls):
-        return stringtools.uppercamelcase_to_underscore_delimited_lowercase(cls.__name__) + 's'
+        return stringtools.upper_camel_case_to_snake_case(cls.__name__) + 's'
 
     ### OVERRIDES ###
 
@@ -35,7 +35,7 @@ class DomainObject(object):
 
     @property
     def canonical_name(self):
-        cls_name = stringtools.uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__)
+        cls_name = stringtools.upper_camel_case_to_snake_case(type(self).__name__)
         if hasattr(self, 'name'):
             return '%s__%s' % (cls_name, str(self.name))
         return '%s__%s' % (cls_name, self.id)
@@ -66,7 +66,7 @@ class DomainObject(object):
     def get_fixtures(cls):
         from sasha.core.bootstrap import Fixture
         fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
-        cls_name = stringtools.uppercamelcase_to_underscore_delimited_lowercase(cls.__name__)
+        cls_name = stringtools.upper_camel_case_to_snake_case(cls.__name__)
         fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
             os.listdir(fixtures_path))
         return [Fixture(os.path.join(fixtures_path, x)) for x in fixture_files]
@@ -103,7 +103,7 @@ class DomainObject(object):
         if not os.path.exists(directory):
             os.mkdir(directory)
         fixture_path = os.path.join(directory,
-            stringtools.uppercamelcase_to_underscore_delimited_lowercase(type(self).__name__) + '__' +
+            stringtools.upper_camel_case_to_snake_case(type(self).__name__) + '__' +
             stringtools.string_to_strict_directory_name(str(self.name)) + '.ini')
         f = open(fixture_path, 'w')
         config.write(f)
