@@ -26,7 +26,7 @@ class ChordNotation(Notation):
                         abjad.schemetools.SchemeColor('grey%d' % color)
         score, treble_staff, bass_staff = \
             abjad.scoretools.make_piano_sketch_score_from_leaves([chord])
-        comment = abjad.marktools.LilyPondComment(
+        comment = abjad.indicatortools.LilyPondComment(
             str(self.client.name), 'before')
         abjad.attach(comment, score)
         return score

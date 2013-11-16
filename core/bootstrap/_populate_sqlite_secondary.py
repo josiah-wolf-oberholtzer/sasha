@@ -16,7 +16,7 @@ def _populate_sqlite_secondary():
         chord = ChordAnalysis(event).read()
         for pitch_number, amplitude in chord:
             pitch = pitchtools.NamedPitch(pitch_number)
-            pitch_class_number = pitch.chromatic_pitch_class_number
+            pitch_class_number = pitch.pitch_class_number
             octave_number = pitch.octave_number
             session.add(Partial(event_id=event.id,
                 pitch_number=pitch_number,

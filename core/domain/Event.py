@@ -74,7 +74,7 @@ class Event(DomainObject):
 
     @property
     def pitch_names(self):
-        return tuple([x.chromatic_pitch_name for x in self.pitches])
+        return tuple([x.pitch_name for x in self.pitches])
 
     @property
     def pitch_classes(self):

@@ -60,7 +60,7 @@ class ChromaNotation(Notation):
         staff.engraver_removals.append('Time_signature_engraver')
         staff.engraver_removals.append('Bar_engraver')
         score = abjad.Score([staff])
-        #contexttools.set_accidental_style_on_sequential_contexts_in_expr( \
+        #indicatortools.set_accidental_style_on_sequential_contexts_in_expr( \
         #    score, 'dodecaphonic')
 
         return score
