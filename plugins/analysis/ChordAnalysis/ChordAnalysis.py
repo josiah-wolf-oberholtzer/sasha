@@ -50,7 +50,7 @@ class ChordAnalysis(_MediaPlugin):
 
     @property
     def pitch_names(self):
-        return tuple([str(pitchtools.NamedChromaticPitch(x)) for x in self.pitches])
+        return tuple([str(pitchtools.NamedPitch(x)) for x in self.pitches])
 
     @property
     def pitches(self):
@@ -58,7 +58,7 @@ class ChordAnalysis(_MediaPlugin):
 
     @property
     def pitch_class_names(self):
-        return tuple(set([str(pitchtools.NamedChromaticPitchClass(x)) for x in self.pitch_classes]))
+        return tuple(set([str(pitchtools.NamedPitchClass(x)) for x in self.pitch_classes]))
 
     @property
     def pitch_classes(self):

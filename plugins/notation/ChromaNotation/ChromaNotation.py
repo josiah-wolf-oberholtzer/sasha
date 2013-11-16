@@ -25,14 +25,15 @@ class ChromaNotation(Notation):
 
         pitches = [x / 2. for x in range(0, 24)]
 
-        v_mean.extend(abjad.notetools.make_notes(pitches, (1, 4)))
+        v_mean.extend(abjad.scoretools.make_notes(pitches, (1, 4)))
         v_std.extend(abjad.scoretools.Skip((1, 4)) * len(v_mean))
 
         for i, val in enumerate(chroma_mean):
             markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
                 (str((val * -5.) - 0.75),
                  str((val *  5.) + 0.75))
-            abjad.Markup(markup, 'up')(v_mean[i])
+            markup = abjad.Markup(markup, 'up')
+            abjad.attach(markup, v_mean[i])
             color = abjad.schemetools.SchemeColor(
                 'grey%d' % (90 - int(val * 90)))
             abjad.override(v_mean[i]).text_script.color = color
@@ -42,7 +43,8 @@ class ChromaNotation(Notation):
             markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
                 (str((val * -5.) - 0.75),
                  str((val *  5.) + 0.75))
-            abjad.Markup(markup, 'down')(v_std[i])
+            markup = abjad.Markup(markup, 'down')
+            abjad.attach(markup, v_std[i])
             color = abjad.schemetools.SchemeColor(
                 'grey%d' % (90 - int(val * 90)))
             abjad.override(v_std[i]).text_script.color = color
@@ -53,7 +55,7 @@ class ChromaNotation(Notation):
         abjad.override(v_std).text_script.staff_padding = 3.0
         #v_std.override.text_script.staff_padding = 3.0
 
-        abjad.override(staff).stemp.transparent = True
+        abjad.override(staff).stem.transparent = True
         #staff.override.stem.transparent = True
         staff.engraver_removals.append('Time_signature_engraver')
         staff.engraver_removals.append('Bar_engraver')

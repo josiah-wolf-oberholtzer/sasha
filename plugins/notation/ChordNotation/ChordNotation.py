@@ -26,7 +26,9 @@ class ChordNotation(Notation):
                         abjad.schemetools.SchemeColor('grey%d' % color)
         score, treble_staff, bass_staff = \
             abjad.scoretools.make_piano_sketch_score_from_leaves([chord])
-        abjad.marktools.LilyPondComment(str(self.client.name), 'before')(score)
+        comment = abjad.marktools.LilyPondComment(
+            str(self.client.name), 'before')
+        abjad.attach(comment, score)
         return score
 
     def _get_pitches_and_colors(self):
@@ -57,7 +59,6 @@ class ChordNotation(Notation):
         transposition = abjad.pitchtools.NamedInterval(
             instrument.transposition)
         for leaf in abjad.iterate(transpose).by_leaf():
-        #for leaf in iterationtools.iterate_leaves_in_expr(transposed):
             pitchtools.transpose_pitch_carrier_by_melodic_interval(
                 leaf, transposition)
         if sublabel is None:

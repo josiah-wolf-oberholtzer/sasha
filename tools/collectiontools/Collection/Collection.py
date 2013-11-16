@@ -1,5 +1,5 @@
 import collections
-from abjad import *
+import abjad
 from sasha import Instrument
 from sasha.core.mixins import _ImmutableDictionary
 from sasha.tools.diagramtools import LilyPondSaxDiagram
@@ -14,7 +14,7 @@ class Collection(object):
 
         pairs = list(pairs)
         for i, pair in enumerate(pairs):
-            pitch = float(pitchtools.NamedChromaticPitch(pair[0]))
+            pitch = float(abjad.NamedPitch(pair[0]))
             fingering = tuple(pair[1])
             pairs[i] = (pitch, fingering)
         
@@ -42,15 +42,17 @@ class Collection(object):
         return collections.OrderedDict(self._pairs)
 
     def as_score(self):
-        staff = Staff([ ])
+        staff = abjad.Staff([])
         for pitch, fingering in self._pairs:
             diagram = LilyPondSaxDiagram()(fingering)
-            note = Note(pitch, 1)
-            markuptools.Markup(diagram, 'up')(note)
+            note = abjad.Note(pitch, 1)
+            markup abjad.Markup(diagram, 'up')
+            abjad.attach(markup, note)
             staff.append(note)
-        staff.override.text_script.staff_padding = 2
-        score = Score([staff])
-        score.override.time_signature.stencil = False
+        override(staff).text_script.staff_padding = 2
+        score = abjad.Score([staff])
+        abjad.override(score).time_signature.stencil = False
 #        score.set.bar_number_visibility = schemetools.SchemeFunction("all-bar-numbers-visible")
-        marktools.BarLine('|.')(staff[-1])
+        bar_line = abjad.indicatortools.BarLine('|.')
+        abjad.attach(bar_line, staff[-1])
         return score

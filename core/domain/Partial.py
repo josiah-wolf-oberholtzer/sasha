@@ -21,4 +21,4 @@ class Partial(DomainObject):
 
     def __repr__(self):
         return '<%s(%r, %s)>' % (type(self).__name__,
-            pitchtools.NamedChromaticPitch(self.pitch_number).chromatic_pitch_name, self.amplitude)
+            pitchtools.NamedPitch(self.pitch_number).chromatic_pitch_name, self.amplitude)

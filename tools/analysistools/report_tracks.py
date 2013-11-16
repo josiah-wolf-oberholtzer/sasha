@@ -10,4 +10,4 @@ def report_tracks(tracks):
             track.stop_frame, 
             track.db(max_amp), 
             track.semitones_centroid, 
-            pitchtools.NamedChromaticPitch(track.semitones_centroid).format)
+            pitchtools.NamedPitch(track.semitones_centroid).format)

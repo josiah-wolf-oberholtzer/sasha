@@ -70,7 +70,7 @@ class Event(DomainObject):
 
     @property
     def pitches(self):
-        return tuple([pitchtools.NamedChromaticPitch(x.pitch_number) for x in self.partials])
+        return tuple([pitchtools.NamedPitch(x.pitch_number) for x in self.partials])
 
     @property
     def pitch_names(self):
@@ -78,7 +78,7 @@ class Event(DomainObject):
 
     @property
     def pitch_classes(self):
-        return tuple(set([pitchtools.NamedChromaticPitchClass(x.pitch_class_number) for x in self.partials]))
+        return tuple(set([pitchtools.NamedPitchClass(x.pitch_class_number) for x in self.partials]))
 
     ### PUBLIC METHODS ###
 
@@ -171,8 +171,8 @@ class Event(DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pitches = [float(pitchtools.NamedChromaticPitch(x)) for x in with_pitches]
-        without_pitches = [float(pitchtools.NamedChromaticPitch(x)) for x in without_pitches]
+        with_pitches = [float(pitchtools.NamedPitch(x)) for x in with_pitches]
+        without_pitches = [float(pitchtools.NamedPitch(x)) for x in without_pitches]
 
         query = SASHA.get_session().query(Event).\
             join(Partial)
@@ -208,8 +208,8 @@ class Event(DomainObject):
         '''
         from sasha.core.domain import Partial
 
-        with_pcs = [float(pitchtools.NamedChromaticPitchClass(x)) for x in with_pcs]
-        without_pcs = [float(pitchtools.NamedChromaticPitchClass(x)) for x in without_pcs]
+        with_pcs = [float(pitchtools.NamedPitchClass(x)) for x in with_pcs]
+        without_pcs = [float(pitchtools.NamedPitchClass(x)) for x in without_pcs]
 
         query = SASHA.get_session().query(Event).\
             join(Partial)
