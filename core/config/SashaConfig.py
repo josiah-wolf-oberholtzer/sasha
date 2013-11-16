@@ -89,12 +89,13 @@ class SashaConfig(_ImmutableDictionary):
     def get_domain_classes(self):
         from sasha.core import domain
         from sasha.core.domain.DomainObject import DomainObject
-        klasses = [ ]
+        klasses = set()
         for x in dir(domain):
             klass = getattr(domain, x)
             if hasattr(klass, '__bases__') and \
-                DomainObject in inspect.getmro(klass):
-                klasses.append(klass)
+                DomainObject in inspect.getmro(klass) and \
+                klass.__module__.startswith('sasha'):
+                klasses.add(klass)
         return tuple(klasses)
 
     def get_media_path(self, name):
