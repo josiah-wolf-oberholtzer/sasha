@@ -56,10 +56,10 @@ class ChordNotation(Notation):
         object.__setattr__(self, '_asset', lily)
         transposed = self._build_lily()
         instrument = Instrument.get_one(id=self.client.instrument_id)
-        transposition = abjad.pitchtools.NamedInterval(
+        transposition = abjad.pitchtools.NumberedInterval(
             instrument.transposition)
-        for leaf in abjad.iterate(transpose).by_leaf():
-            pitchtools.transpose_pitch_carrier_by_melodic_interval(
+        for leaf in abjad.iterate(transposed).by_class(abjad.scoretools.Leaf):
+            abjad.pitchtools.transpose_pitch_carrier_by_interval(
                 leaf, transposition)
         if sublabel is None:
             self._save_lily_to_png(lily, 'concert')

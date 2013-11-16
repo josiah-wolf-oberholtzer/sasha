@@ -21,7 +21,11 @@ class KMeansClustering(object):
     def __call__(self):
         events, vectors = self.build_corpus()
 
-        k_means = KMeans(init='k-means++', k=self.cluster_count, n_init=10)
+        k_means = KMeans(
+            init='k-means++',
+            n_clusters=self.cluster_count,
+            n_init=10,
+            )
 
         if self.use_pca:
             vectors_r = self.decompose_vectors(vectors)
