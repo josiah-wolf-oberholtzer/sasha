@@ -63,6 +63,10 @@ class SashaConfig(_ImmutableDictionary):
 
     ### PUBLIC METHODS ###
 
+    def bootstrap(self):
+        from sasha.core.bootstrap import Bootstrap
+        Bootstrap()()
+
     def get_audiodb_parameters(self, name):
         from sasha.core.wrappers import AudioDB
         assert name in self['audioDB']

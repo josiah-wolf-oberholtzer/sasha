@@ -75,8 +75,8 @@ class ChordAnalysis(_MediaPlugin):
             input = open(self.path, 'rb')
             object.__setattr__(self, '_asset', cPickle.load(input))
             input.close()
-            pitches = [pitchtools.NumberedChromaticPitch(x[0]) for x in self.asset]
-            pitch_classes = [pitchtools.NumberedChromaticPitchClass(float(x)) for x in pitches]
+            pitches = [pitchtools.NumberedPitch(x[0]) for x in self.asset]
+            pitch_classes = [pitchtools.NumberedPitchClass(float(x)) for x in pitches]
             object.__setattr__(self, '_pitches', tuple([float(x) for x in pitches]))
             object.__setattr__(self, '_pitch_classes', tuple([float(x) for x in pitch_classes]))
             return self.asset

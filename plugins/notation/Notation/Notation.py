@@ -31,14 +31,15 @@ class Notation(_MediaPlugin):
         return path.partition('.%s' % self.file_suffix)[0]
 
     def _save_lily_to_png(self, lily, sublabel = None):
-        from abjad.tools import iotools
+        import abjad
 
         png_path = self._build_path(sublabel)
         lily_path = self._path_to_lily_path(png_path)
         suffixless_path = self._strip_file_suffix(png_path)
         ps_path = self._path_to_ps_path(png_path)
 
-        iotools.write_expr_to_ly(lily, lily_path, print_status = False)
+        abjad.persist(lily).as_ly(lily_path)
+        #iotools.write_expr_to_ly(lily, lily_path, print_status = False)
         cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
             (SASHA.get_binary('lilypond'),
             self.resolution,

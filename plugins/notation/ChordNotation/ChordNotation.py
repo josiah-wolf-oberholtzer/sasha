@@ -1,3 +1,4 @@
+import abjad
 import copy
 from itertools import groupby
 
@@ -16,20 +17,16 @@ class ChordNotation(Notation):
     ### PRIVATE METHODS ###
 
     def _build_lily(self):
-        from abjad.tools import chordtools
-        from abjad.tools import marktools
-        from abjad.tools import schemetools
-        from abjad.tools import scoretools
-
         pairs = self._get_pitches_and_colors()
-        chord = chordtools.Chord([pair[0] for pair in pairs], 1)
+        chord = abjad.Chord([pair[0] for pair in pairs], 1)
         for note_head in chord.note_heads:
             for pitch, color in pairs:
                 if note_head.written_pitch == pitch:
-                    note_head.tweak.color = schemetools.SchemeColor('grey%d' % color)
-        score, treble_staff, bass_staff = scoretools.make_piano_sketch_score_from_leaves([chord])
-        marktools.LilyPondComment(str(self.client.name), 'before')(score)
-
+                    note_head.tweak.color = \
+                        abjad.schemetools.SchemeColor('grey%d' % color)
+        score, treble_staff, bass_staff = \
+            abjad.scoretools.make_piano_sketch_score_from_leaves([chord])
+        abjad.marktools.LilyPondComment(str(self.client.name), 'before')(score)
         return score
 
     def _get_pitches_and_colors(self):
@@ -53,18 +50,16 @@ class ChordNotation(Notation):
     ### PUBLIC METHODS ###
 
     def write(self, sublabel = None, **kwargs):
-        from abjad.tools import iterationtools
-        from abjad.tools import pitchtools
-
         lily = self._build_lily()
         object.__setattr__(self, '_asset', lily)
-
         transposed = self._build_lily()
         instrument = Instrument.get_one(id=self.client.instrument_id)
-        transposition = pitchtools.MelodicChromaticInterval(instrument.transposition)
-        for leaf in iterationtools.iterate_leaves_in_expr(transposed):
-            pitchtools.transpose_pitch_carrier_by_melodic_interval(leaf, transposition)
-
+        transposition = abjad.pitchtools.NamedInterval(
+            instrument.transposition)
+        for leaf in abjad.iterate(transpose).by_leaf():
+        #for leaf in iterationtools.iterate_leaves_in_expr(transposed):
+            pitchtools.transpose_pitch_carrier_by_melodic_interval(
+                leaf, transposition)
         if sublabel is None:
             self._save_lily_to_png(lily, 'concert')
             self._save_lily_to_png(transposed, 'transposed')
