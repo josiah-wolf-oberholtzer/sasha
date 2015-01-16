@@ -60,7 +60,7 @@ class Event(DomainObject):
 
     @property
     def canonical_name(self):
-        cls_name = stringtools.upper_camel_case_to_snake_case(type(self).__name__)
+        cls_name = stringtools.to_snake_case(type(self).__name__)
         return '%s__%s' % (cls_name, self.md5)
 
     @property

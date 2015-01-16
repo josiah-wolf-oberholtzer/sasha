@@ -17,7 +17,7 @@ class _Plugin(_Immutable):
     def __init__(self, arg):
 
         if not isinstance(arg, self.__client_class__):
-            client_class_name = stringtools.upper_camel_case_to_snake_case(self.__client_class__.__name__)
+            client_class_name = stringtools.to_snake_case(self.__client_class__.__name__)
             if hasattr(arg, 'client') and isinstance(arg.client, self.__client_class__):
                 arg = arg.client
 

@@ -42,7 +42,7 @@ class Fingering(DomainObject):
     @property
     def canonical_name(self):
         from sasha import Instrument
-        cls_name = stringtools.upper_camel_case_to_snake_case(type(self).__name__)
+        cls_name = stringtools.to_snake_case(type(self).__name__)
         instrument = Instrument.get_one(id=self.instrument_id)
         instrument_name = '_'.join(instrument.name.lower().split())
         return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)
