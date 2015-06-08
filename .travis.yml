@@ -7,6 +7,9 @@ before_install:
     - sudo apt-get update -qq
     - sudo apt-get install build-essential
     - sudo apt-get install gengetopt
+    - git clone git@github.com:TransformingMusicology/libaudioDB.git
+    - git clone git@github.com:TransformingMusicology/audioDB.git
+    - git clone git@github.com:bregmanstudio/BLAST.git
 
 script:
     - pip install -e .
