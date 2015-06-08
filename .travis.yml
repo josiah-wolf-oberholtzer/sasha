@@ -8,6 +8,7 @@ before_install:
     - sudo apt-get install build-essential
     - sudo apt-get install gengetopt
     - sudo apt-get install libgsl0-dev
+    - sudo apt-get install help2man
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
     - git clone https://github.com/bregmanstudio/BLAST.git
