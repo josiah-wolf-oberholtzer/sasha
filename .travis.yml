@@ -14,7 +14,7 @@ before_install:
     - git clone https://github.com/bregmanstudio/BLAST.git
     - make -C libaudioDB/
     - sudo make -C libaudioDB/ install
-    - make -C audioDB/
+    - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
 
 script:
