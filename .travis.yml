@@ -12,6 +12,9 @@ before_install:
     - git clone https://github.com/TransformingMusicology/audioDB.git
     - git clone https://github.com/bregmanstudio/BLAST.git
     - make -C libaudioDB/
+    - make -C libaudioDB/ install
+    - make -C audioDB/
+    - make -C audioDB/ install
 
 script:
     - pip install -e .
