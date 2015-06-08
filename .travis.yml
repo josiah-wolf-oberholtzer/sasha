@@ -16,6 +16,8 @@ before_install:
     - sudo make -C libaudioDB/ install
     - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
+    - make -C BLAST/fftExtract/
+    - sudo cp BLAST/fftExtract/fftExtract /usr/local/bin
 
 script:
     - pip install -e .
