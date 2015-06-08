@@ -10,6 +10,7 @@ before_install:
     - sudo apt-get install libgsl0-dev
     - sudo apt-get install help2man
     - sudo apt-get install libsndfile1-dev
+    - sudo apt-get install libfftw3-dev
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
     - git clone https://github.com/bregmanstudio/BLAST.git
