@@ -85,9 +85,9 @@ class FFTExtract(Wrapper):
             f.close
         except:
             raise Exception('File not found: "%s"' % analysis_filename)
-        vecsize = struct.unpack('i', q[:4])[0] # 4 chars in an int
-        veccount = ((len(q) - 4) / vecsize) / 8 # 8 chars in a double
-        analysis = numpy.zeros((veccount, vecsize), dtype = numpy.float)
+        vecsize = struct.unpack('i', q[:4])[0]  # 4 chars in an int
+        veccount = ((len(q) - 4) / vecsize) / 8  # 8 chars in a double
+        analysis = numpy.zeros((veccount, vecsize), dtype=numpy.float)
         fmt = 'd' * vecsize
         for i in range(veccount):
             start = 4 + (i * vecsize * 8)
@@ -97,13 +97,13 @@ class FFTExtract(Wrapper):
         return analysis
 
     def write_chroma(self, audio_filename, analysis_filename):
-        self._execute(audio_filename, analysis_filename, 'chroma', bands = 24)
+        self._execute(audio_filename, analysis_filename, 'chroma', bands=24)
 
     def write_constant_q(self, audio_filename, analysis_filename):
-        self._execute(audio_filename, analysis_filename, 'constant_q', bands = 24)
+        self._execute(audio_filename, analysis_filename, 'constant_q', bands=24)
 
     def write_linear_spectrum(self, audio_filename, analysis_filename):
-        self._execute(audio_filename, analysis_filename, 'constant_q', bands = 0)
+        self._execute(audio_filename, analysis_filename, 'constant_q', bands=0)
 
     def write_log_harmonicity(self, audio_filename, analysis_filename):
         self._execute(audio_filename, analysis_filename, 'log_harmonicity')
@@ -112,21 +112,19 @@ class FFTExtract(Wrapper):
         self._execute(audio_filename, analysis_filename, 'log_power')
 
     def write_mfcc(self, audio_filename, analysis_filename):
-        self._execute(audio_filename, analysis_filename, 'mfcc', bands = 24)
+        self._execute(audio_filename, analysis_filename, 'mfcc', bands=24)
 
-    def write_numpy(self, array, analysis_filename, overwrite = True):
+    def write_numpy(self, array, analysis_filename, overwrite=True):
         assert isinstance(array, numpy.ndarray)
         assert len(array.shape) == 2
         assert array.dtype == numpy.dtype('float64')
-        
         if os.path.exists(analysis_filename):
             if not overwrite:
                 raise Exception('File exists: %s' % analysis_filename)
             else:
                 os.remove(analysis_filename)
-
         f = open(analysis_filename, 'w')
-        f.write(struct.pack('i', array.shape[i])) # vector size
+        f.write(struct.pack('i', array.shape[i]))  # vector size
         for vector in array:
             f.write(struct.pack('d' * len(vector), *vector))
         f.close()
