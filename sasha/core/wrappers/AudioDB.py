@@ -1,8 +1,6 @@
 import os
 from tempfile import NamedTemporaryFile
 
-from sasha import SASHA
-from sasha import SASHAROOT
 from sasha.core.wrappers.Wrapper import Wrapper
 
 
@@ -13,6 +11,7 @@ class AudioDB(Wrapper):
     ### INITIALIZER ###
 
     def __init__(self, name):
+        from sasha import SASHA
         import os
         from sasha.core.wrappers import Which
         if not os.path.isabs(self.executable):
@@ -31,6 +30,7 @@ class AudioDB(Wrapper):
 
     @property
     def executable(self):
+        from sasha import SASHA
         return SASHA.get_binary('audiodb')
 
     @property
@@ -99,6 +99,7 @@ class AudioDB(Wrapper):
             os.remove(self.path)
 
     def populate(self, events):
+        from sasha import SASHAROOT
         from sasha.core.domain import Event
         from sasha.plugins.analysis import LogPowerAnalysis
         assert len(events) and all([isinstance(x, Event) for x in events])

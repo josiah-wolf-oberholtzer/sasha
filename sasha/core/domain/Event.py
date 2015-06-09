@@ -8,7 +8,6 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
-from sasha import SASHA
 from sasha.core.domain.DomainObject import DomainObject
 from sasha.core.wrappers import AudioDB
 
@@ -112,6 +111,7 @@ class Event(DomainObject):
 
         Returns list of 2-tuples, of Event and matching frames.
         '''
+        from sasha import SASHA
         from sasha.core.wrappers import AudioDB
         assert isinstance(limit, int) and 0 < limit
         if method in SASHA['audioDB']:
@@ -133,6 +133,7 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
+        from sasha import SASHA
         from sasha.core.domain import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
         query = SASHA.get_session().query(Event).\
@@ -169,6 +170,7 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
+        from sasha import SASHA
         from sasha.core.domain import Partial
 
         with_pitches = [float(pitchtools.NamedPitch(x)) for x in with_pitches]
@@ -206,6 +208,7 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
+        from sasha import SASHA
         from sasha.core.domain import Partial
 
         with_pcs = [float(pitchtools.NamedPitchClass(x)) for x in with_pcs]

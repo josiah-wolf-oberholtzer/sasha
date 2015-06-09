@@ -1,5 +1,4 @@
 import os
-from sasha import SASHA
 from sasha.core.wrappers.Wrapper import Wrapper
 
 

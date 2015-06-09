@@ -7,7 +7,6 @@ from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.declarative import declarative_base
 
-from sasha import SASHA
 
 
 class DomainObject(object):
@@ -54,6 +53,7 @@ class DomainObject(object):
 
     @classmethod
     def get(cls, **kwargs):
+        from sasha import SASHA
         session = SASHA.get_session()
         if kwargs:
             objects = session.query(cls).filter_by(**kwargs).all()
@@ -64,6 +64,7 @@ class DomainObject(object):
 
     @classmethod
     def get_fixtures(cls):
+        from sasha import SASHA
         from sasha.tools.systemtools import Fixture
         fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
         cls_name = stringtools.to_snake_case(cls.__name__)
@@ -73,6 +74,7 @@ class DomainObject(object):
 
     @classmethod
     def get_one(cls, **kwargs):
+        from sasha import SASHA
         session = SASHA.get_session()
         if kwargs:
             objects = session.query(cls).filter_by(**kwargs).one()
@@ -82,6 +84,7 @@ class DomainObject(object):
         return objects
 
     def write_fixture(self):
+        from sasha import SASHA
         config = ConfigParser()
         config.add_section('main')
         config.set('main', '__cls__', type(self).__name__)
@@ -110,4 +113,3 @@ class DomainObject(object):
         f.close()
 
 DomainObject = declarative_base(cls=DomainObject)
-

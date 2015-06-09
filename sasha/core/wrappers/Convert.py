@@ -1,4 +1,3 @@
-from sasha import SASHA
 from sasha.core.wrappers.Wrapper import Wrapper
 
 
@@ -25,7 +24,5 @@ class Convert(Wrapper):
 
     @property
     def executable(self):
+        from sasha import SASHA
         return SASHA.get_binary('convert')
-
-
-

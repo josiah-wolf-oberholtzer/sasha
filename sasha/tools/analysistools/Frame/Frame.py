@@ -2,7 +2,6 @@ from bisect import *
 
 import numpy
 
-from sasha import SASHA
 from sasha.core.mixins import _Immutable
 from sasha.tools.analysistools.Peak import Peak
 
@@ -14,8 +13,16 @@ except ImportError:
 
 class Frame(_Immutable):
 
-    __slots__ = ('_audio', '_frame_size', '_frequencies', 
-        '_ID', '_midis', '_offset', '_peaks', '_sampling_rate')
+    __slots__ = (
+        '_audio',
+        '_frame_size',
+        '_frequencies',
+        '_ID',
+        '_midis',
+        '_offset',
+        '_peaks',
+        '_sampling_rate',
+        )
 
     def __new__(klass, audio, frame_size, offset, sampling_rate, ID = None):
         self = object.__new__(klass)
@@ -33,6 +40,7 @@ class Frame(_Immutable):
     ### OVERRIDES ###
 
     def __call__(self, **kwargs):
+        from sasha import SASHA
         #SASHA.logger.info('Calculating FFT @ %d' % self.offset)
 
         fft = rfft(self.windowed_audio)
@@ -164,16 +172,16 @@ class Frame(_Immutable):
         window = numpy.hstack([
             numpy.hamming(len(self.audio)),
             numpy.zeros(self.frame_size - len(self.audio))
-        ])
+            ])
         return window / sum(window)
-        
+
     @property
     def windowed_audio(self):
         '''The windowed audio.'''
         return numpy.hstack([
             self.audio,
             numpy.zeros(self.frame_size - len(self.audio))
-        ]) * self.window
+            ]) * self.window
 
     ### PUBLIC METHODS ###
 

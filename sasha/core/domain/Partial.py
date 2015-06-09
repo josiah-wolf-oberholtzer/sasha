@@ -13,7 +13,7 @@ class Partial(DomainObject):
     event_id = Column(Integer, ForeignKey('events.id'))
     event = relationship('Event', backref='partials')
     pitch_number = Column(Float)
-    pitch_class_number= Column(Float)
+    pitch_class_number = Column(Float)
     octave_number = Column(Integer)
     amplitude = Column(Float)
 

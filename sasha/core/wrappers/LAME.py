@@ -1,4 +1,3 @@
-from sasha import SASHA
 from sasha.core.wrappers.Wrapper import Wrapper
 
 
@@ -27,5 +26,5 @@ class LAME(Wrapper):
 
     @property
     def executable(self):
+        from sasha import SASHA
         return SASHA.get_binary('lame')
-

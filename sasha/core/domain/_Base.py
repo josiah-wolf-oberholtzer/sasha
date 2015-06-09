@@ -15,4 +15,5 @@ class _Base(object):
 
     id = Column(Integer, primary_key=True)
 
+
 _Base = declarative_base(cls=_Base)
