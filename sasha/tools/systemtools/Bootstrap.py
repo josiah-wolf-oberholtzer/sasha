@@ -95,17 +95,25 @@ class Bootstrap(object):
         from sasha.tools.assettools import PluginGraph
         sasha_configuration.logger.info('Populating all assets.')
         for domain_class in sasha_configuration.get_domain_classes():
-            sasha_configuration.logger.info('Populating plugins for %s.' % domain_class.__name__)
+            log_message = 'Populating plugins for %s.' % domain_class.__name__
+            sasha_configuration.logger.info(log_message)
             plugins = PluginGraph(domain_class).in_order()
-            args = [(domain_class, x.id, plugins) for x in domain_class.get()]
-            if args:
+            triples = [
+                (domain_class, x.id, plugins)
+                for x in domain_class.get()
+                ]
+            if triples:
                 if 1 < multiprocessing.cpu_count():
                     pool = multiprocessing.Pool()
-                    pool.map_async(self._populate_all_assets_for_object, args)
+                    pool.map_async(
+                        self._populate_all_assets_for_object,
+                        triples,
+                        )
                     pool.close()
                     pool.join()
                 else:
-                    map(self._populate_all_assets_for_object, args)
+                    for triple in triples:
+                        self._populate_all_assets_for_object(triple)
 
     def populate_audiodb_databases(self):
         from sasha import sasha_configuration
