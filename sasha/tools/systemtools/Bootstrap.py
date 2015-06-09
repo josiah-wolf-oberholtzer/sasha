@@ -104,7 +104,7 @@ class Bootstrap(object):
         domain_classes = sasha_configuration.get_domain_classes()
         domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
         for domain_class in domain_classes:
-            log_message = 'Populating plugins for %s.' % domain_class.__name__
+            log_message = 'Populating all %s assets.' % domain_class.__name__
             print(log_message)
             sasha_configuration.logger.info(log_message)
             asset_classes = AssetDependencyGraph(domain_class).in_order()
