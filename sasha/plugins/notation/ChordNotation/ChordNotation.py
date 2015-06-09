@@ -2,7 +2,6 @@ import abjad
 import copy
 from itertools import groupby
 
-from sasha import Instrument
 from sasha.plugins.notation.Notation import Notation
 from sasha.plugins.analysis import ChordAnalysis
 
@@ -52,6 +51,7 @@ class ChordNotation(Notation):
     ### PUBLIC METHODS ###
 
     def write(self, sublabel = None, **kwargs):
+        from sasha import Instrument
         lily = self._build_lily()
         object.__setattr__(self, '_asset', lily)
         transposed = self._build_lily()

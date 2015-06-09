@@ -4,7 +4,6 @@ import matplotlib
 if matplotlib.get_backend() != 'agg':
     matplotlib.use('agg')
 import matplotlib.pyplot as plt
-from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 
 
@@ -23,7 +22,7 @@ class Plot(_MediaPlugin):
 
     ### PUBLIC METHODS ###
 
-    def delete(self): 
+    def delete(self):
         if self.exists:
             os.remove(self.path)
 

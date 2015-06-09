@@ -1,6 +1,5 @@
 from abc import ABCMeta, abstractmethod
 import os
-from sasha import SASHA
 from sasha.core.plugins._Plugin import _Plugin
 
 
@@ -25,6 +24,7 @@ class _MediaPlugin(_Plugin):
     ### PRIVATE METHODS ###
 
     def _build_path(self, sublabel = None):
+        from sasha import SASHA
         name = str(self.client.canonical_name)
         if self.plugin_label:
             name += '__%s' % self.plugin_label

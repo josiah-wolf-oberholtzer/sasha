@@ -1,7 +1,6 @@
 from abjad import *
-from sasha import *
+from sasha.core.domain.Fingering import Fingering
 from sasha.plugins.notation.Notation import Notation
-from sasha.plugins.analysis import ChordAnalysis
 from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 
@@ -23,4 +22,3 @@ class FingeringNotation(Notation):
         lily = lilypondfiletools.make_basic_lilypond_file()
         lily.append(markup)
         return lily
-

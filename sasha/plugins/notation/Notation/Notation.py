@@ -1,6 +1,5 @@
 import abc
 import os
-from sasha import SASHA
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
 from sasha.core.wrappers import Convert
 from sasha.core.wrappers import Wrapper
@@ -20,6 +19,7 @@ class Notation(_MediaPlugin):
         raise NotImplemented
 
     def _path_to_lily_path(self, path):
+        from sasha import SASHA
         path = self._strip_file_suffix(path)
         path = path.partition(SASHA.get_media_path('scores'))[-1]
         return SASHA.get_media_path('lilypond') + path + '.ly'
@@ -32,6 +32,7 @@ class Notation(_MediaPlugin):
 
     def _save_lily_to_png(self, lily, sublabel = None):
         import abjad
+        from sasha import SASHA
 
         png_path = self._build_path(sublabel)
         lily_path = self._path_to_lily_path(png_path)

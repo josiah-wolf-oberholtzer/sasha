@@ -1,9 +1,9 @@
-from sasha import Event
 from sasha.core.wrappers import Playback
 from sasha.plugins.audio import CroppedAudio, MP3Audio, SourceAudio
 
 
 def play(*args):
+    from sasha import Event
     playback = Playback()
     paths = [ ]
     for arg in args:

@@ -1,6 +1,5 @@
 import collections
 import abjad
-from sasha import Instrument
 
 
 class Collection(object):
@@ -8,6 +7,7 @@ class Collection(object):
     __slots__ = ('_instrument', '_pairs')
 
     def __init__(self, instrument_name, pairs):
+        from sasha import Instrument
         instrument = Instrument.get_one(name=instrument_name)
         pairs = list(pairs)
         for i, pair in enumerate(pairs):
