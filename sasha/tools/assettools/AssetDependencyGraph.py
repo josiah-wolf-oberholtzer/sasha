@@ -46,22 +46,22 @@ class AssetDependencyGraph(object):
         ordered_asset_classes = []
         parentwise_graph = copy.copy(self.parentwise_graph)
         childwise_graph = copy.copy(self.childwise_graph)
-        counter = 0
+        #counter = 0
         while childwise_graph:
             items = sorted(
                 childwise_graph.items(),
                 key=lambda x: x[0].__name__,
                 )
             for child, parent in items:
-                print(counter, child, parent)
+                #print(counter, child, parent)
                 if parent is not None:
                     continue
-                print('\tremoving')
+                #print('\tremoving')
                 ordered_asset_classes.append(child)
                 del(childwise_graph[child])
                 for descendant in parentwise_graph[child]:
                     childwise_graph[descendant] = None
-            counter += 1
+            #counter += 1
         return tuple(ordered_asset_classes)
 
     ### PUBLIC PROPERTIES ###

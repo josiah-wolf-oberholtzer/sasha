@@ -112,16 +112,13 @@ class Bootstrap(object):
             print(log_message)
             sasha_configuration.logger.info(log_message)
             dependency_graph = AssetDependencyGraph(domain_class)
-            print('Graph:', dependency_graph)
             asset_classes = dependency_graph.in_order()
-            print('Asset classes:', asset_classes)
             if not asset_classes:
                 continue
             triples = [
                 (domain_class, domain_object.id, asset_classes)
                 for domain_object in domain_objects
                 ]
-            print(triples)
             for triple in triples:
                 self._populate_all_assets_for_object(triple)
 #            if triples:
