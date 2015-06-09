@@ -11,7 +11,7 @@ class ChromaNotation(Notation):
 
     ### PRIVATE METHODS ###
 
-    def _make_illustration(self, sublabel = None):
+    def _make_illustration(self, sublabel=None):
 
         analysis = ChromaAnalysis(self)
         analysis.read()
@@ -57,13 +57,15 @@ class ChromaNotation(Notation):
 
         abjad.override(staff).stem.transparent = True
         #staff.override.stem.transparent = True
-        staff.engraver_removals.append('Time_signature_engraver')
-        staff.engraver_removals.append('Bar_engraver')
+        staff.remove_commands.append('Time_signature_engraver')
+        staff.remove_commands.append('Bar_engraver')
         score = abjad.Score([staff])
         #indicatortools.set_accidental_style_on_sequential_contexts_in_expr( \
         #    score, 'dodecaphonic')
 
-        return score
+        illustration = score.__illustrate__()
+
+        return illustration
 
     def _normalize(self, ndarray):
         nda = ndarray - ndarray.min()

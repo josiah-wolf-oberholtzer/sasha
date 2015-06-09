@@ -101,12 +101,9 @@ class Bootstrap(object):
         from sasha.tools.assettools import AssetDependencyGraph
         sasha_configuration.logger.info('Populating all assets.')
         for domain_class in sasha_configuration.get_domain_classes():
-            print('DOMAIN', domain_class)
             log_message = 'Populating plugins for %s.' % domain_class.__name__
             sasha_configuration.logger.info(log_message)
             asset_classes = AssetDependencyGraph(domain_class).in_order()
-            for asset_class in asset_classes:
-                print('\t', 'ASSET', asset_class)
             if not asset_classes:
                 continue
             triples = [
@@ -114,7 +111,6 @@ class Bootstrap(object):
                 for x in domain_class.get()
                 ]
             for triple in triples:
-                print('\t\t', triple)
                 self._populate_all_assets_for_object(triple)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():

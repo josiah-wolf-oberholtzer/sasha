@@ -38,4 +38,8 @@ class Plot(Asset):
         ax.set_ylabel(ylabel, **font)
 
         fig.set_size_inches(self._width, self._width * 0.5)
-        fig.savefig(self.path, bbox_inches = 'tight', pad_inches = 0.05) # pad_inches must be > 0
+        # pad_inches must be > 0
+        output_directory, _ = os.path.split(self.path)
+        if not os.path.exists(output_directory):
+            os.makedirs(output_directory)
+        fig.savefig(self.path, bbox_inches='tight', pad_inches=0.05)
