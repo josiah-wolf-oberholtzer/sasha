@@ -1,9 +1,9 @@
 from abc import ABCMeta, abstractmethod
 import os
-from sasha.tools.assettools._Plugin import _Plugin
+from sasha.tools.assettools.Asset import Asset
 
 
-class _MediaPlugin(_Plugin):
+class _MediaPlugin(Asset):
 
     ### CLASS ATTRIBUTES ###
 
@@ -18,7 +18,7 @@ class _MediaPlugin(_Plugin):
     ### INITIALIZER ###
 
     def __init__(self, arg):
-        _Plugin.__init__(self, arg)
+        Asset.__init__(self, arg)
         object.__setattr__(self, '_asset', None)
 
     ### PRIVATE METHODS ###

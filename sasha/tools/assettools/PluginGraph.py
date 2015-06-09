@@ -20,12 +20,12 @@ class PluginGraph(object):
                     node[x] = {}
                     _build_subtree(x, node[x], reservoir)
         from sasha.tools import assettools
-        from sasha.tools.assettools._Plugin import _Plugin
+        from sasha.tools.assettools.Asset import Asset
         self._client = client
         self._graph = {}
         plugins = filter(lambda x:
             hasattr(x, '__bases__') and
-            _Plugin in inspect.getmro(x) and
+            Asset in inspect.getmro(x) and
             x.__client_class__ == self.client and
             not inspect.isabstract(x),
             [getattr(assettools, x) for x in dir(assettools)])
