@@ -1,3 +1,4 @@
+abjad
 configobj
 matplotlib
 numpy

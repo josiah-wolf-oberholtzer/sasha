@@ -11,6 +11,14 @@ def main():
         version='0.1',
         install_requires=[
             'abjad',
+            'configobj',
+            'matplotlib',
+            'numpy',
+            'pytest',
+            'scikit-learn',
+            'scikits.audiolab',
+            'scipy',
+            'sqlalchemy',
             ],
         packages=[
             'sasha',
