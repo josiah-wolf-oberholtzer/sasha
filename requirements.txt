@@ -4,3 +4,6 @@ pytest
 scikit-learn
 scikits.audiolab
 sqlalchemy
+numpy
+scipy
+matplotlib
