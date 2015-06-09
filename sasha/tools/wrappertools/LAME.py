@@ -1,3 +1,4 @@
+import os
 from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
@@ -13,14 +14,17 @@ class LAME(Wrapper):
 
     ### OVERRIDES ###
 
-    def __call__(self, input, output):
-        cmd = '%s -V0 %s %s' % \
-           (self.executable, input, output)
-        out, err = self._exec(cmd)
-        #if err:
-        #    print err
-        #if out:
-        #    print out
+    def __call__(self, input_, output):
+        output = os.path.abspath(output)
+        out_directory, _ = os.path.split(output)
+        if not os.path.exists(out_directory):
+            os.makedirs(out_directory)
+        command = '{} -V0 {} {}'.format(
+            self.executable,
+            input_,
+            output,
+            )
+        out, err = self._exec(command)
 
     ### PUBLIC ATTRIBUTES ###
 
