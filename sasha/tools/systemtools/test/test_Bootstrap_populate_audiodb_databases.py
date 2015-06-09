@@ -1,5 +1,5 @@
 from sasha import *    
-from sasha.core.bootstrap import Bootstrap
+from sasha.tools.systemtools import Bootstrap
 from sasha.core.wrappers import AudioDB
 
 

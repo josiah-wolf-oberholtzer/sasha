@@ -64,7 +64,7 @@ class DomainObject(object):
 
     @classmethod
     def get_fixtures(cls):
-        from sasha.core.bootstrap import Fixture
+        from sasha.tools.systemtools import Fixture
         fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
         cls_name = stringtools.to_snake_case(cls.__name__)
         fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
@@ -110,5 +110,4 @@ class DomainObject(object):
         f.close()
 
 DomainObject = declarative_base(cls=DomainObject)
-
 
