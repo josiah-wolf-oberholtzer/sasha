@@ -3,7 +3,7 @@ import os
 from numpy import mean
 from numpy import std
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
-from sasha.core.wrappers import FFTExtract
+from sasha.tools.wrappertools import FFTExtract
 from sasha.plugins.audio import CroppedAudio
 
 

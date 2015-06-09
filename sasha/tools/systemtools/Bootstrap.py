@@ -46,7 +46,7 @@ class Bootstrap(object):
 
     def create_audiodb_databases(self):
         from sasha import SASHA
-        from sasha.core.wrappers import AudioDB
+        from sasha.tools.wrappertools import AudioDB
         SASHA.logger.info('Creating audioDB databases.')
         for name in SASHA['audioDB']:
             AudioDB(name).create()
@@ -77,7 +77,7 @@ class Bootstrap(object):
 
     def delete_audiodb_databases(self):
         from sasha import SASHA
-        from sasha.core.wrappers import AudioDB
+        from sasha.tools.wrappertools import AudioDB
         SASHA.logger.info('Deleting audioDB databases.')
         for name in SASHA['audioDB']:
             AudioDB(name).delete()
@@ -109,7 +109,7 @@ class Bootstrap(object):
 
     def populate_audiodb_databases(self):
         from sasha import SASHA
-        from sasha.core.wrappers import AudioDB
+        from sasha.tools.wrappertools import AudioDB
         from sasha.core.domain import Event
         SASHA.logger.info('Populating audioDB databases.')
         events = Event.get()

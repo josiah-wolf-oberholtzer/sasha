@@ -68,7 +68,7 @@ class SashaConfig(ImmutableDictionary):
         Bootstrap()()
 
     def get_audiodb_parameters(self, name):
-        from sasha.core.wrappers import AudioDB
+        from sasha.tools.wrappertools import AudioDB
         assert name in self['audioDB']
 
         item = self['audioDB'][name].split(',')

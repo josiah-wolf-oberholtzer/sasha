@@ -1,5 +1,5 @@
 import os
-from sasha.core.wrappers.Wrapper import Wrapper
+from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
 class Which(Wrapper):

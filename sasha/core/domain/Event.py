@@ -9,7 +9,6 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha.core.domain.DomainObject import DomainObject
-from sasha.core.wrappers import AudioDB
 
 
 class Event(DomainObject):
@@ -112,7 +111,7 @@ class Event(DomainObject):
         Returns list of 2-tuples, of Event and matching frames.
         '''
         from sasha import SASHA
-        from sasha.core.wrappers import AudioDB
+        from sasha.tools.wrappertools import AudioDB
         assert isinstance(limit, int) and 0 < limit
         if method in SASHA['audioDB']:
             adb = AudioDB(method)

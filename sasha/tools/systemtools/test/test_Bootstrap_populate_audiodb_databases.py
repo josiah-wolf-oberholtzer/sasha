@@ -1,6 +1,6 @@
 from sasha import *    
 from sasha.tools.systemtools import Bootstrap
-from sasha.core.wrappers import AudioDB
+from sasha.tools.wrappertools import AudioDB
 
 
 SASHA.environment = 'testing'

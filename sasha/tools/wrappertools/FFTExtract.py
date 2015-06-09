@@ -1,7 +1,7 @@
 import numpy
 import os
 import struct
-from sasha.core.wrappers.Wrapper import Wrapper
+from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
 class FFTExtract(Wrapper):
@@ -10,7 +10,7 @@ class FFTExtract(Wrapper):
 
     def __init__(self):
         import os
-        from sasha.core.wrappers import Which
+        from sasha.tools.wrappertools import Which
         if not os.path.isabs(self.executable):
             assert Which()('fftExtract') is not None
 

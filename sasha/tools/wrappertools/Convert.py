@@ -1,4 +1,4 @@
-from sasha.core.wrappers.Wrapper import Wrapper
+from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
 class Convert(Wrapper):
@@ -7,7 +7,7 @@ class Convert(Wrapper):
 
     def __init__(self):
         import os
-        from sasha.core.wrappers import Which
+        from sasha.tools.wrappertools import Which
         if not os.path.isabs(self.executable):
             assert Which()('convert') is not None
 

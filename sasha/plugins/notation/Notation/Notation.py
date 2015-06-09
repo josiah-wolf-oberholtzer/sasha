@@ -1,8 +1,8 @@
 import abc
 import os
 from sasha.core.plugins._MediaPlugin import _MediaPlugin
-from sasha.core.wrappers import Convert
-from sasha.core.wrappers import Wrapper
+from sasha.tools.wrappertools import Convert
+from sasha.tools.wrappertools import Wrapper
 
 
 class Notation(_MediaPlugin):

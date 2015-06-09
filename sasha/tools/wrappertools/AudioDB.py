@@ -1,7 +1,7 @@
 import os
 from tempfile import NamedTemporaryFile
 
-from sasha.core.wrappers.Wrapper import Wrapper
+from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
 class AudioDB(Wrapper):
@@ -13,7 +13,7 @@ class AudioDB(Wrapper):
     def __init__(self, name):
         from sasha import SASHA
         import os
-        from sasha.core.wrappers import Which
+        from sasha.tools.wrappertools import Which
         if not os.path.isabs(self.executable):
             assert Which()('audioDB') is not None
         path, klass = SASHA.get_audiodb_parameters(name)
