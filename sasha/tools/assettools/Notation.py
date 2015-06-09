@@ -15,7 +15,7 @@ class Notation(Asset):
     ### PRIVATE METHODS ###
 
     @abc.abstractmethod
-    def _build_lily(self, sublabel):
+    def _make_illustration(self, sublabel):
         raise NotImplemented
 
     def _path_to_lily_path(self, path):
@@ -86,7 +86,7 @@ class Notation(Asset):
 
     def write(self, sublabel = None, **kwargs):
         try:
-            lily = self._build_lily(sublabel)
+            lily = self._make_illustration(sublabel)
             object.__setattr__(self, '_asset', lily)
             self._save_lily_to_png(lily, sublabel)
         except:

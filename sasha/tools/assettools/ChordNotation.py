@@ -15,7 +15,7 @@ class ChordNotation(Notation):
 
     ### PRIVATE METHODS ###
 
-    def _build_lily(self):
+    def _make_illustration(self):
         pairs = self._get_pitches_and_colors()
         chord = abjad.Chord([pair[0] for pair in pairs], 1)
         for note_head in chord.note_heads:
@@ -52,9 +52,9 @@ class ChordNotation(Notation):
 
     def write(self, sublabel = None, **kwargs):
         from sasha import Instrument
-        lily = self._build_lily()
+        lily = self._make_illustration()
         object.__setattr__(self, '_asset', lily)
-        transposed = self._build_lily()
+        transposed = self._make_illustration()
         instrument = Instrument.get_one(id=self.client.instrument_id)
         transposition = abjad.pitchtools.NumberedInterval(
             instrument.transposition)

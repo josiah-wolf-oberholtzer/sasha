@@ -11,7 +11,7 @@ class ChromaNotation(Notation):
 
     ### PRIVATE METHODS ###
 
-    def _build_lily(self, sublabel = None):
+    def _make_illustration(self, sublabel = None):
 
         analysis = ChromaAnalysis(self)
         analysis.read()

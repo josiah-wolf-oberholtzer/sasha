@@ -13,7 +13,7 @@ class FingeringNotation(Notation):
 
     ### PRIVATE METHODS ###
 
-    def _build_lily(self, *args):
+    def _make_illustration(self, *args):
         fingering = Fingering.get_one(id=self.client.id)
         key_names = [x.name for x in fingering.instrument_keys]
         diagram = LilyPondSaxDiagram()(key_names)
