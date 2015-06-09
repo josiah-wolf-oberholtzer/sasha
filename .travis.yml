@@ -31,10 +31,10 @@ before_install:
 install:
     - pip install -r requirements.txt
     - pip install -e .
-    - cp sasha/sasha/sasha.example.cfg sasha/sasha/sasha.cfg
+    - cp sasha/sasha.example.cfg sasha/sasha.cfg
 
 script:
-    - sasha/sasha/scr/bootstrap-testing-environment
+    - sasha/scr/bootstrap-testing-environment
 
 notifications:
     email: false
