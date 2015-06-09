@@ -1,3 +1,4 @@
+from __future__ import print_function
 import multiprocessing
 import os
 import sys
@@ -27,20 +28,25 @@ class Bootstrap(object):
     @staticmethod
     def _populate_all_assets_for_object(args):
         from sasha import sasha_configuration
-        domain_class, object_id, plugin_classes = args
+        domain_class, object_id, asset_classes = args
         obj = domain_class.get_one(id=object_id)
-        for plugin_class in plugin_classes:
-            plugin = plugin_class(obj)
+        for asset_class in asset_classes:
+            asset = asset_class(obj)
             try:
-                if hasattr(plugin, 'write'):
-                    sasha_configuration.logger.info('Writing %s.' % plugin)
-                    plugin.write(parallel=False)
+                if hasattr(asset, 'write'):
+                    message = 'Writing %s to %s.' % (asset, asset.path)
+                    print(message)
+                    #sasha_configuration.logger.info(message)
+                    asset.write(parallel=False)
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 exc = traceback.print_exc()
-                sasha_configuration.logger.warning('Writing %s failed.' % plugin)
+                message = 'Writing %s failed.' % asset
+                print(message)
+                #sasha_configuration.logger.warning(message)
                 if exc:
-                    sasha_configuration.logger.warning('\n' + exc)
+                    message = '\n' + exc
+                    sasha_configuration.logger.warning(message)
 
     ### PUBLIC METHODS ###
 
@@ -95,14 +101,20 @@ class Bootstrap(object):
         from sasha.tools.assettools import AssetDependencyGraph
         sasha_configuration.logger.info('Populating all assets.')
         for domain_class in sasha_configuration.get_domain_classes():
+            print('DOMAIN', domain_class)
             log_message = 'Populating plugins for %s.' % domain_class.__name__
             sasha_configuration.logger.info(log_message)
-            plugins = AssetDependencyGraph(domain_class).in_order()
+            asset_classes = AssetDependencyGraph(domain_class).in_order()
+            for asset_class in asset_classes:
+                print('\t', 'ASSET', asset_class)
+            if not asset_classes:
+                continue
             triples = [
-                (domain_class, x.id, plugins)
+                (domain_class, x.id, asset_classes)
                 for x in domain_class.get()
                 ]
             for triple in triples:
+                print('\t\t', triple)
                 self._populate_all_assets_for_object(triple)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():
