@@ -104,15 +104,19 @@ class Bootstrap(object):
         domain_classes = sasha_configuration.get_domain_classes()
         domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
         for domain_class in domain_classes:
-            log_message = 'Populating all %s assets.' % domain_class.__name__
+            domain_objects = domain_class.get()
+            log_message = 'Populating all %s assets for {} objects.'.format(
+                domain_class.__name__,
+                len(domain_objects),
+                )
             print(log_message)
             sasha_configuration.logger.info(log_message)
             asset_classes = AssetDependencyGraph(domain_class).in_order()
             if not asset_classes:
                 continue
             triples = [
-                (domain_class, x.id, asset_classes)
-                for x in domain_class.get()
+                (domain_class, domain_object.id, asset_classes)
+                for domain_object in domain_objects
                 ]
             for triple in triples:
                 self._populate_all_assets_for_object(triple)
