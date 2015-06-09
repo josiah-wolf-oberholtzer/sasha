@@ -22,6 +22,7 @@ before_install:
     - sudo cp BLAST/fftExtract/fftExtract /usr/local/bin
 
 script:
+    - pip install -r requirements.txt
     - pip install -e .
 
 notifications:
