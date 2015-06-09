@@ -8,7 +8,7 @@ class Asset(Immutable):
 
     ### CLASS ATTRIBUTES ###
 
-    __client_class__ = Event
+    __domain_class__ = Event
     __metaclass__ = abc.ABCMeta
     __requires__ = None
     __slots__ = (
@@ -24,22 +24,22 @@ class Asset(Immutable):
     ### INITIALIZER ###
 
     def __init__(self, arg):
-        if not isinstance(arg, self.__client_class__):
+        if not isinstance(arg, self.__domain_class__):
             if (
                 hasattr(arg, 'client') and
-                isinstance(arg.client, self.__client_class__)
+                isinstance(arg.client, self.__domain_class__)
                 ):
                 arg = arg.client
             elif (
                 isinstance(arg, (str, unicode)) and
-                hasattr(self.__client_class__, 'name')
+                hasattr(self.__domain_class__, 'name')
                 ):
-                arg = self.__client_class__.get(name=arg)[0]
+                arg = self.__domain_class__.get(name=arg)[0]
             elif isinstance(arg, int):
-                arg = self.__client_class__.get(id=arg)[0]
+                arg = self.__domain_class__.get(id=arg)[0]
             else:
                 message = 'Cannot instantiate %s from %s'
-                message = message % (self.__client_class__.__name__, repr(arg))
+                message = message % (self.__domain_class__.__name__, repr(arg))
                 raise ValueError(message)
         object.__setattr__(self, '_client', arg)
         object.__setattr__(self, '_asset', None)

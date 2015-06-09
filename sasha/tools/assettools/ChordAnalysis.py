@@ -8,10 +8,17 @@ from sasha.tools.assettools.PartialTrackingAnalysis import PartialTrackingAnalys
 class ChordAnalysis(Asset):
 
     __requires__ = PartialTrackingAnalysis
-    __slots__ = ('_asset', '_client', '_pitches', '_pitch_classes',)
+    __slots__ = (
+        '_asset',
+        '_client',
+        '_pitches',
+        '_pitch_classes',
+        )
 
     media_type = 'analyses'
     file_suffix = 'chord'
+
+    ### INITIALIZER ###
 
     def __init__(self, arg):
         Asset.__init__(self, arg)
@@ -22,20 +29,21 @@ class ChordAnalysis(Asset):
 
     def _find_chord(self):
         pta = PartialTrackingAnalysis(self)
-        tracks = pta.read()   
+        tracks = pta.read()
         if not tracks:
             raise Exception('Cannot find any partial tracks for "%s"' % self.client.name)
-    
+
         db_threshold = -7
 
+        # TODO: Remove calls to filter().
         tracks = filter(lambda x: 100 < len(x), tracks)
-        tracks = sorted(tracks, key = lambda x: x.amplitude_mean, reverse = True)
+        tracks = sorted(tracks, key=lambda x: x.amplitude_mean, reverse = True)
         tracks = filter(lambda x: db_threshold < x.db(tracks[0]), tracks)
         semitones = [x.semitones_centroid for x in tracks]
         amplitudes = [x.db(tracks[0].amplitude_mean) for x in tracks]
 
         zipped = zip(semitones, amplitudes)
-        
+
         chord_dict = {}
         for pair in zipped:
             pitch, amplitude = pair

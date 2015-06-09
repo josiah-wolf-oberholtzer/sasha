@@ -1,4 +1,3 @@
-from sasha.tools import analysistools
 from sasha.tools.assettools.PartialTrackingAnalysis import PartialTrackingAnalysis
 from sasha.tools.assettools.Plot import Plot
 
@@ -10,6 +9,7 @@ class PartialTrackingPlot(Plot):
     plugin_label = 'partials'
 
     def _build_plot(self):
+        from sasha.tools import analysistools
         pta = PartialTrackingAnalysis(self)
         assert pta.exists
         partials = pta.read()

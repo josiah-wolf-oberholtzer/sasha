@@ -4,13 +4,18 @@ from numpy import mean
 from numpy import std
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import FFTExtract
-from sasha.tools.assettools import CroppedAudio
+from sasha.tools.assettools.CroppedAudio import CroppedAudio
 
 
 class FFTExtractPlugin(Asset):
 
     __requires__ = CroppedAudio
-    __slots__ = ('_asset', '_client', '_mean', '_std')
+    __slots__ = (
+        '_asset',
+        '_client',
+        '_mean',
+        '_std',
+        )
 
     media_type = 'analyses'
 

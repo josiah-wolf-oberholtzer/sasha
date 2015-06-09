@@ -7,48 +7,68 @@ class AssetDependencyGraph(object):
     ### CLASS VARIABLES ###
 
     __slots__ = (
-        '_client',
-        '_graph',
+        '_childwise_graph',
+        '_domain_class',
+        '_parentwise_graph',
         )
 
     ### INITIALIZER ###
 
-    def __init__(self, client):
-        def _build_subtree(target, node, reservoir):
-            for x in reservoir:
-                if x.__requires__ == target:
-                    node[x] = {}
-                    _build_subtree(x, node[x], reservoir)
+    def __init__(self, domain_class):
         from sasha.tools import assettools
         from sasha.tools.assettools.Asset import Asset
-        self._client = client
-        self._graph = {}
-        asset_classes = filter(lambda x:
-            hasattr(x, '__bases__') and
-            Asset in inspect.getmro(x) and
-            x.__client_class__ == self.client and
-            not inspect.isabstract(x),
-            [getattr(assettools, x) for x in dir(assettools)])
-        _build_subtree(None, self._graph, asset_classes)
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def client(self):
-        return self._client
-
-    @property
-    def graph(self):
-        return copy.deepcopy(self._graph)
+        self._domain_class = domain_class
+        self._childwise_graph = {}
+        for asset_class_name in dir(assettools):
+            asset_class = getattr(assettools, asset_class_name)
+            if asset_class is Asset:
+                continue
+            if not isinstance(asset_class, type):
+                continue
+            if not issubclass(asset_class, Asset):
+                continue
+            if inspect.isabstract(asset_class):
+                continue
+            if asset_class.__domain_class__ is not domain_class:
+                continue
+            self._childwise_graph[asset_class] = asset_class.__requires__
+        self._parentwise_graph = {}
+        for child, parent in self._childwise_graph.items():
+            if parent not in self._parentwise_graph:
+                self._parentwise_graph[parent] = set()
+            if child not in self._parentwise_graph:
+                self._parentwise_graph[child] = set()
+            self._parentwise_graph[parent].add(child)
 
     ### PUBLIC METHODS ###
 
     def in_order(self):
-        def _depth_first(node):
-            result = []
-            for k, v in node.iteritems():
-                result.append(k)
-                if v:
-                    result.extend(_depth_first(v))
-            return result
-        return tuple(_depth_first(self.graph))
+        ordered_asset_classes = []
+        parentwise_graph = copy.copy(self.parentwise_graph)
+        childwise_graph = copy.copy(self.childwise_graph)
+        while childwise_graph:
+            for child, parent in sorted(
+                childwise_graph.items(),
+                key=lambda x: x[0].__name__,
+                ):
+                if parent is not None:
+                    continue
+                ordered_asset_classes.append(child)
+                del(childwise_graph[child])
+                for descendant in parentwise_graph[child]:
+                    childwise_graph[descendant] = None
+        return ordered_asset_classes
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def childwise_graph(self):
+        return self._childwise_graph
+
+    @property
+    def parentwise_graph(self):
+        return self._parentwise_graph
+
+    @property
+    def domain_class(self):
+        return self._domain_class
