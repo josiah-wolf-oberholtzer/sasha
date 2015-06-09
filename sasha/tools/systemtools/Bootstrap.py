@@ -66,10 +66,10 @@ class Bootstrap(object):
 
     def delete_all_assets(self):
         from sasha import sasha_configuration
-        from sasha.tools.assettools import AssetGraph
+        from sasha.tools.assettools import AssetDependencyGraph
         sasha_configuration.logger.info('Deleting all assets.')
         for klass in sasha_configuration.get_domain_classes():
-            plugins = AssetGraph(klass).in_order()
+            plugins = AssetDependencyGraph(klass).in_order()
             for instance in klass.get():
                 for plugin in plugins:
                     if hasattr(plugin, 'delete'):
@@ -92,12 +92,12 @@ class Bootstrap(object):
 
     def populate_all_assets(self):
         from sasha import sasha_configuration
-        from sasha.tools.assettools import AssetGraph
+        from sasha.tools.assettools import AssetDependencyGraph
         sasha_configuration.logger.info('Populating all assets.')
         for domain_class in sasha_configuration.get_domain_classes():
             log_message = 'Populating plugins for %s.' % domain_class.__name__
             sasha_configuration.logger.info(log_message)
-            plugins = AssetGraph(domain_class).in_order()
+            plugins = AssetDependencyGraph(domain_class).in_order()
             triples = [
                 (domain_class, x.id, plugins)
                 for x in domain_class.get()

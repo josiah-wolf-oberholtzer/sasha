@@ -2,7 +2,7 @@ import copy
 import inspect
 
 
-class AssetGraph(object):
+class AssetDependencyGraph(object):
 
     ### CLASS VARIABLES ###
 
