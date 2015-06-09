@@ -1,10 +1,6 @@
-import os
-SASHAROOT = os.path.abspath(os.path.dirname(__file__))
-del os
-
-from sasha.tools.systemtools import SashaConfig
-SASHA = SashaConfig()
-del SashaConfig
+from sasha.tools.systemtools import SashaConfiguration
+sasha_configuration = SashaConfiguration()
+del SashaConfiguration
 
 from sasha.tools import *
 from sasha.tools.domaintools import *

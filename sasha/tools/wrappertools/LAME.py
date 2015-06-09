@@ -26,5 +26,5 @@ class LAME(Wrapper):
 
     @property
     def executable(self):
-        from sasha import SASHA
-        return SASHA.get_binary('lame')
+        from sasha import sasha_configuration
+        return sasha_configuration.get_binary('lame')

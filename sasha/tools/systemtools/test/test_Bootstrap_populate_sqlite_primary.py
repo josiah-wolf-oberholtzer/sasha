@@ -2,7 +2,7 @@ from sasha import *
 from sasha.tools.systemtools import Bootstrap
 
 
-SASHA.environment = 'testing'
+sasha_configuration.environment = 'testing'
 
 def test_Bootstrap_populate_sqlite_primary_01():
     bootstrap = Bootstrap()
@@ -10,7 +10,7 @@ def test_Bootstrap_populate_sqlite_primary_01():
     bootstrap.create_sqlite_database()
     bootstrap.populate_sqlite_primary()
 
-    session = SASHA.get_session()
+    session = sasha_configuration.get_session()
     assert 0 < len(Event.get())
     assert 0 < len(Instrument.get())
     assert 0 < len(Performer.get())

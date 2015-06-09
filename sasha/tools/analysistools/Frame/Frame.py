@@ -40,8 +40,8 @@ class Frame(Immutable):
     ### OVERRIDES ###
 
     def __call__(self, **kwargs):
-        from sasha import SASHA
-        #SASHA.logger.info('Calculating FFT @ %d' % self.offset)
+        from sasha import sasha_configuration
+        #sasha_configuration.logger.info('Calculating FFT @ %d' % self.offset)
 
         fft = rfft(self.windowed_audio)
 

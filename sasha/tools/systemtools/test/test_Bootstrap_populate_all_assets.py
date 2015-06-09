@@ -5,7 +5,7 @@ from sasha.tools.systemtools import Bootstrap
 from sasha.tools.assettools import PluginGraph
 
 
-SASHA.environment = 'testing'
+sasha_configuration.environment = 'testing'
 
 py.test.skip('Rebuilding assets is slow.')
 def test_Bootstrap_populate_all_assets_01():
@@ -14,11 +14,11 @@ def test_Bootstrap_populate_all_assets_01():
     bootstrap.create_sqlite_database()
     bootstrap.populate_sqlite_primary()
 
-    assert 0 < SASHA.get_session().query(Event).count()
+    assert 0 < sasha_configuration.get_session().query(Event).count()
 
     bootstrap.delete_all_assets()
     bootstrap.populate_all_assets()
-    for domain_class in SASHA.get_domain_classes():
+    for domain_class in sasha_configuration.get_domain_classes():
         plugins = PluginGraph(domain_class).in_order()
         for instance in domain_class.get():
             for plugin in plugins:

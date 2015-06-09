@@ -19,10 +19,10 @@ class Notation(_MediaPlugin):
         raise NotImplemented
 
     def _path_to_lily_path(self, path):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         path = self._strip_file_suffix(path)
-        path = path.partition(SASHA.get_media_path('scores'))[-1]
-        return SASHA.get_media_path('lilypond') + path + '.ly'
+        path = path.partition(sasha_configuration.get_media_path('scores'))[-1]
+        return sasha_configuration.get_media_path('lilypond') + path + '.ly'
 
     def _path_to_ps_path(self, path):
         return self._strip_file_suffix(path) + '.ps'
@@ -32,7 +32,7 @@ class Notation(_MediaPlugin):
 
     def _save_lily_to_png(self, lily, sublabel = None):
         import abjad
-        from sasha import SASHA
+        from sasha import sasha_configuration
 
         png_path = self._build_path(sublabel)
         lily_path = self._path_to_lily_path(png_path)
@@ -42,7 +42,7 @@ class Notation(_MediaPlugin):
         abjad.persist(lily).as_ly(lily_path)
         #iotools.write_expr_to_ly(lily, lily_path, print_status = False)
         cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
-            (SASHA.get_binary('lilypond'),
+            (sasha_configuration.get_binary('lilypond'),
             self.resolution,
             self.aa_factor,
             suffixless_path,

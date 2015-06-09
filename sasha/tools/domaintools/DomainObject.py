@@ -53,8 +53,8 @@ class DomainObject(object):
 
     @classmethod
     def get(cls, **kwargs):
-        from sasha import SASHA
-        session = SASHA.get_session()
+        from sasha import sasha_configuration
+        session = sasha_configuration.get_session()
         if kwargs:
             objects = session.query(cls).filter_by(**kwargs).all()
         else:
@@ -64,9 +64,9 @@ class DomainObject(object):
 
     @classmethod
     def get_fixtures(cls):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.systemtools import Fixture
-        fixtures_path = os.path.join(SASHA.get_media_path('fixtures'), cls.__tablename__)
+        fixtures_path = os.path.join(sasha_configuration.get_media_path('fixtures'), cls.__tablename__)
         cls_name = stringtools.to_snake_case(cls.__name__)
         fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
             os.listdir(fixtures_path))
@@ -74,8 +74,8 @@ class DomainObject(object):
 
     @classmethod
     def get_one(cls, **kwargs):
-        from sasha import SASHA
-        session = SASHA.get_session()
+        from sasha import sasha_configuration
+        session = sasha_configuration.get_session()
         if kwargs:
             objects = session.query(cls).filter_by(**kwargs).one()
         else:
@@ -84,7 +84,7 @@ class DomainObject(object):
         return objects
 
     def write_fixture(self):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         config = ConfigParser()
         config.add_section('main')
         config.set('main', '__cls__', type(self).__name__)
@@ -102,7 +102,7 @@ class DomainObject(object):
             if isinstance(result, (list, tuple)):
                 result = ' '.join(result)
             config.set('main', '.'.join(path), result)
-        directory = os.path.join(SASHA.get_media_path('fixtures'), self.__tablename__)
+        directory = os.path.join(sasha_configuration.get_media_path('fixtures'), self.__tablename__)
         if not os.path.exists(directory):
             os.mkdir(directory)
         fixture_path = os.path.join(directory,

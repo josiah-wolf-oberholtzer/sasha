@@ -1,7 +1,7 @@
 from sasha import *
 
 
-SASHA.environment = 'testing'
+sasha_configuration.environment = 'testing'
 
 def test_Performer___init___01():
     performer = Performer()

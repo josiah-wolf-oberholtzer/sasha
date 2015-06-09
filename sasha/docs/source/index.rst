@@ -1,4 +1,4 @@
-SASHA API Documentation
+sasha_configuration API Documentation
 =======================
 .. toctree::
    :maxdepth: 1

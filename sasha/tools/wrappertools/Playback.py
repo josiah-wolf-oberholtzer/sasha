@@ -16,5 +16,5 @@ class Playback(Wrapper):
 
     @property
     def executable(self):
-        from sasha import SASHA
-        return SASHA.get_binary('playback')
+        from sasha import sasha_configuration
+        return sasha_configuration.get_binary('playback')

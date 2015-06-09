@@ -32,6 +32,6 @@ class Instrument(DomainObject):
 
     @classmethod
     def with_events(cls):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.domaintools.Event import Event
-        return SASHA.get_session().query(cls).join(Event).distinct().all()
+        return sasha_configuration.get_session().query(cls).join(Event).distinct().all()

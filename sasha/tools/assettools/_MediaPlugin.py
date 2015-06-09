@@ -24,7 +24,7 @@ class _MediaPlugin(_Plugin):
     ### PRIVATE METHODS ###
 
     def _build_path(self, sublabel = None):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         name = str(self.client.canonical_name)
         if self.plugin_label:
             name += '__%s' % self.plugin_label
@@ -32,7 +32,7 @@ class _MediaPlugin(_Plugin):
             name += '__%s' % sublabel
         if self.file_suffix:
             name += '.%s' % self.file_suffix
-        return os.path.join(SASHA.get_media_path(self.media_type), name)
+        return os.path.join(sasha_configuration.get_media_path(self.media_type), name)
 
     ### PUBLIC ATTRIBUTES ###
 

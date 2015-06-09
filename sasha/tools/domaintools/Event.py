@@ -110,10 +110,10 @@ class Event(DomainObject):
 
         Returns list of 2-tuples, of Event and matching frames.
         '''
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.wrappertools import AudioDB
         assert isinstance(limit, int) and 0 < limit
-        if method in SASHA['audioDB']:
+        if method in sasha_configuration['audioDB']:
             adb = AudioDB(method)
             return adb.query(self, limit)
         else:
@@ -132,10 +132,10 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.domaintools import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
-        query = SASHA.get_session().query(Event).\
+        query = sasha_configuration.get_session().query(Event).\
             filter_by(instrument=instrument).\
             join('fingering', 'instrument_keys').\
             join(Instrument)
@@ -169,13 +169,13 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.domaintools import Partial
 
         with_pitches = [float(pitchtools.NamedPitch(x)) for x in with_pitches]
         without_pitches = [float(pitchtools.NamedPitch(x)) for x in without_pitches]
 
-        query = SASHA.get_session().query(Event).\
+        query = sasha_configuration.get_session().query(Event).\
             join(Partial)
 
         with_query = None
@@ -207,13 +207,13 @@ class Event(DomainObject):
 
         Returns SQLAlchemy Query instance.
         '''
-        from sasha import SASHA
+        from sasha import sasha_configuration
         from sasha.tools.domaintools import Partial
 
         with_pcs = [float(pitchtools.NamedPitchClass(x)) for x in with_pcs]
         without_pcs = [float(pitchtools.NamedPitchClass(x)) for x in without_pcs]
 
-        query = SASHA.get_session().query(Event).\
+        query = sasha_configuration.get_session().query(Event).\
             join(Partial)
 
         with_query = None

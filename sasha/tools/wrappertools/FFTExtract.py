@@ -63,13 +63,14 @@ class FFTExtract(Wrapper):
 
     @property
     def executable(self):
-        from sasha import SASHA
-        return SASHA.get_binary('fftextract')
+        from sasha import sasha_configuration
+        return sasha_configuration.get_binary('fftextract')
 
     @property
     def plan_path(self):
-        from sasha import SASHAROOT
-        return os.path.join(SASHAROOT, 'tmp', 'fftw_plan.txt')
+        import sasha
+        sasha_root = sasha.__path__[0]
+        return os.path.join(sasha_root, 'tmp', 'fftw_plan.txt')
 
     ### PUBLIC METHODS ###
 

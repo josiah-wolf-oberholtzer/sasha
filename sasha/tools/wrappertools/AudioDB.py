@@ -6,17 +6,21 @@ from sasha.tools.wrappertools.Wrapper import Wrapper
 
 class AudioDB(Wrapper):
 
-    __slots__ = ('_klass', '_name', '_path')
+    __slots__ = (
+        '_klass', 
+        '_name', 
+        '_path',
+        )
 
     ### INITIALIZER ###
 
     def __init__(self, name):
-        from sasha import SASHA
+        from sasha import sasha_configuration
         import os
         from sasha.tools.wrappertools import Which
         if not os.path.isabs(self.executable):
             assert Which()('audioDB') is not None
-        path, klass = SASHA.get_audiodb_parameters(name)
+        path, klass = sasha_configuration.get_audiodb_parameters(name)
         object.__setattr__(self, '_klass', klass)
         object.__setattr__(self, '_name', name)
         object.__setattr__(self, '_path', path)
@@ -30,8 +34,8 @@ class AudioDB(Wrapper):
 
     @property
     def executable(self):
-        from sasha import SASHA
-        return SASHA.get_binary('audiodb')
+        from sasha import sasha_configuration
+        return sasha_configuration.get_binary('audiodb')
 
     @property
     def exists(self):
@@ -99,13 +103,14 @@ class AudioDB(Wrapper):
             os.remove(self.path)
 
     def populate(self, events):
-        from sasha import SASHAROOT
+        import sasha
         from sasha.tools.domaintools import Event
         from sasha.tools.assettools import LogPowerAnalysis
+        sasha_root = sasha.__path__[0]
         assert len(events) and all([isinstance(x, Event) for x in events])
         assert all([LogPowerAnalysis(x).exists for x in events])
         assert all([self.klass(x).exists for x in events])
-        tmp_path = os.path.join(SASHAROOT, 'tmp')
+        tmp_path = os.path.join(sasha_root, 'tmp')
         key_file_path = os.path.join(tmp_path, 'keys.txt')
         log_power_file_path = os.path.join(tmp_path, 'log_power.txt')
         feature_file_path = os.path.join(tmp_path, 'feature.txt')
@@ -144,7 +149,7 @@ class AudioDB(Wrapper):
             events = sorted(set(events))
             tempfile = NamedTemporaryFile(
                 mode='w',
-                # dir=os.path.join(SASHAROOT, 'tmp'),
+                # dir=os.path.join(sasha_root, 'tmp'),
                 delete=False,
                 )
             for event in events:

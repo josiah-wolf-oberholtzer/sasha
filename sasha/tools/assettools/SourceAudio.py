@@ -27,8 +27,8 @@ class SourceAudio(_MediaPlugin):
 
     @property
     def path(self):
-        from sasha import SASHA
-        return os.path.join(SASHA.get_media_path(self.media_type),
+        from sasha import sasha_configuration
+        return os.path.join(sasha_configuration.get_media_path(self.media_type),
             self.client.name)
 
     ### PUBLIC METHODS ###

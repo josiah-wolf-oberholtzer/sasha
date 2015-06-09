@@ -1,94 +1,43 @@
 #! /usr/bin/env python
 
 import os
+import sasha
 from abjad.tools.documentationtools import APICrawler
-from sasha import SASHAROOT
+
+
+sasha_root = sasha.__path__[0]
 
 
 def _collect_api_modules():
-
-    docs_path = os.path.join(SASHAROOT, 'docs', 'source', 'api')
-
-    code_core_path = os.path.join(SASHAROOT, 'core')
-    docs_core_path = os.path.join(docs_path, 'core')
-    if not os.path.exists(docs_core_path):
-        os.mkdir(docs_core_path)
-
-    code_plugins_path = os.path.join(SASHAROOT, 'plugins')
-    docs_plugins_path = os.path.join(docs_path, 'plugins')
-    if not os.path.exists(docs_plugins_path):
-        os.mkdir(docs_plugins_path)
-
-    code_tools_path = os.path.join(SASHAROOT, 'tools')
+    docs_path = os.path.join(sasha_root, 'docs', 'source', 'api')
+    code_tools_path = os.path.join(sasha_root, 'tools')
     docs_tools_path = os.path.join(docs_path, 'tools')
     if not os.path.exists(docs_tools_path):
         os.mkdir(docs_tools_path)
-
-    core_modules = APICrawler(code_core_path, docs_core_path, 'sasha', prefix='sasha.core.')()
-    plugins_modules = APICrawler(code_plugins_path, docs_plugins_path, 'sasha', prefix='sasha.plugins.')()
-    tools_modules = APICrawler(code_tools_path, docs_tools_path, 'sasha', prefix='sasha.tools.')()
-
+    tools_module_crawler = APICrawler(
+        code_tools_path,
+        docs_tools_path,
+        'sasha',
+        prefix='sasha.tools.'
+        )
+    tools_modules = tools_module_crawler()
     return {
-        'core': core_modules,
-        'plugins': plugins_modules,
         'tools': tools_modules,
-    }
+        }
 
 
 def _create_index(modules):
-    index_path = docs_path = os.path.join(SASHAROOT, 'docs', 'source', 'index.rst')
-    
     r = []
-    r += ['SASHA API Documentation']
+    r += ['sasha_configuration API Documentation']
     r += ['=======================']
     r += ['.. toctree::']
     r += ['   :maxdepth: 1']
     r += ['']
-
-    r += ['Core']
-    r += ['----']
-    current_package = None
-    for module in modules['core']:
-        path = module.module_name.split('.')[2:-1]
-
-        package = path[0]
-        if package != current_package:
-            r += ['']
-            r += ['%s' % package]
-            r += ['%s' % ('~' * len(package))]
-            r += ['.. toctree::']
-            r += ['   :maxdepth: 1']
-            r += ['']
-            current_package = package
-
-        r += ['   api/core/%s' % '/'.join(path)]
-    r += ['']
-
-    r += ['Asset Plugins']
-    r += ['-------------']
-    current_package = None
-    for module in modules['plugins']:
-        path = module.module_name.split('.')[2:-1]
-
-        package = path[0]
-        if package != current_package:
-            r += ['']
-            r += ['%s' % package]
-            r += ['%s' % ('~' * len(package))]
-            r += ['.. toctree::']
-            r += ['   :maxdepth: 1']
-            r += ['']
-            current_package = package
-
-        r += ['   api/plugins/%s' % '/'.join(path)]
-    r += ['']
-
     r += ['Tools']
     r += ['-----']
     current_package = None
     for module in modules['tools']:
         path = module.module_name.split('.')[2:-1]
-
         package = path[0]
         if package != current_package:
             r += ['']
@@ -98,16 +47,19 @@ def _create_index(modules):
             r += ['   :maxdepth: 1']
             r += ['']
             current_package = package
-
         r += ['   api/tools/%s' % '/'.join(path)]
     r += ['']
-
+    index_path = os.path.join(
+        sasha_root,
+        'docs',
+        'source',
+        'index.rst',
+        )
     f = open(index_path, 'w')
     f.write('\n'.join(r))
     f.close()
-    
+
 
 if __name__ == '__main__':
     modules = _collect_api_modules()
     _create_index(modules)
-    
