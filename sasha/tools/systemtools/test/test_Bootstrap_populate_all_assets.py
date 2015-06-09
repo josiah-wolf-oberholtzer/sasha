@@ -2,7 +2,7 @@ import py.test
 
 from sasha import *    
 from sasha.tools.systemtools import Bootstrap
-from sasha.tools.assettools import PluginGraph
+from sasha.tools.assettools import AssetGraph
 
 
 sasha_configuration.environment = 'testing'
@@ -19,7 +19,7 @@ def test_Bootstrap_populate_all_assets_01():
     bootstrap.delete_all_assets()
     bootstrap.populate_all_assets()
     for domain_class in sasha_configuration.get_domain_classes():
-        plugins = PluginGraph(domain_class).in_order()
+        plugins = AssetGraph(domain_class).in_order()
         for instance in domain_class.get():
             for plugin in plugins:
                 exists = plugin(instance).exists

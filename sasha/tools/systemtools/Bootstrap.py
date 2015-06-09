@@ -66,10 +66,10 @@ class Bootstrap(object):
 
     def delete_all_assets(self):
         from sasha import sasha_configuration
-        from sasha.tools.assettools import PluginGraph
+        from sasha.tools.assettools import AssetGraph
         sasha_configuration.logger.info('Deleting all assets.')
         for klass in sasha_configuration.get_domain_classes():
-            plugins = PluginGraph(klass).in_order()
+            plugins = AssetGraph(klass).in_order()
             for instance in klass.get():
                 for plugin in plugins:
                     if hasattr(plugin, 'delete'):
@@ -92,28 +92,30 @@ class Bootstrap(object):
 
     def populate_all_assets(self):
         from sasha import sasha_configuration
-        from sasha.tools.assettools import PluginGraph
+        from sasha.tools.assettools import AssetGraph
         sasha_configuration.logger.info('Populating all assets.')
         for domain_class in sasha_configuration.get_domain_classes():
             log_message = 'Populating plugins for %s.' % domain_class.__name__
             sasha_configuration.logger.info(log_message)
-            plugins = PluginGraph(domain_class).in_order()
+            plugins = AssetGraph(domain_class).in_order()
             triples = [
                 (domain_class, x.id, plugins)
                 for x in domain_class.get()
                 ]
-            if triples:
-                if 1 < multiprocessing.cpu_count():
-                    pool = multiprocessing.Pool()
-                    pool.map_async(
-                        self._populate_all_assets_for_object,
-                        triples,
-                        )
-                    pool.close()
-                    pool.join()
-                else:
-                    for triple in triples:
-                        self._populate_all_assets_for_object(triple)
+            for triple in triples:
+                self._populate_all_assets_for_object(triple)
+#            if triples:
+#                if 1 < multiprocessing.cpu_count():
+#                    pool = multiprocessing.Pool()
+#                    pool.map_async(
+#                        self._populate_all_assets_for_object,
+#                        triples,
+#                        )
+#                    pool.close()
+#                    pool.join()
+#                else:
+#                    for triple in triples:
+#                        self._populate_all_assets_for_object(triple)
 
     def populate_audiodb_databases(self):
         from sasha import sasha_configuration

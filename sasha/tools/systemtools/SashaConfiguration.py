@@ -74,13 +74,12 @@ class SashaConfiguration(ImmutableDictionary):
         return self['binaries'][name]
 
     def get_domain_classes(self):
-        from sasha.core import domain
-        from sasha.tools.domaintools.DomainObject import DomainObject
+        from sasha.tools import domaintools
         klasses = set()
-        for x in dir(domain):
-            klass = getattr(domain, x)
+        for x in dir(domaintools):
+            klass = getattr(domaintools, x)
             if hasattr(klass, '__bases__') and \
-                DomainObject in inspect.getmro(klass) and \
+                domaintools.DomainObject in inspect.getmro(klass) and \
                 klass.__module__.startswith('sasha'):
                 klasses.add(klass)
         return tuple(klasses)

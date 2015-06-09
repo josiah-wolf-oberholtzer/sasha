@@ -2,7 +2,7 @@ import copy
 import inspect
 
 
-class PluginGraph(object):
+class AssetGraph(object):
 
     ### CLASS VARIABLES ###
 
@@ -23,13 +23,13 @@ class PluginGraph(object):
         from sasha.tools.assettools.Asset import Asset
         self._client = client
         self._graph = {}
-        plugins = filter(lambda x:
+        asset_classes = filter(lambda x:
             hasattr(x, '__bases__') and
             Asset in inspect.getmro(x) and
             x.__client_class__ == self.client and
             not inspect.isabstract(x),
             [getattr(assettools, x) for x in dir(assettools)])
-        _build_subtree(None, self._graph, plugins)
+        _build_subtree(None, self._graph, asset_classes)
 
     ### PUBLIC ATTRIBUTES ###
 
