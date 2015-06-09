@@ -2,7 +2,7 @@ from bisect import *
 
 import numpy
 
-from sasha.core.mixins import _Immutable
+from sasha.tools.systemtools import Immutable
 from sasha.tools.analysistools.Peak import Peak
 
 try:
@@ -11,7 +11,7 @@ except ImportError:
     from numpy.fft import rfft
 
 
-class Frame(_Immutable):
+class Frame(Immutable):
 
     __slots__ = (
         '_audio',

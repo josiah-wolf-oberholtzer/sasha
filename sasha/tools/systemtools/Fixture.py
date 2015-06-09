@@ -1,9 +1,9 @@
 import os
 from ConfigParser import ConfigParser
-from sasha.core.mixins import _ImmutableDictionary
+from sasha.tools.systemtools.ImmutableDictionary import ImmutableDictionary
 
 
-class Fixture(_ImmutableDictionary):
+class Fixture(ImmutableDictionary):
 
     def __init__(self, path):
 
@@ -15,6 +15,6 @@ class Fixture(_ImmutableDictionary):
         f.close()
 
         for section in config.sections():
-            dict.__setitem__(self, section, _ImmutableDictionary())
+            dict.__setitem__(self, section, ImmutableDictionary())
             for option, value in config.items(section):
                 dict.__setitem__(self[section], option, value)

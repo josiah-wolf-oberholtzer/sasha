@@ -1,10 +1,10 @@
 from abc import ABCMeta
 from abjad.tools import stringtools
-from sasha.core.mixins import _Immutable
+from sasha.tools.systemtools import Immutable
 from sasha.core.domain import Event
 
 
-class _Plugin(_Immutable):
+class _Plugin(Immutable):
 
     ### CLASS ATTRIBUTES ###
     

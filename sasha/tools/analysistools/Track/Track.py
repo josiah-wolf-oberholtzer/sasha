@@ -1,9 +1,9 @@
 import math
-from sasha.core.mixins import _Immutable
+from sasha.tools.systemtools import Immutable
 from sasha.tools.analysistools.Peak import Peak
 
 
-class Track(_Immutable):
+class Track(Immutable):
 
     __slots__ = ('_peaks')
 

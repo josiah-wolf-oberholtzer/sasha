@@ -1,9 +1,9 @@
 from abc import ABCMeta
 import subprocess
-from sasha.core.mixins import _Immutable
+from sasha.tools.systemtools import Immutable
 
 
-class Wrapper(_Immutable):
+class Wrapper(Immutable):
 
     ### CLASS ATTRIBUTES ###
 

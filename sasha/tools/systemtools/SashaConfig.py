@@ -7,10 +7,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from sasha import SASHAROOT
-from sasha.core.mixins import _ImmutableDictionary
+from sasha.tools.systemtools import ImmutableDictionary
 
 
-class SashaConfig(_ImmutableDictionary):
+class SashaConfig(ImmutableDictionary):
 
     __slots__ = ('_environment', '_logger', '_sessionmaker')
 
@@ -25,7 +25,7 @@ class SashaConfig(_ImmutableDictionary):
         self._environment = environment
 
         for section in parser.sections():
-            dict.__setitem__(self, section, _ImmutableDictionary())
+            dict.__setitem__(self, section, ImmutableDictionary())
             for option, value in parser.items(section):
                 dict.__setitem__(self[section], option, value)
 
