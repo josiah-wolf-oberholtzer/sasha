@@ -1,6 +1,6 @@
-from sasha.tools.assettools import PartialTrackingAnalysis
+from sasha.tools import analysistools
+from sasha.tools.assettools.PartialTrackingAnalysis import PartialTrackingAnalysis
 from sasha.tools.assettools.Plot import Plot
-from sasha.tools.analysistools import PartialTracker
 
 
 class PartialTrackingPlot(Plot):
@@ -14,6 +14,5 @@ class PartialTrackingPlot(Plot):
         assert pta.exists
         partials = pta.read()
         assert len(partials)
-        figure = PartialTracker().plot(partials)
+        figure = analysistools.PartialTracker().plot(partials)
         return figure
-
