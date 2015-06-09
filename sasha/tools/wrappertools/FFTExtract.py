@@ -30,31 +30,33 @@ class FFTExtract(Wrapper):
             os.makedirs(analysis_directory)
         if os.path.exists(analysis_filename):
             if not overwrite:
-                raise Exception('File exists: %s' % analysis_filename)
+                raise Exception('File exists: {}'.format(analysis_filename))
             else:
                 os.remove(analysis_filename)
         if feature_type == 'chroma':
             assert bands in (12, 24)
-            flags = '-c %d' % int(bands)
+            flags = '-c'.format(bands)
         elif feature_type == 'constant_q':
             assert 0 <= int(bands)
-            flags = '-q %d' % int(bands)
+            flags = '-q {}'.format(bands)
         elif feature_type == 'log_harmonicity':
             flags = '-H'
         elif feature_type == 'log_power':
             flags = '-P'
         elif feature_type == 'mfcc':
             assert 0 < bands
-            flags = '-m %d' % bands
+            flags = '-m {} -M 0 -g 0 '.format(bands)
         else:
-            raise Exception('Unknown feature: "%s"' % feature_type)
-        command = '%s -p %s -v 10 -C 2 -s %s %s %s %s' % \
-            (self.executable,
+            raise Exception('Unknown feature: {!r}'.format(feature_type))
+        command = '{} -p {} -v 10 -C 2 -s {} {} {} {}'.format(
+            self.executable,
             self.plan_path,
             100,  # enforce common hop size
             flags,
             audio_filename,
-            analysis_filename)
+            analysis_filename,
+            )
+        print(command)
         out, err = self._exec(command)
         if err:
             print err
@@ -79,21 +81,18 @@ class FFTExtract(Wrapper):
             os.remove(self.plan_path)
 
     def read_analysis(self, analysis_filename):
-        try:
-            f = open(analysis_filename, 'r')
-            q = f.read()
-            f.close
-        except:
-            raise Exception('File not found: "%s"' % analysis_filename)
-        vecsize = struct.unpack('i', q[:4])[0]  # 4 chars in an int
-        veccount = ((len(q) - 4) / vecsize) / 8  # 8 chars in a double
-        analysis = numpy.zeros((veccount, vecsize), dtype=numpy.float)
-        fmt = 'd' * vecsize
-        for i in range(veccount):
-            start = 4 + (i * vecsize * 8)
-            stop = start + (vecsize * 8)
-            vec = struct.unpack(fmt, q[start:stop])
-            analysis[i] = vec
+        with open(analysis_filename, 'r') as file_pointer:
+            binary_contents = file_pointer.read()
+        number_size = 8
+        vector_size = struct.unpack('i', binary_contents[:4])[0]
+        vector_count = ((len(binary_contents) - 4) / vector_size) / number_size
+        analysis = []
+        format_string = 'd' * vector_size
+        for i in range(vector_count):
+            start = 4 + (i * vector_size * number_size)
+            stop = start + (vector_size * number_size)
+            vector = struct.unpack(format_string, binary_contents[start:stop])
+            analysis.append(vector)
         return analysis
 
     def write_chroma(self, audio_filename, analysis_filename):
