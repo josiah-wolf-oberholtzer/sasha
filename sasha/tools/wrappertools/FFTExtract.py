@@ -35,7 +35,7 @@ class FFTExtract(Wrapper):
                 os.remove(analysis_filename)
         if feature_type == 'chroma':
             assert bands in (12, 24)
-            flags = '-c'.format(bands)
+            flags = '-c {}'.format(bands)
         elif feature_type == 'constant_q':
             assert 0 <= int(bands)
             flags = '-q {}'.format(bands)
@@ -45,7 +45,7 @@ class FFTExtract(Wrapper):
             flags = '-P'
         elif feature_type == 'mfcc':
             assert 0 < bands
-            flags = '-m {} -M 0 -g 0 '.format(bands)
+            flags = '-m {} -M 3 -g 0'.format(bands)
         else:
             raise Exception('Unknown feature: {!r}'.format(feature_type))
         command = '{} -p {} -v 10 -C 2 -s {} {} {} {}'.format(
@@ -86,13 +86,13 @@ class FFTExtract(Wrapper):
         number_size = 8
         vector_size = struct.unpack('i', binary_contents[:4])[0]
         vector_count = ((len(binary_contents) - 4) / vector_size) / number_size
-        analysis = []
+        analysis = numpy.zeros((vector_count, vector_size), dtype=numpy.float)
         format_string = 'd' * vector_size
         for i in range(vector_count):
             start = 4 + (i * vector_size * number_size)
             stop = start + (vector_size * number_size)
             vector = struct.unpack(format_string, binary_contents[start:stop])
-            analysis.append(vector)
+            analysis[i] = vector
         return analysis
 
     def write_chroma(self, audio_filename, analysis_filename):
