@@ -111,8 +111,10 @@ class Bootstrap(object):
                 )
             print(log_message)
             sasha_configuration.logger.info(log_message)
-            asset_classes = AssetDependencyGraph(domain_class).in_order()
-            print(asset_classes)
+            dependency_graph = AssetDependencyGraph(domain_class)
+            print('Graph:', dependency_graph)
+            asset_classes = dependency_graph.in_order()
+            print('Asset classes:', asset_classes)
             if not asset_classes:
                 continue
             triples = [
