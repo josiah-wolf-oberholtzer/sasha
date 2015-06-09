@@ -1,14 +1,17 @@
 import os
-from tempfile import NamedTemporaryFile
+import shutil
+import tempfile
 
 from sasha.tools.wrappertools.Wrapper import Wrapper
 
 
 class AudioDB(Wrapper):
 
+    ### CLASS VARIABLES ###
+
     __slots__ = (
-        '_klass', 
-        '_name', 
+        '_asset_class',
+        '_name',
         '_path',
         )
 
@@ -20,8 +23,8 @@ class AudioDB(Wrapper):
         from sasha.tools.wrappertools import Which
         if not os.path.isabs(self.executable):
             assert Which()('audioDB') is not None
-        path, klass = sasha_configuration.get_audiodb_parameters(name)
-        object.__setattr__(self, '_klass', klass)
+        path, asset_class = sasha_configuration.get_audiodb_parameters(name)
+        object.__setattr__(self, '_asset_class', asset_class)
         object.__setattr__(self, '_name', name)
         object.__setattr__(self, '_path', path)
 
@@ -30,7 +33,110 @@ class AudioDB(Wrapper):
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__, repr(self.name))
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def create(self, overwrite=True):
+        if self.exists:
+            if overwrite:
+                self.delete()
+            else:
+                raise Exception('Database already exists.')
+        out, err = self._exec('%s -N --datasize=100 -d %s' % (self.executable, self.path))
+        out, err = self._exec('%s -L -d %s' % (self.executable, self.path))
+        out, err = self._exec('%s -P -d %s' % (self.executable, self.path))
+
+    def delete(self):
+        if self.exists:
+            os.remove(self.path)
+
+    def populate(self, events):
+        import sasha
+        from sasha.tools.domaintools import Event
+        from sasha.tools.assettools import LogPowerAnalysis
+        sasha_root = sasha.__path__[0]
+        assert len(events) and all([isinstance(x, Event) for x in events])
+        assert all([LogPowerAnalysis(x).exists for x in events])
+        assert all([self.asset_class(x).exists for x in events])
+        temporary_directory_path = tempfile.mkdtemp()
+        key_file_path = os.path.join(
+            temporary_directory_path,
+            'keys.txt',
+            )
+        log_power_file_path = os.path.join(
+            temporary_directory_path,
+            'log_power.txt',
+            )
+        feature_file_path = os.path.join(
+            temporary_directory_path,
+            'feature.txt',
+            )
+        key_file = open(key_file_path, 'w')
+        log_power_file = open(log_power_file_path, 'w')
+        feature_file = open(feature_file_path, 'w')
+        for event in events:
+            key_file.write('%s\n' % event.name)
+            log_power_file.write('%s\n' % LogPowerAnalysis(event).path)
+            feature_file.write('%s\n' % self.asset_class(event).path)
+        key_file.close()
+        log_power_file.close()
+        feature_file.close()
+        command = '%s -d %s -B -K %s -F %s -W %s -v 0' % \
+            (self.executable,
+            self.path,
+            key_file_path,
+            feature_file_path,
+            log_power_file_path,
+            )
+        out, err = self._exec(command)
+        shutil.rmtree(temporary_directory_path)
+
+    def query(self, target, n=10, events=None):
+        from sasha.tools.domaintools import Event
+        if not events:
+            events = []
+        if not isinstance(target, Event):
+            target = Event(target)
+        assert 0 < n
+        assert all([isinstance(x, Event) for x in events])
+        feature = self.asset_class(target)
+        command = '%s -d %s -Q sequence -e -n 1 -l 20 -R 0.5 -f %s' % \
+            (self.executable, self.path, feature.path)
+        print(command)
+        if events:
+            if target not in events:
+                events.append(target)
+            events = sorted(set(events))
+            temporary_file = tempfile.NamedTemporaryFile(
+                mode='w',
+                # dir=os.path.join(sasha_root, 'tmp'),
+                delete=False,
+                )
+            for event in events:
+                temporary_file.write('%s\n' % event.name)
+            tempfile.close()
+            command += ' -r %d -K %s' % (len(events), tempfile.name)
+            out, err = self._exec(command)
+            os.unlink(tempfile.name)
+        else:
+            command += ' -r %d' % (n + 1)
+            out, err = self._exec(command)
+            print(out)
+            print(err)
+        q = filter(None, [x.split() for x in out.split('\n')])
+        results = []
+        for x in q:
+            distance = float(x[1])
+            name = os.path.basename(x[0])
+            event = Event.get(name=name)[0]
+            if event.name != target.name:
+                results.append((distance, event))
+        return tuple(results[:n])
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def asset_class(self):
+        return self._asset_class
 
     @property
     def executable(self):
@@ -40,10 +146,6 @@ class AudioDB(Wrapper):
     @property
     def exists(self):
         return os.path.exists(self.path)
-
-    @property
-    def klass(self):
-        return self._klass
 
     @property
     def name(self):
@@ -85,88 +187,3 @@ class AudioDB(Wrapper):
                 status['null_count'] = int(line.split()[2])
                 status['small_sequence_count'] = int(line.split()[-1])
         return status
-
-    ### PUBLIC METHODS ###
-
-    def create(self, overwrite=True):
-        if self.exists:
-            if overwrite:
-                self.delete()
-            else:
-                raise Exception('Database already exists.')
-        out, err = self._exec('%s -N --datasize=100 -d %s' % (self.executable, self.path))
-        out, err = self._exec('%s -L -d %s' % (self.executable, self.path))
-        out, err = self._exec('%s -P -d %s' % (self.executable, self.path))
-
-    def delete(self):
-        if self.exists:
-            os.remove(self.path)
-
-    def populate(self, events):
-        import sasha
-        from sasha.tools.domaintools import Event
-        from sasha.tools.assettools import LogPowerAnalysis
-        sasha_root = sasha.__path__[0]
-        assert len(events) and all([isinstance(x, Event) for x in events])
-        assert all([LogPowerAnalysis(x).exists for x in events])
-        assert all([self.klass(x).exists for x in events])
-        tmp_path = os.path.join(sasha_root, 'tmp')
-        key_file_path = os.path.join(tmp_path, 'keys.txt')
-        log_power_file_path = os.path.join(tmp_path, 'log_power.txt')
-        feature_file_path = os.path.join(tmp_path, 'feature.txt')
-        key_file = open(key_file_path, 'w')
-        log_power_file = open(log_power_file_path, 'w')
-        feature_file = open(feature_file_path, 'w')
-        for event in events:
-            key_file.write('%s\n' % event.name)
-            log_power_file.write('%s\n' % LogPowerAnalysis(event).path)
-            feature_file.write('%s\n' % self.klass(event).path)
-        key_file.close()
-        log_power_file.close()
-        feature_file.close()
-        command = '%s -d %s -B -K %s -F %s -W %s -v 0' % \
-            (self.executable,
-            self.path,
-            key_file_path,
-            feature_file_path,
-            log_power_file_path)
-        out, err = self._exec(command)
-
-    def query(self, target, n=10, events=None):
-        from sasha.tools.domaintools import Event
-        if not events:
-            events = []
-        if not isinstance(target, Event):
-            target = Event(target)
-        assert 0 < n
-        assert all([isinstance(x, Event) for x in events])
-        feature = self.klass(target)
-        command = '%s -d %s -Q sequence -e -n 1 -l 20 -R 0.5 -f %s' % \
-            (self.executable, self.path, feature.path)
-        if events:
-            if target not in events:
-                events.append(target)
-            events = sorted(set(events))
-            tempfile = NamedTemporaryFile(
-                mode='w',
-                # dir=os.path.join(sasha_root, 'tmp'),
-                delete=False,
-                )
-            for event in events:
-                tempfile.write('%s\n' % event.name)
-            tempfile.close()
-            command += ' -r %d -K %s' % (len(events), tempfile.name)
-            out, err = self._exec(command)
-            os.unlink(tempfile.name)
-        else:
-            command += ' -r %d' % (n + 1)
-            out, err = self._exec(command)
-        q = filter(None, [x.split() for x in out.split('\n')])
-        results = []
-        for x in q:
-            distance = float(x[1])
-            name = os.path.basename(x[0])
-            event = Event.get(name=name)[0]
-            if event.name != target.name:
-                results.append((distance, event))
-        return tuple(results[:n])

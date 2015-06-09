@@ -85,19 +85,15 @@ class FFTExtract(Wrapper):
             f.close
         except:
             raise Exception('File not found: "%s"' % analysis_filename)
-
         vecsize = struct.unpack('i', q[:4])[0] # 4 chars in an int
         veccount = ((len(q) - 4) / vecsize) / 8 # 8 chars in a double
-
         analysis = numpy.zeros((veccount, vecsize), dtype = numpy.float)
         fmt = 'd' * vecsize
-
         for i in range(veccount):
             start = 4 + (i * vecsize * 8)
             stop = start + (vecsize * 8)
             vec = struct.unpack(fmt, q[start:stop])
             analysis[i] = vec
-
         return analysis
 
     def write_chroma(self, audio_filename, analysis_filename):
