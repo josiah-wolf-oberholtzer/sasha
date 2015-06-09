@@ -2,7 +2,7 @@ import py.test
 
 from sasha import *    
 from sasha.tools.systemtools import Bootstrap
-from sasha.core.plugins import PluginGraph
+from sasha.tools.assettools import PluginGraph
 
 
 SASHA.environment = 'testing'

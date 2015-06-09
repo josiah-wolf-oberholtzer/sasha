@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from abjad.tools import stringtools
 from sasha.tools.systemtools import Immutable
-from sasha.core.domain import Event
+from sasha.tools.domaintools import Event
 
 
 class _Plugin(Immutable):

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from sasha.core.domain.DomainObject import DomainObject
+from sasha.tools.domaintools.DomainObject import DomainObject
 
 
 class InstrumentModel(DomainObject):

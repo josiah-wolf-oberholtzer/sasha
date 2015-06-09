@@ -100,7 +100,7 @@ class AudioDB(Wrapper):
 
     def populate(self, events):
         from sasha import SASHAROOT
-        from sasha.core.domain import Event
+        from sasha.tools.domaintools import Event
         from sasha.plugins.analysis import LogPowerAnalysis
         assert len(events) and all([isinstance(x, Event) for x in events])
         assert all([LogPowerAnalysis(x).exists for x in events])
@@ -128,7 +128,7 @@ class AudioDB(Wrapper):
         out, err = self._exec(command)
 
     def query(self, target, n=10, events=None):
-        from sasha.core.domain import Event
+        from sasha.tools.domaintools import Event
         if not events:
             events = []
         if not isinstance(target, Event):

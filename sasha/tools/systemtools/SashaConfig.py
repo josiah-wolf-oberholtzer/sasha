@@ -92,7 +92,7 @@ class SashaConfig(ImmutableDictionary):
 
     def get_domain_classes(self):
         from sasha.core import domain
-        from sasha.core.domain.DomainObject import DomainObject
+        from sasha.tools.domaintools.DomainObject import DomainObject
         klasses = set()
         for x in dir(domain):
             klass = getattr(domain, x)

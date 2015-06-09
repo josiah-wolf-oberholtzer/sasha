@@ -1,7 +1,7 @@
 import py.test
 
 from sasha import *
-from sasha.core.plugins._Plugin import _Plugin
+from sasha.tools.assettools._Plugin import _Plugin
 
 
 SASHA.environment = 'testing'

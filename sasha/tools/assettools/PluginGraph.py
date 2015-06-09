@@ -8,7 +8,7 @@ class PluginGraph(object):
 
     def __init__(self, client):
         import sasha.plugins
-        from sasha.core.plugins._Plugin import _Plugin
+        from sasha.tools.assettools._Plugin import _Plugin
 
         self._client = client
         self._graph = { } 

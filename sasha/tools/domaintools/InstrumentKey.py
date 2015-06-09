@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from sasha.core.domain.DomainObject import DomainObject
+from sasha.tools.domaintools.DomainObject import DomainObject
 
 
 class InstrumentKey(DomainObject):

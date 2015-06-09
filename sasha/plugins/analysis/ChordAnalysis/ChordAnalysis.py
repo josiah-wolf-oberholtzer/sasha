@@ -1,7 +1,7 @@
 import cPickle
 import os
 from abjad.tools import pitchtools
-from sasha.core.plugins._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.plugins.analysis.PartialTrackingAnalysis import PartialTrackingAnalysis
 
 

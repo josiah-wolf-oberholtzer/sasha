@@ -6,7 +6,7 @@ try:
     import matplotlib.pyplot as plt
 except ImportError:
     pass
-from sasha.core.plugins._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 
 
 class _Plot(_MediaPlugin):

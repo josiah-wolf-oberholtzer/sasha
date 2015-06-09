@@ -3,7 +3,7 @@ from abjad.tools import pitchtools
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, backref
 
-from sasha.core.domain.DomainObject import DomainObject
+from sasha.tools.domaintools.DomainObject import DomainObject
 
 
 class Partial(DomainObject):

@@ -2,7 +2,7 @@ import numpy
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
-from sasha.core.domain import Cluster, Event
+from sasha.tools.domaintools import Cluster, Event
 from sasha.plugins.analysis import ChromaAnalysis, ConstantQAnalysis, MFCCAnalysis
 
 

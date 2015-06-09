@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import UniqueConstraint
 
-from sasha.core.domain.DomainObject import DomainObject
+from sasha.tools.domaintools.DomainObject import DomainObject
 
 
 class Event(DomainObject):
@@ -133,7 +133,7 @@ class Event(DomainObject):
         Returns SQLAlchemy Query instance.
         '''
         from sasha import SASHA
-        from sasha.core.domain import Fingering, Instrument, InstrumentKey
+        from sasha.tools.domaintools import Fingering, Instrument, InstrumentKey
         instrument = Instrument.get(name=instrument_name)[0]
         query = SASHA.get_session().query(Event).\
             filter_by(instrument=instrument).\
@@ -170,7 +170,7 @@ class Event(DomainObject):
         Returns SQLAlchemy Query instance.
         '''
         from sasha import SASHA
-        from sasha.core.domain import Partial
+        from sasha.tools.domaintools import Partial
 
         with_pitches = [float(pitchtools.NamedPitch(x)) for x in with_pitches]
         without_pitches = [float(pitchtools.NamedPitch(x)) for x in without_pitches]
@@ -208,7 +208,7 @@ class Event(DomainObject):
         Returns SQLAlchemy Query instance.
         '''
         from sasha import SASHA
-        from sasha.core.domain import Partial
+        from sasha.tools.domaintools import Partial
 
         with_pcs = [float(pitchtools.NamedPitchClass(x)) for x in with_pcs]
         without_pcs = [float(pitchtools.NamedPitchClass(x)) for x in without_pcs]

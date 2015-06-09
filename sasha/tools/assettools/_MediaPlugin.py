@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 import os
-from sasha.core.plugins._Plugin import _Plugin
+from sasha.tools.assettools._Plugin import _Plugin
 
 
 class _MediaPlugin(_Plugin):

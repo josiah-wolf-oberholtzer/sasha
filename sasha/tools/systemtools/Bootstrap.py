@@ -53,7 +53,7 @@ class Bootstrap(object):
 
     def create_sqlite_database(self):
         from sasha import SASHA
-        from sasha.core.domain import Event
+        from sasha.tools.domaintools import Event
         SASHA.logger.info('Creating empty SQLite database.')
         dbpath = os.path.join(
             SASHA.get_media_path('databases'),
@@ -66,7 +66,7 @@ class Bootstrap(object):
 
     def delete_all_assets(self):
         from sasha import SASHA
-        from sasha.core.plugins import PluginGraph
+        from sasha.tools.assettools import PluginGraph
         SASHA.logger.info('Deleting all assets.')
         for klass in SASHA.get_domain_classes():
             plugins = PluginGraph(klass).in_order()
@@ -92,7 +92,7 @@ class Bootstrap(object):
 
     def populate_all_assets(self):
         from sasha import SASHA
-        from sasha.core.plugins import PluginGraph
+        from sasha.tools.assettools import PluginGraph
         SASHA.logger.info('Populating all assets.')
         for domain_class in SASHA.get_domain_classes():
             SASHA.logger.info('Populating plugins for %s.' % domain_class.__name__)
@@ -110,7 +110,7 @@ class Bootstrap(object):
     def populate_audiodb_databases(self):
         from sasha import SASHA
         from sasha.tools.wrappertools import AudioDB
-        from sasha.core.domain import Event
+        from sasha.tools.domaintools import Event
         SASHA.logger.info('Populating audioDB databases.')
         events = Event.get()
         assert 0 < len(events)
@@ -120,11 +120,11 @@ class Bootstrap(object):
 
     def populate_sqlite_primary(self):
         from sasha import SASHA
-        from sasha.core.domain import Event
-        from sasha.core.domain import Fingering
-        from sasha.core.domain import Instrument
-        from sasha.core.domain import InstrumentKey
-        from sasha.core.domain import Performer
+        from sasha.tools.domaintools import Event
+        from sasha.tools.domaintools import Fingering
+        from sasha.tools.domaintools import Instrument
+        from sasha.tools.domaintools import InstrumentKey
+        from sasha.tools.domaintools import Performer
         from sasha.plugins.audio import SourceAudio
         SASHA.logger.info('Populating SQLite primary objects.')
         session = SASHA.get_session()
@@ -184,8 +184,8 @@ class Bootstrap(object):
     def populate_sqlite_secondary(self):
         from sasha import SASHA
         from sasha.tools.analysistools import KMeansClustering
-        from sasha.core.domain import Event
-        from sasha.core.domain import Partial
+        from sasha.tools.domaintools import Event
+        from sasha.tools.domaintools import Partial
         from sasha.plugins.analysis import ChordAnalysis
         SASHA.logger.info('Populate SQLite secondary objects.')
         session = SASHA.get_session()

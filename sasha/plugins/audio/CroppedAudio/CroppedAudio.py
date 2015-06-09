@@ -1,5 +1,5 @@
 import os
-from sasha.core.plugins._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.tools.wrappertools import Playback
 from sasha.plugins.audio.SourceAudio import SourceAudio
 from scikits import audiolab

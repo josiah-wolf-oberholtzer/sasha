@@ -1,6 +1,6 @@
 import hashlib
 import os
-from sasha.core.plugins._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.tools.wrappertools import Playback
 from scikits.audiolab import Sndfile
 

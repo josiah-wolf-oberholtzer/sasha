@@ -1,6 +1,6 @@
 import abc
 import os
-from sasha.core.plugins._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.tools.wrappertools import Convert
 from sasha.tools.wrappertools import Wrapper
 

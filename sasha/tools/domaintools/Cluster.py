@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from sasha.core.domain.DomainObject import DomainObject
+from sasha.tools.domaintools.DomainObject import DomainObject
 
 
 class Cluster(DomainObject):
