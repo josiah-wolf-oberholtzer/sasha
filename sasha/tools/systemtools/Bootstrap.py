@@ -105,7 +105,7 @@ class Bootstrap(object):
         domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
         for domain_class in domain_classes:
             domain_objects = domain_class.get()
-            log_message = 'Populating all %s assets for {} objects.'.format(
+            log_message = 'Populating all {} assets for {} objects.'.format(
                 domain_class.__name__,
                 len(domain_objects),
                 )
