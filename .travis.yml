@@ -23,6 +23,7 @@ before_install:
 
 script:
     - pip install -r requirements.txt
+    - pip install scipy
     - pip install -e .
 
 notifications:
