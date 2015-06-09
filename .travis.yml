@@ -5,12 +5,13 @@ python:
 
 before_install:
     - sudo apt-get update -qq
-    - sudo apt-get install build-essential
-    - sudo apt-get install gengetopt
-    - sudo apt-get install libgsl0-dev
-    - sudo apt-get install help2man
-    - sudo apt-get install libsndfile1-dev
-    - sudo apt-get install libfftw3-dev
+    - sudo apt-get install -qq build-essential
+    - sudo apt-get install -qq gengetopt
+    - sudo apt-get install -qq libgsl0-dev
+    - sudo apt-get install -qq help2man
+    - sudo apt-get install -qq libsndfile1-dev
+    - sudo apt-get install -qq libfftw3-dev
+    - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
     - git clone https://github.com/bregmanstudio/BLAST.git
@@ -23,7 +24,6 @@ before_install:
 
 script:
     - pip install -r requirements.txt
-    - pip install scipy
     - pip install -e .
 
 notifications:
