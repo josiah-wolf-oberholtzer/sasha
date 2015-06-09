@@ -1,1 +1,8 @@
-
+configobj
+matplotlib
+numpy
+pytest
+scikit-learn
+scikits.audiolab
+scipy
+sqlalchemy
