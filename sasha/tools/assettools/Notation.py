@@ -39,6 +39,9 @@ class Notation(Asset):
         suffixless_path = self._strip_file_suffix(png_path)
         ps_path = self._path_to_ps_path(png_path)
 
+        lily_directory, _ = os.path.split(lily_path)
+        if not os.path.exists(lily_directory):
+            os.makedirs(lily_directory)
         png_directory, _ = os.path.split(png_path)
         if not os.path.exists(png_directory):
             os.makedirs(png_directory)
