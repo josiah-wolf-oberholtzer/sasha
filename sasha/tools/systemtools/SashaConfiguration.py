@@ -104,14 +104,6 @@ class SashaConfiguration(ImmutableDictionary):
     ### PUBLIC PROPERTIES ###
 
     @property
-    def env(self):
-        return self._environment
-
-    @env.setter
-    def env(self, value):
-        self.environment = value
-
-    @property
     def environment(self):
         return self._environment
 
