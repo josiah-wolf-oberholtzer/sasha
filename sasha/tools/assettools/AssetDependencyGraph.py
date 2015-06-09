@@ -57,7 +57,7 @@ class AssetDependencyGraph(object):
                 del(childwise_graph[child])
                 for descendant in parentwise_graph[child]:
                     childwise_graph[descendant] = None
-        return ordered_asset_classes
+        return tuple(ordered_asset_classes)
 
     ### PUBLIC PROPERTIES ###
 
