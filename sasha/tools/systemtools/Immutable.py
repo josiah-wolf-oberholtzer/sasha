@@ -1,8 +1,10 @@
-class _Immutable(object):
+class Immutable(object):
+
+    ### CLASS VARIABLES ###
 
     __slots__ = ()
 
-    ## OVERLOADS ##
+    ## SPECIAL METHODS ##
 
     def __copy__(self, *args):
         return type(self)(self)
@@ -13,7 +15,7 @@ class _Immutable(object):
         raise AttributeError('objects are immutable: "%s".' % self.__class__.__name__)
 
     def __getstate__(self):
-        state = { }
+        state = {}
         for slot in self.__slots__:
             state[slot] = getattr(self, slot)
         return state
@@ -24,7 +26,3 @@ class _Immutable(object):
     def __setstate__(self, state):
         for k, v in state.iteritems():
             object.__setattr__(self, k, v)
-       
-      
-
-
