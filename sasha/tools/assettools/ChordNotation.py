@@ -2,8 +2,8 @@ import abjad
 import copy
 from itertools import groupby
 
-from sasha.plugins.notation.Notation import Notation
-from sasha.plugins.analysis import ChordAnalysis
+from sasha.tools.assettools.Notation import Notation
+from sasha.tools.assettools import ChordAnalysis
 
 
 class ChordNotation(Notation):

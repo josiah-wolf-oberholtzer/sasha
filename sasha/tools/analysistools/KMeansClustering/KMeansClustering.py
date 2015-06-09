@@ -3,7 +3,7 @@ from sklearn import preprocessing
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sasha.tools.domaintools import Cluster, Event
-from sasha.plugins.analysis import ChromaAnalysis, ConstantQAnalysis, MFCCAnalysis
+from sasha.tools.assettools import ChromaAnalysis, ConstantQAnalysis, MFCCAnalysis
 
 
 class KMeansClustering(object):

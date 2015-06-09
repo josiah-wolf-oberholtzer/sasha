@@ -4,7 +4,7 @@ from numpy import mean
 from numpy import std
 from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.tools.wrappertools import FFTExtract
-from sasha.plugins.audio import CroppedAudio
+from sasha.tools.assettools import CroppedAudio
 
 
 class FFTExtractPlugin(_MediaPlugin):

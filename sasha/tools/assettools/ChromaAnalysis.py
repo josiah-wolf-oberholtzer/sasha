@@ -1,6 +1,6 @@
 from sasha.tools.wrappertools import FFTExtract
-from sasha.plugins.audio import CroppedAudio
-from sasha.plugins.analysis.FFTExtractPlugin import FFTExtractPlugin
+from sasha.tools.assettools import CroppedAudio
+from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 
 class ChromaAnalysis(FFTExtractPlugin):

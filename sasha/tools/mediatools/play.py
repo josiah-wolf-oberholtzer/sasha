@@ -1,5 +1,5 @@
 from sasha.tools.wrappertools import Playback
-from sasha.plugins.audio import CroppedAudio, MP3Audio, SourceAudio
+from sasha.tools.assettools import CroppedAudio, MP3Audio, SourceAudio
 
 
 def play(*args):

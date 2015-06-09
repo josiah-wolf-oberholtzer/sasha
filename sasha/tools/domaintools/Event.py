@@ -63,7 +63,7 @@ class Event(DomainObject):
 
     @property
     def source_audio(self):
-        from sasha.plugins.audio import SourceAudio
+        from sasha.tools.assettools import SourceAudio
         return SourceAudio(self)
 
     @property

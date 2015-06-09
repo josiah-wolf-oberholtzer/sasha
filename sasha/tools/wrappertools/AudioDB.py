@@ -101,7 +101,7 @@ class AudioDB(Wrapper):
     def populate(self, events):
         from sasha import SASHAROOT
         from sasha.tools.domaintools import Event
-        from sasha.plugins.analysis import LogPowerAnalysis
+        from sasha.tools.assettools import LogPowerAnalysis
         assert len(events) and all([isinstance(x, Event) for x in events])
         assert all([LogPowerAnalysis(x).exists for x in events])
         assert all([self.klass(x).exists for x in events])

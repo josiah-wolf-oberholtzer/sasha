@@ -1,5 +1,5 @@
 from sasha import *
-from sasha.plugins import *
+from sasha.tools.assettools import *
 
 
 SASHA.env = 'testing'

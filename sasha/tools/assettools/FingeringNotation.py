@@ -1,6 +1,6 @@
 from abjad import *
 from sasha.tools.domaintools.Fingering import Fingering
-from sasha.plugins.notation.Notation import Notation
+from sasha.tools.assettools.Notation import Notation
 from sasha.tools.diagramtools import LilyPondSaxDiagram
 
 

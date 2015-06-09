@@ -1,6 +1,6 @@
 import abjad
-from sasha.plugins.notation.Notation import Notation
-from sasha.plugins.analysis import ChromaAnalysis
+from sasha.tools.assettools.Notation import Notation
+from sasha.tools.assettools import ChromaAnalysis
 
 
 class ChromaNotation(Notation):

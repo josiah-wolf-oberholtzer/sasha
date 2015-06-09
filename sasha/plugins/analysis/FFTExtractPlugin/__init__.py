@@ -1,1 +1,0 @@
-from FFTExtractPlugin import FFTExtractPlugin

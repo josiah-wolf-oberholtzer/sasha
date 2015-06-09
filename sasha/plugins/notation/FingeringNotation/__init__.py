@@ -1,1 +1,0 @@
-from FingeringNotation import FingeringNotation

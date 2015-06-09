@@ -23,7 +23,7 @@ class PeakDetector(object):
     ### OVERRIDES ###
 
     def __call__(self, audio, parallel = True):
-        from sasha.plugins import SourceAudio
+        from sasha.tools.assettools import SourceAudio
 
         if not isinstance(audio, SourceAudio):
             audio = SourceAudio(audio)

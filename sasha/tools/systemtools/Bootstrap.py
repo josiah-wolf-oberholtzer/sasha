@@ -125,7 +125,7 @@ class Bootstrap(object):
         from sasha.tools.domaintools import Instrument
         from sasha.tools.domaintools import InstrumentKey
         from sasha.tools.domaintools import Performer
-        from sasha.plugins.audio import SourceAudio
+        from sasha.tools.assettools import SourceAudio
         SASHA.logger.info('Populating SQLite primary objects.')
         session = SASHA.get_session()
         # PERFORMERS
@@ -186,7 +186,7 @@ class Bootstrap(object):
         from sasha.tools.analysistools import KMeansClustering
         from sasha.tools.domaintools import Event
         from sasha.tools.domaintools import Partial
-        from sasha.plugins.analysis import ChordAnalysis
+        from sasha.tools.assettools import ChordAnalysis
         SASHA.logger.info('Populate SQLite secondary objects.')
         session = SASHA.get_session()
         # insert Partials

@@ -1,5 +1,5 @@
-from sasha.plugins.analysis import PartialTrackingAnalysis
-from sasha.plugins.plotting.Plot import Plot
+from sasha.tools.assettools import PartialTrackingAnalysis
+from sasha.tools.assettools.Plot import Plot
 from sasha.tools.analysistools import PartialTracker
 
 

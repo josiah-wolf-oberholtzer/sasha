@@ -2,7 +2,7 @@ import cPickle
 import os
 from abjad.tools import pitchtools
 from sasha.tools.assettools._MediaPlugin import _MediaPlugin
-from sasha.plugins.analysis.PartialTrackingAnalysis import PartialTrackingAnalysis
+from sasha.tools.assettools.PartialTrackingAnalysis import PartialTrackingAnalysis
 
 
 class ChordAnalysis(_MediaPlugin):

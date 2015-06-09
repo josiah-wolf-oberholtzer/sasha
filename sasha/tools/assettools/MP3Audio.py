@@ -2,7 +2,7 @@ import os
 from sasha.tools.assettools._MediaPlugin import _MediaPlugin
 from sasha.tools.wrappertools import LAME
 from sasha.tools.wrappertools import Playback
-from sasha.plugins.audio.SourceAudio import SourceAudio
+from sasha.tools.assettools.SourceAudio import SourceAudio
 
 
 class MP3Audio(_MediaPlugin):
