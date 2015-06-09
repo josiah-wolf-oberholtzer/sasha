@@ -23,6 +23,9 @@ before_install:
     - sudo make -C audioDB/ install
     - make -C BLAST/fftExtract/
     - sudo cp BLAST/fftExtract/fftExtract /usr/local/bin
+    - wget -q http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.19.21-1.linux-64.sh
+    - sh lilypond-2.19.21-1.linux-64.sh --batch
+    - export PATH=/home/travis/bin:$PATH
 
 install:
     - pip install -r requirements.txt
