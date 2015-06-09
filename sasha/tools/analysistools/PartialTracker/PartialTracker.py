@@ -97,7 +97,7 @@ class PartialTracker(object):
         return tuple(reversed(chain))
 
     def _find_peaks_in_frame_within_midi_threshold_of_midis(self, midis, frame, threshold):
-        result = [ ]
+        result = []
         frame_midis = [x.midis for x in frame]
         idx = bisect(frame_midis, midis)
         
@@ -123,7 +123,7 @@ class PartialTracker(object):
         return result
 
     def _create_tracks_from_analyzed_frames(self, frames):
-        track_starts = [ ]
+        track_starts = []
         for frame in frames:
             for peak in frame:
                 if peak.previous_peak is None and \
@@ -132,7 +132,7 @@ class PartialTracker(object):
                 elif peak.is_free_peak:
                     track_starts.append(peak)
 
-        tracks = [ ]
+        tracks = []
         for track_start in track_starts:
             track = [track_start]
             this = track_start

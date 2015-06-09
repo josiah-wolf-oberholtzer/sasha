@@ -7,7 +7,7 @@ class Cluster(DomainObject):
 
     ### SQLALCHEMY ###
 
-#    __table_args__ = (UniqueConstraint('cluster', 'feature'), { })
+#    __table_args__ = (UniqueConstraint('cluster', 'feature'), {})
 
     cluster_id = Column(Integer)
     feature = Column(String(32))

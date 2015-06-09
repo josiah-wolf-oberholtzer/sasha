@@ -9,7 +9,7 @@ class InstrumentKey(DomainObject):
 
     ### SQLALCHEMY ###
 
-    __table_args__ = (UniqueConstraint('instrument_id', 'name'), { })
+    __table_args__ = (UniqueConstraint('instrument_id', 'name'), {})
 
     instrument_id = Column(Integer, ForeignKey('instruments.id'))
     instrument = relationship('Instrument', backref='instrument_keys')

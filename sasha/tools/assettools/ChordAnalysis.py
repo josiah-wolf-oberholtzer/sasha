@@ -36,7 +36,7 @@ class ChordAnalysis(Asset):
 
         zipped = zip(semitones, amplitudes)
         
-        chord_dict = { }
+        chord_dict = {}
         for pair in zipped:
             pitch, amplitude = pair
             if pitch not in chord_dict:

@@ -31,7 +31,7 @@ class PeakDetector(object):
 
         kwargs = self._get_kwargs()
         tasks = self._create_tasks(audio)
-        frames = [ ]
+        frames = []
 
         if parallel:
 
@@ -69,7 +69,7 @@ class PeakDetector(object):
 
     def _create_tasks(self, audio):
         samples, sampling_rate = audio.read()
-        frames = [ ]
+        frames = []
         offset = 0
         ID = 0
         while offset < len(samples):
@@ -84,7 +84,7 @@ class PeakDetector(object):
         return frames
 
     def _get_kwargs(self):
-        kwargs = { }
+        kwargs = {}
         for k in [
             'max_peak_count',
             'max_peak_frequency',
@@ -160,7 +160,7 @@ class PeakDetector(object):
         fig = plt.figure()
         ax = fig.add_subplot(111)
 
-        peaks = [ ]
+        peaks = []
         for frame in frames:
             for peak in frame:
                 peaks.append(peak)

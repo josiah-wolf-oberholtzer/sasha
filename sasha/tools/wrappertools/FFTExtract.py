@@ -16,20 +16,23 @@ class FFTExtract(Wrapper):
 
     ### PRIVATE METHODS ###
 
-    def _execute(self,
+    def _execute(
+        self,
         audio_filename,
         analysis_filename,
         feature_type,
-        bands = 24,
-        overwrite = True):
-
+        bands=24,
+        overwrite=True,
+        ):
         assert os.path.exists(audio_filename)
+        analysis_directory, _ = os.path.split(analysis_filename)
+        if not os.path.exists(analysis_directory):
+            os.makedirs(analysis_directory)
         if os.path.exists(analysis_filename):
             if not overwrite:
                 raise Exception('File exists: %s' % analysis_filename)
             else:
                 os.remove(analysis_filename)
-
         if feature_type == 'chroma':
             assert bands in (12, 24)
             flags = '-c %d' % int(bands)
@@ -45,17 +48,14 @@ class FFTExtract(Wrapper):
             flags = '-m %d' % bands
         else:
             raise Exception('Unknown feature: "%s"' % feature_type)
-
         command = '%s -p %s -v 10 -C 2 -s %s %s %s %s' % \
             (self.executable,
             self.plan_path,
-            100, # enforce common hop size
+            100,  # enforce common hop size
             flags,
             audio_filename,
             analysis_filename)
-
         out, err = self._exec(command)
-
         if err:
             print err
 

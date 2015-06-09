@@ -18,7 +18,7 @@ class Instrument(DomainObject):
 
     ### SQLALCHEMY ###
 
-    # __table_args__ = (UniqueConstraint('id', 'name'), { })
+    # __table_args__ = (UniqueConstraint('id', 'name'), {})
 
     description = Column(String, nullable=True)
     name = Column(String, unique=True)

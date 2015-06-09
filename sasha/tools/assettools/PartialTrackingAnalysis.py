@@ -13,11 +13,14 @@ class PartialTrackingAnalysis(Asset):
 
     ### PRIVATE METHODS ###
 
-    def _find_tracks(self, parallel = True, **kwargs):
+    def _find_tracks(self, parallel=False, **kwargs):
         from sasha.tools.analysistools import PeakDetector
         from sasha.tools.analysistools import PartialTracker
-        frames = PeakDetector(max_peak_count = 15)(SourceAudio(self), parallel = False)
-        tracks = PartialTracker(min_track_length = 10)(frames)
+        frames = PeakDetector(max_peak_count=15)(
+            SourceAudio(self),
+            parallel=False,
+            )
+        tracks = PartialTracker(min_track_length=10)(frames)
         for track in tracks:
             for peak in track:
                 peak.previous_peak = peak.next_peak = None
@@ -37,7 +40,7 @@ class PartialTrackingAnalysis(Asset):
         data = input.read()
         input.close()
 
-        tracks = [ ]
+        tracks = []
         byte_offset = 0
         fmt = 'i'
         num_tracks = struct.unpack_from(fmt, data, byte_offset)[0]
@@ -45,7 +48,7 @@ class PartialTrackingAnalysis(Asset):
 
         for i in range(num_tracks):
 
-            track = [ ]
+            track = []
             fmt = 'i'
             num_peaks = struct.unpack_from(fmt, data, byte_offset)[0]
             byte_offset += struct.calcsize(fmt)
@@ -65,6 +68,9 @@ class PartialTrackingAnalysis(Asset):
     def write(self, **kwargs):
         object.__setattr__(self, '_asset', self._find_tracks(kwargs))
         self.delete()
+        output_directory, _ = os.path.split(self.path)
+        if not os.path.exists(output_directory):
+            os.makedirs(output_directory)
         output = open(self.path, 'wb')
 
         # write the number of tracks as an int

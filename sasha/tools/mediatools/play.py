@@ -5,7 +5,7 @@ from sasha.tools.assettools import CroppedAudio, MP3Audio, SourceAudio
 def play(*args):
     from sasha import Event
     playback = Playback()
-    paths = [ ]
+    paths = []
     for arg in args:
         if isinstance(arg, str):
             paths.append(arg)

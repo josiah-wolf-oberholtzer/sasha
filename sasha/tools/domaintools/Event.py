@@ -23,7 +23,7 @@ class Event(DomainObject):
 
     ### SQLALCHEMY ###
 
-    __table_args__ = (UniqueConstraint('id', 'md5', 'name'), { })
+    __table_args__ = (UniqueConstraint('id', 'md5', 'name'), {})
 
     description = Column(String, nullable=True)
     fingering_id = Column(Integer, ForeignKey('fingerings.id'))
@@ -120,14 +120,14 @@ class Event(DomainObject):
             raise ValueError('Unknown search method "%s".' % repr(method))
 
     @staticmethod
-    def query_keys(instrument_name, with_keys = [ ], without_keys = [ ]):
+    def query_keys(instrument_name, with_keys = [], without_keys = []):
         '''Query events with and without keys:
 
         ::
 
             >>> instrument_name = Instrument.get_one('Alto Saxophone').name
-            >>> with_keys = [ ]
-            >>> without_keys = [ ]
+            >>> with_keys = []
+            >>> without_keys = []
             >>> query = Event.query_keys(instrument_name, with_keys, without_keys)
 
         Returns SQLAlchemy Query instance.
@@ -158,13 +158,13 @@ class Event(DomainObject):
         return query.distinct()
 
     @staticmethod
-    def query_pitches(with_pitches = [ ], without_pitches = [ ]):
+    def query_pitches(with_pitches = [], without_pitches = []):
         '''Query events with and without pitches:
 
         ::
 
-            >>> with_pitches = [ ]
-            >>> without_pitches = [ ]
+            >>> with_pitches = []
+            >>> without_pitches = []
             >>> query = Event.query_pitches(with_pitches=with_pitches, without_pitches=without_pitches)
 
         Returns SQLAlchemy Query instance.
@@ -196,13 +196,13 @@ class Event(DomainObject):
         return query.distinct()
 
     @staticmethod
-    def query_pitch_classes(with_pcs = [ ], without_pcs = [ ]):
+    def query_pitch_classes(with_pcs = [], without_pcs = []):
         '''Query events with and without pitch classes:
 
         ::
 
-            >>> with_pcs = [ ]
-            >>> without_pcs = [ ]
+            >>> with_pcs = []
+            >>> without_pcs = []
             >>> query = Event.query_pitch_classes(with_pcs=with_pcs, without_pcs=without_pcs)
 
         Returns SQLAlchemy Query instance.

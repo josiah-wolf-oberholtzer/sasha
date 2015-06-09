@@ -1,7 +1,7 @@
 import os
 try:
     import matplotlib
-    if matplotlib.get_backend( ) != 'agg':
+    if matplotlib.get_backend() != 'agg':
         matplotlib.use('agg')
     import matplotlib.pyplot as plt
 except ImportError:
@@ -18,7 +18,7 @@ class _Plot(Asset):
 
     ### PRIVATE METHODS ###
 
-    def _build_plot( ):
+    def _build_plot():
         raise Exception('Not implemented here.')
 
     ### PUBLIC METHODS ###
@@ -28,12 +28,12 @@ class _Plot(Asset):
             os.remove(self.path)
 
     def write(self, **kwargs):
-        fig = self._build_plot( )
+        fig = self._build_plot()
 
-        ax = fig.gca( )
-        xlabel = ax.get_xlabel( )
-        ylabel = ax.get_ylabel( )
-        font = { }
+        ax = fig.gca()
+        xlabel = ax.get_xlabel()
+        ylabel = ax.get_ylabel()
+        font = {}
 #        font = {'fontname': 'Helvetica'}
         ax.set_xlabel(xlabel, **font)
         ax.set_ylabel(ylabel, **font)

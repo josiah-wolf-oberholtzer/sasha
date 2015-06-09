@@ -14,7 +14,7 @@ class Fingering(DomainObject):
 
     __table_args__ = (
         UniqueConstraint('id', 'instrument_id', 'compact_representation'),
-        { })
+        {})
 
     compact_representation = Column(String)
     instrument_id = Column(Integer, ForeignKey('instruments.id'), nullable=False)
@@ -73,7 +73,7 @@ class Fingering(DomainObject):
         return cls.get(instrument=instrument, compact_representation=compact_representation)[0]
         
     def find_similar_fingerings(self, n = 10):
-        results = [ ]
+        results = []
         fingerings = Fingering.get(instrument_id=self.instrument_id)
         fingerings = [x for x in fingerings if x.id != self.id]
 

@@ -7,9 +7,9 @@ class LilyPondSaxDiagram(object):
     def __call__(self, fingering_definition):
 
         parts = {
-            'cc': [ ],
-            'lh': [ ],
-            'rh': [ ],
+            'cc': [],
+            'lh': [],
+            'rh': [],
         }
 
         key_translation = {

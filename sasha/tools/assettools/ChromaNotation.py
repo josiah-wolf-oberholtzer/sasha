@@ -18,8 +18,8 @@ class ChromaNotation(Notation):
         chroma_mean = self._normalize(analysis.mean)
         chroma_std = self._normalize(analysis.std)
 
-        v_mean = abjad.Voice([ ])
-        v_std = abjad.Voice([ ])
+        v_mean = abjad.Voice([])
+        v_std = abjad.Voice([])
         staff = abjad.Staff([v_mean, v_std])
         staff.is_simultaneous = True
 

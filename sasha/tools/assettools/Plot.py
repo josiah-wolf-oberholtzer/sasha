@@ -32,7 +32,7 @@ class Plot(Asset):
         ax = fig.gca()
         xlabel = ax.get_xlabel()
         ylabel = ax.get_ylabel()
-        font = { }
+        font = {}
 #        font = {'fontname': 'Helvetica'}
         ax.set_xlabel(xlabel, **font)
         ax.set_ylabel(ylabel, **font)

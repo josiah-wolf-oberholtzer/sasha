@@ -35,7 +35,7 @@ class KMeansClustering(object):
 
         k_means_labels = k_means.labels_
 
-        clusters = { }
+        clusters = {}
         for event, k_means_label in zip(events, k_means_labels):
             if k_means_label not in clusters:
                 clusters[k_means_label] = Cluster(cluster_id=int(k_means_label) + 1, feature=self.feature)
@@ -73,8 +73,8 @@ class KMeansClustering(object):
     ### PUBLIC METHODS ###
 
     def build_corpus(self):
-        events = [ ]
-        vectors = [ ]
+        events = []
+        vectors = []
         for event in sorted(Event.get(), key=lambda x: x.name):
             feature = self.feature_class(event)
             analysis = feature.read()

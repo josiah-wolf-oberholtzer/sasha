@@ -45,7 +45,7 @@ class Frame(Immutable):
 
         fft = rfft(self.windowed_audio)
 
-        peaks = [ ]
+        peaks = []
         mag = abs(fft)
         prev_mag = numpy.abs(mag[0])
         this_mag = numpy.abs(mag[1])
@@ -186,7 +186,7 @@ class Frame(Immutable):
     ### PUBLIC METHODS ###
 
     def find_peaks_within_midi_threshold_of_peak(self, peak, threshold):
-        result = [ ]
+        result = []
         idx = bisect(self.midis, peak.midis)
 
         if idx < len(self.peaks): # ok to count up
