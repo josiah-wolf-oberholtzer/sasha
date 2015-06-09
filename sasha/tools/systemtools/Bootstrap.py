@@ -30,6 +30,7 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         domain_class, object_id, asset_classes = args
         obj = domain_class.get_one(id=object_id)
+        print('Populating assets for {}'.format(obj))
         for asset_class in asset_classes:
             asset = asset_class(obj)
             try:
@@ -100,8 +101,11 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools.assettools import AssetDependencyGraph
         sasha_configuration.logger.info('Populating all assets.')
-        for domain_class in sasha_configuration.get_domain_classes():
+        domain_classes = sasha_configuration.get_domain_classes()
+        domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
+        for domain_class in domain_classes:
             log_message = 'Populating plugins for %s.' % domain_class.__name__
+            print(log_message)
             sasha_configuration.logger.info(log_message)
             asset_classes = AssetDependencyGraph(domain_class).in_order()
             if not asset_classes:
