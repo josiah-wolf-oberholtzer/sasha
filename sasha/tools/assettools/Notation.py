@@ -1,11 +1,11 @@
 import abc
 import os
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import Convert
 from sasha.tools.wrappertools import Wrapper
 
 
-class Notation(_MediaPlugin):
+class Notation(Asset):
 
     _aa_factor = 4
     _resolution = 72

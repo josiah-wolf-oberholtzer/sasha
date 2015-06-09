@@ -1,11 +1,11 @@
 import hashlib
 import os
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import Playback
 from scikits.audiolab import Sndfile
 
 
-class SourceAudio(_MediaPlugin):
+class SourceAudio(Asset):
 
     media_type = 'source_audio'
     file_suffix = ''

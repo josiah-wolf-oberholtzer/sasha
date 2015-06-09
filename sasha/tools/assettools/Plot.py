@@ -4,10 +4,10 @@ import matplotlib
 if matplotlib.get_backend() != 'agg':
     matplotlib.use('agg')
 import matplotlib.pyplot as plt
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 
 
-class Plot(_MediaPlugin):
+class Plot(Asset):
 
     media_type = 'plots'
     file_suffix = 'png'

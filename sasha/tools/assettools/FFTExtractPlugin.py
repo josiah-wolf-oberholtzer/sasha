@@ -2,12 +2,12 @@ import abc
 import os
 from numpy import mean
 from numpy import std
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import FFTExtract
 from sasha.tools.assettools import CroppedAudio
 
 
-class FFTExtractPlugin(_MediaPlugin):
+class FFTExtractPlugin(Asset):
 
     __requires__ = CroppedAudio
     __slots__ = ('_asset', '_client', '_mean', '_std')
@@ -15,7 +15,7 @@ class FFTExtractPlugin(_MediaPlugin):
     media_type = 'analyses'
 
     def __init__(self, arg):
-        _MediaPlugin.__init__(self, arg)
+        Asset.__init__(self, arg)
         object.__setattr__(self, '_mean', None)
         object.__setattr__(self, '_std', None)
 

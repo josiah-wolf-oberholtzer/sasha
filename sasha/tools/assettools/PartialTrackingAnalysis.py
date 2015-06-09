@@ -1,10 +1,10 @@
 import os
 import struct
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.SourceAudio import SourceAudio
 
 
-class PartialTrackingAnalysis(_MediaPlugin):
+class PartialTrackingAnalysis(Asset):
 
     __requires__ = SourceAudio
 

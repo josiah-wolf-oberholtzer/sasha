@@ -6,10 +6,10 @@ try:
     import matplotlib.pyplot as plt
 except ImportError:
     pass
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 
 
-class _Plot(_MediaPlugin):
+class _Plot(Asset):
 
     media_type = 'plots'
     file_suffix = 'png'

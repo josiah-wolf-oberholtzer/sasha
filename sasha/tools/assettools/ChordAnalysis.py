@@ -1,11 +1,11 @@
 import cPickle
 import os
 from abjad.tools import pitchtools
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.PartialTrackingAnalysis import PartialTrackingAnalysis
 
 
-class ChordAnalysis(_MediaPlugin):
+class ChordAnalysis(Asset):
 
     __requires__ = PartialTrackingAnalysis
     __slots__ = ('_asset', '_client', '_pitches', '_pitch_classes',)
@@ -14,7 +14,7 @@ class ChordAnalysis(_MediaPlugin):
     file_suffix = 'chord'
 
     def __init__(self, arg):
-        _MediaPlugin.__init__(self, arg)
+        Asset.__init__(self, arg)
         object.__setattr__(self, '_pitches', None)
         object.__setattr__(self, '_pitch_classes', None)
 

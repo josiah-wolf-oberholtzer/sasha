@@ -1,11 +1,11 @@
 import os
-from sasha.tools.assettools._MediaPlugin import _MediaPlugin
+from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import Playback
 from sasha.tools.assettools.SourceAudio import SourceAudio
 from scikits import audiolab
 
 
-class CroppedAudio(_MediaPlugin):
+class CroppedAudio(Asset):
 
     __requires__ = SourceAudio
 
