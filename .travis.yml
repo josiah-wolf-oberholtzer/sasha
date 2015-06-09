@@ -24,9 +24,13 @@ before_install:
     - make -C BLAST/fftExtract/
     - sudo cp BLAST/fftExtract/fftExtract /usr/local/bin
 
-script:
+install:
     - pip install -r requirements.txt
     - pip install -e .
+    - cp sasha/sasha/sasha.example.cfg sasha/sasha/sasha.cfg
+
+script:
+    - sasha/sasha/scr/bootstrap-testing-environment
 
 notifications:
     email: false
