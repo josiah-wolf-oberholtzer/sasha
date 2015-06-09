@@ -1,8 +1,8 @@
 import os
 from sasha.tools.assettools.Asset import Asset
+from sasha.tools.assettools.SourceAudio import SourceAudio
 from sasha.tools.wrappertools import LAME
 from sasha.tools.wrappertools import Playback
-from sasha.tools.assettools.SourceAudio import SourceAudio
 
 
 class MP3Audio(Asset):

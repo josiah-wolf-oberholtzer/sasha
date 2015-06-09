@@ -1,6 +1,6 @@
 import abjad
 from sasha.tools.assettools.Notation import Notation
-from sasha.tools.assettools import ChromaAnalysis
+from sasha.tools.assettools.ChromaAnalysis import ChromaAnalysis
 
 
 class ChromaNotation(Notation):
@@ -31,7 +31,7 @@ class ChromaNotation(Notation):
         for i, val in enumerate(chroma_mean):
             markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
                 (str((val * -5.) - 0.75),
-                 str((val *  5.) + 0.75))
+                 str((val * 5.) + 0.75))
             markup = abjad.Markup(markup, 'up')
             abjad.attach(markup, v_mean[i])
             color = abjad.schemetools.SchemeColor(
@@ -42,7 +42,7 @@ class ChromaNotation(Notation):
         for i, val in enumerate(chroma_std):
             markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
                 (str((val * -5.) - 0.75),
-                 str((val *  5.) + 0.75))
+                 str((val * 5.) + 0.75))
             markup = abjad.Markup(markup, 'down')
             abjad.attach(markup, v_std[i])
             color = abjad.schemetools.SchemeColor(

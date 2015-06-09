@@ -3,8 +3,8 @@ import os
 from numpy import mean
 from numpy import std
 from sasha.tools.assettools.Asset import Asset
-from sasha.tools.wrappertools import FFTExtract
 from sasha.tools.assettools.CroppedAudio import CroppedAudio
+from sasha.tools.wrappertools import FFTExtract
 
 
 class FFTExtractPlugin(Asset):

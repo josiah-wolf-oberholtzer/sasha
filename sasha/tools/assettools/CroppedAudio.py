@@ -1,6 +1,6 @@
 from sasha.tools.assettools.Asset import Asset
-from sasha.tools.wrappertools import Playback
 from sasha.tools.assettools.SourceAudio import SourceAudio
+from sasha.tools.wrappertools import Playback
 from scikits import audiolab
 
 
@@ -22,6 +22,12 @@ class CroppedAudio(Asset):
         start = int(len(samples) * 0.2)
         stop = int(len(samples) * 0.9)
         cropped_samples = samples[start:stop]
-        snd = audiolab.Sndfile(self.path, 'w', audiolab.Format('aiff'), 1, samplerate)
+        snd = audiolab.Sndfile(
+            self.path,
+            'w',
+            audiolab.Format('aiff'),
+            1,
+            samplerate,
+            )
         snd.write_frames(cropped_samples)
         snd.close()
