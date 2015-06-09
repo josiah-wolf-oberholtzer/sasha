@@ -30,7 +30,7 @@ class Notation(Asset):
     def _strip_file_suffix(self, path):
         return path.partition('.%s' % self.file_suffix)[0]
 
-    def _save_lily_to_png(self, lily, sublabel = None):
+    def _save_lily_to_png(self, lily, sublabel=None):
         import abjad
         from sasha import sasha_configuration
 
@@ -39,8 +39,11 @@ class Notation(Asset):
         suffixless_path = self._strip_file_suffix(png_path)
         ps_path = self._path_to_ps_path(png_path)
 
+        png_directory, _ = os.path.split(png_path)
+        if not os.path.exists(png_directory):
+            os.makedirs(png_directory)
+
         abjad.persist(lily).as_ly(lily_path)
-        #iotools.write_expr_to_ly(lily, lily_path, print_status = False)
         cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
             (sasha_configuration.get_binary('lilypond'),
             self.resolution,
