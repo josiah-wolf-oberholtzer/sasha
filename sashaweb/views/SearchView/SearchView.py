@@ -28,26 +28,39 @@ class SearchView(_View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-
         query = self.query()
-
         paginator = paginate.Page(query,
             page=self.page_number,
             items_per_page=self.page_size,
             url=self.page_url)
-
+        page_title = self.page_title
+        search_action = self.request.route_url('search')
+        with_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['with_pitches']
+            )
+        without_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['without_pitches']
+            )
+        with_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['with_pitch_classes'],
+            )
+        without_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['without_pitch_classes'],
+            )
         return {
             'body_class': 'search',
-            'page_title': self.page_title,
+            'page_title': page_title,
             'paginator': paginator,
-            'search_action': self.request.route_url('search'),
-            'with_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['with_pitches']]),
-            'without_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['without_pitches']]),
-            'with_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['with_pitch_classes']]),
-            'without_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['without_pitch_classes']]),
-        }
+            'search_action': search_action,
+            'with_pitches': with_pitches,
+            'without_pitches': without_pitches,
+            'with_pitch_classes': with_pitch_classes,
+            'without_pitch_classes': without_pitch_classes,
+            }
 
     ### PUBLIC ATTRIBUTES ####
 
@@ -292,7 +305,7 @@ class SearchView(_View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = {}        
+        processed_params = {}
 
         with_pitches = params.get('with_pitches')
         if with_pitches is not None:
@@ -301,8 +314,11 @@ class SearchView(_View):
             bad_pitches = []
             for pitch in pitches_to_process:
                 pitch_class, octave = pitch[:-1], pitch[-1]
-                if octave.isdigit() and pitchtools.is_chromatic_pitch_class_name_octave_number_pair((pitch_class, int(octave))):
-                    processed_pitches.append(pitchtools.NamedChromaticPitch(pitch_class, int(octave)))
+                if (
+                    octave.isdigit() and
+                    pitchtools.PitchClass.is_pitch_class_name(pitch_class)
+                    ):
+                    processed_pitches.append(pitchtools.NamedPitch(pitch_class, int(octave)))
                 else:
                     bad_pitches.append(pitch)
             processed_params['with_pitches'] = sorted(processed_pitches)
@@ -319,8 +335,11 @@ class SearchView(_View):
             bad_pitches = []
             for pitch in pitches_to_process:
                 pitch_class, octave = pitch[:-1], pitch[-1]
-                if octave.isdigit() and pitchtools.is_chromatic_pitch_class_name_octave_number_pair((pitch_class, int(octave))):
-                    processed_pitches.append(pitchtools.NamedChromaticPitch(pitch_class, int(octave)))
+                if (
+                    octave.isdigit() and
+                    pitchtools.PitchClass.is_pitch_class_name(pitch_class)
+                    ):
+                    processed_pitches.append(pitchtools.NamedPitch(pitch_class, int(octave)))
                 else:
                     bad_pitches.append(pitch)
             processed_params['without_pitches'] = sorted(processed_pitches)
@@ -336,8 +355,8 @@ class SearchView(_View):
             processed_pitch_classes = []
             bad_pitch_classes = []
             for pitch_class in pitch_classes_to_process:
-                if pitchtools.is_chromatic_pitch_class_name(pitch_class):
-                    processed_pitch_classes.append(pitchtools.NamedChromaticPitchClass(pitch_class))
+                if pitchtools.PitchClass.is_pitch_class_name(pitch_class):
+                    processed_pitch_classes.append(pitchtools.NamedPitchClass(pitch_class))
                 else:
                     bad_pitch_classes.append(pitch_class)
             processed_params['with_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
@@ -353,8 +372,8 @@ class SearchView(_View):
             processed_pitch_classes = []
             bad_pitch_classes = []
             for pitch_class in pitch_classes_to_process:
-                if pitchtools.is_chromatic_pitch_class_name(pitch_class):
-                    processed_pitch_classes.append(pitchtools.NamedChromaticPitchClass(pitch_class))
+                if pitchtools.PitchClass.is_pitch_class_name(pitch_class):
+                    processed_pitch_classes.append(pitchtools.NamedPitchClass(pitch_class))
                 else:
                     bad_pitch_classes.append(pitch_class)
             processed_params['without_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
@@ -377,7 +396,7 @@ class SearchView(_View):
             self.request.session.flash(
                 literal('Included and dis-included pitch classes overlap: %s' %
                     ' '.join(['<em>%s</em>' % x for x in pitch_class_intersection])))
-            
+
         return processed_params
 
     def query(self):
@@ -432,4 +451,3 @@ class SearchView(_View):
             query = sasha_configuration.get_session().query(Event)
 
         return query
-
