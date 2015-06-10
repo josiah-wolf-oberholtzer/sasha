@@ -62,11 +62,14 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools.domaintools import Event
         sasha_configuration.logger.info('Creating empty SQLite database.')
-        dbpath = os.path.join(
+        database_path = os.path.join(
             sasha_configuration.get_media_path('databases'),
             sasha_configuration['sqlite']['sqlite'],
             )
-        engine = create_engine('sqlite:///%s' % dbpath)
+        database_directory_path, _ = os.path.split(database_path)
+        if not os.path.exists(database_directory_path):
+            os.makedirs(database_directory_path)
+        engine = create_engine('sqlite:///{}'.format(database_path))
         metadata = Event.metadata
         metadata.drop_all(engine)
         metadata.create_all(engine)

@@ -95,9 +95,11 @@ class SashaConfiguration(ImmutableDictionary):
         return path
 
     def get_session(self):
-        dbpath = os.path.join(self.get_media_path('databases'),
-            self['sqlite']['sqlite'])
-        engine = create_engine('sqlite:///%s' % dbpath)
+        database_path = os.path.join(
+            self.get_media_path('databases'),
+            self['sqlite']['sqlite'],
+            )
+        engine = create_engine('sqlite:///{}'.format(database_path))
         return sessionmaker(bind=engine)()
 
     ### PUBLIC PROPERTIES ###
