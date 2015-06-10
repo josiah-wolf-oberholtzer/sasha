@@ -1,4 +1,4 @@
-from sasha import sasha_configuration, Cluster, Event
+from sasha.tools import domaintools
 from sashaweb.helpers._Helper import _Helper
 from webhelpers.html import HTML
 
@@ -7,7 +7,7 @@ class ClusterHelper(_Helper):
 
     def __init__(self, arg, request):
         _Helper.__init__(self, request)
-        if isinstance(arg, Cluster):
+        if isinstance(arg, domaintools.Cluster):
             self._cluster = arg
         else:
             raise ValueError('Expected Cluster instance, got %r.' % arg)

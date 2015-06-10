@@ -3,6 +3,7 @@ configobj
 matplotlib
 numpy
 pyramid
+pyramid_mako
 pyramid_debugtoolbar
 pytest
 scikit-learn

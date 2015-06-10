@@ -1,5 +1,6 @@
-from sasha import sasha_configuration, Event
-from sasha.tools.assettools import PartialTrackingPlot
+from sasha import sasha_configuration
+from sasha.tools import assettools
+from sasha.tools import domaintools
 from sashaweb.helpers._Helper import _Helper
 from sashaweb.helpers.EventHelper import EventHelper
 from webhelpers.html import HTML
@@ -9,7 +10,7 @@ class PartialTrackingPlotHelper(_Helper):
 
     def __init__(self, arg, request):
         _Helper.__init__(self, request)
-        if isinstance(arg, Event):
+        if isinstance(arg, domaintools.Event):
             self.event = arg
         else:
             raise ValueError('Expected Event instance, got %r.' % arg)
@@ -27,6 +28,6 @@ class PartialTrackingPlotHelper(_Helper):
 
     @property
     def static_path(self):
-        path = PartialTrackingPlot(self.event).path
-        environment, path = path.partition(sasha_configuration.env)[1:]
+        path = assettools.PartialTrackingPlot(self.event).path
+        environment, path = path.partition(sasha_configuration.environment)[1:]
         return 'sashamedia:%s%s' % (environment, path)

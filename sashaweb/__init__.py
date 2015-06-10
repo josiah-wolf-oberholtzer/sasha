@@ -12,6 +12,8 @@ def main(global_config, **settings):
     session_factory = UnencryptedCookieSessionFactoryConfig('hobbeshobbertson')
     config = Configurator(settings=settings, session_factory=session_factory)
 
+    config.include('pyramid_mako')
+
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_static_view('assets/mp3s', 'sashamedia:development/mp3s/', cache_max_age=3600)
     config.add_static_view('assets/plots', 'sashamedia:development/plots/', cache_max_age=3600)

@@ -1,4 +1,4 @@
-from sasha import Event, Fingering, Instrument
+from sasha.tools import domaintools
 from sashaweb.helpers._Helper import _Helper
 from webhelpers.html import HTML
 
@@ -7,12 +7,12 @@ class InstrumentHelper(_Helper):
 
     def __init__(self, arg, request):
         _Helper.__init__(self, request)
-        if isinstance(arg, Instrument):
+        if isinstance(arg, domaintools.Instrument):
             self.instrument = arg
-        elif isinstance(arg, Event):
-            self.instrument = Instrument.get_one(id=arg.instrument_id)
-        elif isinstance(arg, Fingering):
-            self.instrument = Instrument.get_one(id=arg.instrument_id)
+        elif isinstance(arg, domaintools.Event):
+            self.instrument = domaintools.Instrument.get_one(id=arg.instrument_id)
+        elif isinstance(arg, domaintools.Fingering):
+            self.instrument = domaintools.Instrument.get_one(id=arg.instrument_id)
         else:
             raise ValueError('Expected Instrument, Fingering or Event instance, got %r.' % arg)
 
@@ -29,4 +29,4 @@ class InstrumentHelper(_Helper):
     @property
     def url(self):
         return self.request.route_url('single_instrument',
-            instrument_name=self.instrument.name.lower( ).replace(' ', '-'))
+            instrument_name=self.instrument.name.lower().replace(' ', '-'))

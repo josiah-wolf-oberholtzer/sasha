@@ -10,6 +10,7 @@ requires = [
     'numpy',
     'pyramid',
     'pyramid_debugtoolbar',
+    'pyramid_mako',
     'pytest',
     'scikit-learn',
     'scikits.audiolab',
@@ -27,15 +28,12 @@ def main():
             [paste.app_factory]
             main = sashaweb:main
             ''',
-        include_package_data=True,
         install_requires=requires,
         name='sasha',
         packages=[
             'sasha',
             'sashaweb',
             ],
-        test_suite='sashaweb',
-        tests_require=requires,
         url='sasha.mbrsi.org',
         version='0.1',
         zip_safe=False,

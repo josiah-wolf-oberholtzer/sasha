@@ -1,4 +1,4 @@
-from sasha import Event
+from sasha.tools import domaintools
 from webhelpers.html import HTML
 from sashaweb.helpers._Helper import _Helper
 
@@ -7,7 +7,7 @@ class EventHelper(_Helper):
 
     def __init__(self, arg, request):
         _Helper.__init__(self, request)
-        if isinstance(arg, Event):
+        if isinstance(arg, domaintools.Event):
             self.event = arg
         else:
             raise ValueError('Expected Event instance, got %r.' % arg)
