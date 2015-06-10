@@ -1,13 +1,12 @@
 abjad
 configobj
+matplotlib
+numpy
+pyramid
+pyramid_debugtoolbar
 pytest
 scikit-learn
 scikits.audiolab
 sqlalchemy
-numpy
-scipy
-matplotlib
-pyramid
-pyramid_debugtoolbar
 waitress
 webhelpers
