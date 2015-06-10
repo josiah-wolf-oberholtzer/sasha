@@ -4,14 +4,14 @@
     from sasha import sasha_configuration
     from sasha.tools.domaintools import Event
     from sasha.tools.domaintools import Instrument
-    from sashaweb.helpers import EventHelper
-    from sashaweb.helpers import FingeringHelper
-    from sashaweb.helpers import InstrumentHelper
-    from sashaweb.helpers import ChordNotationHelper
-    from sashaweb.helpers import ChromaNotationHelper
-    from sashaweb.helpers import MP3AudioHelper
-    from sashaweb.helpers import FingeringNotationHelper
-    from sashaweb.helpers import PartialTrackingPlotHelper
+    from sashaweb.helpers.EventHelper import EventHelper
+    from sashaweb.helpers.FingeringHelper import FingeringHelper
+    from sashaweb.helpers.InstrumentHelper import InstrumentHelper
+    from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
+    from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
+    from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
+    from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
+    from sashaweb.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper
 %>
 
 <%block name="page_title">
@@ -62,7 +62,7 @@
     </nav>
 
     <div id="events" class="clearfix">
-%for i, event in enumerate(paginator):
+% for i, event in enumerate(paginator):
     % if i % 5 == 0 and 0 < i:
         <div class="clearfix grid_10 divider alpha omega"></div>
     % endif
@@ -81,7 +81,7 @@
                 ${ChordNotationHelper(event, request).image_link}
             </div>
         </div>
-%endfor
+% endfor
     </div>
 
     <nav class="pagination">
