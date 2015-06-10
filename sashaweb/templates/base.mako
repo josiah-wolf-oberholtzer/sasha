@@ -39,7 +39,6 @@
             <li class="clusters"><a href="/clusters/">CLUSTERS</a></li>
             <li><a href="/random/">RANDOM</a></li>
             <li><a href="/docs/">DOCS</a></li>
-            <li><a href="/about/">ABOUT</a></li>
         </ul>
     </nav>
 % if request.session.peek_flash():
