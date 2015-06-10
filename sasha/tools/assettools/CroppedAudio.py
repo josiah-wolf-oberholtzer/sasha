@@ -1,7 +1,6 @@
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.SourceAudio import SourceAudio
 from sasha.tools.wrappertools import Playback
-from scikits import audiolab
 
 
 class CroppedAudio(Asset):
@@ -18,6 +17,7 @@ class CroppedAudio(Asset):
         Playback()(self.path)
 
     def write(self, **kwargs):
+        from scikits import audiolab
         samples, samplerate = SourceAudio(self).read()
         start = int(len(samples) * 0.2)
         stop = int(len(samples) * 0.9)

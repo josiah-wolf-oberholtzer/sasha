@@ -2,7 +2,6 @@ import hashlib
 import os
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.wrappertools import Playback
-from scikits.audiolab import Sndfile
 
 
 class SourceAudio(Asset):
@@ -37,11 +36,10 @@ class SourceAudio(Asset):
         Playback()(self.path)
 
     def read(self):
-        snd = Sndfile(self.path, 'r')
+        from scikits import audiolab
+        snd = audiolab.Sndfile(self.path, 'r')
         samplerate = snd.samplerate
         samples = snd.read_frames(snd.nframes)
         snd.close()
         object.__setattr__(self, '_asset', (samples, samplerate))
         return samples, samplerate
-
-    
