@@ -32,7 +32,6 @@ def main():
         name='sashaweb',
         packages=[
             'sasha',
-            'sashamedia',
             'sashaweb',
             ],
         url='sasha.mbrsi.org',
