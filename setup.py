@@ -13,7 +13,6 @@ requires = [
     'pytest',
     'scikit-learn',
     'scikits.audiolab',
-    'scipy',
     'sqlalchemy',
     'waitress',
     ]
