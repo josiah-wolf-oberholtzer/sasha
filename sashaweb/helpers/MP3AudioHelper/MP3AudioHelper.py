@@ -1,5 +1,5 @@
 from sasha import sasha_configuration, Event
-from sasha.plugins import MP3Audio
+from sasha.tools.assettools import MP3Audio
 from sashaweb.helpers._Helper import _Helper
 from webhelpers.html import HTML, literal
 

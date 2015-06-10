@@ -1,5 +1,5 @@
 from sasha import sasha_configuration, Event, Fingering
-from sasha.plugins import FingeringNotation
+from sasha.tools.assettools import FingeringNotation
 from sashaweb.helpers._Helper import _Helper
 from sashaweb.helpers.FingeringHelper import FingeringHelper
 from webhelpers.html import HTML

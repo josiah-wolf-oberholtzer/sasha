@@ -1,5 +1,5 @@
 from sasha import sasha_configuration, Event
-from sasha.plugins import ChordNotation
+from sasha.tools.assettools import ChordNotation
 from sashaweb.helpers._Helper import _Helper
 from sashaweb.helpers.EventHelper import EventHelper
 from webhelpers.html import HTML
