@@ -113,10 +113,10 @@ class AudioDB(Wrapper):
                 )
             for event in events:
                 temporary_file.write('%s\n' % event.name)
-            tempfile.close()
-            command += ' -r %d -K %s' % (len(events), tempfile.name)
+            temporary_file.close()
+            command += ' -r %d -K %s' % (len(events), temporary_file.name)
             out, err = self._exec(command)
-            os.unlink(tempfile.name)
+            os.unlink(temporary_file.name)
         else:
             command += ' -r %d' % (n + 1)
             out, err = self._exec(command)
