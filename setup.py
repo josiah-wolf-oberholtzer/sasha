@@ -29,7 +29,7 @@ def main():
             main = sashaweb:main
             ''',
         install_requires=requires,
-        name='sasha',
+        name='sashaweb',
         packages=[
             'sasha',
             'sashamedia',
