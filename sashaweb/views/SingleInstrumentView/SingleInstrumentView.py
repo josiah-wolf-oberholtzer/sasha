@@ -11,7 +11,7 @@ class SingleInstrumentView(SearchView):
     def __init__(self, request):
         self._request = request
 
-        instrument_name = self.request.matchdict['instrument_name'].replace('-', ' ').title( )
+        instrument_name = self.request.matchdict['instrument_name'].replace('-', ' ').title()
         try:
             self._instrument = Instrument.get_one(name=instrument_name)
         except:

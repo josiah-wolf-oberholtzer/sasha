@@ -55,7 +55,7 @@
 </header>
 
 <div id="main" class="clearfix">
-    ${next.body( )}
+    ${next.body()}
 </div>
 
 <%!

@@ -11,7 +11,7 @@ class SingleFingeringView(SearchView):
     def __init__(self, request):
         self._request = request
 
-        instrument_name = self.request.matchdict['instrument_name'].replace('-', ' ').title( )
+        instrument_name = self.request.matchdict['instrument_name'].replace('-', ' ').title()
 
         try:
             self._instrument = Instrument.get_one(name=instrument_name)
@@ -24,7 +24,7 @@ class SingleFingeringView(SearchView):
             self._fingering = Fingering.get_one(instrument=self.instrument, compact_representation=compact_representation)
         except:
             raise HTTPNotFound("SASHA couldn't find any %s fingering whose compact representation is <em>%s</em>" %
-                (instrument_name.lower( ), compact_representation))
+                (instrument_name.lower(), compact_representation))
 
         self._instrument_keys = tuple(self.fingering.instrument_keys)
         self._layout_parameters = self.process_layout_params(self.request.params)

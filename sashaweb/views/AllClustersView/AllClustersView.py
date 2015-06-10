@@ -28,10 +28,10 @@ class AllClustersView(_View):
 
     @property
     def clusters(self):
-        clusters = { }
+        clusters = {}
         for cluster in Cluster.get():
             if cluster.feature not in clusters:
-                clusters[cluster.feature] = [ ]
+                clusters[cluster.feature] = []
             clusters[cluster.feature].append(cluster)
         for v in clusters.values():
             v.sort(key=lambda x: x.cluster_id)

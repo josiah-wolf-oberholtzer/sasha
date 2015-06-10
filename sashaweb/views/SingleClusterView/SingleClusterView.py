@@ -26,7 +26,7 @@ class SingleClusterView(SearchView):
 
         instrument_name = self.request.params.get('instrument')
         if instrument_name is not None:
-            instrument_name = instrument_name.replace('_', ' ').title( )
+            instrument_name = instrument_name.replace('_', ' ').title()
             try:
                 self._instrument = Instrument.get_one(name=instrument_name)
             except:
@@ -61,10 +61,10 @@ class SingleClusterView(SearchView):
 
     @property
     def clusters(self):
-        clusters = { }
+        clusters = {}
         for cluster in Cluster.get():
             if cluster.feature not in clusters:
-                clusters[cluster.feature] = [ ]
+                clusters[cluster.feature] = []
             clusters[cluster.feature].append(cluster)
         for v in clusters.values():
             v.sort(key=lambda x: x.cluster_id)

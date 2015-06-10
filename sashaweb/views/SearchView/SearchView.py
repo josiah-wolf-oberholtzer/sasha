@@ -102,7 +102,7 @@ class SearchView(_View):
         Returns dictionary of processed params.
         '''
 
-        processed_params = { }
+        processed_params = {}
 
         if not isinstance(instrument, Instrument):
             instrument = Instrument.get_one(name=instrument)
@@ -111,8 +111,8 @@ class SearchView(_View):
         with_keys = params.get('with_keys')
         if with_keys is not None:
             keys_to_process = str(with_keys).split()
-            processed_keys = [ ]
-            bad_keys = [ ]
+            processed_keys = []
+            bad_keys = []
             for key in keys_to_process:
                 result = InstrumentKey.get(name=key, instrument=instrument)
                 if len(result) == 1:
@@ -124,14 +124,14 @@ class SearchView(_View):
                 self.request.session.flash(literal("%s has no key(s) named: %s" %
                     (instrument.name, ', '.join(['<em>%s</em>' % x for x in bad_keys]))))
         else:
-            processed_params['with_keys'] = [ ]
+            processed_params['with_keys'] = []
 
         # instrument keys to exclude
         without_keys = params.get('without_keys')
         if without_keys is not None:
             keys_to_process = str(without_keys).split()
-            processed_keys = [ ]
-            bad_keys = [ ]
+            processed_keys = []
+            bad_keys = []
             for key in keys_to_process:
                 result = InstrumentKey.get(name=key, instrument=instrument)
                 if len(result) == 1:
@@ -143,7 +143,7 @@ class SearchView(_View):
                 self.request.session.flash(literal("%s has no key(s) named: %s" %
                     (instrument.name, ', '.join(['<em>%s</em>' % x for x in bad_keys]))))
         else:
-            processed_params['without_keys'] = [ ]
+            processed_params['without_keys'] = []
 
         key_intersection = set(processed_params['with_keys']).intersection(set(processed_params['without_keys']))
         if key_intersection:
@@ -169,14 +169,14 @@ class SearchView(_View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = { }
+        processed_params = {}
 
         # instruments to include in the search
         with_instruments = params.get('with_instruments')
         if with_instruments is not None:
             instruments_to_process = str(with_instruments).split()
-            processed_instruments = [ ]
-            bad_instruments = [ ]
+            processed_instruments = []
+            bad_instruments = []
             for instrument in instruments_to_process:
                 instrument_name = instrument.replace('_', ' ').title()
                 try:
@@ -188,14 +188,14 @@ class SearchView(_View):
             if bad_instruments:
                 self.request.session.flash('Bad instrument names: %s' % ', '.join([repr(x) for x in bad_instruments]))
         else:
-            processed_params['with_instruments'] = [ ]
+            processed_params['with_instruments'] = []
 
         # instruments to exclude from the search
         without_instruments = params.get('without_instruments')
         if without_instruments is not None:
             instruments_to_process = str(without_instruments).split()
-            processed_instruments = [ ]
-            bad_instruments = [ ]
+            processed_instruments = []
+            bad_instruments = []
             for instrument in instruments_to_process:
                 instrument_name = instrument.replace('_', ' ').title()
                 try:
@@ -207,7 +207,7 @@ class SearchView(_View):
             if bad_instruments:
                 self.request.session.flash('Bad instrument names: %s' % ', '.join([repr(x) for x in bad_instruments]))
         else:
-            processed_params['without_instruments'] = [ ]
+            processed_params['without_instruments'] = []
 
         return processed_params
 
@@ -227,7 +227,7 @@ class SearchView(_View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = { }
+        processed_params = {}
 
         # max number of items on page
         n = params.get('n')
@@ -292,13 +292,13 @@ class SearchView(_View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = { }        
+        processed_params = {}        
 
         with_pitches = params.get('with_pitches')
         if with_pitches is not None:
             pitches_to_process = str(with_pitches).split()
-            processed_pitches = [ ]
-            bad_pitches = [ ]
+            processed_pitches = []
+            bad_pitches = []
             for pitch in pitches_to_process:
                 pitch_class, octave = pitch[:-1], pitch[-1]
                 if octave.isdigit() and pitchtools.is_chromatic_pitch_class_name_octave_number_pair((pitch_class, int(octave))):
@@ -310,13 +310,13 @@ class SearchView(_View):
                 self.request.session.flash(literal(
                     'No such pitch name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitches])))
         else:
-            processed_params['with_pitches'] = [ ]
+            processed_params['with_pitches'] = []
 
         without_pitches = params.get('without_pitches')
         if without_pitches is not None:
             pitches_to_process = str(without_pitches).split()
-            processed_pitches = [ ]
-            bad_pitches = [ ]
+            processed_pitches = []
+            bad_pitches = []
             for pitch in pitches_to_process:
                 pitch_class, octave = pitch[:-1], pitch[-1]
                 if octave.isdigit() and pitchtools.is_chromatic_pitch_class_name_octave_number_pair((pitch_class, int(octave))):
@@ -328,13 +328,13 @@ class SearchView(_View):
                 self.request.session.flash(literal(
                     'No such pitch name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitches])))
         else:
-            processed_params['without_pitches'] = [ ]
+            processed_params['without_pitches'] = []
 
         with_pitch_classes = params.get('with_pitch_classes')
         if with_pitch_classes is not None:
             pitch_classes_to_process = str(with_pitch_classes).split()
-            processed_pitch_classes = [ ]
-            bad_pitch_classes = [ ]
+            processed_pitch_classes = []
+            bad_pitch_classes = []
             for pitch_class in pitch_classes_to_process:
                 if pitchtools.is_chromatic_pitch_class_name(pitch_class):
                     processed_pitch_classes.append(pitchtools.NamedChromaticPitchClass(pitch_class))
@@ -345,13 +345,13 @@ class SearchView(_View):
                 self.request.session.flash(literal(
                     'No such pitch class name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitch_classes])))
         else:
-            processed_params['with_pitch_classes'] = [ ]
+            processed_params['with_pitch_classes'] = []
 
         without_pitch_classes = params.get('without_pitch_classes')
         if without_pitch_classes is not None:
             pitch_classes_to_process = str(without_pitch_classes).split()
-            processed_pitch_classes = [ ]
-            bad_pitch_classes = [ ]
+            processed_pitch_classes = []
+            bad_pitch_classes = []
             for pitch_class in pitch_classes_to_process:
                 if pitchtools.is_chromatic_pitch_class_name(pitch_class):
                     processed_pitch_classes.append(pitchtools.NamedChromaticPitchClass(pitch_class))
@@ -362,7 +362,7 @@ class SearchView(_View):
                 self.request.session.flash(literal(
                     'No such pitch class name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitch_classes])))
         else:
-            processed_params['without_pitch_classes'] = [ ]
+            processed_params['without_pitch_classes'] = []
 
         pitch_intersection = set(processed_params['with_pitches']).intersection(set(processed_params['without_pitches']))
         pitch_class_intersection = set(processed_params['with_pitch_classes']).intersection(set(processed_params['without_pitch_classes']))
@@ -417,7 +417,7 @@ class SearchView(_View):
             #print 'WITH_INSTRUMENTS: %r' % with_instruments
             #print 'WITHOUT_INSTRUMENTS: %r' % without_instruments
 
-            instrument_query = sasha_configuration.get_session( ).query(Event).join(Instrument)
+            instrument_query = sasha_configuration.get_session().query(Event).join(Instrument)
             if with_instruments:
                 instrument_query = instrument_query.filter(Instrument.name.in_(with_instruments))
             if without_instruments:
