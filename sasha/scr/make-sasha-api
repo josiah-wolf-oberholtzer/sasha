@@ -2,64 +2,62 @@
 
 import os
 import sasha
-from abjad.tools.documentationtools import APICrawler
+from abjad.tools import documentationtools
 
 
 sasha_root = sasha.__path__[0]
 
 
-def _collect_api_modules():
-    docs_path = os.path.join(sasha_root, 'docs', 'source', 'api')
-    code_tools_path = os.path.join(sasha_root, 'tools')
-    docs_tools_path = os.path.join(docs_path, 'tools')
-    if not os.path.exists(docs_tools_path):
-        os.mkdir(docs_tools_path)
-    tools_module_crawler = APICrawler(
-        code_tools_path,
-        docs_tools_path,
-        'sasha',
-        prefix='sasha.tools.'
-        )
-    tools_modules = tools_module_crawler()
-    return {
-        'tools': tools_modules,
+class SASHAAPIGenerator(documentationtools.AbjadAPIGenerator):
+    r'''API generator for the sasha package.
+    '''
+
+    _api_title = 'SASHA API'
+
+    _package_descriptions = {
+        'core': 'Core packages',
         }
 
+    @property
+    def docs_api_index_path(self):
+        import sasha
+        return os.path.join(
+            sasha.__path__[0],
+            'docs',
+            'source',
+            'index.rst',
+            )
 
-def _create_index(modules):
-    r = []
-    r += ['sasha_configuration API Documentation']
-    r += ['=======================']
-    r += ['.. toctree::']
-    r += ['   :maxdepth: 1']
-    r += ['']
-    r += ['Tools']
-    r += ['-----']
-    current_package = None
-    for module in modules['tools']:
-        path = module.module_name.split('.')[2:-1]
-        package = path[0]
-        if package != current_package:
-            r += ['']
-            r += ['%s' % package]
-            r += ['%s' % ('~' * len(package))]
-            r += ['.. toctree::']
-            r += ['   :maxdepth: 1']
-            r += ['']
-            current_package = package
-        r += ['   api/tools/%s' % '/'.join(path)]
-    r += ['']
-    index_path = os.path.join(
-        sasha_root,
-        'docs',
-        'source',
-        'index.rst',
-        )
-    f = open(index_path, 'w')
-    f.write('\n'.join(r))
-    f.close()
+    @property
+    def path_definitions(self):
+        import sasha
+        tools_code_path = os.path.join(
+            sasha.__path__[0],
+            'tools',
+            )
+        tools_docs_path = os.path.join(
+            sasha.__path__[0],
+            'docs',
+            'source',
+            'tools',
+            )
+        tools_package_prefix = 'sasha.tools.'
+        tools_triple = (
+            tools_code_path,
+            tools_docs_path,
+            tools_package_prefix,
+            )
+        all_triples = [tools_triple]
+        return all_triples
+
+    @property
+    def root_package(self):
+        return 'sasha'
+
+    @property
+    def tools_package_path_index(self):
+        return 2
 
 
 if __name__ == '__main__':
-    modules = _collect_api_modules()
-    _create_index(modules)
+    SASHAAPIGenerator()(verbose=True)

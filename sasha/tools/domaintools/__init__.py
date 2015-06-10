@@ -8,3 +8,5 @@ from InstrumentModel import InstrumentModel
 from Partial import Partial
 from Performer import Performer
 from RecordingLocation import RecordingLocation
+
+_documentation_section = 'core'

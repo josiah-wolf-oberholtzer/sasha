@@ -1,141 +1,319 @@
-sasha_configuration API Documentation
-=======================
-.. toctree::
-   :maxdepth: 1
+#########
+SASHA API
+#########
 
-Core
-----
+*************
+Core packages
+*************
 
-bootstrap
-~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+:py:mod:`analysistools <sasha.tools.analysistools>`
+===================================================
 
-   api/core/bootstrap/Bootstrap/Bootstrap
-   api/core/bootstrap/Fixture/Fixture
+.. only:: html
 
-config
-~~~~~~
-.. toctree::
-   :maxdepth: 1
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
 
-   api/core/config/SashaConfig/SashaConfig
+      tools/analysistools/index
 
-domain
-~~~~~~
-.. toctree::
-   :maxdepth: 1
+   .. toctree::
+      :maxdepth: 1
 
-   api/core/domain/Cluster/Cluster
-   api/core/domain/DomainObject/DomainObject
-   api/core/domain/Event/Event
-   api/core/domain/Fingering/Fingering
-   api/core/domain/Instrument/Instrument
-   api/core/domain/InstrumentKey/InstrumentKey
-   api/core/domain/InstrumentModel/InstrumentModel
-   api/core/domain/Partial/Partial
-   api/core/domain/Performer/Performer
-   api/core/domain/RecordingLocation/RecordingLocation
+      tools/analysistools/Frame
+      tools/analysistools/KMeansClustering
+      tools/analysistools/PartialTracker
+      tools/analysistools/Peak
+      tools/analysistools/PeakDetectionWorker
+      tools/analysistools/PeakDetector
+      tools/analysistools/Regression
+      tools/analysistools/Track
 
-plugins
-~~~~~~~
-.. toctree::
-   :maxdepth: 1
+   .. toctree::
+      :maxdepth: 1
 
-   api/core/plugins/PluginGraph/PluginGraph
+      tools/analysistools/report_tracks
 
-wrappers
-~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+.. only:: latex
 
-   api/core/wrappers/AudioDB/AudioDB
-   api/core/wrappers/Convert/Convert
-   api/core/wrappers/FFTExtract/FFTExtract
-   api/core/wrappers/LAME/LAME
-   api/core/wrappers/Playback/Playback
-   api/core/wrappers/Wrapper/Wrapper
+   Concrete classes
+   ----------------
 
-Asset Plugins
--------------
+   .. toctree::
 
-analysis
-~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+      tools/analysistools/Frame
+      tools/analysistools/KMeansClustering
+      tools/analysistools/PartialTracker
+      tools/analysistools/Peak
+      tools/analysistools/PeakDetectionWorker
+      tools/analysistools/PeakDetector
+      tools/analysistools/Regression
+      tools/analysistools/Track
 
-   api/plugins/analysis/ChordAnalysis/ChordAnalysis
-   api/plugins/analysis/ChromaAnalysis/ChromaAnalysis
-   api/plugins/analysis/ConstantQAnalysis/ConstantQAnalysis
-   api/plugins/analysis/FFTExtractPlugin/FFTExtractPlugin
-   api/plugins/analysis/LinearSpectrumAnalysis/LinearSpectrumAnalysis
-   api/plugins/analysis/LogHarmonicityAnalysis/LogHarmonicityAnalysis
-   api/plugins/analysis/LogPowerAnalysis/LogPowerAnalysis
-   api/plugins/analysis/MFCCAnalysis/MFCCAnalysis
-   api/plugins/analysis/PartialTrackingAnalysis/PartialTrackingAnalysis
+   Functions
+   ---------
 
-audio
-~~~~~
-.. toctree::
-   :maxdepth: 1
+   .. toctree::
 
-   api/plugins/audio/CroppedAudio/CroppedAudio
-   api/plugins/audio/MP3Audio/MP3Audio
-   api/plugins/audio/SourceAudio/SourceAudio
+      tools/analysistools/report_tracks
 
-notation
-~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+:py:mod:`assettools <sasha.tools.assettools>`
+=============================================
 
-   api/plugins/notation/ChordNotation/ChordNotation
-   api/plugins/notation/ChromaNotation/ChromaNotation
-   api/plugins/notation/FingeringNotation/FingeringNotation
-   api/plugins/notation/Notation/Notation
+.. only:: html
 
-plotting
-~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
 
-   api/plugins/plotting/PartialTrackingPlot/PartialTrackingPlot
-   api/plugins/plotting/Plot/Plot
+      tools/assettools/index
 
-Tools
------
+   .. toctree::
+      :maxdepth: 1
 
-analysistools
-~~~~~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+      tools/assettools/FFTExtractPlugin
+      tools/assettools/Notation
+      tools/assettools/Plot
 
-   api/tools/analysistools/Frame/Frame
-   api/tools/analysistools/KMeansClustering/KMeansClustering
-   api/tools/analysistools/PartialTracker/PartialTracker
-   api/tools/analysistools/Peak/Peak
-   api/tools/analysistools/PeakDetectionWorker/PeakDetectionWorker
-   api/tools/analysistools/PeakDetector/PeakDetector
-   api/tools/analysistools/Regression/Regression
-   api/tools/analysistools/Track/Track
-   api/tools/analysistools/report_tracks
+   .. toctree::
+      :maxdepth: 1
 
-collectiontools
-~~~~~~~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+      tools/assettools/Asset
+      tools/assettools/AssetDependencyGraph
+      tools/assettools/ChordAnalysis
+      tools/assettools/ChordNotation
+      tools/assettools/ChromaAnalysis
+      tools/assettools/ChromaNotation
+      tools/assettools/ConstantQAnalysis
+      tools/assettools/CroppedAudio
+      tools/assettools/FingeringNotation
+      tools/assettools/LinearSpectrumAnalysis
+      tools/assettools/LogHarmonicityAnalysis
+      tools/assettools/LogPowerAnalysis
+      tools/assettools/MFCCAnalysis
+      tools/assettools/MP3Audio
+      tools/assettools/PartialTrackingAnalysis
+      tools/assettools/PartialTrackingPlot
+      tools/assettools/SourceAudio
 
-   api/tools/collectiontools/Collection/Collection
+.. only:: latex
 
-diagramtools
-~~~~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+   Abstract classes
+   ----------------
 
-   api/tools/diagramtools/LilyPondSaxDiagram/LilyPondSaxDiagram
+   .. toctree::
 
-mediatools
-~~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
+      tools/assettools/FFTExtractPlugin
+      tools/assettools/Notation
+      tools/assettools/Plot
 
-   api/tools/mediatools/play
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/assettools/Asset
+      tools/assettools/AssetDependencyGraph
+      tools/assettools/ChordAnalysis
+      tools/assettools/ChordNotation
+      tools/assettools/ChromaAnalysis
+      tools/assettools/ChromaNotation
+      tools/assettools/ConstantQAnalysis
+      tools/assettools/CroppedAudio
+      tools/assettools/FingeringNotation
+      tools/assettools/LinearSpectrumAnalysis
+      tools/assettools/LogHarmonicityAnalysis
+      tools/assettools/LogPowerAnalysis
+      tools/assettools/MFCCAnalysis
+      tools/assettools/MP3Audio
+      tools/assettools/PartialTrackingAnalysis
+      tools/assettools/PartialTrackingPlot
+      tools/assettools/SourceAudio
+
+:py:mod:`collectiontools <sasha.tools.collectiontools>`
+=======================================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/collectiontools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/collectiontools/Collection/Collection
+
+.. only:: latex
+
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/collectiontools/Collection/Collection
+
+:py:mod:`diagramtools <sasha.tools.diagramtools>`
+=================================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/diagramtools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/diagramtools/LilyPondSaxDiagram/LilyPondSaxDiagram
+
+.. only:: latex
+
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/diagramtools/LilyPondSaxDiagram/LilyPondSaxDiagram
+
+:py:mod:`domaintools <sasha.tools.domaintools>`
+===============================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/domaintools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/domaintools/Cluster
+      tools/domaintools/Event
+      tools/domaintools/Fingering
+      tools/domaintools/Instrument
+      tools/domaintools/InstrumentKey
+      tools/domaintools/InstrumentModel
+      tools/domaintools/Partial
+      tools/domaintools/Performer
+      tools/domaintools/RecordingLocation
+      ext/declarative/api
+
+.. only:: latex
+
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/domaintools/Cluster
+      tools/domaintools/Event
+      tools/domaintools/Fingering
+      tools/domaintools/Instrument
+      tools/domaintools/InstrumentKey
+      tools/domaintools/InstrumentModel
+      tools/domaintools/Partial
+      tools/domaintools/Performer
+      tools/domaintools/RecordingLocation
+      ext/declarative/api
+
+:py:mod:`mediatools <sasha.tools.mediatools>`
+=============================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/mediatools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/mediatools/play
+
+.. only:: latex
+
+   Functions
+   ---------
+
+   .. toctree::
+
+      tools/mediatools/play
+
+:py:mod:`systemtools <sasha.tools.systemtools>`
+===============================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/systemtools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/systemtools/Bootstrap
+      tools/systemtools/Fixture
+      tools/systemtools/Immutable
+      tools/systemtools/ImmutableDictionary
+      tools/systemtools/SashaConfiguration
+
+.. only:: latex
+
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/systemtools/Bootstrap
+      tools/systemtools/Fixture
+      tools/systemtools/Immutable
+      tools/systemtools/ImmutableDictionary
+      tools/systemtools/SashaConfiguration
+
+:py:mod:`wrappertools <sasha.tools.wrappertools>`
+=================================================
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 1
+
+      tools/wrappertools/index
+
+   .. toctree::
+      :maxdepth: 1
+
+      tools/wrappertools/AudioDB
+      tools/wrappertools/Convert
+      tools/wrappertools/FFTExtract
+      tools/wrappertools/LAME
+      tools/wrappertools/Playback
+      tools/wrappertools/Which
+      tools/wrappertools/Wrapper
+
+.. only:: latex
+
+   Concrete classes
+   ----------------
+
+   .. toctree::
+
+      tools/wrappertools/AudioDB
+      tools/wrappertools/Convert
+      tools/wrappertools/FFTExtract
+      tools/wrappertools/LAME
+      tools/wrappertools/Playback
+      tools/wrappertools/Which
+      tools/wrappertools/Wrapper
