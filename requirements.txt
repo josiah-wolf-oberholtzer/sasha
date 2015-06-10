@@ -1,7 +1,7 @@
 abjad
 configobj
 pytest
-scikit-learn
+sklearn
 scikits.audiolab
 sqlalchemy
 numpy
