@@ -10,6 +10,7 @@ sasha_configuration.environment = 'testing'
 def test_Bootstrap_populate_audiodb_databases_01():
 
     bootstrap = systemtools.Bootstrap()
+
     bootstrap.delete_sqlite_database()
     bootstrap.create_sqlite_database()
     bootstrap.populate_sqlite_primary()
@@ -18,9 +19,17 @@ def test_Bootstrap_populate_audiodb_databases_01():
     event_count = sasha_configuration.get_session().query(event_class).count()
     assert 0 < event_count
 
+    assert wrappertools.AudioDB('chroma').exists
+    assert wrappertools.AudioDB('constant_q').exists
+    assert wrappertools.AudioDB('mfcc').exists
+
     bootstrap.delete_audiodb_databases()
     bootstrap.create_audiodb_databases()
     bootstrap.populate_audiodb_databases()
+
+    assert wrappertools.AudioDB('chroma').exists
+    assert wrappertools.AudioDB('constant_q').exists
+    assert wrappertools.AudioDB('mfcc').exists
 
     adb = wrappertools.AudioDB('chroma')
     assert adb.status['num_files'] == event_count
