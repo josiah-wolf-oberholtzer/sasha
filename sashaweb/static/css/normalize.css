@@ -37,9 +37,9 @@ video {
  * Prevents modern browsers from displaying 'audio' without controls
  */
 
-audio:not([controls]) {
-    display: none;
-}
+//audio:not([controls]) {
+//    display: none;
+//}
 
 /*
  * Addresses styling for 'hidden' attribute not present in IE7/8/9, FF3, S4
