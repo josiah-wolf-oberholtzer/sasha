@@ -1,9 +1,8 @@
 import numpy
-from sklearn import preprocessing
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
+from sasha.tools.assettools import ChromaAnalysis
+from sasha.tools.assettools import ConstantQAnalysis
+from sasha.tools.assettools import MFCCAnalysis
 from sasha.tools.domaintools import Cluster, Event
-from sasha.tools.assettools import ChromaAnalysis, ConstantQAnalysis, MFCCAnalysis
 
 
 class KMeansClustering(object):
@@ -19,6 +18,8 @@ class KMeansClustering(object):
     ### SPECIAL METHODS ###
 
     def __call__(self):
+        from sklearn.cluster import KMeans
+
         events, vectors = self.build_corpus()
 
         k_means = KMeans(
@@ -73,11 +74,12 @@ class KMeansClustering(object):
     ### PUBLIC METHODS ###
 
     def build_corpus(self):
+        from sklearn import preprocessing
         events = []
         vectors = []
         for event in sorted(Event.get(), key=lambda x: x.name):
             feature = self.feature_class(event)
-            analysis = feature.read()
+            feature.read()
             vector = numpy.hstack([feature.mean, feature.std])
             events.append(event)
             vectors.append(vector)
@@ -87,5 +89,6 @@ class KMeansClustering(object):
         return events, vectors
 
     def decompose_vectors(self, vectors):
+        from sklearn.decomposition import PCA
         pca = PCA(n_components=2)
         return pca.fit(vectors).transform(vectors)
