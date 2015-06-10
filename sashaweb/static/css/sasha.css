@@ -61,6 +61,11 @@ a:hover {
     border-radius: 10px;
     }
 
+audio {
+    width: 100%;
+    display: block;
+    }
+
 /* LAYOUT */
 
 #header {
