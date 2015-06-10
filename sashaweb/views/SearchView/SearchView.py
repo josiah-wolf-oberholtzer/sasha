@@ -29,11 +29,12 @@ class SearchView(_View):
 
     def __call__(self):
         query = self.query()
-        paginator = paginate.Page(query,
+        paginator = paginate.Page(
+            query,
             page=self.page_number,
             items_per_page=self.page_size,
-            url=self.page_url)
-        page_title = self.page_title
+            url=self.page_url,
+            )
         search_action = self.request.route_url('search')
         with_pitches = ' '.join(
             '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
@@ -53,7 +54,7 @@ class SearchView(_View):
             )
         return {
             'body_class': 'search',
-            'page_title': page_title,
+            'page_title': self.page_title,
             'paginator': paginator,
             'search_action': search_action,
             'with_pitches': with_pitches,

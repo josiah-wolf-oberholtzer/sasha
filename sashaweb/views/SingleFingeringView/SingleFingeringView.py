@@ -33,31 +33,45 @@ class SingleFingeringView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-
         query = self.query()
-
-        paginator = paginate.Page(query,
+        paginator = paginate.Page(
+            query,
             page=self.page_number,
             items_per_page=self.page_size,
-            url=self.page_url)
-
+            url=self.page_url,
+            )
+        instrument_keys = ' '.join([key.name for key in self.instrument_keys])
+        with_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['with_pitches']
+            )
+        without_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['without_pitches']
+            )
+        with_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['with_pitch_classes'],
+            )
+        without_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['without_pitch_classes'],
+            )
         return {
             'body_class': 'search',
             'fingering': self.fingering,
             'fingerings': self.fingering.find_similar_fingerings(n=12),
             'instrument': self.instrument,
+            'instrument_keys': instrument_keys,
             'instrument_name': self.instrument.name,
-            'instrument_keys': ' '.join([key.name for key in self.instrument_keys]),
             'page_title': self.page_title,
             'paginator': paginator,
             'search_action': FingeringHelper(self.fingering, self.request).url,
-            'with_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['with_pitches']]),
-            'without_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['without_pitches']]),
-            'with_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['with_pitch_classes']]),
-            'without_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['without_pitch_classes']]),
-        }
+            'with_pitches': with_pitches,
+            'without_pitches': without_pitches,
+            'with_pitch_classes': with_pitch_classes,
+            'without_pitch_classes': without_pitch_classes,
+            }
 
     ### PUBLIC ATTRIBUTES ###
 

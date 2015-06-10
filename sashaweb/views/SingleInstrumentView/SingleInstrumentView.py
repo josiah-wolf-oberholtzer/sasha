@@ -25,30 +25,48 @@ class SingleInstrumentView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-
         query = self.query()
-
-        paginator = paginate.Page(query,
+        paginator = paginate.Page(
+            query,
             page=self.page_number,
             items_per_page=self.page_size,
-            url=self.page_url)
-
+            url=self.page_url,
+            )
+        search_action = InstrumentHelper(self.instrument, self.request).url
+        with_keys = ' '.join(
+            x for x in self.idiom_parameters['with_keys'])
+        without_keys = ' '.join(
+            x for x in self.idiom_parameters['without_keys'])
+        with_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['with_pitches']
+            )
+        without_pitches = ' '.join(
+            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            for x in self.pitch_parameters['without_pitches']
+            )
+        with_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['with_pitch_classes'],
+            )
+        without_pitch_classes = ' '.join(
+            str(x)
+            for x in self.pitch_parameters['without_pitch_classes'],
+            )
         return {
             'body_class': 'search',
             'instrument': self.instrument,
             'instrument_name': self.instrument.name,
             'page_title': self.page_title,
             'paginator': paginator,
-            'search_action': InstrumentHelper(self.instrument, self.request).url,
-            'with_keys': ' '.join([x for x in self.idiom_parameters['with_keys']]),
-            'without_keys': ' '.join([x for x in self.idiom_parameters['without_keys']]),
-            'with_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['with_pitches']]),
-            'without_pitches': ' '.join(['%s%d' % (x.chromatic_pitch_class_name, x.octave_number)
-                for x in self.pitch_parameters['without_pitches']]),
-            'with_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['with_pitch_classes']]),
-            'without_pitch_classes': ' '.join([str(x) for x in self.pitch_parameters['without_pitch_classes']]),
-        }
+            'search_action': search_action,
+            'with_keys': with_keys,
+            'without_keys': without_keys,
+            'with_pitches': with_pitches,
+            'without_pitches': without_pitches,
+            'with_pitch_classes': with_pitch_classes,
+            'without_pitch_classes': without_pitch_classes,
+            }
 
     ### PUBLIC ATTRIBUTES ###
 
