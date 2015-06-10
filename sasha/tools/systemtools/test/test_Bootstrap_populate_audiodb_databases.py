@@ -22,6 +22,11 @@ def test_Bootstrap_populate_audiodb_databases_01():
     bootstrap.create_audiodb_databases()
     bootstrap.populate_audiodb_databases()
 
-    for name in sasha_configuration['audioDB']:
-        adb = wrappertools.AudioDB(name)
-        assert adb.status['num_files'] == event_count
+    adb = wrappertools.AudioDB('chroma')
+    assert adb.status['num_files'] == event_count
+
+    adb = wrappertools.AudioDB('constant_q')
+    assert adb.status['num_files'] == event_count
+
+    adb = wrappertools.AudioDB('mfcc')
+    assert adb.status['num_files'] == event_count
