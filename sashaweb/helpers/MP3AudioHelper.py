@@ -1,14 +1,14 @@
 from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 from webhelpers.html import HTML, literal
 
 
-class MP3AudioHelper(_Helper):
+class MP3AudioHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Event):
             self.event = arg
         else:

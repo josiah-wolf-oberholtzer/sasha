@@ -1,12 +1,12 @@
 from sasha.tools import domaintools
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 from webhelpers.html import HTML
 
 
-class ClusterHelper(_Helper):
+class ClusterHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Cluster):
             self._cluster = arg
         else:

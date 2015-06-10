@@ -1,12 +1,12 @@
 from sasha.tools import domaintools
 from webhelpers.html import HTML
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 
 
-class EventHelper(_Helper):
+class EventHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Event):
             self.event = arg
         else:

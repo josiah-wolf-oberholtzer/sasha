@@ -1,12 +1,12 @@
 from sasha.tools import domaintools
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 from webhelpers.html import HTML
 
 
-class InstrumentHelper(_Helper):
+class InstrumentHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Instrument):
             self.instrument = arg
         elif isinstance(arg, domaintools.Event):

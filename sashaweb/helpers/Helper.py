@@ -1,7 +1,7 @@
 from pyramid.url import static_url
 
 
-class _Helper(object):
+class Helper(object):
 
     def __init__(self, arg):
         self.request = arg

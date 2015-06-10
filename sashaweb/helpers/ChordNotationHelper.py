@@ -1,17 +1,17 @@
 from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 from sashaweb.helpers.EventHelper import EventHelper
 from webhelpers.html import HTML
 
 
-class ChordNotationHelper(_Helper):
+class ChordNotationHelper(Helper):
 
     ### INITIALIZER ###
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Event):
             self.event = arg
         else:

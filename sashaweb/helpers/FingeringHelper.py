@@ -1,12 +1,12 @@
 from sasha.tools import domaintools
 from webhelpers.html import HTML
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 
 
-class FingeringHelper(_Helper):
+class FingeringHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Fingering):
             self.fingering = arg
         elif isinstance(arg, domaintools.Event):

@@ -1,15 +1,15 @@
 from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
-from sashaweb.helpers._Helper import _Helper
+from sashaweb.helpers.Helper import Helper
 from sashaweb.helpers.EventHelper import EventHelper
 from webhelpers.html import HTML
 
 
-class PartialTrackingPlotHelper(_Helper):
+class ChromaNotationHelper(Helper):
 
     def __init__(self, arg, request):
-        _Helper.__init__(self, request)
+        Helper.__init__(self, request)
         if isinstance(arg, domaintools.Event):
             self.event = arg
         else:
@@ -28,6 +28,6 @@ class PartialTrackingPlotHelper(_Helper):
 
     @property
     def static_path(self):
-        path = assettools.PartialTrackingPlot(self.event).path
+        path = assettools.ChromaNotation(self.event).path
         environment, path = path.partition(sasha_configuration.environment)[1:]
         return 'sashamedia:%s%s' % (environment, path)
