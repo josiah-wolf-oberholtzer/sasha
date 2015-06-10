@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from sasha import SASHA, Event, Fingering, Instrument
+from sasha import sasha_configuration, Event, Fingering, Instrument
 from sashaweb.helpers import FingeringHelper
 from sashaweb.views.SearchView import SearchView
 from webhelpers import paginate
@@ -102,7 +102,7 @@ class SingleFingeringView(SearchView):
 
     def query(self):
 
-        query = SASHA.get_session().query(Event).join(Fingering).filter(Fingering.id==self.fingering.id)
+        query = sasha_configuration.get_session().query(Event).join(Fingering).filter(Fingering.id==self.fingering.id)
 
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')

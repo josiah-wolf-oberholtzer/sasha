@@ -15,5 +15,5 @@ class RandomEventView(_View):
 
     @property
     def location(self):
-        md5 = SASHA.get_session( ).query(Event).order_by('RANDOM( )').limit(1)[0].md5
+        md5 = sasha_configuration.get_session( ).query(Event).order_by('RANDOM( )').limit(1)[0].md5
         return self.request.route_url('single_event', md5=md5)

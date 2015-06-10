@@ -1,4 +1,4 @@
-from sasha import SASHA, Cluster, Event
+from sasha import sasha_configuration, Cluster, Event
 from sashaweb.helpers._Helper import _Helper
 from webhelpers.html import HTML
 

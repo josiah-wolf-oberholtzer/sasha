@@ -15,6 +15,7 @@ requires = [
     'scikits.audiolab',
     'sqlalchemy',
     'waitress',
+    'webhelpers',
     ]
 
 

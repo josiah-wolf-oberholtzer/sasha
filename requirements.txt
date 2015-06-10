@@ -7,3 +7,7 @@ sqlalchemy
 numpy
 scipy
 matplotlib
+pyramid
+pyramid_debugtoolbar
+waitress
+webhelpers

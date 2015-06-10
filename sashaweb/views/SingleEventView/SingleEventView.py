@@ -42,7 +42,7 @@ class SingleEventView(SearchView):
 
     @property
     def clusters(self):
-        return SASHA.get_session().query(Cluster).join(Event.clusters).filter(Event.id==self.event.id)
+        return sasha_configuration.get_session().query(Cluster).join(Event.clusters).filter(Event.id==self.event.id)
 
     @property
     def event(self):

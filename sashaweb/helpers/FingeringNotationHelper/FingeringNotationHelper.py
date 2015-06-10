@@ -1,4 +1,4 @@
-from sasha import SASHA, Event, Fingering
+from sasha import sasha_configuration, Event, Fingering
 from sasha.plugins import FingeringNotation
 from sashaweb.helpers._Helper import _Helper
 from sashaweb.helpers.FingeringHelper import FingeringHelper
@@ -30,5 +30,5 @@ class FingeringNotationHelper(_Helper):
     @property
     def static_path(self):
         path = FingeringNotation(self.fingering).path
-        environment, path = path.partition(SASHA.env)[1:]
+        environment, path = path.partition(sasha_configuration.env)[1:]
         return 'sashamedia:%s%s' % (environment, path)

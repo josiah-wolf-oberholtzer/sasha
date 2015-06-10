@@ -96,7 +96,7 @@ class SingleInstrumentView(SearchView):
     
     def query(self):
         
-        query = SASHA.get_session().query(Event).join(Instrument).filter(Instrument.id==self.instrument.id)
+        query = sasha_configuration.get_session().query(Event).join(Instrument).filter(Instrument.id==self.instrument.id)
 
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')

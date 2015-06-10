@@ -1,4 +1,4 @@
-from sasha import SASHA, Event
+from sasha import sasha_configuration, Event
 from sasha.plugins import MP3Audio
 from sashaweb.helpers._Helper import _Helper
 from webhelpers.html import HTML, literal
@@ -28,5 +28,5 @@ class MP3AudioHelper(_Helper):
     @property
     def static_path(self):
         path = MP3Audio(self.event).path
-        environment, path = path.partition(SASHA.env)[1:]
+        environment, path = path.partition(sasha_configuration.env)[1:]
         return 'sashamedia:%s%s' % (environment, path)

@@ -2,7 +2,7 @@
 
 <%!
     from pyramid.url import route_url, current_route_url
-    from sasha import SASHA, Event, Instrument
+    from sasha import sasha_configuration, Event, Instrument
     from sashaweb.helpers import EventHelper, FingeringHelper, InstrumentHelper
     from sashaweb.helpers import ChordNotationHelper, MP3AudioHelper, ClusterHelper
     from sashaweb.helpers import FingeringNotationHelper

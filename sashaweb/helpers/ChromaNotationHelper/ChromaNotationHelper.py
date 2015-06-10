@@ -1,4 +1,4 @@
-from sasha import SASHA, Event
+from sasha import sasha_configuration, Event
 from sasha.plugins import ChromaNotation
 from sashaweb.helpers._Helper import _Helper
 from sashaweb.helpers.EventHelper import EventHelper
@@ -28,6 +28,6 @@ class ChromaNotationHelper(_Helper):
     @property
     def static_path(self):
         path = ChromaNotation(self.event).path
-        environment, path = path.partition(SASHA.env)[1:]
+        environment, path = path.partition(sasha_configuration.env)[1:]
         return 'sashamedia:%s%s' % (environment, path)
 

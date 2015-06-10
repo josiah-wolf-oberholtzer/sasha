@@ -417,7 +417,7 @@ class SearchView(_View):
             #print 'WITH_INSTRUMENTS: %r' % with_instruments
             #print 'WITHOUT_INSTRUMENTS: %r' % without_instruments
 
-            instrument_query = SASHA.get_session( ).query(Event).join(Instrument)
+            instrument_query = sasha_configuration.get_session( ).query(Event).join(Instrument)
             if with_instruments:
                 instrument_query = instrument_query.filter(Instrument.name.in_(with_instruments))
             if without_instruments:
@@ -429,7 +429,7 @@ class SearchView(_View):
                 query = query.intersect(instrument_query)
 
         if query is None:
-            query = SASHA.get_session().query(Event)
+            query = sasha_configuration.get_session().query(Event)
 
         return query
 
