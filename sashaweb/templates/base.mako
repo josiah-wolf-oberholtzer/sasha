@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="${request.static_url('sashaweb:static/css/normalize.css')}"/>
     <link rel="stylesheet" href="${request.static_url('sashaweb:static/css/960_12_col.css')}"/>
     <link rel="stylesheet" href="${request.static_url('sashaweb:static/css/sasha.css')}"/>
+    <meta property="og:description" content="Saxophone Acoustic Search and Heuristic Analysis" />
+    <meta property="og:image" content="http://sasha.mbrsi.org/assets/plots/event__9ff9e473eb974e9576739647ac0b72ae__partials.png" />
+    <meta property="og:site_name" content="S.A.S.H.A." />
+    <meta property="og:title" content="${page_title}" />
+    <meta property="og:url" content="http://sasha.mbrsi.org/search/" />
     <script type="text/javascript" src="${request.static_url('sashaweb:static/js/jquery-1.7.1.min.js')}"></script>
     <script type="text/javascript" src="${request.static_url('sashaweb:static/js/audio-player.js')}"></script>  
     <script type="text/javascript">  
