@@ -38,11 +38,11 @@ class SingleInstrumentView(SearchView):
         without_keys = ' '.join(
             x for x in self.idiom_parameters['without_keys'])
         with_pitches = ' '.join(
-            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            '{}{}'.format(x.pitch_class_name, x.octave_number)
             for x in self.pitch_parameters['with_pitches']
             )
         without_pitches = ' '.join(
-            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            '{}{}'.format(x.pitch_class_name, x.octave_number)
             for x in self.pitch_parameters['without_pitches']
             )
         with_pitch_classes = ' '.join(

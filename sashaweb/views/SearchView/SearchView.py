@@ -37,11 +37,11 @@ class SearchView(_View):
             )
         search_action = self.request.route_url('search')
         with_pitches = ' '.join(
-            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            '{}{}'.format(x.pitch_class_name, x.octave_number)
             for x in self.pitch_parameters['with_pitches']
             )
         without_pitches = ' '.join(
-            '{}{}'.format(x.chromatic_pitch_class_name, x.octave_number)
+            '{}{}'.format(x.pitch_class_name, x.octave_number)
             for x in self.pitch_parameters['without_pitches']
             )
         with_pitch_classes = ' '.join(
@@ -390,7 +390,7 @@ class SearchView(_View):
         if pitch_intersection:
             self.request.session.flash(
                 literal('Included and dis-included pitches overlap: %s' %
-                    ' '.join(['<em>%s%d</em>' % (x.chromatic_pitch_class_name, x.octave_number)
+                    ' '.join(['<em>%s%d</em>' % (x.pitch_class_name, x.octave_number)
                     for x in pitch_intersection])))
 
         if pitch_class_intersection:
