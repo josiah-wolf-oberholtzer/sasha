@@ -1,6 +1,6 @@
 from sasha.tools import domaintools
-from webhelpers.html import HTML
 from sashaweb.helpers.Helper import Helper
+from webhelpers.html import HTML
 
 
 class EventHelper(Helper):

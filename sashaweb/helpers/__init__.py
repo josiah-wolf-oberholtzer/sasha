@@ -1,6 +1,10 @@
-from abjad.tools import systemtools
-
-systemtools.ImportManager.import_structured_package(
-    __path__[0],
-    globals(),
-    )
+from sasha.helpers.ChordNotationHelper import ChordNotationHelper
+from sasha.helpers.ChromaNotationHelper import ChromaNotationHelper
+from sasha.helpers.ClusterHelper import ClusterHelper
+from sasha.helpers.EventHelper import EventHelper
+from sasha.helpers.FingeringHelper import FingeringHelper
+from sasha.helpers.FingeringNotationHelper import FingeringNotationHelper
+from sasha.helpers.Helper import Helper
+from sasha.helpers.InstrumentHelper import InstrumentHelper
+from sasha.helpers.MP3AudioHelper import MP3AudioHelper
+from sasha.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper

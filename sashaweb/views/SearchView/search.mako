@@ -1,10 +1,17 @@
 <%inherit file="sashaweb:templates/base__search.mako"/>
 
 <%!
-    from sasha import sasha_configuration, Event, Instrument
-    from sashaweb.helpers import EventHelper, FingeringHelper, InstrumentHelper
-    from sashaweb.helpers import ChordNotationHelper, ChromaNotationHelper, MP3AudioHelper
-    from sashaweb.helpers import FingeringNotationHelper, PartialTrackingPlotHelper
+    from sasha import sasha_configuration
+    from sasha.tools.domaintools import Event
+    from sasha.tools.domaintools import Instrument
+    from sashaweb.helpers import EventHelper
+    from sashaweb.helpers import FingeringHelper
+    from sashaweb.helpers import InstrumentHelper
+    from sashaweb.helpers import ChordNotationHelper
+    from sashaweb.helpers import ChromaNotationHelper
+    from sashaweb.helpers import MP3AudioHelper
+    from sashaweb.helpers import FingeringNotationHelper
+    from sashaweb.helpers import PartialTrackingPlotHelper
 %>
 
 <%block name="page_title">
