@@ -33,7 +33,7 @@ install:
 
 script:
     - sasha/scr/bootstrap-testing-environment
-    - py.test -rf
+    - py.test -rf -vv
 
 notifications:
     email: false

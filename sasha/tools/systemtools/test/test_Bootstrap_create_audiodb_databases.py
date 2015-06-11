@@ -8,6 +8,10 @@ sasha_configuration.environment = 'testing'
 
 def test_Bootstrap_create_audiodb_databases_01():
 
+    print  wrappertools.AudioDB('chroma').path
+    print  wrappertools.AudioDB('constant_q').path
+    print  wrappertools.AudioDB('mfcc').path
+
     assert wrappertools.AudioDB('chroma').exists
     assert wrappertools.AudioDB('constant_q').exists
     assert wrappertools.AudioDB('mfcc').exists
