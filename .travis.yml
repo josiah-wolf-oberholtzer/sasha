@@ -22,6 +22,8 @@ before_install:
 
     - make -C libaudioDB/
     - sudo make -C libaudioDB/ install
+    - sudo ln -s /usr/local/lib/libaudioDB.so /usr/local/lib64/libaudioDB.so
+    - sudo ln -s /usr/local/lib/libaudioDB.so.0.0 /usr/local/lib64/libaudioDB.so.0.0
 
     - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
