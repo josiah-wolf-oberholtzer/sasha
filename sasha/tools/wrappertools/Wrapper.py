@@ -1,13 +1,13 @@
 from abc import ABCMeta
 import subprocess
-from sasha.tools.systemtools import Immutable
 
 
-class Wrapper(Immutable):
+class Wrapper(object):
 
     ### CLASS ATTRIBUTES ###
 
     __metaclass__ = ABCMeta
+    __slots__ = ()
 
     ### PRIVATE METHODS ###
 

@@ -24,11 +24,11 @@ class AudioDB(Wrapper):
         if not os.path.isabs(self.executable):
             assert Which()('audioDB') is not None
         path, asset_class = sasha_configuration.get_audiodb_parameters(name)
-        object.__setattr__(self, '_asset_class', asset_class)
-        object.__setattr__(self, '_name', name)
-        object.__setattr__(self, '_path', path)
+        self._asset_class = asset_class
+        self._name = name
+        self._path = path
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__, repr(self.name))

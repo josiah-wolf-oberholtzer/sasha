@@ -51,7 +51,7 @@ class ChordNotation(Notation):
     def write(self, sublabel=None, **kwargs):
         from sasha import Instrument
         lily = self._make_illustration()
-        object.__setattr__(self, '_asset', lily)
+        self._asset = lily
         transposed = self._make_illustration()
         instrument = Instrument.get_one(id=self.client.instrument_id)
         transposition = abjad.pitchtools.NumberedInterval(

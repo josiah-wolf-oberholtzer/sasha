@@ -1,14 +1,17 @@
 import math
-from sasha.tools.systemtools import Immutable
 from sasha.tools.analysistools.Peak import Peak
 
 
-class Track(Immutable):
+class Track(object):
 
-    __slots__ = ('_peaks')
+    __slots__ = (
+        '_peaks',
+        )
+
+    ### INITIALIZER ###
 
     def __init__(self, peaks):
-        object.__setattr__(self, '_peaks', tuple(peaks))
+        self._peaks = tuple(peaks)
 
     ### OVERRIDES ###
 
@@ -24,7 +27,7 @@ class Track(Immutable):
     def __getstate__(self):
         state = {
             '_peaks': self.peaks
-        }
+            }
         return state
 
     def __iter__(self):
@@ -35,8 +38,8 @@ class Track(Immutable):
         return len(self._peaks)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems():
-            object.__setattr__(self, k, v)
+        for key, value in state.iteritems():
+            setattr(self, key, value)
 
     ### PUBLIC ATTRIBUTES ###
 

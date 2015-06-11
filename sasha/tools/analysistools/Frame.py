@@ -1,17 +1,15 @@
 from bisect import *
-
 import numpy
-
-from sasha.tools.systemtools import Immutable
 from sasha.tools.analysistools.Peak import Peak
-
 try:
     from anfft import rfft
 except ImportError:
     from numpy.fft import rfft
 
 
-class Frame(Immutable):
+class Frame(object):
+
+    ### CLASS VARIABLES ###
 
     __slots__ = (
         '_audio',
@@ -24,46 +22,51 @@ class Frame(Immutable):
         '_sampling_rate',
         )
 
-    def __new__(klass, audio, frame_size, offset, sampling_rate, ID = None):
-        self = object.__new__(klass)
+    ### NEW ###
+
+    def __new__(
+        class_,
+        audio,
+        frame_size,
+        offset,
+        sampling_rate,
+        ID=None,
+        ):
+        self = object.__new__(class_)
         assert len(audio) <= frame_size
-        object.__setattr__(self, '_audio', audio)
-        object.__setattr__(self, '_frame_size', frame_size)
-        object.__setattr__(self, '_frequencies', None)
-        object.__setattr__(self, '_ID', ID)
-        object.__setattr__(self, '_midis', None)
-        object.__setattr__(self, '_offset', offset)
-        object.__setattr__(self, '_peaks', None)
-        object.__setattr__(self, '_sampling_rate', sampling_rate)
+        self._audio = audio
+        self._frame_size = frame_size
+        self._frequencies = None
+        self._ID = ID
+        self._midis = None
+        self._offset = offset
+        self._peaks = None
+        self._sampling_rate = sampling_rate
         return self
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, **kwargs):
-        from sasha import sasha_configuration
-        #sasha_configuration.logger.info('Calculating FFT @ %d' % self.offset)
-
+        # from sasha import sasha_configuration
+        # sasha_configuration.logger.info('Calculating FFT @ %d' % self.offset)
         fft = rfft(self.windowed_audio)
-
         peaks = []
         mag = abs(fft)
         prev_mag = numpy.abs(mag[0])
         this_mag = numpy.abs(mag[1])
         next_mag = None
-
         for bin in range(2, len(mag) - 1):
             next_mag = numpy.abs(mag[bin])
             if (prev_mag < this_mag) and (next_mag < this_mag):
                 frequency = (bin - 1) * self.fundamental
                 amplitude = this_mag
                 phase = numpy.angle(fft[bin - 1])
-                peaks.append(Peak(frequency, amplitude, phase, frame_ID = self.ID))
+                peaks.append(Peak(frequency, amplitude, phase, frame_ID=self.ID))
             prev_mag = this_mag
             this_mag = next_mag
-
-        object.__setattr__(self, '_peaks', self._filter_peaks(peaks, **kwargs))
-        object.__setattr__(self, '_frequencies', [peak.frequency for peak in self])
-        object.__setattr__(self, '_midis', [peak.midis for peak in self])
+        self._peaks = self._filter_peaks(peaks, **kwargs)
+        self._frequencies = [peak.frequency for peak in self]
+        self._midis = [peak.midis for peak in self]
 
     def __eq__(self, other):
         if type(self) == type(other) and \
@@ -93,7 +96,7 @@ class Frame(Immutable):
             '_offset': self._offset,
             '_peaks': self._peaks,
             '_sampling_rate': self._sampling_rate
-        }
+            }
         return state
 
     def __iter__(self):
@@ -106,8 +109,8 @@ class Frame(Immutable):
         return len(self.peaks)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems():
-            object.__setattr__(self, k, v)
+        for key, value in state.items():
+            setattr(self, key, value)
 
     ### PRIVATE METHODS ###
 
@@ -117,9 +120,9 @@ class Frame(Immutable):
         if 'min_peak_frequency' in kwargs:
             peaks = filter(lambda x: kwargs['min_peak_frequency'] <= x.frequency, peaks)
         if 'max_peak_count' in kwargs:
-            peaks.sort(key = lambda x: x.amplitude, reverse = True)
+            peaks.sort(key=lambda x: x.amplitude, reverse=True)
             peaks = peaks[:kwargs['max_peak_count']]
-            peaks.sort(key = lambda x: x.frequency)
+            peaks.sort(key=lambda x: x.frequency)
         return peaks
 
     ### PUBLIC ATTRIBUTES ###
@@ -189,7 +192,7 @@ class Frame(Immutable):
         result = []
         idx = bisect(self.midis, peak.midis)
 
-        if idx < len(self.peaks): # ok to count up
+        if idx < len(self.peaks):  # ok to count up
             j = idx
             while j < len(self.peaks):
                 if abs(self.peaks[j].midis - peak.midis) <= threshold:
@@ -197,8 +200,7 @@ class Frame(Immutable):
                     j += 1
                 else:
                     break
-
-        if 0 < idx: # ok to count down
+        if 0 < idx:  # ok to count down
             j = idx - 1
             while 0 <= j:
                 if abs(self.midis[j] - peak.midis) <= threshold:
@@ -206,6 +208,5 @@ class Frame(Immutable):
                     j -= 1
                 else:
                     break
-
-        result.sort(key = lambda x: abs(x.frequency - peak.frequency))
+        result.sort(key=lambda x: abs(x.frequency - peak.frequency))
         return result

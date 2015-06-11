@@ -3,18 +3,33 @@ import math
 
 class Peak(object):
 
-    # TODO: make it mutable again
+    ### CLASS VARIABLES ###
 
-    __slots__ = ('_amplitude', '_frame_ID', '_frequency', '_next_peak', '_phase', '_previous_peak',)
+    __slots__ = (
+        '_amplitude',
+        '_frame_ID',
+        '_frequency',
+        '_next_peak',
+        '_phase',
+        '_previous_peak',
+        )
 
-    def __init__(self, frequency, amplitude, phase, frame_ID = None):
+    ### INITIALIZER ###
+
+    def __init__(
+        self,
+        frequency,
+        amplitude,
+        phase,
+        frame_ID=None,
+        ):
         self._amplitude = amplitude
         self._frame_ID = frame_ID
         self._frequency = frequency
         self._next_peak = None
         self._phase = phase
         self._previous_peak = None
-    
+
     ### OVERRIDES ###
 
     def __getnewargs__(self):
@@ -26,7 +41,7 @@ class Peak(object):
             '_frame_ID': self._frame_ID,
             '_frequency': self._frequency,
             '_phase': self._phase,
-        }
+            }
         return state
 
     def __repr__(self):
@@ -34,10 +49,10 @@ class Peak(object):
             self.frequency, self.amplitude, self.phase)
 
     def __setstate__(self, state):
-        for k, v in state.iteritems():
-            object.__setattr__(self, k, v)
-        object.__setattr__(self, '_next_peak', None)
-        object.__setattr__(self, '_previous_peak', None)
+        for key, value in state.items():
+            setattr(self, key, value)
+        self._next_peak = None
+        self._previous_peak = None
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -131,5 +146,4 @@ class Peak(object):
 
     def db(self, reference):
         return 10. * math.log(self.amplitude / float(reference), 10.)
-
 

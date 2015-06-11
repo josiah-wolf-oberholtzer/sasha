@@ -6,6 +6,8 @@ from sasha.tools.assettools.SourceAudio import SourceAudio
 
 class PartialTrackingAnalysis(Asset):
 
+    ### CLASS VARIABLES ###
+
     __requires__ = SourceAudio
 
     media_type = 'analyses'
@@ -16,10 +18,8 @@ class PartialTrackingAnalysis(Asset):
     def _find_tracks(self, parallel=False, **kwargs):
         from sasha.tools.analysistools import PeakDetector
         from sasha.tools.analysistools import PartialTracker
-        frames = PeakDetector(max_peak_count=15)(
-            SourceAudio(self),
-            parallel=False,
-            )
+        peak_detector = PeakDetector(max_peak_count=15)
+        frames = peak_detector(SourceAudio(self), parallel=False)
         tracks = PartialTracker(min_track_length=10)(frames)
         for track in tracks:
             for peak in track:
@@ -35,55 +35,46 @@ class PartialTrackingAnalysis(Asset):
     def read(self):
         from sasha.tools.analysistools import Peak
         from sasha.tools.analysistools import Track
-
-        input = open(self.path, 'rb')
-        data = input.read()
-        input.close()
-
+        with open(self.path, 'rb') as file_pointer:
+            data = file_pointer.read()
         tracks = []
         byte_offset = 0
-        fmt = 'i'
-        num_tracks = struct.unpack_from(fmt, data, byte_offset)[0]
-        byte_offset += struct.calcsize(fmt)
-
+        num_tracks = struct.unpack_from('i', data, byte_offset)[0]
+        byte_offset += struct.calcsize('i')
         for i in range(num_tracks):
-
             track = []
-            fmt = 'i'
-            num_peaks = struct.unpack_from(fmt, data, byte_offset)[0]
-            byte_offset += struct.calcsize(fmt)
-
+            num_peaks = struct.unpack_from('i', data, byte_offset)[0]
+            byte_offset += struct.calcsize('i')
             for j in range(num_peaks):
-
-                fmt = 'dddi'
-                frequency, amplitude, phase, frame_ID = struct.unpack_from(fmt, data, byte_offset)
-                track.append(Peak(frequency, amplitude, phase, frame_ID = frame_ID))
-                byte_offset += struct.calcsize(fmt)
-
+                frequency, amplitude, phase, frame_ID = struct.unpack_from(
+                    'dddi', data, byte_offset)
+                peak = Peak(frequency, amplitude, phase, frame_ID=frame_ID)
+                track.append(peak)
+                byte_offset += struct.calcsize('dddi')
             tracks.append(Track(track))
-
-        object.__setattr__(self, '_asset', tuple(tracks))
+        self._asset = tuple(tracks)
         return self.asset
 
     def write(self, **kwargs):
-        object.__setattr__(self, '_asset', self._find_tracks(kwargs))
+        self._asset = self._find_tracks(kwargs)
         self.delete()
         output_directory, _ = os.path.split(self.path)
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
-        output = open(self.path, 'wb')
-
-        # write the number of tracks as an int
-        output.write(struct.pack('i', len(self.asset)))
-
-        # write each track
-        for track in self.asset:
-            # write the number of peaks in the track as an int
-            output.write(struct.pack('i', len(track)))
-
-            # write each peak as freq, amp, phase, frame_ID 4-tuple
-            for peak in track:
-                output.write(struct.pack('dddi',
-                    peak.frequency, peak.amplitude, peak.phase, peak.frame_ID))
-
-        output.close()
+        with open(self.path, 'wb') as file_pointer:
+            # write the number of tracks as an int
+            file_pointer.write(struct.pack('i', len(self.asset)))
+            # write each track
+            for track in self.asset:
+                # write the number of peaks in the track as an int
+                file_pointer.write(struct.pack('i', len(track)))
+                # write each peak as freq, amp, phase, frame_ID 4-tuple
+                for peak in track:
+                    packed = struct.pack(
+                        'dddi',
+                        peak.frequency,
+                        peak.amplitude,
+                        peak.phase,
+                        peak.frame_ID,
+                        )
+                    file_pointer.write(packed)

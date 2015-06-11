@@ -7,6 +7,8 @@ from sasha.tools.wrappertools import Wrapper
 
 class Notation(Asset):
 
+    ### CLASS VARIABLES ###
+
     _aa_factor = 4
     _resolution = 72
     media_type = 'scores'
@@ -66,19 +68,9 @@ class Notation(Asset):
 
         Convert()(png_path, png_path)
 
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def aa_factor(self):
-        return self._aa_factor
-
-    @property
-    def resolution(self):
-        return self._resolution
-
     ### PUBLIC METHODS ###
 
-    def delete(self, sublabel = None):
+    def delete(self, sublabel=None):
         if sublabel is None:
             if isinstance(self.path, dict):
                 for path in self.path.values():
@@ -90,13 +82,23 @@ class Notation(Asset):
             if os.path.exists(self.path[sublabel]):
                 os.remove(self.path[sublabel])
 
-    def write(self, sublabel = None, **kwargs):
+    def write(self, sublabel=None, **kwargs):
         try:
             lily = self._make_illustration(sublabel)
-            object.__setattr__(self, '_asset', lily)
+            self._asset = lily
             self._save_lily_to_png(lily, sublabel)
         except:
             import sys
             import traceback
             exc_type, exc_value, exc_traceback = sys.exc_info()
             print '\n'.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def aa_factor(self):
+        return self._aa_factor
+
+    @property
+    def resolution(self):
+        return self._resolution

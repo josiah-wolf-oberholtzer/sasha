@@ -9,6 +9,8 @@ from sasha.tools.wrappertools import FFTExtract
 
 class FFTExtractPlugin(Asset):
 
+    ### CLASS VARIABLES
+
     __requires__ = CroppedAudio
     __slots__ = (
         '_asset',
@@ -19,20 +21,12 @@ class FFTExtractPlugin(Asset):
 
     media_type = 'analyses'
 
+    ### INITIALIZER ###
+
     def __init__(self, arg):
         Asset.__init__(self, arg)
-        object.__setattr__(self, '_mean', None)
-        object.__setattr__(self, '_std', None)
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def mean(self):
-        return self._mean
-
-    @property
-    def std(self):
-        return self._std
+        self._mean = None
+        self._std = None
 
     ### PUBLIC METHODS ###
 
@@ -43,9 +37,9 @@ class FFTExtractPlugin(Asset):
     def read(self):
         if os.path.exists(self.path):
             result = FFTExtract().read_analysis(self.path)
-            object.__setattr__(self, '_asset', result)
-            object.__setattr__(self, '_mean', mean(self.asset, axis=0))
-            object.__setattr__(self, '_std', std(self.asset, axis=0))
+            self._asset = result
+            self._mean = mean(self.asset, axis=0)
+            self._std = std(self.asset, axis=0)
             return result
         else:
             raise Exception('Path "%s" does not exist' % self.path)
@@ -53,3 +47,13 @@ class FFTExtractPlugin(Asset):
     @abc.abstractmethod
     def write(self, **kwargs):
         raise NotImplemented
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def mean(self):
+        return self._mean
+
+    @property
+    def std(self):
+        return self._std
