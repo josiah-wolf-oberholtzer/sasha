@@ -6,25 +6,35 @@ python:
 before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
+
     #- SITE_PKG_DIR=$VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/site-packages
     #- rm -f $VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/no-global-site-packages.txt  
+    #
     - sudo apt-get update -qq
     - sudo apt-get install -y build-essential
     - sudo apt-get install -y gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev
     - sudo apt-get install -y python-numpy python-scipy python-matplotlib
     - sudo apt-get install -y imagemagick lame
+
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
     - git clone https://github.com/bregmanstudio/BLAST.git
+
     - make -C libaudioDB/
     - sudo make -C libaudioDB/ install
+
     - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
+    - audioDB --help
+
     - make -C BLAST/fftExtract/
     - sudo cp BLAST/fftExtract/fftExtract /usr/local/bin
+    - fftExtract --help
+
     - wget -q http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.19.21-1.linux-64.sh
     - sh lilypond-2.19.21-1.linux-64.sh --batch
     - export PATH=/home/travis/bin:$PATH
+    - lilypond --help
 
 install:
     - pip install -r requirements.txt
