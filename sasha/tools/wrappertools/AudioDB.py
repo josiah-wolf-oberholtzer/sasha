@@ -50,10 +50,8 @@ class AudioDB(Wrapper):
             os.remove(self.path)
 
     def populate(self, events):
-        import sasha
         from sasha.tools.domaintools import Event
         from sasha.tools.assettools import LogPowerAnalysis
-        sasha_root = sasha.__path__[0]
         assert len(events) and all([isinstance(x, Event) for x in events])
         assert all([LogPowerAnalysis(x).exists for x in events])
         assert all([self.asset_class(x).exists for x in events])
