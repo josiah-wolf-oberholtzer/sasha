@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import sasha
-
-sasha.sasha_configuration.environment = 'testing'
-sasha.sasha_configuration.bootstrap()
+if __name__ == '__main__':
+    import sasha
+    sasha.sasha_configuration.environment = 'testing'
+    sasha.sasha_configuration.bootstrap()

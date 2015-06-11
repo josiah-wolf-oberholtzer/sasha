@@ -5,12 +5,11 @@ import sasha
 from abjad.tools import documentationtools
 
 
-sasha_root = sasha.__path__[0]
-
-
 class SASHAAPIGenerator(documentationtools.AbjadAPIGenerator):
     r'''API generator for the sasha package.
     '''
+
+    ### CLASS VARIABLES ###
 
     _api_title = 'SASHA API'
 
@@ -18,9 +17,10 @@ class SASHAAPIGenerator(documentationtools.AbjadAPIGenerator):
         'core': 'Core packages',
         }
 
+    ### PUBLIC PROPERTIES ###
+
     @property
     def docs_api_index_path(self):
-        import sasha
         return os.path.join(
             sasha.__path__[0],
             'docs',
@@ -30,7 +30,6 @@ class SASHAAPIGenerator(documentationtools.AbjadAPIGenerator):
 
     @property
     def path_definitions(self):
-        import sasha
         tools_code_path = os.path.join(
             sasha.__path__[0],
             'tools',
