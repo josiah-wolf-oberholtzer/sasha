@@ -3,7 +3,7 @@ from sasha.tools.wrappertools.Wrapper import Wrapper
 
 class Playback(Wrapper):
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, input):
         cmd = '%s %s' % \
@@ -12,7 +12,7 @@ class Playback(Wrapper):
         if err:
             print err
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC PROPERTIES ###
 
     @property
     def executable(self):

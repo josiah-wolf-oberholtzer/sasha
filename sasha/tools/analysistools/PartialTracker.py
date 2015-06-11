@@ -1,11 +1,12 @@
 import numpy
 from bisect import bisect
-from sasha.tools.analysistools.Peak import Peak
 from sasha.tools.analysistools.Regression import Regression
 from sasha.tools.analysistools.Track import Track
 
 
 class PartialTracker(object):
+
+    ### CLASS VARIABLES ###
 
     __slots__ = (
         '_max_deviation_in_midis',
@@ -14,7 +15,9 @@ class PartialTracker(object):
         '_peak_sort',
         '_regression_size',
         '_use_regression',
-    )
+        )
+
+    ### INITIALIZER ###
 
     def __init__(self, **kwargs):
         self.max_deviation_in_midis = 0.15
@@ -27,7 +30,7 @@ class PartialTracker(object):
             if hasattr(self, k):
                 setattr(self, k, v)
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, frames):
 
@@ -100,8 +103,7 @@ class PartialTracker(object):
         result = []
         frame_midis = [x.midis for x in frame]
         idx = bisect(frame_midis, midis)
-        
-        if idx < len(frame): # ok to count up
+        if idx < len(frame):  # ok to count up
             j = idx
             while j < len(frame):
                 if abs(frame_midis[j] - midis) <= threshold:
@@ -109,8 +111,7 @@ class PartialTracker(object):
                     j += 1
                 else:
                     break
-    
-        if 0 < idx: # ok to count down
+        if 0 < idx:  # ok to count down
             j = idx - 1
             while 0 <= j:
                 if abs(frame_midis[j] - midis) <= threshold:
@@ -118,8 +119,7 @@ class PartialTracker(object):
                     j -= 1
                 else:
                     break
-    
-        result.sort(key = lambda x: abs(x.midis - midis))
+        result.sort(key=lambda x: abs(x.midis - midis))
         return result
 
     def _create_tracks_from_analyzed_frames(self, frames):
@@ -131,7 +131,6 @@ class PartialTracker(object):
                     track_starts.append(peak)
                 elif peak.is_free_peak:
                     track_starts.append(peak)
-
         tracks = []
         for track_start in track_starts:
             track = [track_start]
@@ -140,9 +139,7 @@ class PartialTracker(object):
                 this = this.next_peak
                 track.append(this)
             tracks.append(Track(track))
-
         return tracks
-
 
     def _link_peaks(self, a, b):
         if a.frame_ID < b.frame_ID:
@@ -156,13 +153,78 @@ class PartialTracker(object):
 
     def _sort_peaks_in_frame(self, frame):
         if self.peak_sort == 'strongest':
-            return tuple(sorted(frame, key = lambda x: x.amplitude, reverse = True))
+            return tuple(sorted(frame, key=lambda x: x.amplitude, reverse=True))
         elif self.peak_sort == 'lowest':
-            return tuple(sorted(frame, key = lambda x: x.frequency))
+            return tuple(sorted(frame, key=lambda x: x.frequency))
         else:
             raise Exception('Unknown peak sort.')
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def plot(self, tracks, mode=0, minimum_track_size=10):
+        import matplotlib.pyplot as plt
+        from matplotlib import cm
+        from matplotlib.collections import LineCollection
+        from matplotlib.colors import LogNorm
+        # from matplotlib import rc
+        # rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+        assert mode in [0, 1]
+        minimum_track_size = max(2, minimum_track_size)
+        fig = plt.figure()
+        if mode == 0:
+            z_min = z_max = None
+            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+                if z_min is None:
+                    z_min = min([peak.amplitude for peak in track])
+                else:
+                    z_min = min(z_min, min([peak.amplitude for peak in track]))
+                if z_max is None:
+                    z_max = max([peak.amplitude for peak in track])
+                else:
+                    z_max = max(z_max, max([peak.amplitude for peak in track]))
+            cmap = cm.gray
+            norm = LogNorm(vmin=z_min, vmax=z_max)
+            x_min = x_max = y_min = y_max = None
+            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+                xs = numpy.array([peak.frame_ID for peak in track])
+                ys = numpy.array([peak.midis for peak in track])
+                zs = numpy.array([peak.amplitude for peak in track])
+                if x_min is None:
+                    x_min = xs.min()
+                else:
+                    x_min = min(x_min, xs.min())
+                if x_max is None:
+                    x_max = xs.max()
+                else:
+                    x_max = max(x_max, xs.max())
+                if y_min is None:
+                    y_min = ys.min()
+                else:
+                    y_min = min(y_min, ys.min())
+                if y_max is None:
+                    y_max = ys.max()
+                else:
+                    y_max = max(y_max, ys.max())
+                points = numpy.array([xs, ys]).T.reshape(-1, 1, 2)
+                segments = numpy.concatenate([points[:-1], points[1:]], axis=1)
+                lc = LineCollection(segments, cmap=cmap, norm=norm)
+                lc.set_array(zs)
+                lc.set_linewidth(1)
+                fig.gca().add_collection(lc)
+                fig.gca().set_xlim(x_min, x_max)
+                fig.gca().set_ylim(y_min, y_max)
+        elif mode == 1:
+            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+                xs = [peak.frame_ID for peak in track]
+                ys = [peak.midis for peak in track]
+                fig.gca().plot(xs, ys)
+        ax = fig.gca()
+        ax.set_xlabel('Frames')
+        ax.set_ylabel('Semitones (0 = Middle C)')
+        ax.set_axis_bgcolor('black')
+        return fig
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def max_deviation_in_midis(self):
@@ -210,7 +272,7 @@ class PartialTracker(object):
 
     @peak_sort.setter
     def peak_sort(self, arg):
-        if not arg in ['strongest', 'lowest']:
+        if arg not in ['strongest', 'lowest']:
             raise ValueError
         self._peak_sort = arg
 
@@ -230,92 +292,6 @@ class PartialTracker(object):
 
     @use_regression.setter
     def use_regression(self, arg):
-        if not arg in [True, False]:
+        if arg not in (True, False):
             raise ValueError
         self._use_regression = arg
-
-    ### PUBLIC METHODS ###
-
-    def plot(self, tracks, mode = 0, minimum_track_size = 10):
-
-        import matplotlib.pyplot as plt
-        from matplotlib import cm
-        from matplotlib.collections import LineCollection
-        from matplotlib.colors import LogNorm, Normalize
-        from matplotlib import cm
-        from matplotlib import rc
-
-#        rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-
-        assert mode in [0, 1]
-
-        minimum_track_size = max(2, minimum_track_size)
-
-        fig = plt.figure()
-
-        if mode == 0:
-
-            z_min = z_max = None
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
-                if z_min is None:
-                    z_min = min([peak.amplitude for peak in track])
-                else:
-                    z_min = min(z_min, min([peak.amplitude for peak in track]))
-                if z_max is None:
-                    z_max = max([peak.amplitude for peak in track])
-                else:
-                    z_max = max(z_max, max([peak.amplitude for peak in track]))
-
-            cmap = cm.gray
-            norm = LogNorm(vmin = z_min, vmax = z_max)
-
-            x_min = x_max = y_min = y_max = None
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
-                xs = numpy.array([peak.frame_ID for peak in track])
-                ys = numpy.array([peak.midis for peak in track])
-                zs = numpy.array([peak.amplitude for peak in track])
-
-                if x_min is None:
-                    x_min = xs.min()
-                else:
-                    x_min = min(x_min, xs.min())
-
-                if x_max is None:
-                    x_max = xs.max()
-                else:
-                    x_max = max(x_max, xs.max())
-
-                if y_min is None:
-                    y_min = ys.min()
-                else:
-                    y_min = min(y_min, ys.min())
-
-                if y_max is None:
-                    y_max = ys.max()
-                else:
-                    y_max = max(y_max, ys.max())
-
-                points = numpy.array([xs, ys]).T.reshape(-1, 1, 2)
-                segments = numpy.concatenate([points[:-1], points[1:]], axis=1)
-
-                lc = LineCollection(segments, cmap=cmap, norm=norm)
-                lc.set_array(zs)
-                lc.set_linewidth(1)
-
-                fig.gca().add_collection(lc)                
-                fig.gca().set_xlim(x_min, x_max)
-                fig.gca().set_ylim(y_min, y_max)
-
-        elif mode == 1:
-
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
-                xs = [peak.frame_ID for peak in track]
-                ys = [peak.midis for peak in track]
-                fig.gca().plot(xs, ys)
-
-        ax = fig.gca()            
-        ax.set_xlabel('Frames')
-        ax.set_ylabel('Semitones (0 = Middle C)')
-        ax.set_axis_bgcolor('black')
-
-        return fig

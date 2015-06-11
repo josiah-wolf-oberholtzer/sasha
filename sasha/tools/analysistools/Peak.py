@@ -30,7 +30,7 @@ class Peak(object):
         self._phase = phase
         self._previous_peak = None
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __getnewargs__(self):
         return self.frequency, self.amplitude, self.phase
@@ -54,7 +54,12 @@ class Peak(object):
         self._next_peak = None
         self._previous_peak = None
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def db(self, reference):
+        return 10. * math.log(self.amplitude / float(reference), 10.)
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def amplitude(self):
@@ -83,8 +88,6 @@ class Peak(object):
     @property
     def semitones(self):
         return round(self.midis * 2.) / 2.
-
-    ### PARTIAL TRAVERSAL ATTRIBUTES ###
 
     @property
     def is_end_of_partial(self):
@@ -141,9 +144,3 @@ class Peak(object):
     def previous_peak(self, arg):
         assert isinstance(arg, (type(None), type(self)))
         self._previous_peak = arg
-
-    ### PUBLIC METHODS ###
-
-    def db(self, reference):
-        return 10. * math.log(self.amplitude / float(reference), 10.)
-

@@ -3,9 +3,9 @@ import shutil
 
 from abjad.tools import stringtools
 from abjad.tools import pitchtools
-from sqlalchemy import and_, Column, Date, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, Date, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
 
 from sasha.tools.domaintools.DomainObject import DomainObject
@@ -13,13 +13,15 @@ from sasha.tools.domaintools.DomainObject import DomainObject
 
 class Event(DomainObject):
 
+    ### CLASS VARIABLES ###
+
     __fixture_paths__ = (
         'description',
         'fingering.instrument_keys.name',
         'instrument.name',
         'name',
         'performer.name',
-    )
+        )
 
     ### SQLALCHEMY ###
 
@@ -36,7 +38,7 @@ class Event(DomainObject):
     name = Column(String, unique=True)
     performer_id = Column(Integer, ForeignKey('performers.id'))
     performer = relationship('Performer', backref='events')
-    recording_date = Column(Date, nullable = True)
+    recording_date = Column(Date, nullable=True)
     recording_location_id = Column(Integer, ForeignKey('recording_locations.id'))
     recording_location = relationship('RecordingLocation', backref='events')
 
@@ -49,34 +51,10 @@ class Event(DomainObject):
         return relationship('Cluster',
             secondary=association_table, backref='events')
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __repr__(self):
         return '<%s(%r)>' % (type(self).__name__, str(self.name))
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def canonical_name(self):
-        cls_name = stringtools.to_snake_case(type(self).__name__)
-        return '%s__%s' % (cls_name, self.md5)
-
-    @property
-    def source_audio(self):
-        from sasha.tools.assettools import SourceAudio
-        return SourceAudio(self)
-
-    @property
-    def pitches(self):
-        return tuple([pitchtools.NamedPitch(x.pitch_number) for x in self.partials])
-
-    @property
-    def pitch_names(self):
-        return tuple([x.pitch_name for x in self.pitches])
-
-    @property
-    def pitch_classes(self):
-        return tuple(set([pitchtools.NamedPitchClass(x.pitch_class_number) for x in self.partials]))
 
     ### PUBLIC METHODS ###
 
@@ -232,3 +210,27 @@ class Event(DomainObject):
         elif without_pcs:
             return query.except_(without_query)
         return query
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def canonical_name(self):
+        cls_name = stringtools.to_snake_case(type(self).__name__)
+        return '%s__%s' % (cls_name, self.md5)
+
+    @property
+    def source_audio(self):
+        from sasha.tools.assettools import SourceAudio
+        return SourceAudio(self)
+
+    @property
+    def pitches(self):
+        return tuple([pitchtools.NamedPitch(x.pitch_number) for x in self.partials])
+
+    @property
+    def pitch_names(self):
+        return tuple([x.pitch_name for x in self.pitches])
+
+    @property
+    def pitch_classes(self):
+        return tuple(set([pitchtools.NamedPitchClass(x.pitch_class_number) for x in self.partials]))

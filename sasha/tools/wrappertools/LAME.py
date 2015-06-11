@@ -12,7 +12,7 @@ class LAME(Wrapper):
         if not os.path.isabs(self.executable):
             assert Which()('lame') is not None
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, input_, output):
         output = os.path.abspath(output)
@@ -26,7 +26,7 @@ class LAME(Wrapper):
             )
         out, err = self._exec(command)
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC PROPERTIES ###
 
     @property
     def executable(self):

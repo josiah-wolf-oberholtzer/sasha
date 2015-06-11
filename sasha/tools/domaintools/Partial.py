@@ -17,7 +17,7 @@ class Partial(DomainObject):
     octave_number = Column(Integer)
     amplitude = Column(Float)
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __repr__(self):
         return '<%s(%r, %s)>' % (type(self).__name__,

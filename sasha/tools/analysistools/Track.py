@@ -4,6 +4,8 @@ from sasha.tools.analysistools.Peak import Peak
 
 class Track(object):
 
+    ### CLASS VARIABLES ###
+
     __slots__ = (
         '_peaks',
         )
@@ -13,7 +15,7 @@ class Track(object):
     def __init__(self, peaks):
         self._peaks = tuple(peaks)
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __eq__(self, other):
         if type(self) == type(other):
@@ -41,7 +43,16 @@ class Track(object):
         for key, value in state.iteritems():
             setattr(self, key, value)
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def db(self, reference):
+        if isinstance(reference, Track):
+            reference = reference.amplitude_mean
+        elif isinstance(reference, Peak):
+            reference = reference.amplitude
+        return 10. * math.log(self.amplitude_mean / reference, 10.)
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def amplitude_mean(self):
@@ -84,12 +95,3 @@ class Track(object):
     @property
     def stop_frame(self):
         return self[-1].frame_ID
-
-    ### PUBLIC METHODS ###
-
-    def db(self, reference):
-        if isinstance(reference, Track):
-            reference = reference.amplitude_mean
-        elif isinstance(reference, Peak):
-            reference = reference.amplitude
-        return 10. * math.log(self.amplitude_mean / reference, 10.)

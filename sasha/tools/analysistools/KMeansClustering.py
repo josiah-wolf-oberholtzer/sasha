@@ -7,6 +7,8 @@ from sasha.tools.domaintools import Cluster, Event
 
 class KMeansClustering(object):
 
+    ### INITIALIZER ###
+
     def __init__(self, feature='mfcc', cluster_count=4, use_pca=False):
         if feature in ['chroma', 'constant_q', 'mfcc']:
             self._feature = feature
@@ -19,57 +21,31 @@ class KMeansClustering(object):
 
     def __call__(self):
         from sklearn.cluster import KMeans
-
         events, vectors = self.build_corpus()
-
         k_means = KMeans(
             init='k-means++',
             n_clusters=self.cluster_count,
             n_init=10,
             )
-
         if self.use_pca:
             vectors_r = self.decompose_vectors(vectors)
             k_means.fit(vectors_r)
         else:
             k_means.fit(vectors)
-
         k_means_labels = k_means.labels_
-
         clusters = {}
         for event, k_means_label in zip(events, k_means_labels):
             if k_means_label not in clusters:
-                clusters[k_means_label] = Cluster(cluster_id=int(k_means_label) + 1, feature=self.feature)
+                clusters[k_means_label] = Cluster(
+                    cluster_id=int(k_means_label) + 1,
+                    feature=self.feature,
+                    )
             cluster = clusters[k_means_label]
             cluster.events.append(event)
-
         return clusters.values()
 
     def __repr__(self):
         return '%s(%r)' % (type(self).__name__, self._feature)
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def cluster_count(self):
-        return self._cluster_count
-
-    @property
-    def feature(self):
-        return self._feature
-
-    @property
-    def feature_class(self):
-        if self.feature == 'chroma':
-            return ChromaAnalysis
-        elif self.feature == 'constant_q':
-            return ConstantQAnalysis
-        elif self.feature == 'mfcc':
-            return MFCCAnalysis
-
-    @property
-    def use_pca(self):
-        return self._use_pca
 
     ### PUBLIC METHODS ###
 
@@ -92,3 +68,26 @@ class KMeansClustering(object):
         from sklearn.decomposition import PCA
         pca = PCA(n_components=2)
         return pca.fit(vectors).transform(vectors)
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def cluster_count(self):
+        return self._cluster_count
+
+    @property
+    def feature(self):
+        return self._feature
+
+    @property
+    def feature_class(self):
+        if self.feature == 'chroma':
+            return ChromaAnalysis
+        elif self.feature == 'constant_q':
+            return ConstantQAnalysis
+        elif self.feature == 'mfcc':
+            return MFCCAnalysis
+
+    @property
+    def use_pca(self):
+        return self._use_pca

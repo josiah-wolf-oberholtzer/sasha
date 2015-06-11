@@ -1,17 +1,14 @@
-from abc import ABCMeta, abstractmethod
 from ConfigParser import ConfigParser
 import os
-
 from abjad.tools import stringtools
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.declarative import declarative_base
 
 
-
 class DomainObject(object):
 
-    ### CLASS ATTRIBUTES ###
+    ### CLASS VARIABLES ###
 
     __fixture_paths__ = ()
 
@@ -23,21 +20,12 @@ class DomainObject(object):
     def __tablename__(cls):
         return stringtools.to_snake_case(cls.__name__) + 's'
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __repr__(self):
         if hasattr(self, 'name'):
             return '<%s(%r)>' % (type(self).__name__, self.name)
         return '<%s()>' % type(self).__name__
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def canonical_name(self):
-        cls_name = stringtools.to_snake_case(type(self).__name__)
-        if hasattr(self, 'name'):
-            return '%s__%s' % (cls_name, str(self.name))
-        return '%s__%s' % (cls_name, self.id)
 
     ### PUBLIC METHODS ###
 
@@ -111,5 +99,14 @@ class DomainObject(object):
         f = open(fixture_path, 'w')
         config.write(f)
         f.close()
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def canonical_name(self):
+        cls_name = stringtools.to_snake_case(type(self).__name__)
+        if hasattr(self, 'name'):
+            return '%s__%s' % (cls_name, str(self.name))
+        return '%s__%s' % (cls_name, self.id)
 
 DomainObject = declarative_base(cls=DomainObject)

@@ -125,7 +125,32 @@ class Frame(object):
             peaks.sort(key=lambda x: x.frequency)
         return peaks
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def find_peaks_within_midi_threshold_of_peak(self, peak, threshold):
+        result = []
+        idx = bisect(self.midis, peak.midis)
+
+        if idx < len(self.peaks):  # ok to count up
+            j = idx
+            while j < len(self.peaks):
+                if abs(self.peaks[j].midis - peak.midis) <= threshold:
+                    result.append(self[j])
+                    j += 1
+                else:
+                    break
+        if 0 < idx:  # ok to count down
+            j = idx - 1
+            while 0 <= j:
+                if abs(self.midis[j] - peak.midis) <= threshold:
+                    result.append(self[j])
+                    j -= 1
+                else:
+                    break
+        result.sort(key=lambda x: abs(x.frequency - peak.frequency))
+        return result
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def audio(self):
@@ -185,28 +210,3 @@ class Frame(object):
             self.audio,
             numpy.zeros(self.frame_size - len(self.audio))
             ]) * self.window
-
-    ### PUBLIC METHODS ###
-
-    def find_peaks_within_midi_threshold_of_peak(self, peak, threshold):
-        result = []
-        idx = bisect(self.midis, peak.midis)
-
-        if idx < len(self.peaks):  # ok to count up
-            j = idx
-            while j < len(self.peaks):
-                if abs(self.peaks[j].midis - peak.midis) <= threshold:
-                    result.append(self[j])
-                    j += 1
-                else:
-                    break
-        if 0 < idx:  # ok to count down
-            j = idx - 1
-            while 0 <= j:
-                if abs(self.midis[j] - peak.midis) <= threshold:
-                    result.append(self[j])
-                    j -= 1
-                else:
-                    break
-        result.sort(key=lambda x: abs(x.frequency - peak.frequency))
-        return result

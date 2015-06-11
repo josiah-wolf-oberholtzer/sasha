@@ -5,7 +5,7 @@ from sasha.tools.domaintools import Event
 
 class Asset(object):
 
-    ### CLASS ATTRIBUTES ###
+    ### CLASS VARIABLES ###
 
     __domain_class__ = Event
     __metaclass__ = abc.ABCMeta

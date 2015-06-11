@@ -54,27 +54,6 @@ class ChordAnalysis(Asset):
             key=lambda x: x[0]),
             )
 
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def pitch_names(self):
-        return tuple([str(pitchtools.NamedPitch(x)) for x in self.pitches])
-
-    @property
-    def pitches(self):
-        return self._pitches
-
-    @property
-    def pitch_class_names(self):
-        return tuple(set(
-            str(pitchtools.NamedPitchClass(x))
-            for x in self.pitch_classes
-            ))
-
-    @property
-    def pitch_classes(self):
-        return self._pitch_classes
-
     ### PUBLIC METHODS ###
 
     def delete(self):
@@ -97,3 +76,24 @@ class ChordAnalysis(Asset):
         self.delete()
         with open(self.path, 'wb') as file_pointer:
             cPickle.dump(self.asset, file_pointer)
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def pitch_names(self):
+        return tuple([str(pitchtools.NamedPitch(x)) for x in self.pitches])
+
+    @property
+    def pitches(self):
+        return self._pitches
+
+    @property
+    def pitch_class_names(self):
+        return tuple(set(
+            str(pitchtools.NamedPitchClass(x))
+            for x in self.pitch_classes
+            ))
+
+    @property
+    def pitch_classes(self):
+        return self._pitch_classes

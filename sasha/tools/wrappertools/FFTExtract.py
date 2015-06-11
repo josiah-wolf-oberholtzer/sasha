@@ -61,19 +61,6 @@ class FFTExtract(Wrapper):
         if err:
             print err
 
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def executable(self):
-        from sasha import sasha_configuration
-        return sasha_configuration.get_binary('fftextract')
-
-    @property
-    def plan_path(self):
-        import sasha
-        sasha_root = sasha.__path__[0]
-        return os.path.join(sasha_root, 'tmp', 'fftw_plan.txt')
-
     ### PUBLIC METHODS ###
 
     def delete_plan(self):
@@ -127,3 +114,16 @@ class FFTExtract(Wrapper):
         for vector in array:
             f.write(struct.pack('d' * len(vector), *vector))
         f.close()
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def executable(self):
+        from sasha import sasha_configuration
+        return sasha_configuration.get_binary('fftextract')
+
+    @property
+    def plan_path(self):
+        import sasha
+        sasha_root = sasha.__path__[0]
+        return os.path.join(sasha_root, 'tmp', 'fftw_plan.txt')

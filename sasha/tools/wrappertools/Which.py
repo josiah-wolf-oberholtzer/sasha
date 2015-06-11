@@ -4,7 +4,7 @@ from sasha.tools.wrappertools.Wrapper import Wrapper
 
 class Which(Wrapper):
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, program):
         def is_exe(fpath):

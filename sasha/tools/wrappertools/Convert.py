@@ -11,7 +11,7 @@ class Convert(Wrapper):
         if not os.path.isabs(self.executable):
             assert Which()('convert') is not None
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __call__(self, input, output):
         cmd = '%s %s -trim %s' % \
@@ -20,7 +20,7 @@ class Convert(Wrapper):
             output)
         out, err = self._exec(cmd)
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC PROPERTIES ###
 
     @property
     def executable(self):

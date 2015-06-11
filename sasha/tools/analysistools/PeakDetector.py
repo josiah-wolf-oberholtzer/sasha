@@ -6,8 +6,18 @@ from sasha.tools.analysistools.PeakDetectionWorker import PeakDetectionWorker
 
 class PeakDetector(object):
 
-    __slots__ = ('_frame_size', '_hop_size', '_max_peak_count',
-        '_max_peak_frequency', '_min_peak_frequency', '_window_size')
+    ### CLASS VARIABLES ###
+
+    __slots__ = (
+        '_frame_size',
+        '_hop_size',
+        '_max_peak_count',
+        '_max_peak_frequency',
+        '_min_peak_frequency',
+        '_window_size',
+        )
+
+    ### INITIALIZER ###
 
     def __init__(self, **kwargs):
         self._frame_size = 16384
@@ -20,9 +30,9 @@ class PeakDetector(object):
             if hasattr(self, k):
                 setattr(self, k, v)
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
-    def __call__(self, audio, parallel = True):
+    def __call__(self, audio, parallel=True):
         from sasha.tools.assettools import SourceAudio
 
         if not isinstance(audio, SourceAudio):
@@ -61,7 +71,7 @@ class PeakDetector(object):
 
         assert all([isinstance(x, Frame) for x in frames])
 
-        frames.sort(key = lambda x: x.offset)
+        frames.sort(key=lambda x: x.offset)
 
         return frames
 
@@ -78,21 +88,52 @@ class PeakDetector(object):
                 self.frame_size,
                 offset,
                 sampling_rate,
-                ID = ID))
+                ID=ID))
             offset += self.hop_size
             ID += 1
         return frames
 
     def _get_kwargs(self):
         kwargs = {}
-        for k in [
+        for key in (
             'max_peak_count',
             'max_peak_frequency',
-            'min_peak_frequency']:
-            kwargs[k] = getattr(self, k)
+            'min_peak_frequency',
+            ):
+            kwargs[key] = getattr(self, key)
         return kwargs
 
-    ### PUBLIC ATTRIBUTES ###
+    ### PUBLIC METHODS ###
+
+    def plot(self, frames):
+        import matplotlib.pyplot as plt
+        from matplotlib import cm
+        # from matplotlib import rc
+        # rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        peaks = []
+        for frame in frames:
+            for peak in frame:
+                peaks.append(peak)
+        peaks.sort(key=lambda x: x.amplitude)
+        frame_ids = [peak.frame_ID for peak in peaks]
+        midis = [peak.midis for peak in peaks]
+        max_amp = max([peak.amplitude for peak in peaks])
+        dbs = numpy.array([peak.db(max_amp) for peak in peaks])
+        dbs -= dbs.min()
+        dbs /= dbs.max()
+        ax.scatter(frame_ids, midis,
+            alpha=0.5,
+            c=dbs,
+            cmap=cm.Greys,
+            edgecolors='none',
+            marker='o',
+            s=10 * (dbs ** 2.),
+            )
+        return fig
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def frame_size(self):
@@ -147,40 +188,3 @@ class PeakDetector(object):
     def window_size(self, arg):
         if 0 < arg:
             self._window_size = int(arg)
-
-    ### PUBLIC METHODS ###
-
-    def plot(self, frames):
-        import matplotlib.pyplot as plt
-        from matplotlib import cm
-        from matplotlib import rc
-
-#        rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-
-        peaks = []
-        for frame in frames:
-            for peak in frame:
-                peaks.append(peak)
-
-        peaks.sort(key = lambda x: x.amplitude)
-
-        frame_ids = [peak.frame_ID for peak in peaks]
-        midis = [peak.midis for peak in peaks]
-        max_amp = max([peak.amplitude for peak in peaks])
-        dbs = numpy.array([peak.db(max_amp) for peak in peaks])
-        dbs -= dbs.min()
-        dbs /= dbs.max()
-
-        ax.scatter(frame_ids, midis,
-            alpha = 0.5,
-            c = dbs,
-            cmap = cm.Greys,
-            edgecolors = 'none',
-            marker = 'o', 
-            s = 10 * (dbs ** 2.),
-            )
-
-        return fig

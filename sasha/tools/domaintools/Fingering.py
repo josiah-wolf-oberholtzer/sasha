@@ -3,7 +3,7 @@ from abjad.tools import stringtools
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.schema import ForeignKeyConstraint, UniqueConstraint
+from sqlalchemy.schema import UniqueConstraint
 
 from sasha.tools.domaintools.DomainObject import DomainObject
 
@@ -26,26 +26,19 @@ class Fingering(DomainObject):
             cls.metadata,
             Column('fingering_id', Integer, ForeignKey('fingerings.id')),
             Column('instrument_key_id', Integer, ForeignKey('instrument_keys.id')))
-        return relationship('InstrumentKey',
-            secondary=association_table, backref='fingerings')
+        return relationship(
+            'InstrumentKey',
+            secondary=association_table,
+            backref='fingerings',
+            )
 
-    ### OVERRIDES ###
+    ### SPECIAL METHODS ###
 
     def __repr__(self):
         from sasha import Instrument
         instrument = Instrument.get_one(id=self.instrument_id)
         return '<%s(%r, %r)>' % (type(self).__name__, str(instrument.name),
             self.compact_representation)
-
-    ### PUBLIC ATTRIBUTES ###
-
-    @property
-    def canonical_name(self):
-        from sasha import Instrument
-        cls_name = stringtools.to_snake_case(type(self).__name__)
-        instrument = Instrument.get_one(id=self.instrument_id)
-        instrument_name = '_'.join(instrument.name.lower().split())
-        return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)
 
     ### PRIVATE METHODS ###
 
@@ -71,18 +64,24 @@ class Fingering(DomainObject):
         instrument = Instrument.get(name=instrument_name)[0]
         compact_representation = parts[2]
         return cls.get(instrument=instrument, compact_representation=compact_representation)[0]
-        
-    def find_similar_fingerings(self, n = 10):
+
+    def find_similar_fingerings(self, n=10):
+        def compare(a, b):
+            return sum([1 for x, y in zip(a, b) if x == y])
         results = []
         fingerings = Fingering.get(instrument_id=self.instrument_id)
         fingerings = [x for x in fingerings if x.id != self.id]
-
-        def compare(a, b):
-            return sum([1 for x, y in zip(a, b) if x == y])
-
         for fingering in fingerings:
             comparison = compare(self.compact_representation, fingering.compact_representation)
             results.append((comparison, fingering))
-
         return [x[1] for x in sorted(results, key=lambda x: x[0], reverse=True)][:n]
-            
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def canonical_name(self):
+        from sasha import Instrument
+        cls_name = stringtools.to_snake_case(type(self).__name__)
+        instrument = Instrument.get_one(id=self.instrument_id)
+        instrument_name = '_'.join(instrument.name.lower().split())
+        return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)

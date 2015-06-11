@@ -4,7 +4,7 @@ import subprocess
 
 class Wrapper(object):
 
-    ### CLASS ATTRIBUTES ###
+    ### CLASS VARIABLES ###
 
     __metaclass__ = ABCMeta
     __slots__ = ()
