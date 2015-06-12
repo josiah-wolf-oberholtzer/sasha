@@ -2,14 +2,11 @@ import inspect
 import logging
 import os
 from ConfigParser import ConfigParser
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from sasha.tools.systemtools import ImmutableDictionary
 
-
-class SashaConfiguration(ImmutableDictionary):
+class SashaConfiguration(dict):
 
     ### CLASS VARIABLES ###
 
@@ -30,9 +27,9 @@ class SashaConfiguration(ImmutableDictionary):
         assert environment in ('testing', 'development', 'deployment')
         self._environment = environment
         for section in parser.sections():
-            dict.__setitem__(self, section, ImmutableDictionary())
+            self[section] = {}
             for option, value in parser.items(section):
-                dict.__setitem__(self[section], option, value)
+                self[section][option] = value
         self._logger = logging.getLogger('sasha')
         self.logger.setLevel(logging.DEBUG)
         handler = logging.FileHandler(
@@ -53,7 +50,6 @@ class SashaConfiguration(ImmutableDictionary):
         import sasha
         sasha_root = sasha.__path__[0]
         assert name in self['audioDB']
-
         item = self['audioDB'][name].split(',')
         db_path = os.path.join(
             self['media_root'][self.environment],
@@ -61,13 +57,11 @@ class SashaConfiguration(ImmutableDictionary):
             item[0].strip())
         if not os.path.isabs(db_path):
             db_path = os.path.abspath(os.path.join(sasha_root, db_path))
-
         klass_path = item[1].strip()
         module_name = klass_path.rpartition('.')[0]
         klass_name = klass_path.rpartition('.')[-1]
         module = __import__(module_name, globals(), locals(), [klass_name])
         klass = getattr(module, klass_name)
-
         return db_path, klass
 
     def get_binary(self, name):
