@@ -7,10 +7,12 @@ from sasha.tools.wrappertools import Playback
 
 class MP3Audio(Asset):
 
-    __requires__ = SourceAudio
+    ### CLASS VARIABLES ###
 
-    media_type = 'mp3s'
+    __requires__ = SourceAudio
+    __slots__ = ()
     file_suffix = 'mp3'
+    media_type = 'mp3s'
 
     ### PUBLIC METHODS ###
 

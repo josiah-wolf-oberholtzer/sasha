@@ -9,9 +9,9 @@ class PartialTrackingAnalysis(Asset):
     ### CLASS VARIABLES ###
 
     __requires__ = SourceAudio
-
-    media_type = 'analyses'
+    __slots__ = ()
     file_suffix = 'partials'
+    media_type = 'analyses'
 
     ### PRIVATE METHODS ###
 

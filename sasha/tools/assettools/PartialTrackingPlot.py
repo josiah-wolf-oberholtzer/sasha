@@ -4,9 +4,13 @@ from sasha.tools.assettools.Plot import Plot
 
 class PartialTrackingPlot(Plot):
 
-    __requires__ = PartialTrackingAnalysis
+    ### CLASS VARIABLES ###
 
+    __requires__ = PartialTrackingAnalysis
+    __slots__ = ()
     plugin_label = 'partials'
+
+    ### PRIVATE METHODS ###
 
     def _build_plot(self):
         from sasha.tools import analysistools

@@ -5,8 +5,9 @@ from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 class MFCCAnalysis(FFTExtractPlugin):
 
-    __slots__ = ()
+    ### CLASS VARIABLES ###
 
+    __slots__ = ()
     file_suffix = 'mfcc'
 
     ### PUBLIC METHODS ###

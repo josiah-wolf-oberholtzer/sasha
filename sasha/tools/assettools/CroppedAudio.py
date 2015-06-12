@@ -5,8 +5,10 @@ from sasha.tools.wrappertools import Playback
 
 class CroppedAudio(Asset):
 
-    __requires__ = SourceAudio
+    ### CLASS VARIABLES ###
 
+    __requires__ = SourceAudio
+    __slots__ = ()
     file_suffix = 'aif'
     media_type = 'source_audio'
     plugin_label = 'cropped'

@@ -16,9 +16,8 @@ class ChordAnalysis(Asset):
         '_pitches',
         '_pitch_classes',
         )
-
-    media_type = 'analyses'
     file_suffix = 'chord'
+    media_type = 'analyses'
 
     ### INITIALIZER ###
 

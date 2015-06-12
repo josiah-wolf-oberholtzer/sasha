@@ -14,7 +14,6 @@ class Asset(object):
         '_asset',
         '_client',
         )
-
     file_suffix = None
     media_type = None
     plugin_label = None

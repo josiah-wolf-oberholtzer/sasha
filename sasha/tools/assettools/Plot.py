@@ -9,10 +9,12 @@ from sasha.tools.assettools.Asset import Asset
 
 class Plot(Asset):
 
-    media_type = 'plots'
-    file_suffix = 'png'
+    ### CLASS VARIABLES ###
 
+    __slots__ = ()
     _width = 8
+    file_suffix = 'png'
+    media_type = 'plots'
 
     ### PRIVATE METHODS ###
 

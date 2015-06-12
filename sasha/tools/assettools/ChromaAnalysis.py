@@ -5,6 +5,9 @@ from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 class ChromaAnalysis(FFTExtractPlugin):
 
+    ### CLASS VARIABLES ###
+
+    __slots__ = ()
     file_suffix = 'chroma'
 
     ### PUBLIC METHODS ###

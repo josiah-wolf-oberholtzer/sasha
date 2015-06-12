@@ -5,6 +5,9 @@ from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 class LinearSpectrumAnalysis(FFTExtractPlugin):
 
+    ### CLASS VARIABLES ###
+
+    __slots__ = ()
     file_suffix = 'linear_spectrum'
 
     ### PUBLIC METHODS ###

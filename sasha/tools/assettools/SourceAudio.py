@@ -8,8 +8,9 @@ class SourceAudio(Asset):
 
     ### CLASS VARIABLES ###
 
-    media_type = 'source_audio'
+    __slots__ = ()
     file_suffix = ''
+    media_type = 'source_audio'
 
     ### PUBLIC METHODS ###
 

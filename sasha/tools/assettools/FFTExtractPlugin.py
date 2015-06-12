@@ -18,7 +18,6 @@ class FFTExtractPlugin(Asset):
         '_mean',
         '_std',
         )
-
     media_type = 'analyses'
 
     ### INITIALIZER ###

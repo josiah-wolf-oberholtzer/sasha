@@ -4,6 +4,9 @@ from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 class ConstantQAnalysis(FFTExtractPlugin):
 
+    ### CLASS VARIABLES ###
+
+    __slots__ = ()
     file_suffix = 'constant_q'
 
     ### PUBLIC METHODS ###

@@ -7,7 +7,7 @@ from sasha.tools.assettools.ChordAnalysis import ChordAnalysis
 class ChordNotation(Notation):
 
     __requires__ = ChordAnalysis
-
+    __slots__ = ()
     plugin_label = 'chord'
     plugin_sublabels = ('concert', 'transposed')
 

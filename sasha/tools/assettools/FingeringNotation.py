@@ -5,9 +5,11 @@ from sasha.tools.assettools.Notation import Notation
 
 class FingeringNotation(Notation):
 
+    ### CLASS VARIABLES ###
+
     __domain_class__ = Fingering
     __requires__ = None
-
+    __slots__ = ()
     plugin_label = 'fingering'
 
     ### PRIVATE METHODS ###

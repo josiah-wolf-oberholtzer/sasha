@@ -5,6 +5,9 @@ from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 class LogPowerAnalysis(FFTExtractPlugin):
 
+    ### CLASS VARIABLES ###
+
+    __slots__ = ()
     file_suffix = 'log_power'
 
     ### PUBLIC METHODS ###

@@ -9,10 +9,11 @@ class Notation(Asset):
 
     ### CLASS VARIABLES ###
 
+    __slots__ = ()
     _aa_factor = 4
     _resolution = 72
-    media_type = 'scores'
     file_suffix = 'png'
+    media_type = 'scores'
 
     ### PRIVATE METHODS ###
 
