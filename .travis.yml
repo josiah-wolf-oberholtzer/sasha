@@ -26,6 +26,8 @@ before_install:
     - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
     - ldd /usr/local/bin/audioDB
+    - pkg-config libaudioDB
+    - ldd /usr/local/bin/audioDB
     - audioDB --help
 
     - make -C BLAST/fftExtract/
