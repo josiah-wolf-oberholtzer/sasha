@@ -2,6 +2,7 @@ abjad
 configobj
 matplotlib
 numpy
+pyfftw
 pyramid
 pyramid_mako
 pyramid_debugtoolbar

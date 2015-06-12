@@ -2,7 +2,10 @@ from bisect import *
 import numpy
 from sasha.tools.analysistools.Peak import Peak
 try:
-    from anfft import rfft
+    import pyfftw
+    from pyfftw.interfaces.numpy_fft import rfft
+    pyfftw.interfaces.cache.enable()
+    print('Using pyfftw.')
 except ImportError:
     from numpy.fft import rfft
 

@@ -8,6 +8,7 @@ requires = [
     'configobj',
     'matplotlib',
     'numpy',
+    'pyfftw',
     'pyramid',
     'pyramid_debugtoolbar',
     'pyramid_mako',
