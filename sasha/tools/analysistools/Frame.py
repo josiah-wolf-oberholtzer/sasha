@@ -1,4 +1,4 @@
-from bisect import *
+import bisect
 import numpy
 from sasha.tools.analysistools.Peak import Peak
 try:
@@ -18,29 +18,29 @@ class Frame(object):
         '_audio',
         '_frame_size',
         '_frequencies',
-        '_ID',
+        '_frame_id',
         '_midis',
         '_offset',
         '_peaks',
         '_sampling_rate',
         )
 
-    ### NEW ###
+    ### CONSTRUCTOR ###
 
     def __new__(
-        class_,
+        cls,
         audio,
         frame_size,
         offset,
         sampling_rate,
-        ID=None,
+        frame_id=None,
         ):
-        self = object.__new__(class_)
+        self = object.__new__(cls)
         assert len(audio) <= frame_size
         self._audio = audio
         self._frame_size = frame_size
         self._frequencies = None
-        self._ID = ID
+        self._frame_id = frame_id
         self._midis = None
         self._offset = offset
         self._peaks = None
@@ -49,7 +49,12 @@ class Frame(object):
 
     ### SPECIAL METHODS ###
 
-    def __call__(self, **kwargs):
+    def __call__(
+        self,
+        max_peak_count=None,
+        max_peak_frequency=None,
+        min_peak_frequency=None,
+        ):
         # from sasha import sasha_configuration
         # sasha_configuration.logger.info('Calculating FFT @ %d' % self.offset)
         fft = rfft(self.windowed_audio)
@@ -60,16 +65,30 @@ class Frame(object):
         next_mag = None
         for bin in range(2, len(mag) - 1):
             next_mag = numpy.abs(mag[bin])
-            if (prev_mag < this_mag) and (next_mag < this_mag):
+            if (
+                prev_mag < this_mag and
+                next_mag < this_mag
+                ):
                 frequency = (bin - 1) * self.fundamental
                 amplitude = this_mag
                 phase = numpy.angle(fft[bin - 1])
-                peaks.append(Peak(frequency, amplitude, phase, frame_ID=self.ID))
+                peak = Peak(
+                    frequency,
+                    amplitude,
+                    phase,
+                    frame_id=self.frame_id,
+                    )
+                peaks.append(peak)
             prev_mag = this_mag
             this_mag = next_mag
-        self._peaks = self._filter_peaks(peaks, **kwargs)
-        self._frequencies = [peak.frequency for peak in self]
-        self._midis = [peak.midis for peak in self]
+        self._peaks = self._filter_peaks(
+            peaks,
+            max_peak_count=max_peak_count,
+            max_peak_frequency=max_peak_frequency,
+            min_peak_frequency=min_peak_frequency,
+            )
+        self._frequencies = tuple(_.frequency for _ in self)
+        self._midis = tuple(_.midis for _ in self)
 
     def __eq__(self, other):
         if type(self) == type(other) and \
@@ -94,7 +113,7 @@ class Frame(object):
             '_audio': self._audio,
             '_frame_size': self._frame_size,
             '_frequencies': self._frequencies,
-            '_ID': self._ID,
+            '_frame_id': self._frame_id,
             '_midis': self._midis,
             '_offset': self._offset,
             '_peaks': self._peaks,
@@ -117,22 +136,29 @@ class Frame(object):
 
     ### PRIVATE METHODS ###
 
-    def _filter_peaks(self, peaks, **kwargs):
-        if 'max_peak_frequency' in kwargs:
-            peaks = filter(lambda x: x.frequency <= kwargs['max_peak_frequency'], peaks)
-        if 'min_peak_frequency' in kwargs:
-            peaks = filter(lambda x: kwargs['min_peak_frequency'] <= x.frequency, peaks)
-        if 'max_peak_count' in kwargs:
-            peaks.sort(key=lambda x: x.amplitude, reverse=True)
-            peaks = peaks[:kwargs['max_peak_count']]
+    def _filter_peaks(
+        self,
+        peaks,
+        max_peak_frequency=None,
+        min_peak_frequency=None,
+        max_peak_count=None,
+        ):
+        if max_peak_frequency is not None:
+            peaks = (_ for _ in peaks if _.frequency <= max_peak_frequency)
+        if min_peak_frequency is not None:
+            peaks = (_ for _ in peaks if min_peak_frequency <= _.frequency)
+        if max_peak_count is not None:
+            peaks = sorted(peaks, key=lambda x: x.amplitude, reverse=True)
+            peaks = peaks[:max_peak_count]
             peaks.sort(key=lambda x: x.frequency)
+        peaks = tuple(peaks)
         return peaks
 
     ### PUBLIC METHODS ###
 
     def find_peaks_within_midi_threshold_of_peak(self, peak, threshold):
         result = []
-        idx = bisect(self.midis, peak.midis)
+        idx = bisect.bisect(self.midis, peak.midis)
 
         if idx < len(self.peaks):  # ok to count up
             j = idx
@@ -175,8 +201,8 @@ class Frame(object):
         return float(self.sampling_rate) / self.frame_size
 
     @property
-    def ID(self):
-        return self._ID
+    def frame_id(self):
+        return self._frame_id
 
     @property
     def midis(self):
@@ -184,7 +210,9 @@ class Frame(object):
 
     @property
     def offset(self):
-        '''The offset in samples of this audio slice from the beginning of its source.'''
+        '''The offset in samples of this audio slice from the beginning of its
+        source.
+        '''
         return self._offset
 
     @property

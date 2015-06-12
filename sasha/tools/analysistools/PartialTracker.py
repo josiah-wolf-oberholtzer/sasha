@@ -47,7 +47,7 @@ class PartialTracker(object):
                 if self.use_regression:
                     chain = self._build_peak_chain_backwards(peak)
                     if len(chain) == self.regression_size:
-                        xs = numpy.array([x.frame_ID for x in chain]).reshape(-1, 1)
+                        xs = numpy.array([x.frame_id for x in chain]).reshape(-1, 1)
                         ys = numpy.array([x.midis for x in chain])
                         regression.learn(xs, ys)
                         can_predict = True
@@ -142,10 +142,10 @@ class PartialTracker(object):
         return tracks
 
     def _link_peaks(self, a, b):
-        if a.frame_ID < b.frame_ID:
+        if a.frame_id < b.frame_id:
             a.next_peak = b
             b.previous_peak = a
-        elif b.frame_ID < a.frame_ID:
+        elif b.frame_id < a.frame_id:
             b.next_peak = a
             a.previous_peak = b
         else:
@@ -186,7 +186,7 @@ class PartialTracker(object):
             norm = LogNorm(vmin=z_min, vmax=z_max)
             x_min = x_max = y_min = y_max = None
             for track in filter(lambda x: minimum_track_size <= len(x), tracks):
-                xs = numpy.array([peak.frame_ID for peak in track])
+                xs = numpy.array([peak.frame_id for peak in track])
                 ys = numpy.array([peak.midis for peak in track])
                 zs = numpy.array([peak.amplitude for peak in track])
                 if x_min is None:
@@ -215,7 +215,7 @@ class PartialTracker(object):
                 fig.gca().set_ylim(y_min, y_max)
         elif mode == 1:
             for track in filter(lambda x: minimum_track_size <= len(x), tracks):
-                xs = [peak.frame_ID for peak in track]
+                xs = [peak.frame_id for peak in track]
                 ys = [peak.midis for peak in track]
                 fig.gca().plot(xs, ys)
         ax = fig.gca()

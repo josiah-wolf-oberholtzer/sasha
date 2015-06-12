@@ -46,9 +46,9 @@ class PartialTrackingAnalysis(Asset):
             num_peaks = struct.unpack_from('i', data, byte_offset)[0]
             byte_offset += struct.calcsize('i')
             for j in range(num_peaks):
-                frequency, amplitude, phase, frame_ID = struct.unpack_from(
+                frequency, amplitude, phase, frame_id = struct.unpack_from(
                     'dddi', data, byte_offset)
-                peak = Peak(frequency, amplitude, phase, frame_ID=frame_ID)
+                peak = Peak(frequency, amplitude, phase, frame_id=frame_id)
                 track.append(peak)
                 byte_offset += struct.calcsize('dddi')
             tracks.append(Track(track))
@@ -68,13 +68,13 @@ class PartialTrackingAnalysis(Asset):
             for track in self.asset:
                 # write the number of peaks in the track as an int
                 file_pointer.write(struct.pack('i', len(track)))
-                # write each peak as freq, amp, phase, frame_ID 4-tuple
+                # write each peak as freq, amp, phase, frame_id 4-tuple
                 for peak in track:
                     packed = struct.pack(
                         'dddi',
                         peak.frequency,
                         peak.amplitude,
                         peak.phase,
-                        peak.frame_ID,
+                        peak.frame_id,
                         )
                     file_pointer.write(packed)

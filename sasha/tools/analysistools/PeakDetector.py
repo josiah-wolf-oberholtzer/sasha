@@ -19,35 +19,39 @@ class PeakDetector(object):
 
     ### INITIALIZER ###
 
-    def __init__(self, **kwargs):
+    def __init__(
+        self,
+        max_peak_count=60,
+        max_peak_frequency=4000,
+        min_peak_frequency=100,
+        ):
         self._frame_size = 16384
         self._hop_size = 256
-        self._max_peak_count = 60
-        self._max_peak_frequency = 4000
-        self._min_peak_frequency = 100
+        self._max_peak_count = int(max_peak_count)
+        self._max_peak_frequency = float(max_peak_frequency)
+        self._min_peak_frequency = float(min_peak_frequency)
         self._window_size = 2048
-        for k, v in kwargs.iteritems():
-            if hasattr(self, k):
-                setattr(self, k, v)
 
     ### SPECIAL METHODS ###
 
     def __call__(self, audio, parallel=True):
         from sasha.tools.assettools import SourceAudio
-
         if not isinstance(audio, SourceAudio):
             audio = SourceAudio(audio)
         assert audio.exists
-
-        kwargs = self._get_kwargs()
         tasks = self._create_tasks(audio)
         frames = []
-
         if parallel:
-
             task_queue = multiprocessing.JoinableQueue()
             result_queue = multiprocessing.Queue()
-            workers = [PeakDetectionWorker(task_queue, result_queue, **kwargs)
+            workers = [
+                PeakDetectionWorker(
+                    task_queue,
+                    result_queue,
+                    max_peak_count=self.max_peak_count,
+                    max_peak_frequency=self.max_peak_frequency,
+                    min_peak_frequency=self.min_peak_frequency,
+                    )
                 for i in range(multiprocessing.cpu_count() * 2)]
             for worker in workers:
                 worker.start()
@@ -62,17 +66,16 @@ class PeakDetector(object):
             task_queue.close()
             for worker in workers:
                 worker.join()
-
         else:
-
             for task in tasks:
-                task(**kwargs)
+                task(
+                    max_peak_count=self.max_peak_count,
+                    max_peak_frequency=self.max_peak_frequency,
+                    min_peak_frequency=self.min_peak_frequency,
+                    )
                 frames.append(task)
-
-        assert all([isinstance(x, Frame) for x in frames])
-
+        assert all(isinstance(x, Frame) for x in frames)
         frames.sort(key=lambda x: x.offset)
-
         return frames
 
     ### PRIVATE METHODS ###
@@ -81,27 +84,19 @@ class PeakDetector(object):
         samples, sampling_rate = audio.read()
         frames = []
         offset = 0
-        ID = 0
+        frame_id = 0
         while offset < len(samples):
-            frames.append(Frame(
+            frame = Frame(
                 samples[offset:offset + self.window_size],
                 self.frame_size,
                 offset,
                 sampling_rate,
-                ID=ID))
+                frame_id=frame_id,
+                )
+            frames.append(frame)
             offset += self.hop_size
-            ID += 1
+            frame_id += 1
         return frames
-
-    def _get_kwargs(self):
-        kwargs = {}
-        for key in (
-            'max_peak_count',
-            'max_peak_frequency',
-            'min_peak_frequency',
-            ):
-            kwargs[key] = getattr(self, key)
-        return kwargs
 
     ### PUBLIC METHODS ###
 
@@ -117,10 +112,10 @@ class PeakDetector(object):
             for peak in frame:
                 peaks.append(peak)
         peaks.sort(key=lambda x: x.amplitude)
-        frame_ids = [peak.frame_ID for peak in peaks]
+        frame_ids = [peak.frame_id for peak in peaks]
         midis = [peak.midis for peak in peaks]
-        max_amp = max([peak.amplitude for peak in peaks])
-        dbs = numpy.array([peak.db(max_amp) for peak in peaks])
+        max_amp = max(peak.amplitude for peak in peaks)
+        dbs = numpy.array(peak.db(max_amp) for peak in peaks)
         dbs -= dbs.min()
         dbs /= dbs.max()
         ax.scatter(frame_ids, midis,

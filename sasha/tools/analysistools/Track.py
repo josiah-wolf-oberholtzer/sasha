@@ -90,8 +90,8 @@ class Track(object):
 
     @property
     def start_frame(self):
-        return self[0].frame_ID
+        return self[0].frame_id
 
     @property
     def stop_frame(self):
-        return self[-1].frame_ID
+        return self[-1].frame_id

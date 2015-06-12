@@ -7,7 +7,7 @@ class Peak(object):
 
     __slots__ = (
         '_amplitude',
-        '_frame_ID',
+        '_frame_id',
         '_frequency',
         '_next_peak',
         '_phase',
@@ -21,10 +21,10 @@ class Peak(object):
         frequency,
         amplitude,
         phase,
-        frame_ID=None,
+        frame_id=None,
         ):
         self._amplitude = amplitude
-        self._frame_ID = frame_ID
+        self._frame_id = frame_id
         self._frequency = frequency
         self._next_peak = None
         self._phase = phase
@@ -38,7 +38,7 @@ class Peak(object):
     def __getstate__(self):
         state = {
             '_amplitude': self._amplitude,
-            '_frame_ID': self._frame_ID,
+            '_frame_id': self._frame_id,
             '_frequency': self._frequency,
             '_phase': self._phase,
             }
@@ -70,8 +70,8 @@ class Peak(object):
         return (self.midis - self.semitones) * 100
 
     @property
-    def frame_ID(self):
-        return self._frame_ID
+    def frame_id(self):
+        return self._frame_id
 
     @property
     def frequency(self):
