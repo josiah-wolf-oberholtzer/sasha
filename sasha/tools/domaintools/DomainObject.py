@@ -30,16 +30,6 @@ class DomainObject(object):
     ### PUBLIC METHODS ###
 
     @classmethod
-    def from_canonical_name_prefix(cls, name):
-        parts = name.split('__')
-        cls_name = stringtools.underscore_delimited_lowercase_to_uppercamelcase(parts[0])
-        if cls_name != cls.__name__:
-            return None
-        if not parts[1].isdigit():
-            return cls.get(name=parts[1])
-        return cls.get(id=int(parts[1]))
-
-    @classmethod
     def get(cls, **kwargs):
         from sasha import sasha_configuration
         session = sasha_configuration.get_session()
@@ -54,11 +44,23 @@ class DomainObject(object):
     def get_fixtures(cls):
         from sasha import sasha_configuration
         from sasha.tools.systemtools import Fixture
-        fixtures_path = os.path.join(sasha_configuration.get_media_path('fixtures'), cls.__tablename__)
         cls_name = stringtools.to_snake_case(cls.__name__)
-        fixture_files = filter(lambda x: x.startswith(cls_name) and x.endswith('.ini'),
-            os.listdir(fixtures_path))
-        return [Fixture(os.path.join(fixtures_path, x)) for x in fixture_files]
+        fixtures_path = os.path.join(
+            sasha_configuration.get_media_path('fixtures'),
+            cls.__tablename__,
+            )
+        fixture_file_names = os.listdir(fixtures_path)
+        fixture_file_names = (
+            _ for _ in fixture_file_names
+            if _.startswith(cls_name) and _.endswith('.ini')
+            )
+        fixture_file_paths = (
+            os.path.join(fixtures_path, _)
+            for _ in fixture_file_names
+            )
+        fixtures = (Fixture(_) for _ in fixture_file_paths)
+        fixtures = list(fixtures)
+        return fixtures
 
     @classmethod
     def get_one(cls, **kwargs):
@@ -90,15 +92,20 @@ class DomainObject(object):
             if isinstance(result, (list, tuple)):
                 result = ' '.join(result)
             config.set('main', '.'.join(path), result)
-        directory = os.path.join(sasha_configuration.get_media_path('fixtures'), self.__tablename__)
+        directory = os.path.join(
+            sasha_configuration.get_media_path('fixtures'),
+            self.__tablename__,
+            )
         if not os.path.exists(directory):
             os.mkdir(directory)
-        fixture_path = os.path.join(directory,
-            stringtools.to_snake_case(type(self).__name__) + '__' +
-            stringtools.string_to_strict_directory_name(str(self.name)) + '.ini')
-        f = open(fixture_path, 'w')
-        config.write(f)
-        f.close()
+        prefix = stringtools.to_snake_case(type(self).__name__)
+        midfix = '__'
+        suffix = stringtools.string_to_strict_directory_name(str(self.name))
+        extension = '.ini'
+        file_name = prefix + midfix + suffix + extension
+        fixture_path = os.path.join(directory, file_name)
+        with open(fixture_path, 'w') as file_pointer:
+            config.write(file_pointer)
 
     ### PUBLIC PROPERTIES ###
 

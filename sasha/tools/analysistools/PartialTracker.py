@@ -1,5 +1,5 @@
 import numpy
-from bisect import bisect
+import bisect
 from sasha.tools.analysistools.Regression import Regression
 from sasha.tools.analysistools.Track import Track
 
@@ -33,15 +33,13 @@ class PartialTracker(object):
     ### SPECIAL METHODS ###
 
     def __call__(self, frames):
-
         regression = Regression()
-
         # find links between peaks
         for i in xrange(len(frames) - 2):
-
             peaks = self._sort_peaks_in_frame(frames[i])
-            for peak in filter(lambda x: x.next_peak is None, peaks):
-
+            for peak in peaks:
+                if peak.next_peak is not None:
+                    continue
                 prediction = peak.midis
                 can_predict = False
                 if self.use_regression:
@@ -51,17 +49,15 @@ class PartialTracker(object):
                         ys = numpy.array([x.midis for x in chain])
                         regression.learn(xs, ys)
                         can_predict = True
-
                 frame_ids = range(i + 1, i + 2 + self.max_partial_gap)
-                for j in filter(lambda x: x < len(frames), frame_ids):
+                for j in frame_ids:
+                    if len(frames) <= j:
+                        continue
                     frame = frames[j]
-
                     if self.use_regression and can_predict:
                         prediction = regression.predict(numpy.array([[j]]))[0]
-
                     candidates = self._find_peaks_in_frame_within_midi_threshold_of_midis(
                         prediction, frame, self.max_deviation_in_midis)
-
                     if candidates:
                         # we're too close to another track
                         if any([x.previous_peak is not None for x in candidates]):
@@ -69,14 +65,11 @@ class PartialTracker(object):
                         # we're not too close, so free to link
                         self._link_peaks(peak, candidates[0])
                         break
-
                     # try opposite slope of regression prediction
                     if self.use_regression and can_predict:
                         prediction = peak.midis + (peak.midis - prediction)
-
                         candidates = self._find_peaks_in_frame_within_midi_threshold_of_midis(
                             prediction, frame, self.max_deviation_in_midis)
-
                         if candidates:
                             # we're too close to another track
                             if any([x.previous_peak is not None for x in candidates]):
@@ -84,10 +77,9 @@ class PartialTracker(object):
                             # we're not too close, so free to link
                             self._link_peaks(peak, candidates[0])
                             break
-
         tracks = self._create_tracks_from_analyzed_frames(frames)
-
-        return tuple(filter(lambda x: self.min_track_length <= len(x), tracks))
+        tracks = tuple(_ for _ in tracks if self.min_track_length <= len(_))
+        return tracks
 
     ### PRIVATE METHODS ###
 
@@ -99,10 +91,11 @@ class PartialTracker(object):
                 break
         return tuple(reversed(chain))
 
-    def _find_peaks_in_frame_within_midi_threshold_of_midis(self, midis, frame, threshold):
+    def _find_peaks_in_frame_within_midi_threshold_of_midis(
+        self, midis, frame, threshold):
         result = []
         frame_midis = [x.midis for x in frame]
-        idx = bisect(frame_midis, midis)
+        idx = bisect.bisect(frame_midis, midis)
         if idx < len(frame):  # ok to count up
             j = idx
             while j < len(frame):
@@ -173,7 +166,9 @@ class PartialTracker(object):
         fig = plt.figure()
         if mode == 0:
             z_min = z_max = None
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+            for track in tracks:
+                if len(track) < minimum_track_size:
+                    continue
                 if z_min is None:
                     z_min = min([peak.amplitude for peak in track])
                 else:
@@ -185,7 +180,9 @@ class PartialTracker(object):
             cmap = cm.gray
             norm = LogNorm(vmin=z_min, vmax=z_max)
             x_min = x_max = y_min = y_max = None
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+            for track in tracks:
+                if len(track) < minimum_track_size:
+                    continue
                 xs = numpy.array([peak.frame_id for peak in track])
                 ys = numpy.array([peak.midis for peak in track])
                 zs = numpy.array([peak.amplitude for peak in track])
@@ -214,7 +211,9 @@ class PartialTracker(object):
                 fig.gca().set_xlim(x_min, x_max)
                 fig.gca().set_ylim(y_min, y_max)
         elif mode == 1:
-            for track in filter(lambda x: minimum_track_size <= len(x), tracks):
+            for track in tracks:
+                if len(track) < minimum_track_size:
+                    continue
                 xs = [peak.frame_id for peak in track]
                 ys = [peak.midis for peak in track]
                 fig.gca().plot(xs, ys)

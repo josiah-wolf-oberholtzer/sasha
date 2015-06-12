@@ -170,7 +170,11 @@ class Bootstrap(object):
             instrument = Instrument(name=data['name'], transposition=int(data['transposition']))
             session.add(instrument)
             session.commit()
-            instrument_keys = filter(None, data['instrument_keys.name'].split(' '))
+            instrument_keys = [
+                _ 
+                for _ in data['instrument_keys.name'].split(' ')
+                if _
+                ]
             for instrument_key in instrument_keys:
                 session.add(InstrumentKey(name=instrument_key, instrument=instrument))
                 session.commit()
@@ -188,7 +192,11 @@ class Bootstrap(object):
             name = data['name']
             performer = session.query(Performer).filter_by(name=data['performer.name']).one()
             fingering = Fingering(instrument=instrument)
-            key_names = filter(None, data['fingering.instrument_keys.name'].split(' '))
+            key_names = [
+                _
+                for _ in data['fingering.instrument_keys.name'].split(' ')
+                if _
+                ]
             if key_names:
                 instrument_keys = session.query(InstrumentKey).filter(
                     InstrumentKey.instrument == instrument).filter(

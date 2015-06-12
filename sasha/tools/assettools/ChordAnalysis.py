@@ -35,10 +35,10 @@ class ChordAnalysis(Asset):
         if not tracks:
             raise Exception('Cannot find any partial tracks for "%s"' % self.client.name)
         db_threshold = -7
-        # TODO: Remove calls to filter().
-        tracks = filter(lambda x: 100 < len(x), tracks)
+        tracks = [_ for _ in tracks if 100 < len(_)]
         tracks = sorted(tracks, key=lambda x: x.amplitude_mean, reverse=True)
-        tracks = filter(lambda x: db_threshold < x.db(tracks[0]), tracks)
+        tracks = [_ for _ in tracks if db_threshold < _.db(tracks[0])]
+        tracks = tuple(tracks)
         semitones = [x.semitones_centroid for x in tracks]
         amplitudes = [x.db(tracks[0].amplitude_mean) for x in tracks]
         zipped = zip(semitones, amplitudes)

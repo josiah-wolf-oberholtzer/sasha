@@ -120,7 +120,7 @@ class AudioDB(Wrapper):
             out, err = self._exec(command)
             print(out)
             print(err)
-        q = filter(None, [x.split() for x in out.split('\n')])
+        q = [_.split() for _ in out.split('\n') if _]
         results = []
         for x in q:
             distance = float(x[1])
@@ -156,7 +156,8 @@ class AudioDB(Wrapper):
     @property
     def status(self):
         out, err = self._exec('%s -d %s -S' % (self.executable, self.path))
-        lines = filter(None, out.split('\n'))
+        lines = out.splitlines()
+        lines = [_ for _ in lines if _]
         status = {}
         for line in lines:
             if line.startswith('num files'):

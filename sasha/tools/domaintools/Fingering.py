@@ -53,18 +53,6 @@ class Fingering(DomainObject):
 
     ### PUBLIC METHODS ###
 
-    @classmethod
-    def from_canonical_name_prefix(cls, name):
-        from sasha import Instrument
-        parts = name.split('__')
-        cls_name = stringtools.underscore_delimited_lowercase_to_uppercamelcase(parts[0])
-        if cls_name != cls.__name__:
-            return None
-        instrument_name = ' '.join(parts[1].split('_')).title()
-        instrument = Instrument.get(name=instrument_name)[0]
-        compact_representation = parts[2]
-        return cls.get(instrument=instrument, compact_representation=compact_representation)[0]
-
     def find_similar_fingerings(self, n=10):
         def compare(a, b):
             return sum([1 for x, y in zip(a, b) if x == y])

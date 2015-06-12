@@ -70,14 +70,6 @@ class Event(DomainObject):
                     newname = os.path.basename(path).replace(self.canonical_name, name)
                     shutil.copy(path, os.path.join(destination, newname))
 
-    @classmethod
-    def from_canonical_name_prefix(cls, name):
-        parts = name.split('__')
-        cls_name = underscore_delimited_lowercase_to_stringtools.uppercamelcase(parts[0])
-        if cls_name != cls.__name__:
-            return None
-        return cls.get(md5=parts[1])[0]
-
     def query_audiodb(self, method, limit = 10):
         '''Query events matched against an Event instance via `method`:
 
