@@ -26,8 +26,9 @@ before_install:
     - make HELP2MAN="help2man --no-discard-stderr" -C audioDB/
     - sudo make -C audioDB/ install
     - ldd /usr/local/bin/audioDB
-    - sudo echo '/usr/local/lib' >> /etc/ld.so.conf
-    - ldconfig 
+    - echo '/usr/local/lib' > libaudioDB.conf
+    - sudo mv libaudioDB.conf /etc/ld.so.conf.d/
+    - sudo ldconfig 
     - ldd /usr/local/bin/audioDB
     - audioDB --help
 
