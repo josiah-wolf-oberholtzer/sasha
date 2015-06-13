@@ -1,6 +1,5 @@
 import os
 import shutil
-
 from abjad.tools import stringtools
 from abjad.tools import pitchtools
 from sqlalchemy import Column, Date, ForeignKey, Integer, String, Table
@@ -26,7 +25,6 @@ class Event(DomainObject):
     ### SQLALCHEMY ###
 
     __table_args__ = (UniqueConstraint('id', 'md5', 'name'), {})
-
     description = Column(String, nullable=True)
     fingering_id = Column(Integer, ForeignKey('fingerings.id'))
     fingering = relationship('Fingering', backref='events')
@@ -48,13 +46,16 @@ class Event(DomainObject):
             cls.metadata,
             Column('event_id', Integer, ForeignKey('events.id')),
             Column('cluster_id', Integer, ForeignKey('clusters.id')))
-        return relationship('Cluster',
-            secondary=association_table, backref='events')
+        return relationship(
+            'Cluster',
+            secondary=association_table,
+            backref='events',
+            )
 
     ### SPECIAL METHODS ###
 
     def __repr__(self):
-        return '<%s(%r)>' % (type(self).__name__, str(self.name))
+        return '<{}({!r})>'.format(type(self).__name__, str(self.name))
 
     ### PUBLIC METHODS ###
 
@@ -63,14 +64,16 @@ class Event(DomainObject):
         for klass in klasses:
             asset = klass(self)
             if isinstance(asset.path, str):
-                newname = os.path.basename(asset.path).replace(self.canonical_name, name)
+                newname = os.path.basename(asset.path)
+                newname = newname.replace(self.canonical_name, name)
                 shutil.copy(asset.path, os.path.join(destination, newname))
             elif isinstance(asset.path, dict):
                 for path in asset.path.values():
-                    newname = os.path.basename(path).replace(self.canonical_name, name)
+                    newname = os.path.basename(path)
+                    newname = newname.replace(self.canonical_name, name)
                     shutil.copy(path, os.path.join(destination, newname))
 
-    def query_audiodb(self, method, limit = 10):
+    def query_audiodb(self, method, limit=10):
         '''Query events matched against an Event instance via `method`:
 
         ::
@@ -87,38 +90,45 @@ class Event(DomainObject):
             adb = AudioDB(method)
             return adb.query(self, limit)
         else:
-            raise ValueError('Unknown search method "%s".' % repr(method))
+            message = 'Unknown search method {!r}.'.format(method)
+            raise ValueError(message)
 
     @staticmethod
-    def query_keys(instrument_name, with_keys = [], without_keys = []):
+    def query_keys(instrument_name, with_keys=None, without_keys=None):
         '''Query events with and without keys:
 
         ::
 
             >>> instrument_name = Instrument.get_one('Alto Saxophone').name
-            >>> with_keys = []
-            >>> without_keys = []
-            >>> query = Event.query_keys(instrument_name, with_keys, without_keys)
+            >>> query = Event.query_keys(
+            ...     instrument_name,
+            ...     with_keys=[],
+            ...     without_keys=[],
+            ...     )
 
         Returns SQLAlchemy Query instance.
         '''
         from sasha import sasha_configuration
-        from sasha.tools.domaintools import Fingering, Instrument, InstrumentKey
-        instrument = Instrument.get(name=instrument_name)[0]
+        from sasha.tools import domaintools
+        with_keys = with_keys or ()
+        without_keys = without_keys = ()
+        instrument = domaintools.Instrument.get(name=instrument_name)[0]
         query = sasha_configuration.get_session().query(Event).\
             filter_by(instrument=instrument).\
             join('fingering', 'instrument_keys').\
-            join(Instrument)
-
+            join(domaintools.Instrument)
         with_query = None
         if with_keys:
-            to_intersect = [query.filter(InstrumentKey.name.in_([key])) for key in with_keys]
+            to_intersect = [
+                query.filter(domaintools.InstrumentKey.name.in_([key]))
+                for key in with_keys
+                ]
             with_query = query.intersect(*to_intersect).distinct()
-
         without_query = None
         if without_keys:
-            without_query = query.filter(InstrumentKey.name.in_(without_keys)).distinct()
-
+            without_query = query.filter(
+                domaintools.InstrumentKey.name.in_(without_keys)
+                ).distinct()
         if with_keys and without_keys:
             return with_query.except_(without_query)
         elif with_keys:
@@ -128,35 +138,45 @@ class Event(DomainObject):
         return query.distinct()
 
     @staticmethod
-    def query_pitches(with_pitches = [], without_pitches = []):
+    def query_pitches(with_pitches=None, without_pitches=None):
         '''Query events with and without pitches:
 
         ::
 
             >>> with_pitches = []
             >>> without_pitches = []
-            >>> query = Event.query_pitches(with_pitches=with_pitches, without_pitches=without_pitches)
+            >>> query = Event.query_pitches(
+            ...     with_pitches=with_pitches,
+            ...     without_pitches=without_pitches,
+            ...     )
 
         Returns SQLAlchemy Query instance.
         '''
         from sasha import sasha_configuration
         from sasha.tools.domaintools import Partial
-
-        with_pitches = [float(pitchtools.NamedPitch(x)) for x in with_pitches]
-        without_pitches = [float(pitchtools.NamedPitch(x)) for x in without_pitches]
-
-        query = sasha_configuration.get_session().query(Event).\
-            join(Partial)
-
+        with_pitches = with_pitches or ()
+        without_pitches = without_pitches or ()
+        with_pitches = [
+            float(pitchtools.NamedPitch(x))
+            for x in with_pitches
+            ]
+        without_pitches = [
+            float(pitchtools.NamedPitch(x))
+            for x in without_pitches
+            ]
+        query = sasha_configuration.get_session().query(Event).join(Partial)
         with_query = None
         if with_pitches:
-            to_intersect = [query.filter(Partial.pitch_number.in_([x])) for x in with_pitches]
+            to_intersect = [
+                query.filter(Partial.pitch_number.in_([x]))
+                for x in with_pitches
+                ]
             with_query = query.intersect(*to_intersect).distinct()
-
         without_query = None
         if without_pitches:
-            without_query = query.filter(Partial.pitch_number.in_(without_pitches)).distinct()
-
+            without_query = query.filter(
+                Partial.pitch_number.in_(without_pitches)
+                ).distinct()
         if with_pitches and without_pitches:
             return with_query.except_(without_query)
         elif with_pitches:
@@ -166,35 +186,42 @@ class Event(DomainObject):
         return query.distinct()
 
     @staticmethod
-    def query_pitch_classes(with_pcs = [], without_pcs = []):
+    def query_pitch_classes(with_pcs=None, without_pcs=None):
         '''Query events with and without pitch classes:
 
         ::
 
             >>> with_pcs = []
             >>> without_pcs = []
-            >>> query = Event.query_pitch_classes(with_pcs=with_pcs, without_pcs=without_pcs)
+            >>> query = Event.query_pitch_classes(
+            ...     with_pcs=with_pcs,
+            ...     without_pcs=without_pcs,
+            ...     )
 
         Returns SQLAlchemy Query instance.
         '''
         from sasha import sasha_configuration
         from sasha.tools.domaintools import Partial
-
+        with_pcs = with_pcs or ()
+        without_pcs = without_pcs or ()
         with_pcs = [float(pitchtools.NamedPitchClass(x)) for x in with_pcs]
-        without_pcs = [float(pitchtools.NamedPitchClass(x)) for x in without_pcs]
-
-        query = sasha_configuration.get_session().query(Event).\
-            join(Partial)
-
+        without_pcs = [
+            float(pitchtools.NamedPitchClass(x))
+            for x in without_pcs
+            ]
+        query = sasha_configuration.get_session().query(Event).join(Partial)
         with_query = None
         if with_pcs:
-            to_intersect = [query.filter(Partial.pitch_class_number.in_([x])) for x in with_pcs]
+            to_intersect = [
+                query.filter(Partial.pitch_class_number.in_([x]))
+                for x in with_pcs
+                ]
             with_query = query.intersect(*to_intersect).distinct()
-
         without_query = None
         if without_pcs:
-            without_query = query.filter(Partial.pitch_class_number.in_(without_pcs)).distinct()
-
+            without_query = query.filter(
+                Partial.pitch_class_number.in_(without_pcs)
+                ).distinct()
         if with_pcs and without_pcs:
             return with_query.except_(without_query)
         elif with_pcs:
@@ -208,7 +235,7 @@ class Event(DomainObject):
     @property
     def canonical_name(self):
         cls_name = stringtools.to_snake_case(type(self).__name__)
-        return '%s__%s' % (cls_name, self.md5)
+        return '{}__{}'.format(cls_name, self.md5)
 
     @property
     def source_audio(self):
@@ -217,12 +244,18 @@ class Event(DomainObject):
 
     @property
     def pitches(self):
-        return tuple([pitchtools.NamedPitch(x.pitch_number) for x in self.partials])
+        return tuple(
+            pitchtools.NamedPitch(x.pitch_number)
+            for x in self.partials
+            )
 
     @property
     def pitch_names(self):
-        return tuple([x.pitch_name for x in self.pitches])
+        return tuple(x.pitch_name for x in self.pitches)
 
     @property
     def pitch_classes(self):
-        return tuple(set([pitchtools.NamedPitchClass(x.pitch_class_number) for x in self.partials]))
+        return tuple(set(
+            pitchtools.NamedPitchClass(x.pitch_class_number)
+            for x in self.partials
+            ))

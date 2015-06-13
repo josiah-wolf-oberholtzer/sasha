@@ -11,4 +11,3 @@ class InstrumentModel(DomainObject):
     instrument_id = Column(Integer, ForeignKey('instruments.id'))
     instrument = relationship('Instrument', backref='instrument_models')
     name = Column(String)
-

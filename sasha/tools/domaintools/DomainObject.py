@@ -24,8 +24,17 @@ class DomainObject(object):
 
     def __repr__(self):
         if hasattr(self, 'name'):
-            return '<%s(%r)>' % (type(self).__name__, self.name)
-        return '<%s()>' % type(self).__name__
+            result = '<{}({!r})>'
+            result = result.format(
+                type(self).__name__,
+                self.name,
+                )
+        else:
+            result = '<{}()>'
+            result = result.format(
+                type(self).__name__,
+                )
+        return result
 
     ### PUBLIC METHODS ###
 
@@ -113,7 +122,8 @@ class DomainObject(object):
     def canonical_name(self):
         cls_name = stringtools.to_snake_case(type(self).__name__)
         if hasattr(self, 'name'):
-            return '%s__%s' % (cls_name, str(self.name))
-        return '%s__%s' % (cls_name, self.id)
+            return '{}__{}'.format(cls_name, str(self.name))
+        return '{}__{}'.format(cls_name, self.id)
+
 
 DomainObject = declarative_base(cls=DomainObject)

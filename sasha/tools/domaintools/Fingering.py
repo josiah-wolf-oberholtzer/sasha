@@ -17,15 +17,29 @@ class Fingering(DomainObject):
         {})
 
     compact_representation = Column(String)
-    instrument_id = Column(Integer, ForeignKey('instruments.id'), nullable=False)
+    instrument_id = Column(
+        Integer,
+        ForeignKey('instruments.id'),
+        nullable=False,
+        )
     instrument = relationship('Instrument', backref='fingerings')
 
     @declared_attr
     def instrument_keys(cls):
-        association_table = Table('fingering_key_associations',
+        association_table = Table(
+            'fingering_key_associations',
             cls.metadata,
-            Column('fingering_id', Integer, ForeignKey('fingerings.id')),
-            Column('instrument_key_id', Integer, ForeignKey('instrument_keys.id')))
+            Column(
+                'fingering_id',
+                Integer,
+                ForeignKey('fingerings.id'),
+                ),
+            Column(
+                'instrument_key_id',
+                Integer,
+                ForeignKey('instrument_keys.id'),
+                ),
+            )
         return relationship(
             'InstrumentKey',
             secondary=association_table,
@@ -37,32 +51,43 @@ class Fingering(DomainObject):
     def __repr__(self):
         from sasha import Instrument
         instrument = Instrument.get_one(id=self.instrument_id)
-        return '<%s(%r, %r)>' % (type(self).__name__, str(instrument.name),
-            self.compact_representation)
+        return '<{}({!r}, {!r})>'.format(
+            type(self).__name__,
+            str(instrument.name),
+            self.compact_representation,
+            )
 
     ### PRIVATE METHODS ###
 
     def _generate_compact_representation(self):
-        repr = ''
-        for key in sorted(self.instrument.instrument_keys, key=lambda x: x.name):
+        result = ''
+        for key in sorted(
+            self.instrument.instrument_keys,
+            key=lambda x: x.name,
+            ):
             if key in self.instrument_keys:
-                repr += '1'
+                result += '1'
             else:
-                repr += '0'
-        return repr
+                result += '0'
+        return result
 
     ### PUBLIC METHODS ###
 
     def find_similar_fingerings(self, n=10):
         def compare(a, b):
-            return sum([1 for x, y in zip(a, b) if x == y])
+            return sum(1 for x, y in zip(a, b) if x == y)
         results = []
         fingerings = Fingering.get(instrument_id=self.instrument_id)
-        fingerings = [x for x in fingerings if x.id != self.id]
+        fingerings = (x for x in fingerings if x.id != self.id)
         for fingering in fingerings:
-            comparison = compare(self.compact_representation, fingering.compact_representation)
+            comparison = compare(
+                self.compact_representation,
+                fingering.compact_representation,
+                )
             results.append((comparison, fingering))
-        return [x[1] for x in sorted(results, key=lambda x: x[0], reverse=True)][:n]
+        results.sort(key=lambda x: x[0], reverse=True)
+        results = [x[1] for x in results][:n]
+        return results
 
     ### PUBLIC PROPERTIES ###
 
@@ -72,4 +97,8 @@ class Fingering(DomainObject):
         cls_name = stringtools.to_snake_case(type(self).__name__)
         instrument = Instrument.get_one(id=self.instrument_id)
         instrument_name = '_'.join(instrument.name.lower().split())
-        return '%s__%s__%s' % (cls_name, instrument_name, self.compact_representation)
+        return '{}__{}__{}'.format(
+            cls_name,
+            instrument_name,
+            self.compact_representation,
+            )

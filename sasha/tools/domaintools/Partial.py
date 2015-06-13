@@ -1,7 +1,7 @@
 from abjad.tools import pitchtools
 
-from sqlalchemy import Column, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import Column, Float, ForeignKey, Integer
+from sqlalchemy.orm import relationship
 
 from sasha.tools.domaintools.DomainObject import DomainObject
 
@@ -20,5 +20,8 @@ class Partial(DomainObject):
     ### SPECIAL METHODS ###
 
     def __repr__(self):
-        return '<%s(%r, %s)>' % (type(self).__name__,
-            pitchtools.NamedPitch(self.pitch_number).pitch_name, self.amplitude)
+        return '<{}({!r}, {})>'.format(
+            type(self).__name__,
+            pitchtools.NamedPitch(self.pitch_number).pitch_name,
+            self.amplitude,
+            )

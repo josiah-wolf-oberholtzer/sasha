@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String
-
 from sasha.tools.domaintools.DomainObject import DomainObject
 
 
@@ -16,4 +15,10 @@ class Cluster(DomainObject):
     ### SPECIAL METHODS ###
 
     def __repr__(self):
-        return '<%s(cluster_id=%d, feature=%r)>' % (type(self).__name__, self.cluster_id, self.feature)
+        result = '<{}(cluster_id={}, feature={!r})>'
+        result = result.format(
+            type(self).__name__,
+            self.cluster_id,
+            self.feature,
+            )
+        return result
