@@ -1,4 +1,4 @@
-from sasha.tools import wrappertools
+from sasha.tools import executabletools
 from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 
 
@@ -16,7 +16,7 @@ class ConstantQAnalysis(FFTExtractPlugin):
         self.delete()
         audio_filename = assettools.CroppedAudio(self).path
         analysis_filename = self.path
-        wrappertools.FFTExtract().write_constant_q(
+        executabletools.FFTExtract().write_constant_q(
             audio_filename,
             analysis_filename,
             )

@@ -1,4 +1,4 @@
-from sasha.tools.wrappertools import FFTExtract
+from sasha.tools.executabletools import FFTExtract
 from sasha.tools.assettools.CroppedAudio import CroppedAudio
 from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
 

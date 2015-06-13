@@ -1,7 +1,7 @@
 from sasha import sasha_configuration
 from sasha.tools import domaintools
 from sasha.tools import systemtools
-from sasha.tools import wrappertools
+from sasha.tools import executabletools
 
 
 sasha_configuration.environment = 'testing'
@@ -19,23 +19,23 @@ def test_Bootstrap_populate_audiodb_databases_01():
     event_count = sasha_configuration.get_session().query(event_class).count()
     assert 0 < event_count
 
-    assert wrappertools.AudioDB('chroma').exists
-    assert wrappertools.AudioDB('constant_q').exists
-    assert wrappertools.AudioDB('mfcc').exists
+    assert executabletools.AudioDB('chroma').exists
+    assert executabletools.AudioDB('constant_q').exists
+    assert executabletools.AudioDB('mfcc').exists
 
     bootstrap.delete_audiodb_databases()
     bootstrap.create_audiodb_databases()
     bootstrap.populate_audiodb_databases()
 
-    assert wrappertools.AudioDB('chroma').exists
-    assert wrappertools.AudioDB('constant_q').exists
-    assert wrappertools.AudioDB('mfcc').exists
+    assert executabletools.AudioDB('chroma').exists
+    assert executabletools.AudioDB('constant_q').exists
+    assert executabletools.AudioDB('mfcc').exists
 
-    adb = wrappertools.AudioDB('chroma')
+    adb = executabletools.AudioDB('chroma')
     assert adb.status['num_files'] == event_count
 
-    adb = wrappertools.AudioDB('constant_q')
+    adb = executabletools.AudioDB('constant_q')
     assert adb.status['num_files'] == event_count
 
-    adb = wrappertools.AudioDB('mfcc')
+    adb = executabletools.AudioDB('mfcc')
     assert adb.status['num_files'] == event_count

@@ -1,7 +1,7 @@
 import subprocess
 
 
-class Wrapper(object):
+class Executable(object):
 
     ### PRIVATE METHODS ###
 

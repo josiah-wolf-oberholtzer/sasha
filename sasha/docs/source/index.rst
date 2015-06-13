@@ -281,7 +281,7 @@ Core packages
       tools/systemtools/ImmutableDictionary
       tools/systemtools/SashaConfiguration
 
-:py:mod:`wrappertools <sasha.tools.wrappertools>`
+:py:mod:`executabletools <sasha.tools.executabletools>`
 =================================================
 
 .. only:: html
@@ -290,18 +290,18 @@ Core packages
       :hidden:
       :maxdepth: 1
 
-      tools/wrappertools/index
+      tools/executabletools/index
 
    .. toctree::
       :maxdepth: 1
 
-      tools/wrappertools/AudioDB
-      tools/wrappertools/Convert
-      tools/wrappertools/FFTExtract
-      tools/wrappertools/LAME
-      tools/wrappertools/Playback
-      tools/wrappertools/Which
-      tools/wrappertools/Wrapper
+      tools/executabletools/AudioDB
+      tools/executabletools/Convert
+      tools/executabletools/FFTExtract
+      tools/executabletools/LAME
+      tools/executabletools/Playback
+      tools/executabletools/Which
+      tools/executabletools/Wrapper
 
 .. only:: latex
 
@@ -310,10 +310,10 @@ Core packages
 
    .. toctree::
 
-      tools/wrappertools/AudioDB
-      tools/wrappertools/Convert
-      tools/wrappertools/FFTExtract
-      tools/wrappertools/LAME
-      tools/wrappertools/Playback
-      tools/wrappertools/Which
-      tools/wrappertools/Wrapper
+      tools/executabletools/AudioDB
+      tools/executabletools/Convert
+      tools/executabletools/FFTExtract
+      tools/executabletools/LAME
+      tools/executabletools/Playback
+      tools/executabletools/Which
+      tools/executabletools/Wrapper

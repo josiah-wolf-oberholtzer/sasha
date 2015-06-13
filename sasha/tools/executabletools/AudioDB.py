@@ -2,10 +2,10 @@ import os
 import shutil
 import tempfile
 
-from sasha.tools.wrappertools.Wrapper import Wrapper
+from sasha.tools.executabletools.Executable import Executable
 
 
-class AudioDB(Wrapper):
+class AudioDB(Executable):
 
     ### CLASS VARIABLES ###
 
@@ -20,7 +20,7 @@ class AudioDB(Wrapper):
     def __init__(self, name):
         from sasha import sasha_configuration
         import os
-        from sasha.tools.wrappertools import Which
+        from sasha.tools.executabletools import Which
         if not os.path.isabs(self.executable):
             assert Which()('audioDB') is not None
         path, asset_class = sasha_configuration.get_audiodb_parameters(name)

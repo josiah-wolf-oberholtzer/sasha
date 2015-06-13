@@ -1,7 +1,7 @@
-from sasha.tools.wrappertools.Wrapper import Wrapper
+from sasha.tools.executabletools.Executable import Executable
 
 
-class Playback(Wrapper):
+class Playback(Executable):
 
     ### SPECIAL METHODS ###
 

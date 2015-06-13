@@ -1,14 +1,14 @@
 import os
-from sasha.tools.wrappertools.Wrapper import Wrapper
+from sasha.tools.executabletools.Executable import Executable
 
 
-class LAME(Wrapper):
+class LAME(Executable):
 
     ### INITIALIZER ###
 
     def __init__(self):
         import os
-        from sasha.tools.wrappertools import Which
+        from sasha.tools.executabletools import Which
         if not os.path.isabs(self.executable):
             assert Which()('lame') is not None
 

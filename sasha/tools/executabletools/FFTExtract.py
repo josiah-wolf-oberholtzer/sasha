@@ -1,16 +1,16 @@
 import numpy
 import os
 import struct
-from sasha.tools.wrappertools.Wrapper import Wrapper
+from sasha.tools.executabletools.Executable import Executable
 
 
-class FFTExtract(Wrapper):
+class FFTExtract(Executable):
 
     ### INITIALIZER ###
 
     def __init__(self):
         import os
-        from sasha.tools.wrappertools import Which
+        from sasha.tools.executabletools import Which
         if not os.path.isabs(self.executable):
             assert Which()('fftExtract') is not None
 

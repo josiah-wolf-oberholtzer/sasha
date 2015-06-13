@@ -1,8 +1,8 @@
 import os
-from sasha.tools.wrappertools.Wrapper import Wrapper
+from sasha.tools.executabletools.Executable import Executable
 
 
-class Which(Wrapper):
+class Which(Executable):
 
     ### SPECIAL METHODS ###
 

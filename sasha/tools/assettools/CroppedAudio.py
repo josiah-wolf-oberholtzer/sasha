@@ -1,6 +1,6 @@
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.SourceAudio import SourceAudio
-from sasha.tools.wrappertools import Playback
+from sasha.tools.executabletools import Playback
 
 
 class CroppedAudio(Asset):

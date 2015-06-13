@@ -1,8 +1,8 @@
 import abc
 import os
 from sasha.tools.assettools.Asset import Asset
-from sasha.tools.wrappertools import Convert
-from sasha.tools.wrappertools import Wrapper
+from sasha.tools.executabletools import Convert
+from sasha.tools.executabletools import Executable
 
 
 class Notation(Asset):
@@ -54,7 +54,7 @@ class Notation(Asset):
             suffixless_path,
             lily_path,
             )
-        out, err = Wrapper()._exec(cmd)
+        out, err = Executable()._exec(cmd)
         # sometimes LilyPond doesn't delete the PostScript
         if os.path.exists(ps_path):
             os.remove(ps_path)

@@ -84,7 +84,7 @@ class Event(DomainObject):
         Returns list of 2-tuples, of Event and matching frames.
         '''
         from sasha import sasha_configuration
-        from sasha.tools.wrappertools import AudioDB
+        from sasha.tools.executabletools import AudioDB
         assert isinstance(limit, int) and 0 < limit
         if method in sasha_configuration['audioDB']:
             adb = AudioDB(method)
