@@ -40,14 +40,20 @@ before_install:
     - export PATH=/home/travis/bin:$PATH
     - lilypond --help
 
+    - pip install coveralls
+    - pip install coverage
+
 install:
     - pip install -r requirements.txt
     - pip install -e .
     - cp sasha/sasha.example.cfg sasha/sasha.cfg
 
 script:
-    - sasha/scr/bootstrap-testing-environment
-    - py.test -rf -vv
+    - coverage run -a sasha/scr/bootstrap-testing-environment
+    - coverage run -a `which py.test` -rf -vv
+
+after_success:
+    coveralls
 
 notifications:
     email: false

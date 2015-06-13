@@ -1,0 +1,12 @@
+[run]
+branch = False
+cover_pylib = False
+omit = 
+    setup.py
+source = 
+    sasha
+    sashaweb
+
+[report]
+exclude_lines = 
+    raise NotImplementedError
