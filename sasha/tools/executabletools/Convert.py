@@ -7,9 +7,8 @@ class Convert(Executable):
 
     def __init__(self):
         import os
-        from sasha.tools.executabletools import Which
         if not os.path.isabs(self.executable):
-            assert Which()('convert') is not None
+            assert Executable.find_executable('convert') is not None
 
     ### SPECIAL METHODS ###
 

@@ -10,9 +10,8 @@ class FFTExtract(Executable):
 
     def __init__(self):
         import os
-        from sasha.tools.executabletools import Which
         if not os.path.isabs(self.executable):
-            assert Which()('fftExtract') is not None
+            assert Executable.find_executable('fftExtract') is not None
 
     ### PRIVATE METHODS ###
 
