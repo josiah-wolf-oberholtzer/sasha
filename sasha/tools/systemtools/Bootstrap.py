@@ -9,6 +9,8 @@ from sqlalchemy import create_engine
 
 class Bootstrap(object):
 
+    ### SPECIAL METHODS ###
+
     def __call__(self):
         from sasha import sasha_configuration
         sasha_configuration.logger.info('BOOTSTRAP: Start')
@@ -35,14 +37,15 @@ class Bootstrap(object):
             asset = asset_class(obj)
             try:
                 if hasattr(asset, 'write'):
-                    message = 'Writing %s to %s.' % (asset, asset.path)
+                    message = 'Writing {} to {}.'
+                    message = message.format(asset, asset.path)
                     print(message)
                     #sasha_configuration.logger.info(message)
                     asset.write(parallel=False)
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 exc = traceback.print_exc()
-                message = 'Writing %s failed.' % asset
+                message = 'Writing {} failed.'.format(asset)
                 print(message)
                 #sasha_configuration.logger.warning(message)
                 if exc:
@@ -167,30 +170,41 @@ class Bootstrap(object):
         # INSTRUMENTS, KEYS
         for fixture in Instrument.get_fixtures():
             data = fixture['main']
-            instrument = Instrument(name=data['name'], transposition=int(data['transposition']))
+            instrument = Instrument(
+                name=data['name'],
+                transposition=int(data['transposition']),
+                )
             session.add(instrument)
             session.commit()
             instrument_keys = [
-                _ 
+                _
                 for _ in data['instrument_keys.name'].split(' ')
                 if _
                 ]
             for instrument_key in instrument_keys:
-                session.add(InstrumentKey(name=instrument_key, instrument=instrument))
+                instrument_key = InstrumentKey(
+                    name=instrument_key,
+                    instrument=instrument,
+                    )
+                session.add(instrument_key)
                 session.commit()
         for fixture in Instrument.get_fixtures():
             data = fixture['main']
             if data['parent.name']:
-                child = session.query(Instrument).filter_by(name=data['name']).one()
-                parent = session.query(Instrument).filter_by(name=data['parent.name']).one()
+                child = session.query(Instrument).filter_by(
+                    name=data['name']).one()
+                parent = session.query(Instrument).filter_by(
+                    name=data['parent.name']).one()
                 child.parent = parent
             session.commit()
         # EVENTS, FINGERINGS
         for fixture in Event.get_fixtures():
             data = fixture['main']
-            instrument = session.query(Instrument).filter_by(name=data['instrument.name']).one()
+            instrument = session.query(Instrument).filter_by(
+                name=data['instrument.name']).one()
             name = data['name']
-            performer = session.query(Performer).filter_by(name=data['performer.name']).one()
+            performer = session.query(Performer).filter_by(
+                name=data['performer.name']).one()
             fingering = Fingering(instrument=instrument)
             key_names = [
                 _
@@ -202,7 +216,8 @@ class Bootstrap(object):
                     InstrumentKey.instrument == instrument).filter(
                     InstrumentKey.name.in_(key_names))
                 fingering.instrument_keys.extend(instrument_keys)
-            fingering.compact_representation = fingering._generate_compact_representation()
+            fingering.compact_representation = \
+                fingering._generate_compact_representation()
             # check if the fingering already exists
             extant_fingering = Fingering.get(instrument=fingering.instrument,
                 compact_representation=fingering.compact_representation)
@@ -241,9 +256,21 @@ class Bootstrap(object):
                     amplitude=amplitude))
             session.commit()
         # insert Clusters
-        chroma_kmeans = KMeansClustering('chroma', cluster_count=8, use_pca=False)
-        constant_q_kmeans = KMeansClustering('constant_q', cluster_count=8, use_pca=False)
-        mfcc_kmeans = KMeansClustering('mfcc', cluster_count=8, use_pca=False)
+        chroma_kmeans = KMeansClustering(
+            'chroma',
+            cluster_count=9,
+            use_pca=False,
+            )
+        constant_q_kmeans = KMeansClustering(
+            'constant_q',
+            cluster_count=9,
+            use_pca=False,
+            )
+        mfcc_kmeans = KMeansClustering(
+            'mfcc',
+            cluster_count=9,
+            use_pca=False,
+            )
         all_clusters = []
         all_clusters.extend(chroma_kmeans())
         all_clusters.extend(constant_q_kmeans())

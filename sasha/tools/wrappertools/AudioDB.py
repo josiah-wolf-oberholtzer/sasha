@@ -31,7 +31,7 @@ class AudioDB(Wrapper):
     ### SPECIAL METHODS ###
 
     def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, repr(self.name))
+        return '{}({})'.format(self.__class__.__name__, repr(self.name))
 
     ### PUBLIC METHODS ###
 
@@ -41,9 +41,13 @@ class AudioDB(Wrapper):
                 self.delete()
             else:
                 raise Exception('Database already exists.')
-        out, err = self._exec('%s -N --datasize=100 -d %s' % (self.executable, self.path))
-        out, err = self._exec('%s -L -d %s' % (self.executable, self.path))
-        out, err = self._exec('%s -P -d %s' % (self.executable, self.path))
+        command = '{} -N --datasize=100 -d {}'
+        command = command.format(self.executable, self.path)
+        out, err = self._exec(command)
+        command = '{} -L -d {}'.format(self.executable, self.path)
+        out, err = self._exec(command)
+        command = '{} -P -d {}'.format(self.executable, self.path)
+        out, err = self._exec(command)
 
     def delete(self):
         if self.exists:
@@ -52,9 +56,9 @@ class AudioDB(Wrapper):
     def populate(self, events):
         from sasha.tools.domaintools import Event
         from sasha.tools.assettools import LogPowerAnalysis
-        assert len(events) and all([isinstance(x, Event) for x in events])
-        assert all([LogPowerAnalysis(x).exists for x in events])
-        assert all([self.asset_class(x).exists for x in events])
+        assert len(events) and all(isinstance(x, Event) for x in events)
+        assert all(LogPowerAnalysis(x).exists for x in events)
+        assert all(self.asset_class(x).exists for x in events)
         temporary_directory_path = tempfile.mkdtemp()
         key_file_path = os.path.join(
             temporary_directory_path,
@@ -72,14 +76,14 @@ class AudioDB(Wrapper):
         log_power_file = open(log_power_file_path, 'w')
         feature_file = open(feature_file_path, 'w')
         for event in events:
-            key_file.write('%s\n' % event.name)
-            log_power_file.write('%s\n' % LogPowerAnalysis(event).path)
-            feature_file.write('%s\n' % self.asset_class(event).path)
+            key_file.write('{}\n'.format(event.name))
+            log_power_file.write('{}\n'.format(LogPowerAnalysis(event).path))
+            feature_file.write('{}\n'.format(self.asset_class(event).path))
         key_file.close()
         log_power_file.close()
         feature_file.close()
-        command = '%s -d %s -B -K %s -F %s -W %s -v 0' % \
-            (self.executable,
+        command = '{} -d {} -B -K {} -F {} -W {} -v 0'.format(
+            self.executable,
             self.path,
             key_file_path,
             feature_file_path,
@@ -97,8 +101,11 @@ class AudioDB(Wrapper):
         assert 0 < n
         assert all([isinstance(x, Event) for x in events])
         feature = self.asset_class(target)
-        command = '%s -d %s -Q sequence -e -n 1 -l 20 -R 0.5 -f %s' % \
-            (self.executable, self.path, feature.path)
+        command = '{} -d {} -Q sequence -e -n 1 -l 20 -R 0.5 -f {}'.format(
+            self.executable,
+            self.path,
+            feature.path,
+            )
         print(command)
         if events:
             if target not in events:
@@ -110,13 +117,13 @@ class AudioDB(Wrapper):
                 delete=False,
                 )
             for event in events:
-                temporary_file.write('%s\n' % event.name)
+                temporary_file.write('{}\n'.format(event.name))
             temporary_file.close()
-            command += ' -r %d -K %s' % (len(events), temporary_file.name)
+            command += ' -r {} -K {}'.format(len(events), temporary_file.name)
             out, err = self._exec(command)
             os.unlink(temporary_file.name)
         else:
-            command += ' -r %d' % (n + 1)
+            command += ' -r {}'.format(n + 1)
             out, err = self._exec(command)
             print(out)
             print(err)
@@ -155,7 +162,7 @@ class AudioDB(Wrapper):
 
     @property
     def status(self):
-        out, err = self._exec('%s -d %s -S' % (self.executable, self.path))
+        out, err = self._exec('{} -d {} -S'.format(self.executable, self.path))
         lines = out.splitlines()
         lines = [_ for _ in lines if _]
         status = {}
@@ -165,13 +172,17 @@ class AudioDB(Wrapper):
             elif line.startswith('data dim'):
                 status['data_dim'] = int(line.partition(':')[-1])
             elif line.startswith('total vectors'):
-                status['total_vectors'] = int(line.partition(':')[-1].split()[0])
+                datum = line.partition(':')[-1].split()[0]
+                status['total_vectors'] = int(datum)
             elif line.startswith('vectors available'):
-                status['available_vectors'] = int(line.partition(':')[-1].split()[0])
+                datum = line.partition(':')[-1].split()[0]
+                status['available_vectors'] = int(datum)
             elif line.startswith('total bytes'):
-                status['total_bytes'] = int(line.partition(':')[-1].split()[0])
+                datum = line.partition(':')[-1].split()[0]
+                status['total_bytes'] = int(datum)
             elif line.startswith('bytes available'):
-                status['available_bytes'] = int(line.partition(':')[-1].split()[0])
+                datum = line.partition(':')[-1].split()[0]
+                status['available_bytes'] = int(datum)
             elif line.startswith('flags'):
                 flags = line.partition(':')[-1].split()
                 for flag in flags:

@@ -106,7 +106,7 @@ class FFTExtract(Wrapper):
         assert array.dtype == numpy.dtype('float64')
         if os.path.exists(analysis_filename):
             if not overwrite:
-                raise Exception('File exists: %s' % analysis_filename)
+                raise Exception('File exists: {}'.format(analysis_filename))
             else:
                 os.remove(analysis_filename)
         f = open(analysis_filename, 'w')

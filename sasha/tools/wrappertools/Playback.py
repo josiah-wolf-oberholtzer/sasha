@@ -5,9 +5,8 @@ class Playback(Wrapper):
 
     ### SPECIAL METHODS ###
 
-    def __call__(self, input):
-        cmd = '%s %s' % \
-           (self.executable, input)
+    def __call__(self, input_path):
+        cmd = '{} {}'.format(self.executable, input_path)
         out, err = self._exec(cmd)
         if err:
             print err

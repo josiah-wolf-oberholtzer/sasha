@@ -13,11 +13,12 @@ class Convert(Wrapper):
 
     ### SPECIAL METHODS ###
 
-    def __call__(self, input, output):
-        cmd = '%s %s -trim %s' % \
-            (self.executable,
-            input,
-            output)
+    def __call__(self, input_path, output_path):
+        cmd = '{} {} -trim {}'.format(
+            self.executable,
+            input_path,
+            output_path,
+            )
         out, err = self._exec(cmd)
 
     ### PUBLIC PROPERTIES ###
