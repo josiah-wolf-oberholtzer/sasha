@@ -9,9 +9,12 @@ class FFTExtract(Executable):
     ### INITIALIZER ###
 
     def __init__(self):
+        from sasha import sasha_configuration
         import os
-        if not os.path.isabs(self.executable):
-            assert Executable.find_executable('fftExtract') is not None
+        executable = sasha_configuration.get_binary('fftextract')
+        if not os.path.isabs(executable):
+            path = sasha_configuration.find_executable(executable)
+            assert path is not None
 
     ### PRIVATE METHODS ###
 
@@ -23,6 +26,7 @@ class FFTExtract(Executable):
         bands=24,
         overwrite=True,
         ):
+        from sasha import sasha_configuration
         assert os.path.exists(audio_filename)
         analysis_directory, _ = os.path.split(analysis_filename)
         if not os.path.exists(analysis_directory):
@@ -47,8 +51,9 @@ class FFTExtract(Executable):
             flags = '-m {} -M 3 -g 0'.format(bands)
         else:
             raise Exception('Unknown feature: {!r}'.format(feature_type))
+        executable = sasha_configuration.get_binary('fftextract')
         command = '{} -p {} -v 10 -C 2 -s {} {} {} {}'.format(
-            self.executable,
+            executable,
             self.plan_path,
             100,  # enforce common hop size
             flags,
@@ -61,10 +66,6 @@ class FFTExtract(Executable):
             print err
 
     ### PUBLIC METHODS ###
-
-    def delete_plan(self):
-        if os.path.exists(self.plan_path):
-            os.remove(self.plan_path)
 
     def read_analysis(self, analysis_filename):
         with open(analysis_filename, 'r') as file_pointer:
@@ -116,11 +117,6 @@ class FFTExtract(Executable):
                 file_pointer.write(bytestring)
 
     ### PUBLIC PROPERTIES ###
-
-    @property
-    def executable(self):
-        from sasha import sasha_configuration
-        return sasha_configuration.get_binary('fftextract')
 
     @property
     def plan_path(self):

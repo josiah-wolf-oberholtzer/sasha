@@ -20,8 +20,10 @@ class AudioDB(Executable):
     def __init__(self, name):
         from sasha import sasha_configuration
         import os
-        if not os.path.isabs(self.executable):
-            assert Executable.find_executable('audioDB') is not None
+        executable = sasha_configuration.get_binary('audiodb')
+        if not os.path.isabs(executable):
+            path = sasha_configuration.find_executable(executable)
+            assert path is not None
         path, asset_class = sasha_configuration.get_audiodb_parameters(name)
         self._asset_class = asset_class
         self._name = name
