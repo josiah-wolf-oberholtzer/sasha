@@ -32,7 +32,9 @@ class ChordAnalysis(Asset):
         pta = PartialTrackingAnalysis(self)
         tracks = pta.read()
         if not tracks:
-            raise Exception('Cannot find any partial tracks for "%s"' % self.client.name)
+            message = 'Cannot find any partial tracks for {!r}'
+            message = message.format(self.client.name)
+            raise Exception(message)
         db_threshold = -7
         tracks = [_ for _ in tracks if 100 < len(_)]
         tracks = sorted(tracks, key=lambda x: x.amplitude_mean, reverse=True)
@@ -68,7 +70,9 @@ class ChordAnalysis(Asset):
             self._pitches = tuple(float(_) for _ in pitches)
             self._pitch_classes = tuple(float(_) for _ in pitch_classes)
             return self.asset
-        raise Exception('Asset does not exist for event %s' % self.event.name)
+        message = 'Asset does not exist for event {}.'
+        message = message.format(self.event.name)
+        raise Exception(message)
 
     def write(self, **kwargs):
         self._asset = self._find_chord()

@@ -26,22 +26,24 @@ class ChromaNotation(Notation):
         v_mean.extend(abjad.scoretools.make_notes(pitches, (1, 4)))
         v_std.extend(abjad.scoretools.Skip((1, 4)) * len(v_mean))
         for i, val in enumerate(chroma_mean):
-            markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
-                (str((val * -5.) - 0.75),
-                 str((val * 5.) + 0.75))
+            markup = r"\filled-box #'(0 . 1.25) #'({} . {}) #1".format(
+                (val * -5.) - 0.75,
+                (val * 5.) + 0.75,
+                )
             markup = abjad.Markup(markup, 'up')
             abjad.attach(markup, v_mean[i])
-            color = abjad.schemetools.SchemeColor(
-                'grey%d' % (90 - int(val * 90)))
+            color = (90 - int(val * 90))
+            color = abjad.schemetools.SchemeColor('grey{}'.format(color))
             abjad.override(v_mean[i]).text_script.color = color
         for i, val in enumerate(chroma_std):
-            markup = "\\filled-box #'(0 . 1.25) #'(%s . %s) #1" % \
-                (str((val * -5.) - 0.75),
-                 str((val * 5.) + 0.75))
+            markup = r"\filled-box #'(0 . 1.25) #'({} . {}) #1".format(
+                (val * -5.) - 0.75,
+                (val * 5.) + 0.75,
+                )
             markup = abjad.Markup(markup, 'down')
             abjad.attach(markup, v_std[i])
-            color = abjad.schemetools.SchemeColor(
-                'grey%d' % (90 - int(val * 90)))
+            color = (90 - int(val * 90))
+            color = abjad.schemetools.SchemeColor('grey{}'.format(color))
             abjad.override(v_std[i]).text_script.color = color
         abjad.override(v_mean).text_script.staff_padding = 1.5
         abjad.override(v_std).text_script.staff_padding = 3.0

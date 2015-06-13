@@ -31,42 +31,37 @@ class Notation(Asset):
         return self._strip_file_suffix(path) + '.ps'
 
     def _strip_file_suffix(self, path):
-        return path.partition('.%s' % self.file_suffix)[0]
+        return path.partition('.{}'.format(self.file_suffix))[0]
 
     def _save_lily_to_png(self, lily, sublabel=None):
         import abjad
         from sasha import sasha_configuration
-
         png_path = self._build_path(sublabel)
         lily_path = self._path_to_lily_path(png_path)
         suffixless_path = self._strip_file_suffix(png_path)
         ps_path = self._path_to_ps_path(png_path)
-
         lily_directory, _ = os.path.split(lily_path)
         if not os.path.exists(lily_directory):
             os.makedirs(lily_directory)
         png_directory, _ = os.path.split(png_path)
         if not os.path.exists(png_directory):
             os.makedirs(png_directory)
-
         abjad.persist(lily).as_ly(lily_path)
-        cmd = '%s --png -dresolution=%d -danti-alias-factor=%d -o %s %s' % \
-            (sasha_configuration.get_binary('lilypond'),
+        cmd = '{} --png -dresolution={} -danti-alias-factor={} -o {} {}'.format(
+            sasha_configuration.get_binary('lilypond'),
             self.resolution,
             self.aa_factor,
             suffixless_path,
-            lily_path)
+            lily_path,
+            )
         out, err = Wrapper()._exec(cmd)
-
         # sometimes LilyPond doesn't delete the PostScript
         if os.path.exists(ps_path):
             os.remove(ps_path)
-
         # sometimes LilyPond (or something else?) appends '.old'
         if os.path.exists(png_path + '.old'):
             os.remove(png_path)
             os.rename(png_path + '.old', png_path)
-
         Convert()(png_path, png_path)
 
     ### PUBLIC METHODS ###
@@ -92,7 +87,8 @@ class Notation(Asset):
             import sys
             import traceback
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            print '\n'.join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+            print '\n'.join(traceback.format_exception(
+                exc_type, exc_value, exc_traceback))
 
     ### PUBLIC PROPERTIES ###
 

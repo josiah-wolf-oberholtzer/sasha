@@ -19,8 +19,10 @@ class ChordNotation(Notation):
         for note_head in chord.note_heads:
             for pitch, color in pairs:
                 if note_head.written_pitch == pitch:
-                    note_head.tweak.color = \
-                        abjad.schemetools.SchemeColor('grey%d' % color)
+                    color = abjad.schemetools.SchemeColor(
+                        'grey{}'.format(color),
+                        )
+                    note_head.tweak.color = color
         score, treble_staff, bass_staff = \
             abjad.scoretools.make_piano_sketch_score_from_leaves([chord])
         comment = abjad.indicatortools.LilyPondComment(

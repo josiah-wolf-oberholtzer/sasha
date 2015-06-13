@@ -64,24 +64,26 @@ class AudioDB(Wrapper):
             temporary_directory_path,
             'keys.txt',
             )
+        with open(key_file_path, 'w') as file_pointer:
+            for event in events:
+                string = '{}\n'.format(event.name)
+                file_pointer.write(string)
         log_power_file_path = os.path.join(
             temporary_directory_path,
             'log_power.txt',
             )
+        with open(log_power_file_path, 'w') as file_pointer:
+            for event in events:
+                string = '{}\n'.format(LogPowerAnalysis(event).path)
+                file_pointer.write(string)
         feature_file_path = os.path.join(
             temporary_directory_path,
             'feature.txt',
             )
-        key_file = open(key_file_path, 'w')
-        log_power_file = open(log_power_file_path, 'w')
-        feature_file = open(feature_file_path, 'w')
-        for event in events:
-            key_file.write('{}\n'.format(event.name))
-            log_power_file.write('{}\n'.format(LogPowerAnalysis(event).path))
-            feature_file.write('{}\n'.format(self.asset_class(event).path))
-        key_file.close()
-        log_power_file.close()
-        feature_file.close()
+        with open(feature_file_path, 'w') as file_pointer:
+            for event in events:
+                string = '{}\n'.format(self.asset_class(event).path)
+                file_pointer.write(string)
         command = '{} -d {} -B -K {} -F {} -W {} -v 0'.format(
             self.executable,
             self.path,
@@ -89,7 +91,7 @@ class AudioDB(Wrapper):
             feature_file_path,
             log_power_file_path,
             )
-        out, err = self._exec(command)
+        stdout, stderr = self._exec(command)
         shutil.rmtree(temporary_directory_path)
 
     def query(self, target, n=10, events=None):

@@ -109,11 +109,12 @@ class FFTExtract(Wrapper):
                 raise Exception('File exists: {}'.format(analysis_filename))
             else:
                 os.remove(analysis_filename)
-        f = open(analysis_filename, 'w')
-        f.write(struct.pack('i', array.shape[i]))  # vector size
-        for vector in array:
-            f.write(struct.pack('d' * len(vector), *vector))
-        f.close()
+        with open(analysis_filename, 'w') as file_pointer:
+            bytestring = struct.pack('i', array.shape[1])
+            file_pointer.write(bytestring)  # vector size
+            for vector in array:
+                bytestring = struct.pack('d' * len(vector), *vector)
+                file_pointer.write(bytestring)
 
     ### PUBLIC PROPERTIES ###
 

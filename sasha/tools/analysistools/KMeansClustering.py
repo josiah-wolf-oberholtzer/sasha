@@ -13,7 +13,7 @@ class KMeansClustering(object):
         if feature in ['chroma', 'constant_q', 'mfcc']:
             self._feature = feature
         else:
-            raise ValueError('Unknown feature name %r.' % feature)
+            raise ValueError('Unknown feature name {!r}.'.format(feature))
         self._cluster_count = int(cluster_count)
         self._use_pca = bool(use_pca)
 
@@ -45,7 +45,7 @@ class KMeansClustering(object):
         return clusters.values()
 
     def __repr__(self):
-        return '%s(%r)' % (type(self).__name__, self._feature)
+        return '{}({!r})'.format(type(self).__name__, self._feature)
 
     ### PUBLIC METHODS ###
 

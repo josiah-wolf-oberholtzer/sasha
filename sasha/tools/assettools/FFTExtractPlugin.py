@@ -40,8 +40,8 @@ class FFTExtractPlugin(Asset):
             self._mean = mean(self.asset, axis=0)
             self._std = std(self.asset, axis=0)
             return result
-        else:
-            raise Exception('Path "%s" does not exist' % self.path)
+        message = 'Path {!r} does not exist'.format(self.path)
+        raise Exception(message)
 
     @abc.abstractmethod
     def write(self, **kwargs):

@@ -35,11 +35,10 @@ class SourceAudio(Asset):
 
     @property
     def md5(self):
-        f = open(self.path, 'r')
-        hash = hashlib.new('md5')
-        hash.update(f.read())
-        f.close()
-        return hash.hexdigest()
+        with open(self.path, 'r') as file_pointer:
+            md5hash = hashlib.new('md5')
+            md5hash.update(file_pointer.read())
+        return md5hash.hexdigest()
 
     @property
     def path(self):

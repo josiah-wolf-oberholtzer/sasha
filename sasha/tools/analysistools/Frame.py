@@ -56,7 +56,6 @@ class Frame(object):
         min_peak_frequency=None,
         ):
         # from sasha import sasha_configuration
-        # sasha_configuration.logger.info('Calculating FFT @ %d' % self.offset)
         fft = rfft(self.windowed_audio)
         peaks = []
         mag = abs(fft)

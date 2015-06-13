@@ -45,8 +45,12 @@ class Peak(object):
         return state
 
     def __repr__(self):
-        return '%s(%s, %s, %s)' % (self.__class__.__name__,
-            self.frequency, self.amplitude, self.phase)
+        return '{}({}, {}, {})'.format(
+            self.__class__.__name__,
+            self.frequency,
+            self.amplitude,
+            self.phase,
+            )
 
     def __setstate__(self, state):
         for key, value in state.items():
