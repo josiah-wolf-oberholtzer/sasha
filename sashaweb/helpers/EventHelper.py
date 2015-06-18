@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from sasha.tools import domaintools
 from sashaweb.helpers.Helper import Helper
 from webhelpers.html import HTML
@@ -20,7 +21,15 @@ class EventHelper(Helper):
 
     @property
     def numbered_link(self):
-        return HTML.tag('a', href=self.url, c="No.%d" % self.event.id)
+        return HTML.tag(
+            'a',
+            href=self.url,
+            c=self.link_text.decode('utf-8'),
+            )
+
+    @property
+    def link_text(self):
+        return 'Event № {}'.format(self.event.id)
 
     @property
     def url(self):

@@ -4,6 +4,7 @@ body {
 
 audio {
     display: block;
+    margin-top: 5px;
     width: 100%;
     }
 
@@ -12,3 +13,20 @@ audio {
     max-width: 730px;
   }
 }
+
+.event-row {
+    padding-top: 20px;
+    }
+
+.sasha-footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    color: #767676;
+    text-align: center;
+    border-top: 1px solid #e5e5e5; 
+    }
+
+.event-image {
+    margin-top: 5px; 
+    }

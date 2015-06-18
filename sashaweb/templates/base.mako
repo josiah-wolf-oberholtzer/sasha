@@ -14,7 +14,7 @@
     <meta property="og:title" content="${title}" />
     <meta property="og:url" content="http://sasha.mbrsi.org/search/" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
     <link rel="icon" type="image/png" href="${request.static_url('sashaweb:static/img/favicon.ico')}"/>
     <link rel="stylesheet" href="${request.static_url('sashaweb:static/css/sasha.v2.css')}"/>
 </head>
@@ -87,12 +87,17 @@ ${next.body()}
 
 </div>
 
-<footer class="container">
-    All content copyright 2010-${datetime.datetime.today().year}
-    <a href="http://eliotgattegno.com">Eliot Gattegno</a>
-    and
-    <a href="http://josiahwolfoberholtzer.com">Josiah Oberholtzer</a>.
-<footer>
+<footer class="sasha-footer" role="contentinfo">
+    <div class="container">
+    <p>
+        Performed by 
+        <a href="http://eliotgattegno.com">Eliot Gattegno</a>
+        and engineered by
+        <a href="http://josiahwolfoberholtzer.com">Josiah Oberholtzer</a>.
+    </p>
+    <p>All content copyright 2010-${datetime.datetime.today().year}.</p>
+    </div>
+</footer>
 
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
