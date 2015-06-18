@@ -110,13 +110,14 @@ class Event(DomainObject):
         '''
         from sasha import sasha_configuration
         from sasha.tools import domaintools
-        with_keys = with_keys or ()
-        without_keys = without_keys = ()
+        with_keys = with_keys or []
+        without_keys = without_keys or []
         instrument = domaintools.Instrument.get(name=instrument_name)[0]
-        query = sasha_configuration.get_session().query(Event).\
-            filter_by(instrument=instrument).\
-            join('fingering', 'instrument_keys').\
-            join(domaintools.Instrument)
+        session = sasha_configuration.get_session()
+        query = session.query(Event)
+        query = query.filter_by(instrument=instrument)
+        query = query.join('fingering', 'instrument_keys')
+        query = query.join(domaintools.Instrument)
         with_query = None
         if with_keys:
             to_intersect = [
