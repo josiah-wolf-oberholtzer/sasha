@@ -64,7 +64,7 @@ class SingleFingeringView(SearchView):
             'instrument': self.instrument,
             'instrument_keys': instrument_keys,
             'instrument_name': self.instrument.name,
-            'page_title': self.page_title,
+            'title': self.title,
             'paginator': paginator,
             'search_action': FingeringHelper(self.fingering, self.request).url,
             'with_pitches': with_pitches,
@@ -104,7 +104,7 @@ class SingleFingeringView(SearchView):
         return int(self.layout_parameters['n'])
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | %s Fingering: %s' % (self.instrument.name,
             ' '.join([key.name for key in self.instrument_keys]))
 

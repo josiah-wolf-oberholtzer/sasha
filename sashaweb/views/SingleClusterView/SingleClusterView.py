@@ -49,7 +49,7 @@ class SingleClusterView(SearchView):
             'cluster': self.cluster,
             'clusters': self.clusters,
             'instrument': self.instrument,
-            'page_title': self.page_title,
+            'title': self.title,
             'paginator': paginator,
         }
 
@@ -82,5 +82,5 @@ class SingleClusterView(SearchView):
         return self._instrument
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | %s Cluster No.%d' % (self.cluster.feature.upper(), self.cluster.cluster_id)

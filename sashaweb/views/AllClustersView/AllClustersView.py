@@ -1,12 +1,12 @@
-from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.view import view_config
 from sasha import *
 from sashaweb.views._View import _View
-from webhelpers import paginate
-from webhelpers.html import literal
 
 
-@view_config(route_name='all_clusters', renderer='sashaweb:views/AllClustersView/all_clusters.mako')
+@view_config(
+    route_name='all_clusters',
+    renderer='sashaweb:views/AllClustersView/all_clusters.mako',
+    )
 class AllClustersView(_View):
 
     ### INITIALIZER ###
@@ -17,12 +17,11 @@ class AllClustersView(_View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-
         return {
             'clusters': self.clusters,
             'body_class': 'clusters',
-            'page_title': self.page_title
-        }
+            'title': self.title
+            }
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -38,5 +37,5 @@ class AllClustersView(_View):
         return clusters
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | All Clusters'

@@ -3,6 +3,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.view import view_config
 from sasha import *
 from sashaweb.views._View import _View
+from sashaweb import helpers
 from webhelpers import paginate
 from webhelpers.html import literal
 
@@ -29,7 +30,7 @@ class SearchView(_View):
 
     def __call__(self):
         query = self.query()
-        paginator = paginate.Page(
+        paginator = helpers.Page(
             query,
             page=self.page_number,
             items_per_page=self.page_size,
@@ -54,7 +55,7 @@ class SearchView(_View):
             )
         return {
             'body_class': 'search',
-            'page_title': self.page_title,
+            'title': self.title,
             'paginator': paginator,
             'search_action': search_action,
             'with_pitches': with_pitches,
@@ -82,7 +83,7 @@ class SearchView(_View):
         return int(self.layout_parameters['n'])
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | Search'
 
     @property

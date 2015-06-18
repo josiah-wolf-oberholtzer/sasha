@@ -57,7 +57,7 @@ class SingleInstrumentView(SearchView):
             'body_class': 'search',
             'instrument': self.instrument,
             'instrument_name': self.instrument.name,
-            'page_title': self.page_title,
+            'title': self.title,
             'paginator': paginator,
             'search_action': search_action,
             'with_keys': with_keys,
@@ -95,7 +95,7 @@ class SingleInstrumentView(SearchView):
         return int(self.layout_parameters['n'])
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | Instrument: %s' % self.instrument.name
 
     @property

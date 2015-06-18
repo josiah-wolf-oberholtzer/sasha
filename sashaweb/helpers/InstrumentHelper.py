@@ -10,11 +10,18 @@ class InstrumentHelper(Helper):
         if isinstance(arg, domaintools.Instrument):
             self.instrument = arg
         elif isinstance(arg, domaintools.Event):
-            self.instrument = domaintools.Instrument.get_one(id=arg.instrument_id)
+            self.instrument = domaintools.Instrument.get_one(
+                id=arg.instrument_id,
+                )
         elif isinstance(arg, domaintools.Fingering):
-            self.instrument = domaintools.Instrument.get_one(id=arg.instrument_id)
+            self.instrument = domaintools.Instrument.get_one(
+                id=arg.instrument_id,
+                )
         else:
-            raise ValueError('Expected Instrument, Fingering or Event instance, got %r.' % arg)
+            message = 'Expected Instrument, Fingering or Event instance, '
+            message = message + 'got {!r} instead.'
+            message = message.format(arg)
+            raise ValueError(message)
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -28,5 +35,7 @@ class InstrumentHelper(Helper):
 
     @property
     def url(self):
-        return self.request.route_url('single_instrument',
-            instrument_name=self.instrument.name.lower().replace(' ', '-'))
+        return self.request.route_url(
+            'single_instrument',
+            instrument_name=self.instrument.name.lower().replace(' ', '-')
+            )

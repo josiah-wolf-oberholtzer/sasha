@@ -4,8 +4,8 @@
     from sashaweb.helpers import ClusterHelper
 %>
 
-<%block name="page_title">
-<div id="page_title" class="grid_12">All Clusters</div>
+<%block name="title">
+<div id="title" class="grid_12">All Clusters</div>
 </%block>
 
 <div class="grid_6 push_3 bottom clusters">

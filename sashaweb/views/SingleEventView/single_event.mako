@@ -1,13 +1,19 @@
-<%inherit file="sashaweb:templates/base__search.mako"/>
-
+<%inherit file="sashaweb:templates/base.mako"/>
 <%!
-    from sasha import sasha_configuration, Event, Instrument
-    from sashaweb.helpers import EventHelper, FingeringHelper, InstrumentHelper, ClusterHelper
-    from sashaweb.helpers import ChordNotationHelper, ChromaNotationHelper, MP3AudioHelper
-    from sashaweb.helpers import FingeringNotationHelper, PartialTrackingPlotHelper
+    from sasha import sasha_configuration
+    from sasha.tools.domaintools import Event
+    from sasha.tools.domaintools import Instrument
+    from sashaweb.helpers.EventHelper import EventHelper
+    from sashaweb.helpers.FingeringHelper import FingeringHelper
+    from sashaweb.helpers.InstrumentHelper import InstrumentHelper
+    from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
+    from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
+    from sashaweb.helpers.ClusterHelper import ClusterHelper
+    from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
+    from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
+    from sashaweb.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper
 %>
-
-<div id="page_title" class="grid_12">${InstrumentHelper(single_event, request).link} Event: ${single_event.md5}</div>
+<div id="title" class="grid_12">${InstrumentHelper(single_event, request).link} Event: ${single_event.md5}</div>
 
 <div id="single_event" class="clearfix">
 
@@ -123,9 +129,9 @@
 <div class="grid_12 section_title">Top 12 Similar ${InstrumentHelper(single_event, request).link} Fingerings</div>
 
 <div class="events clearfix">
-%for f in fingerings:
-    <div id="${event.canonical_name}" class="event grid_1">
-        <div class="annotation notations">${FingeringNotationHelper(f, request).image_link}</div>
+%for fingering in fingerings:
+    <div id="${fingering.canonical_name}" class="event grid_1">
+        <div class="annotation notations">${FingeringNotationHelper(fingering, request).image_link}</div>
     </div>
 %endfor
 </div>

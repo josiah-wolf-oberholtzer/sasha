@@ -7,8 +7,8 @@
     from sashaweb.helpers import FingeringNotationHelper, PartialTrackingPlotHelper
 %>
 
-<%block name="page_title">
-<div id="page_title" class="grid_12">${InstrumentHelper(instrument, request).link} Recordings</div>
+<%block name="title">
+<div id="title" class="grid_12">${InstrumentHelper(instrument, request).link} Recordings</div>
 </%block>
 
 <div id="search" class="clearfix">

@@ -8,7 +8,7 @@ class _View(object):
     ### PUBLIC ATTRIBUTES ###
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA'
 
     @property

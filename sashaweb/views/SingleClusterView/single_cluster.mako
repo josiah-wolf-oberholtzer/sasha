@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:templates/base__search.mako"/>
+<%inherit file="sashaweb:templates/base.mako"/>
 
 <%!
     from pyramid.url import route_url, current_route_url
@@ -8,8 +8,8 @@
     from sashaweb.helpers import FingeringNotationHelper
 %>
 
-<%block name="page_title">
-    <div id="page_title" class="grid_12">
+<%block name="title">
+    <div id="title" class="grid_12">
         ${ClusterHelper(cluster, request).feature} Cluster No.${cluster.cluster_id}
 % if instrument is None:
         (All Instruments)

@@ -8,3 +8,4 @@ from sashaweb.helpers.Helper import Helper
 from sashaweb.helpers.InstrumentHelper import InstrumentHelper
 from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
 from sashaweb.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper
+from sashaweb.helpers.Page import Page

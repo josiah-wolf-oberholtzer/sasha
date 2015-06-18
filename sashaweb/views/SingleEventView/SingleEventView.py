@@ -27,7 +27,7 @@ class SingleEventView(SearchView):
             'fingerings': self.fingering.find_similar_fingerings(n=12),
             'instrument_name': self.instrument.name,
             'mfcc_events': self.mfcc_events,
-            'page_title': self.page_title, 
+            'title': self.title, 
             'single_event': self.event,
         }
 
@@ -64,7 +64,7 @@ class SingleEventView(SearchView):
         return [x[1] for x in result]
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | %s Event: %s' % (self.instrument.name, self.event.md5)
 
     @property

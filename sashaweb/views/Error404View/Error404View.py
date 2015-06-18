@@ -10,11 +10,11 @@ class Error404View(_View):
         return {
             'body_class': 'error',
             'message': self.request.exception.message,
-            'page_title': self.page_title,
+            'title': self.title,
         }
 
     ### PUBLIC ATTRIBUTES ###
 
     @property
-    def page_title(self):
+    def title(self):
         return 'SASHA | 404 Not Found'

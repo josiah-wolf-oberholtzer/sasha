@@ -30,6 +30,13 @@ class ClusterHelper(Helper):
         return HTML.tag('a', href=self.url, c=str(self.cluster.cluster_id))
 
     @property
+    def name(self):
+        name = self.cluster.name
+        cluster_id = self.cluster.cluster_id
+        name = '{} No.{}'.format(name, cluster_id)
+        return name
+
+    @property
     def url(self):
         feature = self.cluster.feature.replace('_', '-')
         return self.request.route_url('single_cluster',

@@ -140,7 +140,7 @@ body.clusters #header nav#mainmenu ul li.clusters a {
     margin-bottom: 1em;
     }
 
-#page_title, .section_title {
+#title, .section_title {
     border-bottom: 1px solid #ccc;
     font-size: 1.5em;
     line-height: 0;

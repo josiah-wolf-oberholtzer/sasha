@@ -22,3 +22,15 @@ class Cluster(DomainObject):
             self.feature,
             )
         return result
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def name(self):
+        if self.feature == 'mfcc':
+            return 'MFCC'
+        elif self.feature == 'constant_q':
+            return 'Constant-Q'
+        elif self.feature == 'chroma':
+            return 'Chroma'
+        raise ValueError

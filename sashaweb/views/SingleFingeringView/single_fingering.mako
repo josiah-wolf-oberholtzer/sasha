@@ -4,8 +4,8 @@
     from sashaweb.helpers import FingeringNotationHelper, InstrumentHelper
 %>
 
-<%block name="page_title">
-<div id="page_title" class="grid_12">${InstrumentHelper(fingering, request).link} Fingering: ${instrument_keys}</div>
+<%block name="title">
+<div id="title" class="grid_12">${InstrumentHelper(fingering, request).link} Fingering: ${instrument_keys}</div>
 </%block>
 
 <%block name="other">
