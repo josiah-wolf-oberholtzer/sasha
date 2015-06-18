@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from sasha.tools import domaintools
 from sashaweb.helpers.Helper import Helper
 from webhelpers.html import HTML
@@ -27,13 +28,23 @@ class ClusterHelper(Helper):
 
     @property
     def link(self):
-        return HTML.tag('a', href=self.url, c=str(self.cluster.cluster_id))
+        return HTML.tag(
+            'a',
+            href=self.url,
+            c=self.name.decode('utf-8'),
+            )
 
     @property
     def name(self):
         name = self.cluster.name
         cluster_id = self.cluster.cluster_id
-        name = '{} No.{}'.format(name, cluster_id)
+        name = '{} № {}'.format(name, cluster_id)
+        return name
+
+    @property
+    def short_name(self):
+        cluster_id = self.cluster.cluster_id
+        name = '№ {}'.format(cluster_id)
         return name
 
     @property

@@ -1,31 +1,46 @@
+from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha import sasha_configuration, Event, Fingering, Instrument
-from sashaweb.helpers import FingeringHelper
+from sasha import domaintools
+from sasha import sasha_configuration
+from sashaweb import helpers
 from sashaweb.views.SearchView import SearchView
-from webhelpers import paginate
 
 
-@view_config(route_name='single_fingering', renderer='sashaweb:views/SingleFingeringView/single_fingering.mako')
+@view_config(
+    route_name='single_fingering',
+    renderer='sashaweb:views/SingleFingeringView/single_fingering.mako',
+    )
 class SingleFingeringView(SearchView):
+
+    ### INITIALIZER ###
 
     def __init__(self, request):
         self._request = request
-
-        instrument_name = self.request.matchdict['instrument_name'].replace('-', ' ').title()
-
+        instrument_name = self.request.matchdict['instrument_name']
+        instrument_name = instrument_name.replace('-', ' ').title()
         try:
-            self._instrument = Instrument.get_one(name=instrument_name)
+            self._instrument = domaintools.Instrument.get_one(
+                name=instrument_name,
+                )
         except:
-            raise HTTPNotFound("SASHA couldn't figure out what kind of instrument <em>%s</em> might be." %
-                self.request.matchdict['instrument_name'])
-
+            message = "SASHA couldn't figure out what kind of instrument "
+            message += "<em>{}</em> might be."
+            message = message.format(self.request.matchdict['instrument_name'])
+            raise HTTPNotFound(message)
         compact_representation = self.request.matchdict['compact_representation']
         try:
-            self._fingering = Fingering.get_one(instrument=self.instrument, compact_representation=compact_representation)
+            self._fingering = domaintools.Fingering.get_one(
+                instrument=self.instrument,
+                compact_representation=compact_representation,
+                )
         except:
-            raise HTTPNotFound("SASHA couldn't find any %s fingering whose compact representation is <em>%s</em>" %
-                (instrument_name.lower(), compact_representation))
-
+            message = "SASHA couldn't find any {} fingering whose compact "
+            message += "representation is <em>{}</em>"
+            message = message.format(
+                instrument_name.lower(),
+                compact_representation,
+                )
+            raise HTTPNotFound(message)
         self._instrument_keys = tuple(self.fingering.instrument_keys)
         self._layout_parameters = self.process_layout_params(self.request.params)
         self._pitch_parameters = self.process_pitch_params(self.request.params)
@@ -34,7 +49,7 @@ class SingleFingeringView(SearchView):
 
     def __call__(self):
         query = self.query()
-        paginator = paginate.Page(
+        paginator = helpers.Page(
             query,
             page=self.page_number,
             items_per_page=self.page_size,
@@ -66,7 +81,8 @@ class SingleFingeringView(SearchView):
             'instrument_name': self.instrument.name,
             'title': self.title,
             'paginator': paginator,
-            'search_action': FingeringHelper(self.fingering, self.request).url,
+            'search_action': helpers.FingeringHelper(
+                self.fingering, self.request).url,
             'with_pitches': with_pitches,
             'without_pitches': without_pitches,
             'with_pitch_classes': with_pitch_classes,
@@ -77,7 +93,7 @@ class SingleFingeringView(SearchView):
 
     @property
     def events(self):
-        return Event.get(fingering_id=self.fingering.id)
+        return domaintools.Event.get(fingering_id=self.fingering.id)
 
     @property
     def fingering(self):
@@ -115,25 +131,29 @@ class SingleFingeringView(SearchView):
     ### PUBLIC METHODS ###
 
     def query(self):
-
-        query = sasha_configuration.get_session().query(Event).join(Fingering).filter(Fingering.id==self.fingering.id)
-
+        query = sasha_configuration.get_session().query(domaintools.Event)
+        query = query.join(domaintools.Fingering)
+        query = query.filter(domaintools.Fingering.id == self.fingering.id)
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')
         if with_pitches or without_pitches:
-
             #print 'WITH_PITCHES: %r' % with_pitches
             #print 'WITHOUT_PITCHES: %r' % without_pitches
-
-            query = query.intersect(Event.query_pitches(with_pitches, without_pitches))
-
+            query = query.intersect(
+                domaintools.Event.query_pitches(
+                    with_pitches,
+                    without_pitches,
+                    ),
+                )
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
         if with_pitch_classes or without_pitch_classes:
-
             #print 'WITH_PITCH_CLASSES: %r' % with_pitch_classes
             #print 'WITHOUT_PITCH_CLASSES: %r' % without_pitch_classes
-
-            query = query.intersect(Event.query_pitch_classes(with_pitch_classes, without_pitch_classes))
-
+            query = query.intersect(
+                domaintools.Event.query_pitch_classes(
+                    with_pitch_classes,
+                    without_pitch_classes,
+                    ),
+                )
         return query

@@ -34,6 +34,10 @@ class InstrumentHelper(Helper):
         return self.instrument.name
 
     @property
+    def snakecase_name(self):
+        return self.name.lower().replace(' ', '_')
+
+    @property
     def url(self):
         return self.request.route_url(
             'single_instrument',

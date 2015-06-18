@@ -55,7 +55,7 @@
                     <ul class="dropdown-menu">
                     % for cluster in domaintools.Cluster.get():
                         <% helper = helpers.ClusterHelper(cluster, request) %>
-                        <li><a href="${helper.url}">${helper.name}</a></li>
+                        <li><a href="${helper.url}">${helper.name.decode('utf-8')}</a></li>
                     % endfor
                     </ul>
                 </li>
