@@ -104,7 +104,7 @@ class AudioDB(Executable):
         assert 0 < n
         assert all([isinstance(x, Event) for x in events])
         feature = self.asset_class(target)
-        command = '{} -d {} -Q sequence -e -n 1 -l 20 -R 0.5 -f {}'.format(
+        command = '{} -d {} -Q sequence -e -n 1 -l 20 -R 1 -f {}'.format(
             self.executable,
             self.path,
             feature.path,
