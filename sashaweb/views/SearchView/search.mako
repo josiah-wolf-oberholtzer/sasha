@@ -5,7 +5,7 @@
 <%block name="searchbar">
 <div class="row">
     <div class="jumbotron col-sm-6">
-        <h2>Search</h2>
+        <h2>Search multiphonics</h2>
         <p>Add constraints to find new multiphonics.</p>
     </div>
     <form action="${search_action}" method="get" class="col-sm-6">
