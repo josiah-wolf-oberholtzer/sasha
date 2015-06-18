@@ -1,7 +1,7 @@
 from abjad.tools import pitchtools
-from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.view import view_config
-from sasha import *
+from sasha import sasha_configuration
+from sasha import domaintools
 from sashaweb.views._View import _View
 from sashaweb import helpers
 from webhelpers import paginate
@@ -119,8 +119,8 @@ class SearchView(_View):
 
         processed_params = {}
 
-        if not isinstance(instrument, Instrument):
-            instrument = Instrument.get_one(name=instrument)
+        if not isinstance(instrument, domaintools.Instrument):
+            instrument = domaintools.Instrument.get_one(name=instrument)
 
         # instrument keys to include
         with_keys = params.get('with_keys')
@@ -129,7 +129,7 @@ class SearchView(_View):
             processed_keys = []
             bad_keys = []
             for key in keys_to_process:
-                result = InstrumentKey.get(name=key, instrument=instrument)
+                result = domaintools.InstrumentKey.get(name=key, instrument=instrument)
                 if len(result) == 1:
                     processed_keys.append(result[0].name)
                 else:
@@ -148,7 +148,7 @@ class SearchView(_View):
             processed_keys = []
             bad_keys = []
             for key in keys_to_process:
-                result = InstrumentKey.get(name=key, instrument=instrument)
+                result = domaintools.InstrumentKey.get(name=key, instrument=instrument)
                 if len(result) == 1:
                     processed_keys.append(result[0].name)
                 else:
@@ -195,7 +195,7 @@ class SearchView(_View):
             for instrument in instruments_to_process:
                 instrument_name = instrument.replace('_', ' ').title()
                 try:
-                    instrument = Instrument.get_one(name=instrument_name)
+                    instrument = domaintools.Instrument.get_one(name=instrument_name)
                     processed_instruments.append(instrument_name)
                 except:
                     bad_instruments.append(instrument_name)
@@ -214,7 +214,7 @@ class SearchView(_View):
             for instrument in instruments_to_process:
                 instrument_name = instrument.replace('_', ' ').title()
                 try:
-                    instrument = Instrument.get_one(name=instrument_name)
+                    instrument = domaintools.Instrument.get_one(name=instrument_name)
                     processed_instruments.append(instrument_name)
                 except:
                     bad_instruments.append(instrument_name)
@@ -412,7 +412,7 @@ class SearchView(_View):
             # print 'WITH_PITCHES: %r' % with_pitches
             # print 'WITHOUT_PITCHES: %r' % without_pitches
 
-            query = Event.query_pitches(
+            query = domaintools.Event.query_pitches(
                 with_pitches=with_pitches, without_pitches=without_pitches)
 
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
@@ -422,7 +422,7 @@ class SearchView(_View):
             # print 'WITH_PITCH_CLASSES: %r' % with_pitch_classes
             # print 'WITHOUT_PITCH_CLASSES: %r' % without_pitch_classes
 
-            pitch_class_query = Event.query_pitch_classes(
+            pitch_class_query = domaintools.Event.query_pitch_classes(
                 with_pcs=with_pitch_classes, without_pcs=without_pitch_classes)
             if query is None:
                 query = pitch_class_query
@@ -438,18 +438,18 @@ class SearchView(_View):
             #print 'WITH_INSTRUMENTS: %r' % with_instruments
             #print 'WITHOUT_INSTRUMENTS: %r' % without_instruments
 
-            instrument_query = sasha_configuration.get_session().query(Event).join(Instrument)
+            instrument_query = sasha_configuration.get_session().query(domaintools.Event).join(domaintools.Instrument)
             if with_instruments:
-                instrument_query = instrument_query.filter(Instrument.name.in_(with_instruments))
+                instrument_query = instrument_query.filter(domaintools.Instrument.name.in_(with_instruments))
             if without_instruments:
                 for instrument_name in without_instruments:
-                    instrument_query = instrument_query.filter(Instrument.name!=instrument_name)
+                    instrument_query = instrument_query.filter(domaintools.Instrument.name!=instrument_name)
             if query is None:
                 query = instrument_query
             else:
                 query = query.intersect(instrument_query)
 
         if query is None:
-            query = sasha_configuration.get_session().query(Event)
+            query = sasha_configuration.get_session().query(domaintools.Event)
 
         return query
