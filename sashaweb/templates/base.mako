@@ -7,7 +7,9 @@
 %>
 <head profile="http://gmpg.org/xfn/11">
     <title>${title}</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:description" content="Saxophone Acoustic Search and Heuristic Analysis" />
     <meta property="og:image" content="http://sasha.mbrsi.org/assets/plots/event__9ff9e473eb974e9576739647ac0b72ae__partials.png" />
     <meta property="og:site_name" content="SASHA" />
