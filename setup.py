@@ -4,6 +4,7 @@ from setuptools import setup
 
 
 requires = [
+    'Beaker',
     'abjad',
     'configobj',
     'matplotlib',

@@ -1,11 +1,12 @@
+Beaker
 abjad
 configobj
 matplotlib
 numpy
 pyfftw
 pyramid
-pyramid_mako
 pyramid_debugtoolbar
+pyramid_mako
 pytest
 scikit-learn
 scikits.audiolab

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 <%!
+    import datetime
+    from pyramid.url import current_route_url
     from sasha.tools import domaintools
     from sashaweb import helpers
-    import datetime
 %>
+<%page cached="True" cache_key="${current_route_url(request)}"/>
 <head profile="http://gmpg.org/xfn/11">
     <title>${title}</title>
     <meta charset="utf-8">
