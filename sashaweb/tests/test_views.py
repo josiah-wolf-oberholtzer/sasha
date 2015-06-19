@@ -14,6 +14,19 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
+    def test_ClusterView_01(self):
+        cluster = sasha.Cluster.get_one(id=1)
+        request = testing.DummyRequest(
+            matchdict={
+                'feature': cluster.feature,
+                'cluster_id': cluster.cluster_id,
+                },
+            )
+        view = views.SingleClusterView(request)
+        info = view()
+        self.assertEqual(info['body_class'], 'clusters')
+        self.assertEqual(info['title'], 'SASHA | Chroma Cluster No.1')
+
     def test_EventView_01(self):
         event = sasha.Event.get_one(id=1)
         request = testing.DummyRequest(
@@ -56,19 +69,6 @@ class ViewTests(unittest.TestCase):
         info = view()
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(info['title'], 'SASHA | Search')
-
-    def test_SingleClusterView_01(self):
-        cluster = sasha.Cluster.get_one(id=1)
-        request = testing.DummyRequest(
-            matchdict={
-                'feature': cluster.feature,
-                'cluster_id': cluster.cluster_id,
-                },
-            )
-        view = views.SingleClusterView(request)
-        info = view()
-        self.assertEqual(info['body_class'], 'clusters')
-        self.assertEqual(info['title'], 'SASHA | Chroma Cluster No.1')
 
     def test_SingleFingeringView_01(self):
         event = sasha.Event.get_one(id=1)

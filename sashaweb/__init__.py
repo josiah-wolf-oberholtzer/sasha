@@ -8,7 +8,7 @@ def includeme(config):
     config.add_route('home', '/')
     config.add_route('random_event', '/random/')
     config.add_route('search', '/search/')
-    config.add_route('single_cluster', '/clusters/{feature}/{cluster_id}/')
+    config.add_route('cluster', '/clusters/{feature}/{cluster_id}/')
     config.add_route('event', '/events/{md5}/')
     config.add_route('single_fingering', '/instruments/{instrument_name}/{compact_representation}/')
     config.add_route('single_instrument', '/instruments/{instrument_name}/')

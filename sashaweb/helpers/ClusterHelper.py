@@ -50,9 +50,11 @@ class ClusterHelper(Helper):
     @property
     def url(self):
         feature = self.cluster.feature.replace('_', '-')
-        return self.request.route_url('single_cluster',
+        return self.request.route_url(
+            'cluster',
             feature=feature,
-            cluster_id=self.cluster.cluster_id)
+            cluster_id=self.cluster.cluster_id,
+            )
 
     @property
     def verbose_link(self):
