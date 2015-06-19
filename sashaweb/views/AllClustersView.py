@@ -1,13 +1,13 @@
 from pyramid.view import view_config
 from sasha import *
-from sashaweb.views._View import _View
+from sashaweb.views.View import View
 
 
 @view_config(
     route_name='all_clusters',
     renderer='sashaweb:templates/all_clusters.mako',
     )
-class AllClustersView(_View):
+class AllClustersView(View):
 
     ### INITIALIZER ###
 

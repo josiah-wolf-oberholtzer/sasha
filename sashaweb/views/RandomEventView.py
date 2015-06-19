@@ -2,11 +2,11 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
 from sasha import domaintools
 from sasha import sasha_configuration
-from sashaweb.views._View import _View
+from sashaweb.views.View import View
 
 
 @view_config(route_name='random_event')
-class RandomEventView(_View):
+class RandomEventView(View):
 
     def __call__(self):
         return HTTPFound(location=self.location)

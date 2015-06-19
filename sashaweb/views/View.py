@@ -1,4 +1,4 @@
-class _View(object):
+class View(object):
 
     ### INITIALIZER ###
 

@@ -2,7 +2,7 @@ from abjad.tools import pitchtools
 from pyramid.view import view_config
 from sasha import sasha_configuration
 from sasha import domaintools
-from sashaweb.views._View import _View
+from sashaweb.views.View import View
 from sashaweb import helpers
 from webhelpers import paginate
 from webhelpers.html import literal
@@ -12,7 +12,7 @@ from webhelpers.html import literal
     route_name='search',
     renderer='sashaweb:templates/search.mako',
     )
-class SearchView(_View):
+class SearchView(View):
 
     ### INITIALIZER ###
 

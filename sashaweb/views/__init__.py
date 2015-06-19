@@ -8,4 +8,4 @@ from SingleEventView import SingleEventView
 from SingleFingeringView import SingleFingeringView
 from SingleInstrumentView import SingleInstrumentView
 
-from _View import _View
+from View import View

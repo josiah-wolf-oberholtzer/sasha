@@ -1,12 +1,12 @@
 from pyramid.view import view_config
-from sashaweb.views._View import _View
+from sashaweb.views.View import View
 
 
 @view_config(
     route_name='help',
     renderer='sashaweb:templates/help.mako',
     )
-class HelpView(_View):
+class HelpView(View):
 
     ### INITIALIZER ###
 
