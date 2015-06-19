@@ -15,6 +15,7 @@ before_install:
     - sudo apt-get install -y gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev
     - sudo apt-get install -y python-numpy python-scipy python-matplotlib
     - sudo apt-get install -y imagemagick lame
+    - sudo apt-get install -y python-zope.interface
 
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
@@ -42,7 +43,6 @@ before_install:
 
     - pip install coveralls
     - pip install coverage
-    - pip install --upgrade zope.interface
 
 install:
     - pip install -r requirements.txt
