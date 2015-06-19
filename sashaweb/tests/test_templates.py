@@ -34,7 +34,7 @@ class TemplateTests(unittest.TestCase):
         path = '/events/{}/'.format(md5)
         response = self.testapp.get(path, status=200)
         self.assertIn(
-            '<title>SASHA | Alto Saxophone Event: {}</title>'.format(
+            '<title>SASHA | {} Event: {}</title>'.format(
                 instrument_name,
                 md5,
                 ),

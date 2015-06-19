@@ -1,3 +1,4 @@
+import sasha
 from pyramid.config import Configurator
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
@@ -12,9 +13,21 @@ def includeme(config):
     config.add_route('instrument', '/instruments/{instrument_name}/')
     config.add_route('random_event', '/random/')
     config.add_route('search', '/search/')
-    config.add_static_view('assets/mp3s', 'sashamedia:development/mp3s/', cache_max_age=3600)
-    config.add_static_view('assets/plots', 'sashamedia:development/plots/', cache_max_age=3600)
-    config.add_static_view('assets/scores', 'sashamedia:development/scores/', cache_max_age=3600)
+    config.add_static_view(
+        'assets/mp3s',
+        'sashamedia:{}/mp3s/'.format(sasha.sasha_configuration.environment),
+        cache_max_age=3600,
+        )
+    config.add_static_view(
+        'assets/plots',
+        'sashamedia:{}/plots/'.format(sasha.sasha_configuration.environment),
+        cache_max_age=3600,
+        )
+    config.add_static_view(
+        'assets/scores',
+        'sashamedia:{}/scores/'.format(sasha.sasha_configuration.environment),
+        cache_max_age=3600,
+        )
     config.add_static_view('docs', 'sasha:docs/build/html/', cache_max_age=3600)
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan('sashaweb.views')
