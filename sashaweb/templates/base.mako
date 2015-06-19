@@ -6,7 +6,6 @@
     from sasha.tools import domaintools
     from sashaweb import helpers
 %>
-<%page cached="True" cache_key="${current_route_url(request)}"/>
 <head profile="http://gmpg.org/xfn/11">
     <title>${title}</title>
     <meta charset="utf-8">
