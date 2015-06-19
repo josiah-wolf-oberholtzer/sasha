@@ -8,12 +8,16 @@
 
 <%block name="searchbar">
 <div class="row">
-    <div class="jumbotron col-sm-6">
-        <h2>Explore
-            ${helpers.InstrumentHelper(instrument, request).link}
-            multiphonics
-            </h2>
-        <p>Add constraints to find new multiphonics for this instrument.</p>
+    <div class="col-sm-6">
+        <div class="jumbotron">
+            <div class="container">
+                <h2>Explore
+                    ${helpers.InstrumentHelper(instrument, request).link}
+                    multiphonics
+                    </h2>
+                <p>Add constraints to find new multiphonics for this instrument.</p>
+            </div>
+        </div>
     </div>
     <form action="${search_action}" method="get" class="col-sm-6">
         ${partials.search_form_group_with_keys(with_keys)}

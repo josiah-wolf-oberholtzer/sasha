@@ -21,6 +21,7 @@ def main(global_config, **settings):
     config.add_static_view('docs', 'sasha:docs/build/html/', cache_max_age=3600)
 
     config.add_route('home', '/')
+    config.add_route('help', '/help/')
     config.add_route('all_clusters', '/clusters/')
     config.add_route('single_cluster', '/clusters/{feature}/{cluster_id}/')
     config.add_route('random_event', '/random/')

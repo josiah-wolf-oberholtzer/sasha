@@ -3,10 +3,10 @@ from sashaweb.views._View import _View
 
 
 @view_config(
-    route_name='home',
-    renderer='sashaweb:templates/home.mako',
+    route_name='help',
+    renderer='sashaweb:templates/help.mako',
     )
-class HomeView(_View):
+class HelpView(_View):
 
     ### INITIALIZER ###
 
@@ -17,7 +17,7 @@ class HomeView(_View):
 
     def __call__(self):
         return {
-            'body_class': 'home',
+            'body_class': 'help',
             'title': self.title,
             }
 
@@ -25,4 +25,4 @@ class HomeView(_View):
 
     @property
     def title(self):
-        return 'SASHA | Home'
+        return 'SASHA | Help'

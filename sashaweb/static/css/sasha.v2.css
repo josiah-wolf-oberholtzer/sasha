@@ -18,15 +18,16 @@ audio {
     padding-top: 20px;
     }
 
-.sasha-footer {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-top: 40px;
-    color: #767676;
-    text-align: center;
-    border-top: 1px solid #e5e5e5; 
-    }
-
 .event-image {
     margin-top: 5px; 
+    }
+
+.sasha-footer {
+    background-color: #222;
+    border-top: 1px solid #e5e5e5; 
+    color: #767676;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    padding-top: 40px;
+    text-align: center;
     }

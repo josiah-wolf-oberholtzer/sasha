@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta property="og:description" content="Saxophone Acoustic Search and Heuristic Analysis" />
     <meta property="og:image" content="http://sasha.mbrsi.org/assets/plots/event__9ff9e473eb974e9576739647ac0b72ae__partials.png" />
-    <meta property="og:site_name" content="S.A.S.H.A." />
+    <meta property="og:site_name" content="SASHA" />
     <meta property="og:title" content="${title}" />
     <meta property="og:url" content="http://sasha.mbrsi.org/search/" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -32,7 +32,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">S.A.S.H.A.</a>
+            <a class="navbar-brand" href="/"><strong>SASHA</strong></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -62,7 +62,7 @@
                 <li><a href="/random/">Random</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/about/">Help</a></li>
+                <li><a href="/help/">Help</a></li>
             </ul>
         </div>
     </div>
