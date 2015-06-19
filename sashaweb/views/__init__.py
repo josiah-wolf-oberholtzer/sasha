@@ -1,11 +1,6 @@
-from AllClustersView import AllClustersView
-from Error404View import Error404View
-from HomeView import HomeView
-from RandomEventView import RandomEventView
-from SearchView import SearchView
-from SingleClusterView import SingleClusterView
-from SingleEventView import SingleEventView
-from SingleFingeringView import SingleFingeringView
-from SingleInstrumentView import SingleInstrumentView
+from abjad.tools import systemtools
 
-from View import View
+systemtools.ImportManager.import_structured_package(
+    __path__[0],
+    globals(),
+    )

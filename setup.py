@@ -19,6 +19,7 @@ requires = [
     'sqlalchemy',
     'waitress',
     'webhelpers',
+    'WebTest',
     ]
 
 
@@ -36,6 +37,8 @@ def main():
             'sasha',
             'sashaweb',
             ],
+        tests_require=requires,
+        test_suite='sashaweb.tests',
         url='sasha.mbrsi.org',
         version='0.1',
         zip_safe=False,
