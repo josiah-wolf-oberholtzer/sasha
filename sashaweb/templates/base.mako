@@ -62,8 +62,7 @@
                 <li><a href="/random/">Random</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/docs/">Docs</a></li>
-                <li><a href="/about/">About</a></li>
+                <li><a href="/about/">Help</a></li>
             </ul>
         </div>
     </div>
@@ -89,13 +88,19 @@ ${next.body()}
 
 <footer class="sasha-footer" role="contentinfo">
     <div class="container">
-    <p>
-        Performed by 
-        <a href="http://eliotgattegno.com">Eliot Gattegno</a>
-        and engineered by
-        <a href="http://josiahwolfoberholtzer.com">Josiah Oberholtzer</a>.
-    </p>
-    <p>All content copyright 2010-${datetime.datetime.today().year}.</p>
+        <p>
+            Performed by 
+            <a href="http://eliotgattegno.com">Eliot Gattegno</a>
+            and engineered by
+            <a href="http://josiahwolfoberholtzer.com">Josiah Oberholtzer</a>.
+        </p>
+        <p>
+            Check out our
+            <a href="/docs/">Sphinx documentation</a>
+            and
+            <a href="https://github.com/josiah-wolf-oberholtzer/sasha">GitHub repository</a>.
+        </p>
+        <p>All content copyright 2010-${datetime.datetime.today().year}.</p>
     </div>
 </footer>
 
