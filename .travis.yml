@@ -42,7 +42,7 @@ before_install:
 
     - pip install coveralls
     - pip install coverage
-    - sudo pip install --upgrade zope.interface
+    - pip install --upgrade zope.interface
 
 install:
     - pip install -r requirements.txt
