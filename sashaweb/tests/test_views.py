@@ -8,6 +8,7 @@ from sashaweb import views
 class ViewTests(unittest.TestCase):
 
     def setUp(self):
+        sasha.sasha_configuration.environment = 'testing'
         self.config = testing.setUp()
         self.config.include('sashaweb')
 
@@ -25,10 +26,18 @@ class ViewTests(unittest.TestCase):
         view = views.ClusterView(request)
         info = view()
         self.assertEqual(info['body_class'], 'clusters')
-        self.assertEqual(info['title'], 'SASHA | Chroma Cluster No.1')
+        self.assertEqual(
+            info['title'],
+            'SASHA | {} Cluster No.{}'.format(
+                cluster.name,
+                cluster.cluster_id,
+                ),
+            )
 
     def test_EventView_01(self):
         event = sasha.Event.get_one(id=1)
+        md5 = event.md5
+        instrument = event.instrument
         request = testing.DummyRequest(
             matchdict={
                 'md5': event.md5,
@@ -39,13 +48,18 @@ class ViewTests(unittest.TestCase):
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(
             info['title'],
-            'SASHA | Alto Saxophone Event: c5c19c1eb8b2fd2fa5d3e18566f10b3e',
+            'SASHA | {} Event: {}'.format(
+                instrument.name,
+                md5,
+                ),
             )
 
     def test_FingeringView_01(self):
         event = sasha.Event.get_one(id=1)
         instrument = event.instrument
         instrument_name = instrument.name.lower().replace(' ', '-')
+        instrument_keys = event.fingering.instrument_keys
+        instrument_keys = ' '.join(_.name for _ in instrument_keys)
         fingering = event.fingering
         compact_representation = fingering.compact_representation
         request = testing.DummyRequest(
@@ -63,15 +77,21 @@ class ViewTests(unittest.TestCase):
             set(_.id for _ in fingering.find_similar_fingerings(12)),
             )
         self.assertEqual(info['instrument'].id, instrument.id)
-        self.assertEqual(info['instrument_keys'], 'C Ef L1 L2 L3 R1 R3')
-        self.assertEqual(info['instrument_name'], 'Alto Saxophone')
+        self.assertEqual(info['instrument_keys'], instrument_keys)
+        self.assertEqual(info['instrument_name'], instrument.name)
         self.assertEqual(
             info['search_action'],
-            'http://example.com/instruments/alto-saxophone/0000100000001011101010000/'
+            'http://example.com/instruments/{}/{}/'.format(
+                instrument_name,
+                compact_representation,
+                ),
             )
         self.assertEqual(
             info['title'],
-            'SASHA | Alto Saxophone Fingering: C Ef L1 L2 L3 R1 R3',
+            'SASHA | {} Fingering: {}'.format(
+                instrument.name,
+                instrument_keys
+                ),
             )
         self.assertEqual(info['with_pitch_classes'], '')
         self.assertEqual(info['with_pitches'], '')

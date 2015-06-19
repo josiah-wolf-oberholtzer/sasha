@@ -1,11 +1,13 @@
 from webtest import TestApp
 from sashaweb import main
+import sasha
 import unittest
 
 
 class TemplateTests(unittest.TestCase):
 
     def setUp(self):
+        sasha.sasha_configuration.environment = 'testing'
         app = main({})
         self.testapp = TestApp(app)
 
@@ -26,18 +28,35 @@ class TemplateTests(unittest.TestCase):
             )
 
     def test_event_01(self):
-        path = '/events/c5c19c1eb8b2fd2fa5d3e18566f10b3e/'
+        event = sasha.Event.get_one(id=1)
+        instrument_name = event.instrument.name
+        md5 = event.md5
+        path = '/events/{}/'.format(md5)
         response = self.testapp.get(path, status=200)
         self.assertIn(
-            '<title>SASHA | Alto Saxophone Event: c5c19c1eb8b2fd2fa5d3e18566f10b3e</title>',
+            '<title>SASHA | Alto Saxophone Event: {}</title>'.format(
+                instrument_name,
+                md5,
+                ),
             response,
             )
 
     def test_fingering_01(self):
-        path = '/instruments/alto-saxophone/1000000000000011100100000/'
+        fingering = sasha.Fingering.get_one(id=1)
+        instrument_name = fingering.instrument.name
+        instrument_dashcase_name = instrument_name.lower().replace(' ', '-')
+        compact_representation = fingering.compact_representation
+        instrument_keys = ' '.join(_.name for _ in fingering.instrument_keys)
+        path = '/instruments/{}/{}/'.format(
+            instrument_dashcase_name,
+            compact_representation,
+            )
         response = self.testapp.get(path, status=200)
         self.assertIn(
-            '<title>SASHA | Alto Saxophone Fingering: 8va L1 L2 L3 R2</title>',
+            '<title>SASHA | {} Fingering: {}</title>'.format(
+                instrument_name,
+                instrument_keys,
+                ),
             response,
             )
 
