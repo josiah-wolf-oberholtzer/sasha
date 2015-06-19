@@ -17,15 +17,12 @@ before_install:
     - conda update --yes conda
     - sudo rm -rf /dev/shm
     - sudo ln -s /run/shm /dev/shm
-    - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels
+    - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels scikit-learn
     - conda install --yes -c dan_blanchard python-coveralls nose-cov
-    - conda install --yes -c https://conda.binstar.org/weiyan libsndfile
+    - conda install --yes -c https://conda.binstar.org/weiyan libsndfile scikit-audiolab
 
     - sudo apt-get update -qq
-    - sudo apt-get install -y build-essential
-    - sudo apt-get install -y gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev
-    - sudo apt-get install -y imagemagick lame
-    - sudo apt-get install -y python-zope.interface
+    - sudo apt-get install -y build-essential gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev imagemagick lame
 
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
