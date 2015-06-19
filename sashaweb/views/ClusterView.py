@@ -9,7 +9,7 @@ from sashaweb.views.SearchView import SearchView
     route_name='cluster',
     renderer='sashaweb:templates/cluster.mako',
     )
-class SingleClusterView(SearchView):
+class ClusterView(SearchView):
 
     ### INITIALIZER ###
 

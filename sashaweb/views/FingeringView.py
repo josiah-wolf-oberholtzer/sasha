@@ -7,10 +7,10 @@ from sashaweb.views.SearchView import SearchView
 
 
 @view_config(
-    route_name='single_fingering',
-    renderer='sashaweb:templates/single_fingering.mako',
+    route_name='fingering',
+    renderer='sashaweb:templates/fingering.mako',
     )
-class SingleFingeringView(SearchView):
+class FingeringView(SearchView):
 
     ### INITIALIZER ###
 

@@ -28,6 +28,8 @@ class FingeringHelper(Helper):
     @property
     def url(self):
         instrument_name = domaintools.Instrument.get_one(id=self.fingering.instrument_id).name
-        return self.request.route_url('single_fingering',
+        return self.request.route_url(
+            'fingering',
             instrument_name=instrument_name.lower().replace(' ', '-'),
-            compact_representation=self.fingering.compact_representation)
+            compact_representation=self.fingering.compact_representation,
+            )

@@ -8,10 +8,10 @@ from webhelpers import paginate
 
 
 @view_config(
-    route_name='single_instrument',
-    renderer='sashaweb:templates/single_instrument.mako',
+    route_name='instrument',
+    renderer='sashaweb:templates/instrument.mako',
     )
-class SingleInstrumentView(SearchView):
+class InstrumentView(SearchView):
 
     ### INITIALIZER ###
 

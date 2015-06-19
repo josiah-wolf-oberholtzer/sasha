@@ -40,6 +40,6 @@ class InstrumentHelper(Helper):
     @property
     def url(self):
         return self.request.route_url(
-            'single_instrument',
+            'instrument',
             instrument_name=self.instrument.name.lower().replace(' ', '-')
             )
