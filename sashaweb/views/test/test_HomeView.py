@@ -7,6 +7,7 @@ class ViewTests(unittest.TestCase):
 
     def setUp(self):
         self.config = testing.setUp()
+        self.config.include('sashaweb')
 
     def tearDown(self):
         testing.tearDown()
