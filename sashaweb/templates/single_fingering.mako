@@ -13,5 +13,4 @@
     </div>
 %endfor
 </div>
-<div class="clearfix grid_12 divider"></div>
 </%block>

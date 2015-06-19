@@ -12,11 +12,12 @@ class Error404View(View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
+        self.request.response.status = 404
         return {
             'body_class': 'error',
             'message': self.request.exception.message,
             'title': self.title,
-        }
+            }
 
     ### PUBLIC ATTRIBUTES ###
 
