@@ -33,4 +33,4 @@ class EventHelper(Helper):
 
     @property
     def url(self):
-        return self.request.route_url('single_event', md5=self.event.md5)
+        return self.request.route_url('event', md5=self.event.md5)

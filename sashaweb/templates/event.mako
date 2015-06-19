@@ -19,25 +19,25 @@
 
 <div class="page-header">
 <h2>
-${InstrumentHelper(single_event, request).link}
+${InstrumentHelper(current_event, request).link}
 |
-${EventHelper(single_event, request).numbered_link}
+${EventHelper(current_event, request).numbered_link}
 </h2>
 </div>
 
 <div class="row">
 <dl class="col-sm-6">
     <dt>Instrument</dt>
-    <dd><p>${InstrumentHelper(single_event, request).link}</p></dd>
+    <dd><p>${InstrumentHelper(current_event, request).link}</p></dd>
 
     <dt>Event &numero;</dt>
-    <dd><p>${EventHelper(single_event, request).numbered_link}</p></dd>
+    <dd><p>${EventHelper(current_event, request).numbered_link}</p></dd>
 
     <dt>Audio MD5 hash</dt>
-    <dd><p>${EventHelper(single_event, request).md5_link}</p></dd>
+    <dd><p>${EventHelper(current_event, request).md5_link}</p></dd>
 
     <dt>Key names</dt>
-    <dd><p>${FingeringHelper(single_event, request).link}</p></dd>
+    <dd><p>${FingeringHelper(current_event, request).link}</p></dd>
 
     <dt>Clusters</dt>
     <dd><p>
@@ -48,21 +48,21 @@ ${EventHelper(single_event, request).numbered_link}
 </dl>
 <dl class="col-sm-3">
     <dt><p>Chord notation</p></dt>
-    <dd><p>${ChordNotationHelper(single_event, request).image_link}</p></dd>
+    <dd><p>${ChordNotationHelper(current_event, request).image_link}</p></dd>
 </dl>
 <dl class="col-sm-3">
     <dt><p>Fingering notation</p></dt>
-    <dd><p>${FingeringNotationHelper(single_event, request).image_link}</p></dd>
+    <dd><p>${FingeringNotationHelper(current_event, request).image_link}</p></dd>
 </dl>
 </div>
 
 <dl>
     <dt>Audio</dt>
-    <dd class="text-center"><p>${MP3AudioHelper(single_event, request).audio}</p></dd>
+    <dd class="text-center"><p>${MP3AudioHelper(current_event, request).audio}</p></dd>
     <dt><p>Chroma notation</p></dt>
-    <dd class="text-center"><p>${ChromaNotationHelper(single_event, request).image_link}</p></dd>
+    <dd class="text-center"><p>${ChromaNotationHelper(current_event, request).image_link}</p></dd>
     <dt><p>Partial tracking analysis</p></dt>
-    <dd class="text-center"><p>${PartialTrackingPlotHelper(single_event, request).image_link}</p></dd>
+    <dd class="text-center"><p>${PartialTrackingPlotHelper(current_event, request).image_link}</p></dd>
 </dl>
 
 
@@ -70,7 +70,7 @@ ${EventHelper(single_event, request).numbered_link}
 <div class="page-header">
     <h2><small>
         Top ${len(chroma_events)}
-        Similar ${InstrumentHelper(single_event, request).link} Recordings via
+        Similar ${InstrumentHelper(current_event, request).link} Recordings via
         <a href="http://www.omras2.org/audioDB">AudioDB</a>
         <a href="http://en.wikipedia.org/wiki/Pitch_class">Chroma</a> Matching
     </small></h2>
@@ -90,7 +90,7 @@ ${EventHelper(single_event, request).numbered_link}
 <div class="page-header">
     <h2><small>
         Top ${len(mfcc_events)}
-        Similar ${InstrumentHelper(single_event, request).link} Recordings via 
+        Similar ${InstrumentHelper(current_event, request).link} Recordings via 
         <a href="http://www.omras2.org/audioDB">AudioDB</a>
         <a href="http://en.wikipedia.org/wiki/Mel-frequency_cepstrum">MFCC</a> Matching
     </small></h2>
@@ -108,7 +108,7 @@ ${EventHelper(single_event, request).numbered_link}
 
 <div class="page-header">
     <h2><small>
-        Top 12 Similar ${InstrumentHelper(single_event, request).link}
+        Top 12 Similar ${InstrumentHelper(current_event, request).link}
         Fingerings
     </small></h2>
 </div>

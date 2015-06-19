@@ -14,6 +14,21 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
+    def test_EventView_01(self):
+        event = sasha.Event.get_one(id=1)
+        request = testing.DummyRequest(
+            matchdict={
+                'md5': event.md5,
+                },
+            )
+        view = views.EventView(request)
+        info = view()
+        self.assertEqual(info['body_class'], 'search')
+        self.assertEqual(
+            info['title'],
+            'SASHA | Alto Saxophone Event: c5c19c1eb8b2fd2fa5d3e18566f10b3e',
+            )
+
     def test_HelpView_01(self):
         request = testing.DummyRequest()
         view = views.HelpView(request)
@@ -54,21 +69,6 @@ class ViewTests(unittest.TestCase):
         info = view()
         self.assertEqual(info['body_class'], 'clusters')
         self.assertEqual(info['title'], 'SASHA | Chroma Cluster No.1')
-
-    def test_SingleEventView_01(self):
-        event = sasha.Event.get_one(id=1)
-        request = testing.DummyRequest(
-            matchdict={
-                'md5': event.md5,
-                },
-            )
-        view = views.SingleEventView(request)
-        info = view()
-        self.assertEqual(info['body_class'], 'search')
-        self.assertEqual(
-            info['title'],
-            'SASHA | Alto Saxophone Event: c5c19c1eb8b2fd2fa5d3e18566f10b3e',
-            )
 
     def test_SingleFingeringView_01(self):
         event = sasha.Event.get_one(id=1)

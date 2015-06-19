@@ -4,10 +4,10 @@ from sashaweb.views.SearchView import SearchView
 
 
 @view_config(
-    route_name='single_event',
-    renderer='sashaweb:templates/single_event.mako',
+    route_name='event',
+    renderer='sashaweb:templates/event.mako',
     )
-class SingleEventView(SearchView):
+class EventView(SearchView):
 
     ### INITIALIZER ###
 
@@ -30,11 +30,11 @@ class SingleEventView(SearchView):
             'body_class': 'search',
             'chroma_events': self.chroma_events,
             'clusters': self.clusters,
+            'current_event': self.event,
             'fingerings': self.fingering.find_similar_fingerings(n=12),
             'instrument_name': self.instrument.name,
             'mfcc_events': self.mfcc_events,
             'title': self.title,
-            'single_event': self.event,
             }
 
     ### PUBLIC ATTRIBUTES ###

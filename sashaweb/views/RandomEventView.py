@@ -20,4 +20,4 @@ class RandomEventView(View):
         query = sasha_configuration.get_session().query(domaintools.Event)
         query = query.order_by('RANDOM()').limit(1)
         md5 = query[0].md5
-        return self.request.route_url('single_event', md5=md5)
+        return self.request.route_url('event', md5=md5)
