@@ -8,11 +8,6 @@ from sashaweb.views.View import View
     )
 class HelpView(View):
 
-    ### INITIALIZER ###
-
-    def __init__(self, request):
-        self._request = request
-
     ### SPECIAL METHODS ###
 
     def __call__(self):

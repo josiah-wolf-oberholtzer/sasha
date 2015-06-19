@@ -9,6 +9,8 @@ from sashaweb.views.View import View
     )
 class Error404View(View):
 
+    ### SPECIAL METHODS ###
+
     def __call__(self):
         return {
             'body_class': 'error',

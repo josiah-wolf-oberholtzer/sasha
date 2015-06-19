@@ -14,21 +14,21 @@ from webhelpers.html import literal
     )
 class SearchView(View):
 
-    ### INITIALIZER ###
-
-    def __init__(self, request):
-        self._request = request
-        self._instrument_parameters = self.process_instrument_params(self.request.params)
-        self._layout_parameters = self.process_layout_params(self.request.params)
-        self._pitch_parameters = self.process_pitch_params(self.request.params)
-
-    ### CLASS ATTRIBUTES ###
+    ### CLASS VARIABLES ###
 
     _order_options = ('asc', 'desc')
 
     _sortby_options = ('event', 'fingering', 'instrument')
 
     _view_options = ('grid', 'row')
+
+    ### INITIALIZER ###
+
+    def __init__(self, request):
+        View.__init__(self, request)
+        self._instrument_parameters = self.process_instrument_params(self.request.params)
+        self._layout_parameters = self.process_layout_params(self.request.params)
+        self._pitch_parameters = self.process_pitch_params(self.request.params)
 
     ### SPECIAL METHODS ###
 
