@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:views/SearchView/search.mako"/>
+<%inherit file="sashaweb:templates/search.mako"/>
 
 <%!
     from sashaweb.helpers import FingeringNotationHelper, InstrumentHelper

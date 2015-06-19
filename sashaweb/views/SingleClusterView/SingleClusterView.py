@@ -7,7 +7,7 @@ from sashaweb.views.SearchView import SearchView
 
 @view_config(
     route_name='single_cluster',
-    renderer='sashaweb:views/SingleClusterView/single_cluster.mako',
+    renderer='sashaweb:templates/single_cluster.mako',
     )
 class SingleClusterView(SearchView):
 

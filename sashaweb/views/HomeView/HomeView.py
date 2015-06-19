@@ -4,7 +4,7 @@ from sasha import *
 from sashaweb.views._View import _View
 
 
-#@view_config(route_name='home', renderer='sashaweb:views/HomeView/home.mako')
+#@view_config(route_name='home', renderer='sashaweb:templates/home.mako')
 @view_config(route_name='home')
 class HomeView(_View):
 

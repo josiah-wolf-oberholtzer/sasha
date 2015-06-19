@@ -5,7 +5,7 @@ from sashaweb.views._View import _View
 
 @view_config(
     route_name='all_clusters',
-    renderer='sashaweb:views/AllClustersView/all_clusters.mako',
+    renderer='sashaweb:templates/all_clusters.mako',
     )
 class AllClustersView(_View):
 

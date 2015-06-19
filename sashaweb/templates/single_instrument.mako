@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:views/SearchView/search.mako"/>
+<%inherit file="sashaweb:templates/search.mako"/>
 
 <%namespace file="sashaweb:templates/partials.mako" name="partials" />
 

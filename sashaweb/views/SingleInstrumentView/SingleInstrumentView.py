@@ -9,7 +9,7 @@ from webhelpers import paginate
 
 @view_config(
     route_name='single_instrument',
-    renderer='sashaweb:views/SingleInstrumentView/single_instrument.mako',
+    renderer='sashaweb:templates/single_instrument.mako',
     )
 class SingleInstrumentView(SearchView):
 

@@ -8,7 +8,7 @@ from sashaweb.views.SearchView import SearchView
 
 @view_config(
     route_name='single_fingering',
-    renderer='sashaweb:views/SingleFingeringView/single_fingering.mako',
+    renderer='sashaweb:templates/single_fingering.mako',
     )
 class SingleFingeringView(SearchView):
 

@@ -3,8 +3,13 @@ from sasha import *
 from sashaweb.views.SearchView import SearchView
 
 
-@view_config(route_name='single_event', renderer='sashaweb:views/SingleEventView/single_event.mako')
+@view_config(
+    route_name='single_event',
+    renderer='sashaweb:templates/single_event.mako',
+    )
 class SingleEventView(SearchView):
+
+    ### INITIALIZER ###
 
     def __init__(self, request):
         self._request = request
@@ -12,14 +17,15 @@ class SingleEventView(SearchView):
         try:
             self._event = Event.get_one(md5=md5)
         except:
-            raise HTTPNotFound("SASHA couldn't find an Event linked to <em>%s</em>." % md5)
+            message = "SASHA couldn't find an Event linked to <em>{}</em>."
+            message = message.format(md5)
+            raise HTTPNotFound(message)
         self._fingering = self.event.fingering
         self._instrument = self.event.instrument
 
     ### SPECIAL METHODS ###
 
     def __call__(self):
-
         return {
             'body_class': 'search',
             'chroma_events': self.chroma_events,
@@ -27,9 +33,9 @@ class SingleEventView(SearchView):
             'fingerings': self.fingering.find_similar_fingerings(n=12),
             'instrument_name': self.instrument.name,
             'mfcc_events': self.mfcc_events,
-            'title': self.title, 
+            'title': self.title,
             'single_event': self.event,
-        }
+            }
 
     ### PUBLIC ATTRIBUTES ###
 
@@ -42,7 +48,9 @@ class SingleEventView(SearchView):
 
     @property
     def clusters(self):
-        return sasha_configuration.get_session().query(Cluster).join(Event.clusters).filter(Event.id==self.event.id)
+        query = sasha_configuration.get_session().query(Cluster)
+        query = query.join(Event.clusters).filter(Event.id==self.event.id)
+        return query
 
     @property
     def event(self):

@@ -8,12 +8,16 @@ from webhelpers import paginate
 from webhelpers.html import literal
 
 
-@view_config(route_name='search', renderer='sashaweb:views/SearchView/search.mako')
+@view_config(
+    route_name='search',
+    renderer='sashaweb:templates/search.mako',
+    )
 class SearchView(_View):
+
+    ### INITIALIZER ###
 
     def __init__(self, request):
         self._request = request
-
         self._instrument_parameters = self.process_instrument_params(self.request.params)
         self._layout_parameters = self.process_layout_params(self.request.params)
         self._pitch_parameters = self.process_pitch_params(self.request.params)

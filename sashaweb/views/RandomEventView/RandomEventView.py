@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
-
-from sasha import *
+from sasha import domaintools
+from sasha import sasha_configuration
 from sashaweb.views._View import _View
 
 
@@ -15,5 +15,7 @@ class RandomEventView(_View):
 
     @property
     def location(self):
-        md5 = sasha_configuration.get_session().query(Event).order_by('RANDOM()').limit(1)[0].md5
+        query = sasha_configuration.get_session().query(domaintools.Event)
+        query = query.order_by('RANDOM()').limit(1)
+        md5 = query[0].md5
         return self.request.route_url('single_event', md5=md5)
