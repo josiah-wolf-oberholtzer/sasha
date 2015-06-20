@@ -249,11 +249,14 @@ class Bootstrap(object):
                 pitch = pitchtools.NamedPitch(pitch_number)
                 pitch_class_number = pitch.pitch_class_number
                 octave_number = pitch.octave_number
-                session.add(Partial(event_id=event.id,
+                partial = Partial(
+                    event_id=event.id,
                     pitch_number=pitch_number,
                     pitch_class_number=pitch_class_number,
                     octave_number=octave_number,
-                    amplitude=amplitude))
+                    amplitude=amplitude,
+                    )
+                session.add(partial)
             session.commit()
         # insert Clusters
         chroma_kmeans = KMeansClustering(
