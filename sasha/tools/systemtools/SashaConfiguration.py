@@ -114,7 +114,8 @@ class SashaConfiguration(dict):
         cls_name = stringtools.to_snake_case(cls.__name__)
         fixtures_path = os.path.join(
             sasha_configuration.get_media_path('fixtures'),
-            cls.__tablename__,
+            cls_name + 's',
+            #cls.__tablename__,
             )
         fixture_file_names = os.listdir(fixtures_path)
         fixture_file_names = (
