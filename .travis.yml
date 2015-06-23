@@ -10,6 +10,12 @@ before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
 
+    - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+    - echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+    - sudo apt-get update -qq
+    - sudo apt-get install -y build-essential gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev imagemagick lame
+    - sudo apt-get install -y mongodb-org
+
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - chmod +x miniconda.sh
     - ./miniconda.sh -b
@@ -20,9 +26,6 @@ before_install:
     - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels scikit-learn
     - conda install --yes -c dan_blanchard python-coveralls nose-cov
     - conda install --yes -c https://conda.binstar.org/weiyan libsndfile scikit-audiolab
-
-    - sudo apt-get update -qq
-    - sudo apt-get install -y build-essential gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev imagemagick lame
 
     - git clone https://github.com/TransformingMusicology/libaudioDB.git
     - git clone https://github.com/TransformingMusicology/audioDB.git
