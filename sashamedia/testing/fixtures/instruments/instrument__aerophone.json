@@ -1,6 +1,6 @@
 {
     "key_names": [], 
     "name": "Aerophone", 
-    "parent": "", 
-    "transposition": "0"
+    "parent": null,
+    "transposition": 0,
 }

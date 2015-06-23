@@ -28,5 +28,5 @@
     ], 
     "name": "Alto Saxophone", 
     "parent": "Saxophone", 
-    "transposition": "+3"
+    "transposition": 3,
 }

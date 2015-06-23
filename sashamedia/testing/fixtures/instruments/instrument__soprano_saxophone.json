@@ -28,5 +28,5 @@
     ], 
     "name": "Soprano Saxophone", 
     "parent": "Saxophone", 
-    "transposition": "-2"
+    "transposition": -2,
 }

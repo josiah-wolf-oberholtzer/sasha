@@ -2,5 +2,5 @@
     "key_names": [], 
     "name": "Saxophone", 
     "parent": "Aerophone", 
-    "transposition": "0"
+    "transposition": 0,
 }
