@@ -55,7 +55,8 @@ install:
 
 script:
     - coverage run -a sasha/scr/bootstrap-testing-environment
-    - coverage run -a `which py.test` -rf -vv
+    - coverage run -a `which py.test` -rf -vv sasha
+    - coverage run -a `which py.test` -rf -vv sashaweb
 
 after_success:
     coveralls
