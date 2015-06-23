@@ -3,6 +3,7 @@ Beaker
 configobj
 matplotlib
 mongoengine
+pymongo==2.8.1
 numpy
 pyfftw
 pyramid
