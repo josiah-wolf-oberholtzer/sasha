@@ -163,27 +163,20 @@ class Bootstrap(object):
         session = sasha_configuration.get_session()
         # PERFORMERS
         for fixture in Performer.get_fixtures():
-            data = fixture['main']
             performer = Performer(
-                name=data['name'],
-                description=data['description'],
+                name=fixture['name'],
                 )
             session.add(performer)
         session.commit()
         # INSTRUMENTS, KEYS
         for fixture in Instrument.get_fixtures():
-            data = fixture['main']
             instrument = Instrument(
-                name=data['name'],
-                transposition=int(data['transposition']),
+                name=fixture['name'],
+                transposition=fixture['transposition'],
                 )
             session.add(instrument)
             session.commit()
-            instrument_keys = [
-                _
-                for _ in data['instrument_keys.name'].split(' ')
-                if _
-                ]
+            instrument_keys = fixture['key_names']
             for instrument_key in instrument_keys:
                 instrument_key = InstrumentKey(
                     name=instrument_key,
@@ -192,28 +185,22 @@ class Bootstrap(object):
                 session.add(instrument_key)
                 session.commit()
         for fixture in Instrument.get_fixtures():
-            data = fixture['main']
-            if data['parent.name']:
+            if fixture['parent']:
                 child = session.query(Instrument).filter_by(
-                    name=data['name']).one()
+                    name=fixture['name']).one()
                 parent = session.query(Instrument).filter_by(
-                    name=data['parent.name']).one()
+                    name=fixture['parent']).one()
                 child.parent = parent
             session.commit()
         # EVENTS, FINGERINGS
         for fixture in Event.get_fixtures():
-            data = fixture['main']
             instrument = session.query(Instrument).filter_by(
-                name=data['instrument.name']).one()
-            name = data['name']
+                name=fixture['instrument']).one()
+            name = fixture['name']
             performer = session.query(Performer).filter_by(
-                name=data['performer.name']).one()
+                name=fixture['performer']).one()
             fingering = Fingering(instrument=instrument)
-            key_names = [
-                _
-                for _ in data['fingering.instrument_keys.name'].split(' ')
-                if _
-                ]
+            key_names = fixture['fingering']
             if key_names:
                 instrument_keys = session.query(InstrumentKey).filter(
                     InstrumentKey.instrument == instrument).filter(
