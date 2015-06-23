@@ -6,6 +6,7 @@ class Instrument(mongoengine.Document):
     ### MONGOENGINE ###
 
     description = mongoengine.StringField()
+    key_names = mongoengine.ListField(mongoengine.StringField(max_length=5))
     name = mongoengine.StringField(required=True, max_length=50)
     parent = mongoengine.ListField(mongoengine.ReferenceField('Instrument'))
     transposition = mongoengine.IntField(default=0)

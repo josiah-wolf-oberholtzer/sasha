@@ -169,8 +169,8 @@ class SashaConfiguration(dict):
 
     @property
     def mongodb_client(self):
-        return self.mongodb_client
+        return self._mongodb_client
 
     @property
     def mongodb_database_name(self):
-        return 'sasha/{}'.format(self.environment)
+        return 'sasha:{}'.format(self.environment)

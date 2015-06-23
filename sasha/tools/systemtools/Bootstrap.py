@@ -55,6 +55,31 @@ class Bootstrap(object):
                     message = '\n' + exc
                     sasha_configuration.logger.warning(message)
 
+    def _sort_instrument_fixtures(self, fixtures):
+        fixtures = {}
+        for fixture in fixtures:
+            fixtures[fixture['name']] = fixture
+        childwise_graph = {}
+        parentwise_graph = {}
+        for fixture in fixtures.values():
+            child_name = fixture['name']
+            parent_name = fixture.get('parent', None)
+            childwise_graph[child_name] = parent_name
+            if parent_name not in parentwise_graph:
+                parentwise_graph[parent_name] = set()
+            parentwise_graph[parent_name].add(child_name)
+        ordered_fixtures = []
+        while childwise_graph:
+            items = sorted(childwise_graph.items())
+            for child_name, parent_name in items:
+                if parent_name is not None:
+                    continue
+                ordered_fixtures.append(fixtures[child_name])
+                del(childwise_graph[child_name])
+                for descendant_name in parentwise_graph[child_name]:
+                    childwise_graph[descendant_name] = None
+        return tuple(ordered_fixtures)
+
     ### PUBLIC METHODS ###
 
     def create_audiodb_databases(self):
@@ -164,12 +189,56 @@ class Bootstrap(object):
             adb.populate(events)
 
     def populate_mongodb_primary(self):
-        pass
+        from sasha import sasha_configuration
+        from sasha.tools import assettools
+        from sasha.tools import newdomaintools
+        # Populate performers.
+        performer_fixtures = sasha_configuration.get_fixtures(
+            newdomaintools.Performer)
+        performers = []
+        for fixture in performer_fixtures:
+            performer = newdomaintools.Performer(
+                name=fixture['name'],
+                )
+            performers.append(performer)
+        newdomaintools.Performer.objects.insert(performers)
+        # Populate instruments.
+        instrument_fixtures = sasha_configuration.get_fixtures(
+            newdomaintools.Instrument)
+        instruments = []
+        for fixture in instrument_fixtures:
+            instrument = newdomaintools.Instrument(
+                key_names=fixture['key_names'],
+                name=fixture['name'],
+                transposition=int(fixture['transposition']),
+                )
+            instruments.append(instrument)
+        newdomaintools.Instrument.objects.insert(instruments)
+        # Populate events.
+        event_fixtures = sasha_configuration.get_fixtures(
+            newdomaintools.Event)
+        events = []
+        for fixture in event_fixtures:
+            instrument = newdomaintools.Instrument.objects(
+                name=fixture['instrument'],
+                ).first()
+            performer = newdomaintools.Performer.objects(
+                name=fixture['performer'],
+                ).first()
+            event = newdomaintools.Event(
+                fingering=fixture['fingering'],
+                instrument=instrument,
+                name=fixture['name'],
+                performer=performer,
+                )
+            event.md5 = assettools.SourceAudio(event.name).md5
+            events.append(event)
+        newdomaintools.Event.objects.insert(events)
 
     def populate_sqlite_primary(self):
         from sasha import sasha_configuration
-        from sasha.tools import domaintools
         from sasha.tools import assettools
+        from sasha.tools import domaintools
         sasha_configuration.logger.info('Populating SQLite primary objects.')
         session = sasha_configuration.get_session()
         # PERFORMERS
