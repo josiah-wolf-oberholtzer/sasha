@@ -12,8 +12,6 @@ class Bootstrap(object):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sasha import sasha_configuration
-        sasha_configuration.logger.info('BOOTSTRAP: Start')
         self.delete_sqlite_database()
         self.delete_mongodb_database()
         self.delete_audiodb_databases()
@@ -28,7 +26,6 @@ class Bootstrap(object):
         self.populate_mongodb_clusters()
         self.populate_sqlite_partials()
         self.populate_mongodb_partials()
-        sasha_configuration.logger.info('BOOTSTRAP: Stop')
 
     ### PRIVATE METHODS ###
 
@@ -47,7 +44,6 @@ class Bootstrap(object):
 
     @staticmethod
     def _populate_all_assets_for_object(args):
-        from sasha import sasha_configuration
         domain_class, object_id, asset_classes = args
         obj = domain_class.get_one(id=object_id)
         print('Populating assets for {}'.format(obj))
@@ -58,17 +54,12 @@ class Bootstrap(object):
                     message = 'Writing {} to {}.'
                     message = message.format(asset, asset.path)
                     print(message)
-                    #sasha_configuration.logger.info(message)
                     asset.write(parallel=False)
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
-                exc = traceback.print_exc()
+                traceback.print_exc()
                 message = 'Writing {} failed.'.format(asset)
                 print(message)
-                #sasha_configuration.logger.warning(message)
-                if exc:
-                    message = '\n' + exc
-                    sasha_configuration.logger.warning(message)
 
     @staticmethod
     def _sort_instrument_fixtures(fixtures):
@@ -104,7 +95,6 @@ class Bootstrap(object):
     def create_audiodb_databases(self):
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
-        sasha_configuration.logger.info('Creating audioDB databases.')
         for name in sasha_configuration['audioDB']:
             AudioDB(name).create()
 
@@ -114,7 +104,6 @@ class Bootstrap(object):
     def create_sqlite_database(self):
         from sasha import sasha_configuration
         from sasha.tools.domaintools import Event
-        sasha_configuration.logger.info('Creating empty SQLite database.')
         database_path = os.path.join(
             sasha_configuration.get_media_path('databases'),
             sasha_configuration['sqlite']['sqlite'],
@@ -130,7 +119,6 @@ class Bootstrap(object):
     def delete_all_assets(self):
         from sasha import sasha_configuration
         from sasha.tools.assettools import AssetDependencyGraph
-        sasha_configuration.logger.info('Deleting all assets.')
         for klass in sasha_configuration.get_domain_classes():
             plugins = AssetDependencyGraph(klass).in_order()
             for instance in klass.get():
@@ -141,7 +129,6 @@ class Bootstrap(object):
     def delete_audiodb_databases(self):
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
-        sasha_configuration.logger.info('Deleting audioDB databases.')
         for name in sasha_configuration['audioDB']:
             AudioDB(name).delete()
 
@@ -153,7 +140,6 @@ class Bootstrap(object):
 
     def delete_sqlite_database(self):
         from sasha import sasha_configuration
-        sasha_configuration.logger.info('Deleting sqlite database.')
         path = os.path.join(sasha_configuration.get_media_path('databases'),
             sasha_configuration['sqlite']['sqlite'])
         if os.path.exists(path):
@@ -162,7 +148,6 @@ class Bootstrap(object):
     def populate_all_assets(self):
         from sasha import sasha_configuration
         from sasha.tools.assettools import AssetDependencyGraph
-        sasha_configuration.logger.info('Populating all assets.')
         domain_classes = sasha_configuration.get_domain_classes()
         domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
         for domain_class in domain_classes:
@@ -172,7 +157,6 @@ class Bootstrap(object):
                 len(domain_objects),
                 )
             print(log_message)
-            sasha_configuration.logger.info(log_message)
             dependency_graph = AssetDependencyGraph(domain_class)
             asset_classes = dependency_graph.in_order()
             if not asset_classes:
@@ -200,7 +184,6 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
         from sasha.tools.domaintools import Event
-        sasha_configuration.logger.info('Populating audioDB databases.')
         events = Event.get()
         assert 0 < len(events)
         for name in sasha_configuration['audioDB']:
@@ -273,7 +256,6 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools import assettools
         from sasha.tools import domaintools
-        sasha_configuration.logger.info('Populating SQLite primary objects.')
         session = sasha_configuration.get_session()
         # PERFORMERS
         for fixture in sasha_configuration.get_fixtures(domaintools.Performer):
@@ -375,7 +357,6 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools import assettools
         from sasha.tools import domaintools
-        sasha_configuration.logger.info('Populate SQLite secondary objects.')
         session = sasha_configuration.get_session()
         for event in domaintools.Event.get():
             chord = assettools.ChordAnalysis(event).read()
