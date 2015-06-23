@@ -328,17 +328,17 @@ class Bootstrap(object):
         from sasha.tools import analysistools
         session = sasha_configuration.get_session()
         chroma_kmeans = analysistools.KMeansClustering(
-            'chroma',
+            feature='chroma',
             cluster_count=9,
             use_pca=False,
             )
         constant_q_kmeans = analysistools.KMeansClustering(
-            'constant_q',
+            feature='constant_q',
             cluster_count=9,
             use_pca=False,
             )
         mfcc_kmeans = analysistools.KMeansClustering(
-            'mfcc',
+            feature='mfcc',
             cluster_count=9,
             use_pca=False,
             )

@@ -6,7 +6,7 @@ from sasha.tools import systemtools
 sasha_configuration.environment = 'testing'
 
 
-def test_Bootstrap_populate_mongodb_primary_01():
+def test_Bootstrap_populate_mongodb_partials_01():
 
     bootstrap = systemtools.Bootstrap()
     bootstrap.delete_mongodb_database()
