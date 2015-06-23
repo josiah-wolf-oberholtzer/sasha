@@ -22,4 +22,4 @@ class Instrument(mongoengine.Document):
 
     @property
     def children(self):
-        return type(self).objects(parent=self)
+        return set(type(self).objects(parents=self))

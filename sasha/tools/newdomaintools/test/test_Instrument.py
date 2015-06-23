@@ -12,16 +12,26 @@ def test_Instrument_01():
     alto_saxophone = Instrument.objects(name='Alto Saxophone').first()
     soprano_saxophone = Instrument.objects(name='Soprano Saxophone').first()
 
+    assert aerophone.children == set([
+        saxophone,
+        alto_saxophone,
+        soprano_saxophone,
+        ])
     assert aerophone.key_names == []
     assert aerophone.name == 'Aerophone'
     assert aerophone.parents == []
     assert aerophone.transposition == 0
 
+    assert saxophone.children == set([
+        alto_saxophone,
+        soprano_saxophone,
+        ])
     assert saxophone.key_names == []
     assert saxophone.name == 'Saxophone'
-    #assert saxophone.parents == [aerophone]
+    assert saxophone.parents == [aerophone]
     assert saxophone.transposition == 0
 
+    assert alto_saxophone.children == set()
     assert alto_saxophone.key_names == [
         u'8va',
         u'B',
@@ -53,6 +63,7 @@ def test_Instrument_01():
     assert alto_saxophone.parents == [saxophone, aerophone]
     assert alto_saxophone.transposition == 3
 
+    assert soprano_saxophone.children == set()
     assert soprano_saxophone.key_names == [
         u'8va',
         u'B',
