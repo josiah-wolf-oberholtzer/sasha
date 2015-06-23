@@ -64,7 +64,7 @@ class KMeansClustering(object):
             events = domaintools.Event.get()
         events = sorted(events, key=lambda x: x.name)
         for event in events:
-            feature = self.feature_class(event)
+            feature = self.feature_class(event.name)
             feature.read()
             vector = numpy.hstack([feature.mean, feature.std])
             vectors.append(vector)
