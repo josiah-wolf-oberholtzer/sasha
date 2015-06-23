@@ -1,5 +1,5 @@
 from __future__ import print_function
-import multiprocessing
+#import multiprocessing
 import os
 import sys
 import traceback
@@ -15,14 +15,17 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         sasha_configuration.logger.info('BOOTSTRAP: Start')
         self.delete_sqlite_database()
+        self.delete_mongodb_database()
         self.delete_audiodb_databases()
-        # self.delete_all_assets()
         self.create_sqlite_database()
+        self.create_mongodb_database()
         self.populate_sqlite_primary()
+        self.populate_mongodb_primary()
         self.populate_all_assets()
         self.create_audiodb_databases()
         self.populate_audiodb_databases()
         self.populate_sqlite_secondary()
+        self.populate_mongodb_secondary()
         sasha_configuration.logger.info('BOOTSTRAP: Stop')
 
     ### PRIVATE METHODS ###
@@ -61,6 +64,9 @@ class Bootstrap(object):
         for name in sasha_configuration['audioDB']:
             AudioDB(name).create()
 
+    def create_mongodb_database(self):
+        pass
+
     def create_sqlite_database(self):
         from sasha import sasha_configuration
         from sasha.tools.domaintools import Event
@@ -94,6 +100,12 @@ class Bootstrap(object):
         sasha_configuration.logger.info('Deleting audioDB databases.')
         for name in sasha_configuration['audioDB']:
             AudioDB(name).delete()
+
+    def delete_mongodb_database(self):
+        from sasha import sasha_configuration
+        client = sasha_configuration.mongodb_client
+        if client is not None:
+            client.drop_database(sasha_configuration.mongodb_database_name)
 
     def delete_sqlite_database(self):
         from sasha import sasha_configuration
@@ -151,26 +163,25 @@ class Bootstrap(object):
             adb = AudioDB(name)
             adb.populate(events)
 
+    def populate_mongodb_primary(self):
+        pass
+
     def populate_sqlite_primary(self):
         from sasha import sasha_configuration
-        from sasha.tools.domaintools import Event
-        from sasha.tools.domaintools import Fingering
-        from sasha.tools.domaintools import Instrument
-        from sasha.tools.domaintools import InstrumentKey
-        from sasha.tools.domaintools import Performer
-        from sasha.tools.assettools import SourceAudio
+        from sasha.tools import domaintools
+        from sasha.tools import assettools
         sasha_configuration.logger.info('Populating SQLite primary objects.')
         session = sasha_configuration.get_session()
         # PERFORMERS
-        for fixture in Performer.get_fixtures():
-            performer = Performer(
+        for fixture in domaintools.Performer.get_fixtures():
+            performer = domaintools.Performer(
                 name=fixture['name'],
                 )
             session.add(performer)
         session.commit()
         # INSTRUMENTS, KEYS
-        for fixture in Instrument.get_fixtures():
-            instrument = Instrument(
+        for fixture in domaintools.Instrument.get_fixtures():
+            instrument = domaintools.Instrument(
                 name=fixture['name'],
                 transposition=fixture['transposition'],
                 )
@@ -178,51 +189,54 @@ class Bootstrap(object):
             session.commit()
             instrument_keys = fixture['key_names']
             for instrument_key in instrument_keys:
-                instrument_key = InstrumentKey(
+                instrument_key = domaintools.InstrumentKey(
                     name=instrument_key,
                     instrument=instrument,
                     )
                 session.add(instrument_key)
                 session.commit()
-        for fixture in Instrument.get_fixtures():
+        for fixture in domaintools.Instrument.get_fixtures():
             if fixture['parent']:
-                child = session.query(Instrument).filter_by(
+                child = session.query(domaintools.Instrument).filter_by(
                     name=fixture['name']).one()
-                parent = session.query(Instrument).filter_by(
+                parent = session.query(domaintools.Instrument).filter_by(
                     name=fixture['parent']).one()
                 child.parent = parent
             session.commit()
         # EVENTS, FINGERINGS
-        for fixture in Event.get_fixtures():
-            instrument = session.query(Instrument).filter_by(
+        for fixture in domaintools.Event.get_fixtures():
+            instrument = session.query(domaintools.Instrument).filter_by(
                 name=fixture['instrument']).one()
             name = fixture['name']
-            performer = session.query(Performer).filter_by(
+            performer = session.query(domaintools.Performer).filter_by(
                 name=fixture['performer']).one()
-            fingering = Fingering(instrument=instrument)
+            fingering = domaintools.Fingering(instrument=instrument)
             key_names = fixture['fingering']
             if key_names:
-                instrument_keys = session.query(InstrumentKey).filter(
-                    InstrumentKey.instrument == instrument).filter(
-                    InstrumentKey.name.in_(key_names))
+                instrument_keys = session.query(domaintools.InstrumentKey).filter(
+                    domaintools.InstrumentKey.instrument == instrument).filter(
+                    domaintools.InstrumentKey.name.in_(key_names))
                 fingering.instrument_keys.extend(instrument_keys)
             fingering.compact_representation = \
                 fingering._generate_compact_representation()
             # check if the fingering already exists
-            extant_fingering = Fingering.get(instrument=fingering.instrument,
+            extant_fingering = domaintools.Fingering.get(instrument=fingering.instrument,
                 compact_representation=fingering.compact_representation)
             if not extant_fingering:
                 session.add(fingering)
             else:
                 fingering = extant_fingering[0]
-            event = Event(fingering=fingering,
+            event = domaintools.Event(fingering=fingering,
                 instrument=instrument,
                 name=name,
                 performer=performer)
-            md5 = SourceAudio(event).md5
+            md5 = assettools.SourceAudio(event).md5
             event.md5 = md5
             session.add(event)
         session.commit()
+
+    def populate_mongodb_secondary(self):
+        pass
 
     def populate_sqlite_secondary(self):
         from sasha import sasha_configuration
@@ -271,6 +285,12 @@ class Bootstrap(object):
         for cluster in all_clusters:
             session.merge(cluster)
         session.commit()
+
+    def rebuild_mongodb_database(self):
+        self.delete_mongodb_database()
+        self.create_mongodb_database()
+        self.populate_mongodb_primary()
+        self.populate_mongodb_secondary()
 
     def rebuild_sqlite_database(self):
         self.delete_sqlite_database()

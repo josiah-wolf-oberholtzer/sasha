@@ -14,6 +14,7 @@ class SashaConfiguration(dict):
     __slots__ = (
         '_environment',
         '_logger',
+        '_mongodb_client',
         )
 
     ### INITIALIZER ###
@@ -38,6 +39,7 @@ class SashaConfiguration(dict):
         formatter = logging.Formatter(log_message)
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
+        self._mongodb_client = None
         assert environment in ('testing', 'development', 'deployment')
         self._environment = environment
 
@@ -48,8 +50,9 @@ class SashaConfiguration(dict):
         Bootstrap()()
 
     def connect(self):
-        database_name = 'sasha/{}'.format(self.environment)
-        mongoengine.connect(database_name)
+        if self._mongodb_client is not None:
+            self._mongodb_client.disconnect()
+        self._mongodb_client = mongoengine.connect(self.mongodb_database_name)
 
     @staticmethod
     def find_executable(executable_name):
@@ -137,3 +140,11 @@ class SashaConfiguration(dict):
     @property
     def logger(self):
         return self._logger
+
+    @property
+    def mongodb_client(self):
+        return self.mongodb_client
+
+    @property
+    def mongodb_database_name(self):
+        return 'sasha/{}'.format(self.environment)
