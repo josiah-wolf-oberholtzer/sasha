@@ -1,5 +1,6 @@
 import inspect
 import logging
+import mongoengine
 import os
 from ConfigParser import ConfigParser
 from sqlalchemy import create_engine
@@ -24,8 +25,6 @@ class SashaConfiguration(dict):
         sasha_cfg_file_path = os.path.join(sasha_root, 'sasha.cfg')
         assert os.path.exists(sasha_cfg_file_path)
         parser.read(sasha_cfg_file_path)
-        assert environment in ('testing', 'development', 'deployment')
-        self._environment = environment
         for section in parser.sections():
             self[section] = {}
             for option, value in parser.items(section):
@@ -39,12 +38,18 @@ class SashaConfiguration(dict):
         formatter = logging.Formatter(log_message)
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
+        assert environment in ('testing', 'development', 'deployment')
+        self._environment = environment
 
     ### PUBLIC METHODS ###
 
     def bootstrap(self):
         from sasha.tools.systemtools import Bootstrap
         Bootstrap()()
+
+    def connect(self):
+        database_name = 'sasha/{}'.format(self.environment)
+        mongoengine.connect(database_name)
 
     @staticmethod
     def find_executable(executable_name):
@@ -127,6 +132,7 @@ class SashaConfiguration(dict):
     def environment(self, value):
         assert value in ['testing', 'development', 'deployment']
         self._environment = value
+        self.connect()
 
     @property
     def logger(self):
