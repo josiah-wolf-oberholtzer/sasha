@@ -8,6 +8,7 @@ requires = [
     'abjad',
     'configobj',
     'matplotlib',
+    'mongoengine',
     'numpy',
     'pyfftw',
     'pyramid',

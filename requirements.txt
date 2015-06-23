@@ -2,6 +2,7 @@
 Beaker
 configobj
 matplotlib
+mongoengine
 numpy
 pyfftw
 pyramid
