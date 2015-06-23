@@ -173,14 +173,14 @@ class Bootstrap(object):
         sasha_configuration.logger.info('Populating SQLite primary objects.')
         session = sasha_configuration.get_session()
         # PERFORMERS
-        for fixture in domaintools.Performer.get_fixtures():
+        for fixture in sasha_configuration.get_fixtures(domaintools.Performer):
             performer = domaintools.Performer(
                 name=fixture['name'],
                 )
             session.add(performer)
         session.commit()
         # INSTRUMENTS, KEYS
-        for fixture in domaintools.Instrument.get_fixtures():
+        for fixture in sasha_configuration.get_fixtures(domaintools.Instrument):
             instrument = domaintools.Instrument(
                 name=fixture['name'],
                 transposition=fixture['transposition'],
@@ -195,7 +195,7 @@ class Bootstrap(object):
                     )
                 session.add(instrument_key)
                 session.commit()
-        for fixture in domaintools.Instrument.get_fixtures():
+        for fixture in sasha_configuration.get_fixtures(domaintools.Instrument):
             if fixture['parent']:
                 child = session.query(domaintools.Instrument).filter_by(
                     name=fixture['name']).one()
@@ -204,7 +204,7 @@ class Bootstrap(object):
                 child.parent = parent
             session.commit()
         # EVENTS, FINGERINGS
-        for fixture in domaintools.Event.get_fixtures():
+        for fixture in sasha_configuration.get_fixtures(domaintools.Event):
             instrument = session.query(domaintools.Instrument).filter_by(
                 name=fixture['instrument']).one()
             name = fixture['name']

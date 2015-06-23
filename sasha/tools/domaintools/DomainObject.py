@@ -51,11 +51,6 @@ class DomainObject(object):
         return objects
 
     @classmethod
-    def get_fixtures(cls):
-        from sasha import sasha_configuration
-        return sasha_configuration.get_fixtures(cls)
-
-    @classmethod
     def get_one(cls, **kwargs):
         from sasha import sasha_configuration
         session = sasha_configuration.get_session()
