@@ -164,8 +164,11 @@ class Bootstrap(object):
         # PERFORMERS
         for fixture in Performer.get_fixtures():
             data = fixture['main']
-            session.add(Performer(name=data['name'],
-                description=data['description']))
+            performer = Performer(
+                name=data['name'],
+                description=data['description'],
+                )
+            session.add(performer)
         session.commit()
         # INSTRUMENTS, KEYS
         for fixture in Instrument.get_fixtures():
