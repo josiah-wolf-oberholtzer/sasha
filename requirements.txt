@@ -1,5 +1,5 @@
+-e git://github.com/Abjad/abjad.git#egg=abjad
 Beaker
-abjad
 configobj
 matplotlib
 numpy
