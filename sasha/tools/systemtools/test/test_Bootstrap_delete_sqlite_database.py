@@ -15,3 +15,5 @@ def test_Bootstrap_delete_sqlite_database_01():
         sasha_configuration['sqlite']['sqlite'],
         )
     assert not os.path.exists(sqlite_path)
+
+    bootstrap.rebuild_sqlite_database()

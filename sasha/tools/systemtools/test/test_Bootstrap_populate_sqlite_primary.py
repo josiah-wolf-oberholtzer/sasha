@@ -7,6 +7,7 @@ sasha_configuration.environment = 'testing'
 
 
 def test_Bootstrap_populate_sqlite_primary_01():
+
     bootstrap = systemtools.Bootstrap()
     bootstrap.delete_sqlite_database()
     bootstrap.create_sqlite_database()
@@ -25,3 +26,5 @@ def test_Bootstrap_populate_sqlite_primary_01():
     assert len(event_fixtures) == session.query(domaintools.Event).count()
     assert len(instrument_fixtures) == session.query(domaintools.Instrument).count()
     assert len(performer_fixtures) == session.query(domaintools.Performer).count()
+
+    bootstrap.rebuild_sqlite_database()

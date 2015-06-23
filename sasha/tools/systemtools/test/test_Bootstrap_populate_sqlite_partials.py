@@ -16,3 +16,5 @@ def test_Bootstrap_populate_sqlite_partials_01():
 
     for event in domaintools.Event.get():
         assert len(event.partials)
+
+    bootstrap.rebuild_sqlite_database()

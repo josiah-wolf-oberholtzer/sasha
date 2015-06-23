@@ -15,3 +15,4 @@ def test_Bootstrap_create_sqlite_database_01():
         sasha_configuration['sqlite']['sqlite'],
         )
     assert os.path.exists(sqlite_path)
+    bootstrap.rebuild_sqlite_database()

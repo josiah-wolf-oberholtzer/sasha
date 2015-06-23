@@ -18,3 +18,5 @@ def test_Bootstrap_delete_mongodb_database_01():
     assert 0 == event_count
     assert 0 == instrument_count
     assert 0 == performer_count
+
+    bootstrap.rebuild_mongodb_database()

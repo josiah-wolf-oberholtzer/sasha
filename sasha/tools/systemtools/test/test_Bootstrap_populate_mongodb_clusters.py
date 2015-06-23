@@ -19,3 +19,5 @@ def test_Bootstrap_populate_mongodb_clusters_01():
 
     for cluster in clusters:
         assert len(cluster.events)
+
+    bootstrap.rebuild_mongodb_database()

@@ -16,3 +16,5 @@ def test_Bootstrap_populate_mongodb_partials_01():
 
     for event in newdomaintools.Event.objects:
         assert event.partials
+
+    bootstrap.rebuild_mongodb_database()

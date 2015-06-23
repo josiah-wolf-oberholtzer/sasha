@@ -21,7 +21,6 @@ def test_Bootstrap_populate_mongodb_primary_01():
 
     bootstrap.create_mongodb_database()
     bootstrap.populate_mongodb_primary()
-    bootstrap.populate_mongodb_partials()
 
     event_count = newdomaintools.Event.objects.count()
     instrument_count = newdomaintools.Instrument.objects.count()
@@ -41,3 +40,5 @@ def test_Bootstrap_populate_mongodb_primary_01():
     assert len(event_fixtures) == event_count
     assert len(instrument_fixtures) == instrument_count
     assert len(performer_fixtures) == performer_count
+
+    bootstrap.rebuild_mongodb_database()
