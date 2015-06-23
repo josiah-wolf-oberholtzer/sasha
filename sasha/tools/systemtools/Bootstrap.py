@@ -327,28 +327,36 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools import analysistools
         session = sasha_configuration.get_session()
+        print('1')
         chroma_kmeans = analysistools.KMeansClustering(
             feature='chroma',
             cluster_count=9,
             use_pca=False,
             )
+        print('2')
         constant_q_kmeans = analysistools.KMeansClustering(
             feature='constant_q',
             cluster_count=9,
             use_pca=False,
             )
+        print('3')
         mfcc_kmeans = analysistools.KMeansClustering(
             feature='mfcc',
             cluster_count=9,
             use_pca=False,
             )
         all_clusters = []
+        print('4')
         all_clusters.extend(chroma_kmeans())
+        print('5')
         all_clusters.extend(constant_q_kmeans())
+        print('6')
         all_clusters.extend(mfcc_kmeans())
+        print('7')
         for cluster in all_clusters:
             session.merge(cluster)
         session.commit()
+        print('8')
 
     def populate_mongodb_partials(self):
         from sasha.tools import assettools

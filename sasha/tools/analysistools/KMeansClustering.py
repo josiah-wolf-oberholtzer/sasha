@@ -23,7 +23,7 @@ class KMeansClustering(object):
 
     def __call__(self, use_mongodb=False):
         from sklearn.cluster import KMeans
-        events, vectors = self.build_corpus(use_mongdb=use_mongodb)
+        events, vectors = self.build_corpus(use_mongodb=use_mongodb)
         k_means = KMeans(
             init='k-means++',
             n_clusters=self.cluster_count,
@@ -67,7 +67,6 @@ class KMeansClustering(object):
             feature = self.feature_class(event)
             feature.read()
             vector = numpy.hstack([feature.mean, feature.std])
-            events.append(event)
             vectors.append(vector)
         vectors = numpy.vstack(vectors)
         vectors = preprocessing.scale(vectors)
