@@ -55,29 +55,47 @@ class Bootstrap(object):
                     message = '\n' + exc
                     sasha_configuration.logger.warning(message)
 
-    def _sort_instrument_fixtures(self, fixtures):
-        fixtures = {}
+    def _collect_instrument_parents(self, fixtures):
+        mapping = {}
         for fixture in fixtures:
-            fixtures[fixture['name']] = fixture
+            child_name = fixture['name']
+            parent_name = fixture['parent']
+            if parent_name is None:
+                mapping[child_name] = []
+                continue
+            parents = [parent_name] + mapping[parent_name]
+            mapping[child_name] = parents
+        return mapping
+
+    def _sort_instrument_fixtures(self, fixtures):
+        fixture_mapping = {}
         childwise_graph = {}
         parentwise_graph = {}
-        for fixture in fixtures.values():
+        for fixture in fixtures:
             child_name = fixture['name']
             parent_name = fixture.get('parent', None)
+            fixture_mapping[child_name] = fixture
             childwise_graph[child_name] = parent_name
             if parent_name not in parentwise_graph:
                 parentwise_graph[parent_name] = set()
             parentwise_graph[parent_name].add(child_name)
         ordered_fixtures = []
+        counter = 0
         while childwise_graph:
             items = sorted(childwise_graph.items())
             for child_name, parent_name in items:
-                if parent_name is not None:
+                print('[{}] {}: {!r}'.format(
+                    counter, child_name, parent_name))
+                if parent_name:
                     continue
-                ordered_fixtures.append(fixtures[child_name])
+                print('\tremoving')
+                ordered_fixtures.append(fixture_mapping[child_name])
                 del(childwise_graph[child_name])
-                for descendant_name in parentwise_graph[child_name]:
+                for descendant_name in parentwise_graph.get(child_name, []):
                     childwise_graph[descendant_name] = None
+            counter += 1
+            if 100 < counter:
+                raise Exception
         return tuple(ordered_fixtures)
 
     ### PUBLIC METHODS ###
@@ -205,6 +223,8 @@ class Bootstrap(object):
         # Populate instruments.
         instrument_fixtures = sasha_configuration.get_fixtures(
             newdomaintools.Instrument)
+        instrument_fixtures = self._sort_instrument_fixtures(
+            instrument_fixtures)
         instruments = []
         for fixture in instrument_fixtures:
             instrument = newdomaintools.Instrument(
