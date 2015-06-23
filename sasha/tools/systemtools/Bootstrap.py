@@ -351,7 +351,24 @@ class Bootstrap(object):
         session.commit()
 
     def populate_mongodb_partials(self):
-        pass
+        from sasha.tools import assettools
+        from sasha.tools import newdomaintools
+        for event in newdomaintools.Event.objects:
+            chord = assettools.ChordAnalysis(event.name).read()
+            partials = []
+            for pitch_number, amplitude in chord:
+                pitch = pitchtools.NamedPitch(pitch_number)
+                pitch_class_number = pitch.pitch_class_number
+                octave_number = pitch.octave_number
+                partial = newdomaintools.Partial(
+                    amplitude=amplitude,
+                    octave_number=octave_number,
+                    pitch_class_number=pitch_class_number,
+                    pitch_number=pitch_number,
+                    )
+                partials.append(partial)
+            event.partials = partials
+            event.save()
 
     def populate_sqlite_partials(self):
         from sasha import sasha_configuration
