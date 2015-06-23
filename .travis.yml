@@ -6,15 +6,15 @@ python:
 notifications:
     email: false
 
+services:
+    - mongodb
+
 before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
 
-    - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-    - echo "deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/3.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
     - sudo apt-get update -qq
     - sudo apt-get install -y build-essential gengetopt libgsl0-dev help2man libsndfile1-dev libfftw3-dev imagemagick lame
-    - sudo apt-get install -y mongodb-org
 
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - chmod +x miniconda.sh
@@ -50,10 +50,6 @@ before_install:
     - sh lilypond-2.19.21-1.linux-64.sh --batch
     - export PATH=/home/travis/bin:$PATH
     - lilypond --help
-
-    - mkdir ~/log
-    - mkdir ~/db
-    - mongod --fork --dbpath ~/db --logpath ~/log/mongodb.log
 
 install:
     - pip install -r requirements.txt
