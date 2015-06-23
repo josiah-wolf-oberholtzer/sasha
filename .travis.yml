@@ -51,6 +51,10 @@ before_install:
     - export PATH=/home/travis/bin:$PATH
     - lilypond --help
 
+    - mkdir ~/log
+    - mkdir ~/db
+    - mongod --fork --dbpath ~/db --logpath ~/log/mongodb.log
+
 install:
     - pip install -r requirements.txt
     - pip install -e .
