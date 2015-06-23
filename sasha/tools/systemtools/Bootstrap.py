@@ -31,6 +31,19 @@ class Bootstrap(object):
     ### PRIVATE METHODS ###
 
     @staticmethod
+    def _collect_instrument_parents(fixtures):
+        mapping = {}
+        for fixture in fixtures:
+            child_name = fixture['name']
+            parent_name = fixture['parent']
+            if parent_name is None:
+                mapping[child_name] = []
+                continue
+            parents = [parent_name] + mapping[parent_name]
+            mapping[child_name] = parents
+        return mapping
+
+    @staticmethod
     def _populate_all_assets_for_object(args):
         from sasha import sasha_configuration
         domain_class, object_id, asset_classes = args
@@ -55,19 +68,8 @@ class Bootstrap(object):
                     message = '\n' + exc
                     sasha_configuration.logger.warning(message)
 
-    def _collect_instrument_parents(self, fixtures):
-        mapping = {}
-        for fixture in fixtures:
-            child_name = fixture['name']
-            parent_name = fixture['parent']
-            if parent_name is None:
-                mapping[child_name] = []
-                continue
-            parents = [parent_name] + mapping[parent_name]
-            mapping[child_name] = parents
-        return mapping
-
-    def _sort_instrument_fixtures(self, fixtures):
+    @staticmethod
+    def _sort_instrument_fixtures(fixtures):
         fixture_mapping = {}
         childwise_graph = {}
         parentwise_graph = {}
@@ -84,11 +86,8 @@ class Bootstrap(object):
         while childwise_graph:
             items = sorted(childwise_graph.items())
             for child_name, parent_name in items:
-                print('[{}] {}: {!r}'.format(
-                    counter, child_name, parent_name))
                 if parent_name:
                     continue
-                print('\tremoving')
                 ordered_fixtures.append(fixture_mapping[child_name])
                 del(childwise_graph[child_name])
                 for descendant_name in parentwise_graph.get(child_name, []):
@@ -234,6 +233,19 @@ class Bootstrap(object):
                 )
             instruments.append(instrument)
         newdomaintools.Instrument.objects.insert(instruments)
+        instrument_mapping = self._collect_instrument_parents(
+            instrument_fixtures)
+        for child_name, parent_names in instrument_mapping.items():
+            if not parent_names:
+                continue
+            child = newdomaintools.Instrument.objects(name=child_name).first()
+            parents = []
+            for parent_name in parent_names:
+                parent = newdomaintools.Instrument.objects(
+                    name=parent_name).first()
+                parents.append(parent)
+            child.parents = parents
+            child.save()
         # Populate events.
         event_fixtures = sasha_configuration.get_fixtures(
             newdomaintools.Event)
