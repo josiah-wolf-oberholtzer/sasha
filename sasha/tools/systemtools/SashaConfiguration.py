@@ -1,8 +1,10 @@
 import inspect
+import json
 import logging
 import mongoengine
 import os
 from ConfigParser import ConfigParser
+from abjad.tools import stringtools
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -106,6 +108,29 @@ class SashaConfiguration(dict):
                 klass.__module__.startswith('sasha'):
                 klasses.add(klass)
         return tuple(klasses)
+
+    def get_fixtures(self, cls):
+        from sasha import sasha_configuration
+        cls_name = stringtools.to_snake_case(cls.__name__)
+        fixtures_path = os.path.join(
+            sasha_configuration.get_media_path('fixtures'),
+            cls.__tablename__,
+            )
+        fixture_file_names = os.listdir(fixtures_path)
+        fixture_file_names = (
+            _ for _ in fixture_file_names
+            if _.startswith(cls_name) and _.endswith('.json')
+            )
+        fixture_file_paths = (
+            os.path.join(fixtures_path, _)
+            for _ in fixture_file_names
+            )
+        fixtures = []
+        for fixture_file_path in fixture_file_paths:
+            with open(fixture_file_path, 'r') as file_pointer:
+                fixture = json.load(file_pointer)
+            fixtures.append(fixture)
+        return fixtures
 
     def get_media_path(self, name):
         import sasha

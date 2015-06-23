@@ -53,26 +53,7 @@ class DomainObject(object):
     @classmethod
     def get_fixtures(cls):
         from sasha import sasha_configuration
-        cls_name = stringtools.to_snake_case(cls.__name__)
-        fixtures_path = os.path.join(
-            sasha_configuration.get_media_path('fixtures'),
-            cls.__tablename__,
-            )
-        fixture_file_names = os.listdir(fixtures_path)
-        fixture_file_names = (
-            _ for _ in fixture_file_names
-            if _.startswith(cls_name) and _.endswith('.json')
-            )
-        fixture_file_paths = (
-            os.path.join(fixtures_path, _)
-            for _ in fixture_file_names
-            )
-        fixtures = []
-        for fixture_file_path in fixture_file_paths:
-            with open(fixture_file_path, 'r') as file_pointer:
-                fixture = json.load(file_pointer)
-            fixtures.append(fixture)
-        return fixtures
+        return sasha_configuration.get_fixtures(cls)
 
     @classmethod
     def get_one(cls, **kwargs):
