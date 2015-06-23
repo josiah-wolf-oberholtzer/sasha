@@ -24,8 +24,10 @@ class Bootstrap(object):
         self.populate_all_assets()
         self.create_audiodb_databases()
         self.populate_audiodb_databases()
-        self.populate_sqlite_secondary()
-        self.populate_mongodb_secondary()
+        self.populate_sqlite_clusters()
+        self.populate_mongodb_clusters()
+        self.populate_sqlite_partials()
+        self.populate_mongodb_partials()
         sasha_configuration.logger.info('BOOTSTRAP: Stop')
 
     ### PRIVATE METHODS ###
@@ -336,45 +338,24 @@ class Bootstrap(object):
             session.add(event)
         session.commit()
 
-    def populate_mongodb_secondary(self):
+    def populate_mongodb_clusters(self):
         pass
 
-    def populate_sqlite_secondary(self):
+    def populate_sqlite_clusters(self):
         from sasha import sasha_configuration
-        from sasha.tools.analysistools import KMeansClustering
-        from sasha.tools.domaintools import Event
-        from sasha.tools.domaintools import Partial
-        from sasha.tools.assettools import ChordAnalysis
-        sasha_configuration.logger.info('Populate SQLite secondary objects.')
+        from sasha.tools import analysistools
         session = sasha_configuration.get_session()
-        # insert Partials
-        for event in Event.get():
-            chord = ChordAnalysis(event).read()
-            for pitch_number, amplitude in chord:
-                pitch = pitchtools.NamedPitch(pitch_number)
-                pitch_class_number = pitch.pitch_class_number
-                octave_number = pitch.octave_number
-                partial = Partial(
-                    event_id=event.id,
-                    pitch_number=pitch_number,
-                    pitch_class_number=pitch_class_number,
-                    octave_number=octave_number,
-                    amplitude=amplitude,
-                    )
-                session.add(partial)
-            session.commit()
-        # insert Clusters
-        chroma_kmeans = KMeansClustering(
+        chroma_kmeans = analysistools.KMeansClustering(
             'chroma',
             cluster_count=9,
             use_pca=False,
             )
-        constant_q_kmeans = KMeansClustering(
+        constant_q_kmeans = analysistools.KMeansClustering(
             'constant_q',
             cluster_count=9,
             use_pca=False,
             )
-        mfcc_kmeans = KMeansClustering(
+        mfcc_kmeans = analysistools.KMeansClustering(
             'mfcc',
             cluster_count=9,
             use_pca=False,
@@ -387,14 +368,41 @@ class Bootstrap(object):
             session.merge(cluster)
         session.commit()
 
+    def populate_mongodb_partials(self):
+        pass
+
+    def populate_sqlite_partials(self):
+        from sasha import sasha_configuration
+        from sasha.tools import assettools
+        from sasha.tools import domaintools
+        sasha_configuration.logger.info('Populate SQLite secondary objects.')
+        session = sasha_configuration.get_session()
+        for event in domaintools.Event.get():
+            chord = assettools.ChordAnalysis(event).read()
+            for pitch_number, amplitude in chord:
+                pitch = pitchtools.NamedPitch(pitch_number)
+                pitch_class_number = pitch.pitch_class_number
+                octave_number = pitch.octave_number
+                partial = domaintools.Partial(
+                    event_id=event.id,
+                    pitch_number=pitch_number,
+                    pitch_class_number=pitch_class_number,
+                    octave_number=octave_number,
+                    amplitude=amplitude,
+                    )
+                session.add(partial)
+            session.commit()
+
     def rebuild_mongodb_database(self):
         self.delete_mongodb_database()
         self.create_mongodb_database()
         self.populate_mongodb_primary()
-        self.populate_mongodb_secondary()
+        self.populate_mongodb_clusters()
+        self.populate_mongodb_partials()
 
     def rebuild_sqlite_database(self):
         self.delete_sqlite_database()
         self.create_sqlite_database()
         self.populate_sqlite_primary()
-        self.populate_sqlite_secondary()
+        self.populate_sqlite_clusters()
+        self.populate_sqlite_partials()
