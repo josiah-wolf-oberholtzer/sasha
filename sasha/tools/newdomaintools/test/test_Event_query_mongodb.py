@@ -320,3 +320,27 @@ def test_Event_query_mongodb_10():
     assert list(event.name for event in events) == [
         u'event__alto_saxophone__br_042.aif',
         ]
+
+
+def test_Event_query_mongodb_11():
+    r'''Pitches and pitch-classes.'''
+    events = newdomaintools.Event.query_mongodb(
+        without_pitches=[13.5],
+        with_pitch_classes=[1.5],
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_123.aif',
+        ]
+
+
+def test_Event_query_mongodb_12():
+    r'''Pitches and keys.'''
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Alto Saxophone',
+        with_pitches=[8.5],
+        with_keys=['Bf'],
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        ]
