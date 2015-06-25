@@ -6,6 +6,32 @@ sasha_configuration.environment = 'testing'
 
 
 def test_Event_query_mongodb_01():
+    r'''By instrument.'''
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Alto Saxophone',
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t1.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t2.aif',
+        u'event__alto_saxophone__kientzy_47__t1.aif',
+        u'event__alto_saxophone__kientzy_47__t2.aif',
+        u'event__alto_saxophone__kientzy_47__t3.aif',
+        ]
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Soprano Saxophone',
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__soprano_saxophone__br_073.aif',
+        u'event__soprano_saxophone__chromatic_scale_a4.aif',
+        ]
+
+
+def test_Event_query_mongodb_02():
     r'''With pitches.'''
     events = newdomaintools.Event.query_mongodb(
         with_pitches=[15],
@@ -33,7 +59,7 @@ def test_Event_query_mongodb_01():
         ]
 
 
-def test_Event_query_mongodb_02():
+def test_Event_query_mongodb_03():
     r'''Without pitches.'''
     events = newdomaintools.Event.query_mongodb(
         without_pitches=[24],
@@ -73,7 +99,7 @@ def test_Event_query_mongodb_02():
         ]
 
 
-def test_Event_query_mongodb_03():
+def test_Event_query_mongodb_04():
     r'''With and without pitches.'''
     events = newdomaintools.Event.query_mongodb(
         with_pitches=[15],
@@ -101,7 +127,7 @@ def test_Event_query_mongodb_03():
         ]
 
 
-def test_Event_query_mongodb_04():
+def test_Event_query_mongodb_05():
     r'''With pitch-classes.'''
     events = newdomaintools.Event.query_mongodb(
         with_pitch_classes=[8.5],
@@ -128,7 +154,7 @@ def test_Event_query_mongodb_04():
         ]
 
 
-def test_Event_query_mongodb_05():
+def test_Event_query_mongodb_06():
     r'''Without pitch-classes.'''
     events = newdomaintools.Event.query_mongodb(
         without_pitch_classes=[8.5],
@@ -163,7 +189,7 @@ def test_Event_query_mongodb_05():
         ]
 
 
-def test_Event_query_mongodb_06():
+def test_Event_query_mongodb_07():
     r'''With and without pitch-classes.'''
     events = newdomaintools.Event.query_mongodb(
         with_pitch_classes=[8.5],
@@ -192,52 +218,105 @@ def test_Event_query_mongodb_06():
         ]
 
 
-def test_Event_query_mongodb_07():
+def test_Event_query_mongodb_08():
     r'''With keys.'''
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t1.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t2.aif',
+        ]
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf', 'Ef'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        ]
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf', 'Ef', 'L2'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
-
-
-def test_Event_query_mongodb_08():
-    r'''Without keys.'''
-    events = newdomaintools.Event.query_mongodb(
-        without_keys=[],
-        ).order_by('name')
-    assert list(event.name for event in events) == []
-    events = newdomaintools.Event.query_mongodb(
-        without_keys=[],
-        ).order_by('name')
-    assert list(event.name for event in events) == []
-    events = newdomaintools.Event.query_mongodb(
-        without_keys=[],
-        ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        ]
 
 
 def test_Event_query_mongodb_09():
+    r'''Without keys.'''
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Alto Saxophone',
+        without_keys=['Bis'],
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t1.aif',
+        u'event__alto_saxophone__kientzy_26__w_8va__t2.aif',
+        ]
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Alto Saxophone',
+        without_keys=['8va', 'Bis'],
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        ]
+    events = newdomaintools.Event.query_mongodb(
+        instrument_name='Alto Saxophone',
+        without_keys=['8va', 'Bis', 'L2'],
+        ).order_by('name')
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        ]
+
+
+def test_Event_query_mongodb_10():
     r'''With and without keys.'''
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
-        without_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf'],
+        without_keys=['8va'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        u'event__alto_saxophone__kientzy_19__t1.aif',
+        u'event__alto_saxophone__kientzy_19__t2.aif',
+        u'event__alto_saxophone__kientzy_19__t3.aif',
+        ]
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
-        without_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf', 'R2'],
+        without_keys=['8va'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        u'event__alto_saxophone__br_123.aif',
+        ]
     events = newdomaintools.Event.query_mongodb(
-        with_keys=[],
-        without_keys=[],
+        instrument_name='Alto Saxophone',
+        with_keys=['Bf', 'R2'],
+        without_keys=['8va', 'C'],
         ).order_by('name')
-    assert list(event.name for event in events) == []
+    assert list(event.name for event in events) == [
+        u'event__alto_saxophone__br_042.aif',
+        ]
