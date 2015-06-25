@@ -1,3 +1,4 @@
+import enum
 import os
 import shutil
 import tempfile
@@ -14,6 +15,11 @@ class AudioDB(Executable):
         '_name',
         '_path',
         )
+
+    class Method(enum.IntEnum):
+        CHROMA = 0
+        CONSTANT_Q = 1
+        MFCC = 2
 
     ### INITIALIZER ###
 
@@ -96,13 +102,13 @@ class AudioDB(Executable):
         shutil.rmtree(temporary_directory_path)
 
     def query(self, target, n=10, events=None):
-        from sasha.tools.domaintools import Event
+        from sasha.tools import domaintools
         if not events:
             events = []
-        if not isinstance(target, Event):
-            target = Event(target)
+        if not isinstance(target, domaintools.Event):
+            target = domaintools.Event(target)
         assert 0 < n
-        assert all([isinstance(x, Event) for x in events])
+        assert all([isinstance(x, domaintools.Event) for x in events])
         feature = self.asset_class(target)
         command = '{} -d {} -Q sequence -e -n 1 -l 20 -R 1 -f {}'.format(
             self.executable,
@@ -116,7 +122,6 @@ class AudioDB(Executable):
             events = sorted(set(events))
             temporary_file = tempfile.NamedTemporaryFile(
                 mode='w',
-                # dir=os.path.join(sasha_root, 'tmp'),
                 delete=False,
                 )
             for event in events:
@@ -135,9 +140,10 @@ class AudioDB(Executable):
         for x in q:
             distance = float(x[1])
             name = os.path.basename(x[0])
-            event = Event.get(name=name)[0]
-            if event.name != target.name:
-                results.append((distance, event))
+            event = domaintools.Event.get(name=name)[0]
+            if event.name == target.name:
+                continue
+            results.append((distance, event))
         return tuple(results[:n])
 
     ### PUBLIC PROPERTIES ###
