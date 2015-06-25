@@ -7,6 +7,7 @@ requires = [
     'Beaker',
     'abjad',
     'configobj',
+    'enum34',
     'matplotlib',
     'mongoengine',
     'numpy',

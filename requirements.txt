@@ -1,6 +1,7 @@
 -e git://github.com/Abjad/abjad.git#egg=abjad
 Beaker
 configobj
+enum34
 matplotlib
 mongoengine
 pymongo==2.8.1
