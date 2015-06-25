@@ -6,3 +6,4 @@ from sasha.tools import analysistools
 from sasha.tools import assettools
 from sasha.tools import domaintools
 from sasha.tools import executabletools
+from sasha.tools import newdomaintools
