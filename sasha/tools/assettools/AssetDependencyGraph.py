@@ -8,16 +8,14 @@ class AssetDependencyGraph(object):
 
     __slots__ = (
         '_childwise_graph',
-        '_domain_class',
         '_parentwise_graph',
         )
 
     ### INITIALIZER ###
 
-    def __init__(self, domain_class):
+    def __init__(self):
         from sasha.tools import assettools
         from sasha.tools.assettools.Asset import Asset
-        self._domain_class = domain_class
         self._childwise_graph = {}
         for asset_class_name in dir(assettools):
             asset_class = getattr(assettools, asset_class_name)
@@ -28,8 +26,6 @@ class AssetDependencyGraph(object):
             if not issubclass(asset_class, Asset):
                 continue
             if inspect.isabstract(asset_class):
-                continue
-            if asset_class.__domain_class__ is not domain_class:
                 continue
             self._childwise_graph[asset_class] = asset_class.__requires__
         self._parentwise_graph = {}
@@ -73,7 +69,3 @@ class AssetDependencyGraph(object):
     @property
     def parentwise_graph(self):
         return self._parentwise_graph
-
-    @property
-    def domain_class(self):
-        return self._domain_class

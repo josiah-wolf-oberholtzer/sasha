@@ -1,13 +1,11 @@
 import abc
 import os
-from sasha.tools.domaintools import Event
 
 
 class Asset(object):
 
     ### CLASS VARIABLES ###
 
-    __domain_class__ = Event
     __metaclass__ = abc.ABCMeta
     __requires__ = None
     __slots__ = (
@@ -21,23 +19,18 @@ class Asset(object):
     ### INITIALIZER ###
 
     def __init__(self, expr):
-        if isinstance(expr, self.__domain_class__):
+        from sasha.tools import domaintools
+        if isinstance(expr, domaintools.Event):
             client = expr
-        elif (
-            hasattr(expr, 'client') and
-            isinstance(expr.client, self.__domain_class__)
-            ):
+        elif isinstance(expr, Asset):
             client = expr.client
-        elif (
-            isinstance(expr, (str, unicode)) and
-            hasattr(self.__domain_class__, 'name')
-            ):
-            client = self.__domain_class__.get(name=expr)[0]
+        elif isinstance(expr, (str, unicode)):
+            client = domaintools.Event.get(name=expr)[0]
         elif isinstance(expr, int):
-            client = self.__domain_class__.get(id=expr)[0]
+            client = domaintools.Event.get(id=expr)[0]
         else:
             message = 'Cannot instantiate {} from {!r}'
-            message = message.format(self.__domain_class__.__name__, expr)
+            message = message.format(type(self), expr)
             raise ValueError(message)
         self._client = client
         self._asset = None

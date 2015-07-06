@@ -146,27 +146,22 @@ class Bootstrap(object):
             os.remove(path)
 
     def populate_all_assets(self):
-        from sasha import sasha_configuration
+        from sasha.tools import domaintools
         from sasha.tools.assettools import AssetDependencyGraph
-        domain_classes = sasha_configuration.get_domain_classes()
-        domain_classes = sorted(domain_classes, key=lambda x: x.__name__)
-        for domain_class in domain_classes:
-            domain_objects = domain_class.get()
-            log_message = 'Populating all {} assets for {} objects.'.format(
-                domain_class.__name__,
-                len(domain_objects),
-                )
-            print(log_message)
-            dependency_graph = AssetDependencyGraph(domain_class)
-            asset_classes = dependency_graph.in_order()
-            if not asset_classes:
-                continue
-            triples = [
-                (domain_class, domain_object.id, asset_classes)
-                for domain_object in domain_objects
-                ]
-            for triple in triples:
-                self._populate_all_assets_for_object(triple)
+        events = domaintools.Event.get()
+        log_message = 'Populating all {} assets for {} objects.'.format(
+            domaintools.Event.__name__,
+            len(events),
+            )
+        print(log_message)
+        dependency_graph = AssetDependencyGraph()
+        asset_classes = dependency_graph.in_order()
+        triples = [
+            (domaintools.Event, event.id, asset_classes)
+            for event in events
+            ]
+        for triple in triples:
+            self._populate_all_assets_for_object(triple)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():
 #                    pool = multiprocessing.Pool()

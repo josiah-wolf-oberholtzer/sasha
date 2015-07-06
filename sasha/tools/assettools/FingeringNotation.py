@@ -1,5 +1,6 @@
-from abjad import *
-from sasha.tools.domaintools.Fingering import Fingering
+import os
+from abjad.tools import markuptools
+from abjad.tools import schemetools
 from sasha.tools.assettools.Notation import Notation
 
 
@@ -7,15 +8,29 @@ class FingeringNotation(Notation):
 
     ### CLASS VARIABLES ###
 
-    __domain_class__ = Fingering
     __requires__ = None
     __slots__ = ()
     plugin_label = 'fingering'
 
     ### PRIVATE METHODS ###
 
+    def _build_path(self):
+        from sasha import sasha_configuration
+        from sasha.tools import domaintools
+        client = domaintools.Event.get_one(id=self.client.id)
+        fingering = domaintools.Fingering.get_one(id=client.fingering_id)
+        name = str(fingering.canonical_name)
+        if self.plugin_label:
+            name += '__{}'.format(self.plugin_label)
+        if self.file_suffix:
+            name += '.{}'.format(self.file_suffix)
+        media_path = sasha_configuration.get_media_path(self.media_type)
+        build_path = os.path.join(media_path, name)
+        return build_path
+
     def _make_illustration(self, *args):
-        fingering = Fingering.get_one(id=self.client.id)
+        fingering = self.client.fingering
+        #fingering = Fingering.get_one(id=self.client.id)
         key_names = [x.name for x in fingering.instrument_keys]
         markup = self._make_markup(key_names)
         illustration = markup.__illustrate__()
