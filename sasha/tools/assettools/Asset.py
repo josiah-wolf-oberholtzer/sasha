@@ -17,7 +17,6 @@ class Asset(object):
     file_suffix = None
     media_type = None
     plugin_label = None
-    plugin_sublabels = ()
 
     ### INITIALIZER ###
 
@@ -50,13 +49,11 @@ class Asset(object):
 
     ### PRIVATE METHODS ###
 
-    def _build_path(self, sublabel=None):
+    def _build_path(self):
         from sasha import sasha_configuration
         name = str(self.client.canonical_name)
         if self.plugin_label:
             name += '__{}'.format(self.plugin_label)
-        if sublabel is not None and sublabel in self.plugin_sublabels:
-            name += '__{}'.format(sublabel)
         if self.file_suffix:
             name += '.{}'.format(self.file_suffix)
         media_path = sasha_configuration.get_media_path(self.media_type)
@@ -75,21 +72,8 @@ class Asset(object):
 
     @property
     def exists(self):
-        if isinstance(self.path, (str, unicode)):
-            return os.path.exists(self.path)
-        elif isinstance(self.path, dict):
-            exists = {}
-            for sublabel, path in self.path.iteritems():
-                exists[sublabel] = os.path.exists(path)
-            return exists
-        message = 'Bad path: {!r}'.format(self.path)
-        raise Exception(message)
+        return os.path.exists(self.path)
 
     @property
     def path(self):
-        if len(self.plugin_sublabels):
-            path = {}
-            for sublabel in self.plugin_sublabels:
-                path[sublabel] = self._build_path(sublabel)
-            return path
         return self._build_path()

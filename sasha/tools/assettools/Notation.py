@@ -18,7 +18,7 @@ class Notation(Asset):
     ### PRIVATE METHODS ###
 
     @abc.abstractmethod
-    def _make_illustration(self, sublabel):
+    def _make_illustration(self):
         raise NotImplemented
 
     def _path_to_lily_path(self, path):
@@ -33,10 +33,10 @@ class Notation(Asset):
     def _strip_file_suffix(self, path):
         return path.partition('.{}'.format(self.file_suffix))[0]
 
-    def _save_lily_to_png(self, lily, sublabel=None):
+    def _save_lily_to_png(self, lily):
         import abjad
         from sasha import sasha_configuration
-        png_path = self._build_path(sublabel)
+        png_path = self._build_path()
         lily_path = self._path_to_lily_path(png_path)
         suffixless_path = self._strip_file_suffix(png_path)
         ps_path = self._path_to_ps_path(png_path)
@@ -66,23 +66,15 @@ class Notation(Asset):
 
     ### PUBLIC METHODS ###
 
-    def delete(self, sublabel=None):
-        if sublabel is None:
-            if isinstance(self.path, dict):
-                for path in self.path.values():
-                    if os.path.exists(path):
-                        os.remove(path)
-            elif os.path.exists(self.path):
-                os.remove(self.path)
-        elif sublabel in self.plugin_sublabels:
-            if os.path.exists(self.path[sublabel]):
-                os.remove(self.path[sublabel])
+    def delete(self):
+        if os.path.exists(self.path):
+            os.remove(self.path)
 
-    def write(self, sublabel=None, **kwargs):
+    def write(self, **kwargs):
         try:
-            lily = self._make_illustration(sublabel)
+            lily = self._make_illustration()
             self._asset = lily
-            self._save_lily_to_png(lily, sublabel)
+            self._save_lily_to_png(lily)
         except:
             import sys
             import traceback

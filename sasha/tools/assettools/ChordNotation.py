@@ -6,10 +6,11 @@ from sasha.tools.assettools.ChordAnalysis import ChordAnalysis
 
 class ChordNotation(Notation):
 
+    ### CLASS VARIABLES ###
+
     __requires__ = ChordAnalysis
     __slots__ = ()
     plugin_label = 'chord'
-    plugin_sublabels = ('concert', 'transposed')
 
     ### PRIVATE METHODS ###
 
@@ -50,7 +51,7 @@ class ChordNotation(Notation):
 
     ### PUBLIC METHODS ###
 
-    def write(self, sublabel=None, **kwargs):
+    def write(self, **kwargs):
         from sasha import Instrument
         lily = self._make_illustration()
         self._asset = lily
@@ -61,10 +62,4 @@ class ChordNotation(Notation):
         for leaf in abjad.iterate(transposed).by_class(abjad.scoretools.Leaf):
             abjad.pitchtools.transpose_pitch_carrier_by_interval(
                 leaf, transposition)
-        if sublabel is None:
-            self._save_lily_to_png(lily, 'concert')
-            self._save_lily_to_png(transposed, 'transposed')
-        elif sublabel == 'concert':
-            self._save_lily_to_png(lily, 'concert')
-        elif sublabel == 'transposed':
-            self._save_lily_to_png(transposed, 'transposed')
+        self._save_lily_to_png(lily)

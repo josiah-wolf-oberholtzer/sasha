@@ -30,6 +30,6 @@ class ChordNotationHelper(Helper):
 
     @property
     def static_path(self):
-        path = assettools.ChordNotation(self.event).path['concert']
+        path = assettools.ChordNotation(self.event).path
         environment, path = path.partition(sasha_configuration.environment)[1:]
         return 'sashamedia:%s%s' % (environment, path)

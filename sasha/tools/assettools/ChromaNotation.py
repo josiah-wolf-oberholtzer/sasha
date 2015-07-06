@@ -17,7 +17,7 @@ class ChromaNotation(Notation):
 
     ### PRIVATE METHODS ###
 
-    def _make_illustration(self, sublabel=None):
+    def _make_illustration(self):
         analysis = ChromaAnalysis(self)
         analysis.read()
         chroma_mean = self._normalize(analysis.mean)
