@@ -1,3 +1,4 @@
+import os
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.SourceAudio import SourceAudio
 from sasha.tools.executabletools import Playback
@@ -14,6 +15,10 @@ class CroppedAudio(Asset):
     plugin_label = 'cropped'
 
     ### PUBLIC METHODS ###
+
+    def delete(self):
+        if self.exists:
+            os.remove(self.path)
 
     def playback(self):
         Playback()(self.path)
