@@ -11,9 +11,9 @@ class FingeringNotationHelper(Helper):
     def __init__(self, arg, request):
         Helper.__init__(self, request)
         if isinstance(arg, domaintools.Event):
-            self.fingering = domaintools.Fingering.get_one(id=arg.fingering_id)
+            self.event = arg
         elif isinstance(arg, domaintools.Fingering):
-            self.fingering = arg
+            self.event = domaintools.Event.get_one(fingering=arg)
         else:
             raise ValueError('Expected Event or Fingering instance, got %r.' % arg)
 
@@ -25,11 +25,11 @@ class FingeringNotationHelper(Helper):
 
     @property
     def image_link(self):
-        fingering_url = FingeringHelper(self.fingering, self.request).url
+        fingering_url = FingeringHelper(self.event, self.request).url
         return HTML.tag('a', href=fingering_url, c=self.image)
 
     @property
     def static_path(self):
-        path = assettools.FingeringNotation(self.fingering).path
+        path = assettools.FingeringNotation(self.event).path
         environment, path = path.partition(sasha_configuration.environment)[1:]
         return 'sashamedia:%s%s' % (environment, path)
