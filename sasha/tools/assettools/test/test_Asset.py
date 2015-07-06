@@ -7,31 +7,31 @@ from sasha.tools import domaintools
 sasha_configuration.environment = 'testing'
 
 
-def test_assettools_Asset_01():
+def test_Asset_01():
     event = domaintools.Event.get(id=1)[0]
     plugin = assettools.Asset(event)
     assert plugin.client == event
 
 
-def test_assettools_Asset_02():
+def test_Asset_02():
     event = domaintools.Event.get(id=1)[0]
     plugin = assettools.Asset(1)
     assert event.id == plugin.client.id
 
 
-def test_assettools_Asset_03():
+def test_Asset_03():
     event = domaintools.Event.get(id=1)[0]
     plugin = assettools.Asset(event.name)
     assert event.id == plugin.client.id
 
 
-def test_assettools_Asset_04():
+def test_Asset_04():
     event = domaintools.Event.get(id=1)[0]
     plugin = assettools.Asset(event)
     other = assettools.Asset(plugin)
     assert other.client == plugin.client
 
 
-def test_assettools_Asset_05():
+def test_Asset_05():
     fingering = domaintools.Fingering.get(id=1)[0]
     py.test.raises(ValueError, "plugin = assettools.Asset(fingering)")
