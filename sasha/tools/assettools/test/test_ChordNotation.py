@@ -1,13 +1,14 @@
-from sasha import *
-from sasha.tools.assettools import *
+from sasha import sasha_configuration
+from sasha.tools import assettools
+from sasha.tools import domaintools
 
 
 sasha_configuration.environment = 'testing'
 
 
 def test_ChordNotation_01():
-    event = sasha_configuration.get_session().query(Event).order_by('RANDOM()').limit(1).all()[0]
-    plugin = ChordNotation(event)
+    event = domaintools.Event.get_one(id=1)
+    plugin = assettools.ChordNotation(event)
     plugin.delete()
     assert not plugin.exists
     plugin.write()

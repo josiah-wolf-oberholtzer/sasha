@@ -1,12 +1,14 @@
-from sasha import *
-from sasha.tools.assettools import *
+from sasha import sasha_configuration
+from sasha.tools import assettools
+from sasha.tools import domaintools
 
 
 sasha_configuration.environment = 'testing'
 
+
 def test_ChordAnalysis_01():
-    event = sasha_configuration.get_session().query(Event).order_by('RANDOM()').limit(1).all()[0]
-    analysis = ChordAnalysis(event)
+    event = domaintools.Event.get_one(id=1)
+    analysis = assettools.ChordAnalysis(event)
     analysis.delete()
     assert not analysis.exists
     analysis.write()
