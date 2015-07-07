@@ -3,7 +3,6 @@
     from sasha import domaintools
     from sashaweb import helpers
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
-    from sashaweb.helpers.ClusterHelper import ClusterHelper
     from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
     from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
 %>
@@ -120,8 +119,8 @@
             % else:
             <a class="btn btn-default"
             % endif
-                href="${ClusterHelper(cluster, request).url}">
-                ${ClusterHelper(cluster, request).short_name.decode('utf-8')}
+                href="${cluster.get_url(request)}">
+                ${cluster.short_link_text.decode('utf-8')}
             </a>
         % endfor
         </div>       

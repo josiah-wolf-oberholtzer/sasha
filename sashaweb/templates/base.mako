@@ -56,8 +56,7 @@
                         aria-expanded="false">Clusters<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                     % for cluster in domaintools.Cluster.get():
-                        <% helper = helpers.ClusterHelper(cluster, request) %>
-                        <li><a href="${helper.url}">${helper.name.decode('utf-8')}</a></li>
+                        <li>${cluster.get_long_link(request)}</li>
                     % endfor
                     </ul>
                 </li>

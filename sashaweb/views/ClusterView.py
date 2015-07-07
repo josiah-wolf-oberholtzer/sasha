@@ -95,6 +95,6 @@ class ClusterView(SearchView):
     @property
     def title(self):
         return 'SASHA | {} Cluster No.{}'.format(
-            self.current_cluster.name,
+            self.current_cluster.title_case_feature,
             self.current_cluster.cluster_id,
             )

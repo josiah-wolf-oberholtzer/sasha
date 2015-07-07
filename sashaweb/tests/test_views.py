@@ -34,7 +34,7 @@ class ViewTests(unittest.TestCase):
         self.assertEqual(
             info['title'],
             'SASHA | {} Cluster No.{}'.format(
-                cluster.name,
+                cluster.title_case_feature,
                 cluster.cluster_id,
                 ),
             )

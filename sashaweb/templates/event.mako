@@ -9,7 +9,6 @@
     from sashaweb.helpers.FingeringHelper import FingeringHelper
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
     from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
-    from sashaweb.helpers.ClusterHelper import ClusterHelper
     from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
     from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
     from sashaweb.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper
@@ -40,7 +39,7 @@ ${current_event.get_numbered_link(request)}
     <dt>Clusters</dt>
     <dd><p>
     %for cluster in clusters:
-    ${ClusterHelper(cluster, request).verbose_link}
+        ${cluster.get_long_link(request)}
     %endfor
     </p></dd>
 </dl>
