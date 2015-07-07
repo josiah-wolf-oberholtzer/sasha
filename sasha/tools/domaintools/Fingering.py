@@ -88,17 +88,3 @@ class Fingering(DomainObject):
         results.sort(key=lambda x: x[0], reverse=True)
         results = [x[1] for x in results][:n]
         return results
-
-    ### PUBLIC PROPERTIES ###
-
-    @property
-    def canonical_name(self):
-        from sasha import Instrument
-        cls_name = stringtools.to_snake_case(type(self).__name__)
-        instrument = Instrument.get_one(id=self.instrument_id)
-        instrument_name = '_'.join(instrument.name.lower().split())
-        return '{}__{}__{}'.format(
-            cls_name,
-            instrument_name,
-            self.compact_representation,
-            )

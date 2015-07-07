@@ -65,12 +65,12 @@ class Event(DomainObject):
             asset = klass(self)
             if isinstance(asset.path, str):
                 newname = os.path.basename(asset.path)
-                newname = newname.replace(self.canonical_name, name)
+                newname = newname.replace(self.canonical_event_name, name)
                 shutil.copy(asset.path, os.path.join(destination, newname))
             elif isinstance(asset.path, dict):
                 for path in asset.path.values():
                     newname = os.path.basename(path)
-                    newname = newname.replace(self.canonical_name, name)
+                    newname = newname.replace(self.canonical_event_name, name)
                     shutil.copy(path, os.path.join(destination, newname))
 
     def query_audiodb(self, method, limit=10):
@@ -234,6 +234,19 @@ class Event(DomainObject):
     ### PUBLIC PROPERTIES ###
 
     @property
-    def canonical_name(self):
+    def canonical_event_name(self):
         cls_name = stringtools.to_snake_case(type(self).__name__)
         return '{}__{}'.format(cls_name, self.md5)
+
+    @property
+    def canonical_fingering_name(self):
+        from sasha.tools import domaintools
+        fingering = domaintools.Fingering.get_one(id=self.fingering_id)
+        cls_name = stringtools.to_snake_case(type(fingering).__name__)
+        instrument = domaintools.Instrument.get_one(id=self.instrument_id)
+        instrument_name = '_'.join(instrument.name.lower().split())
+        return '{}__{}__{}'.format(
+            cls_name,
+            instrument_name,
+            fingering.compact_representation,
+            )

@@ -115,7 +115,7 @@ ${EventHelper(current_event, request).numbered_link}
 
 <div class="row">
 % for fingering in fingerings:
-<div id="${fingering.canonical_name}" class="col-xs-1 text-center">
+<div class="col-xs-1 text-center">
     <div class="annotation notations">${FingeringNotationHelper(fingering, request).image_link}</div>
 </div>
 % endfor

@@ -2,7 +2,7 @@ from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
 from sashaweb.helpers.Helper import Helper
-from webhelpers.html import HTML, literal
+from webhelpers.html import HTML
 
 
 class MP3AudioHelper(Helper):
@@ -18,18 +18,6 @@ class MP3AudioHelper(Helper):
 
     @property
     def audio(self):
-#        span_id = 'audioplayer_%s' % self.event.canonical_name
-
-#        #url = self.static_url
-#        span_tag = HTML.tag('span', id=span_id, c="temp")
-#        script_tag = HTML.tag(
-#            'script',
-#            type="text/javascript",
-#            c=literal('AudioPlayer.embed("%s", {soundFile: "%s", noinfo: "yes"});' %
-#                (span_id, self.static_url))
-#            )
-#        div_tag = HTML.tag('div', class_="mp3", c=[span_tag, script_tag])
-
         source_tag = HTML.tag('source', type_='audio/mp3', src=self.static_url)
         audio_tag = HTML.tag('audio', controls='controls', c=[source_tag])
         div_tag = HTML.tag('div', class_='mp3', c=[audio_tag])

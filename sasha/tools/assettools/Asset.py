@@ -44,7 +44,7 @@ class Asset(object):
 
     def _build_path(self):
         from sasha import sasha_configuration
-        name = str(self.client.canonical_name)
+        name = str(self.client.canonical_event_name)
         if self.plugin_label:
             name += '__{}'.format(self.plugin_label)
         if self.file_suffix:

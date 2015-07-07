@@ -16,10 +16,7 @@ class FingeringNotation(Notation):
 
     def _build_path(self):
         from sasha import sasha_configuration
-        from sasha.tools import domaintools
-        client = domaintools.Event.get_one(id=self.client.id)
-        fingering = domaintools.Fingering.get_one(id=client.fingering_id)
-        name = str(fingering.canonical_name)
+        name = str(self.client.canonical_fingering_name)
         if self.plugin_label:
             name += '__{}'.format(self.plugin_label)
         if self.file_suffix:

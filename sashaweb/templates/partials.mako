@@ -11,7 +11,7 @@
 %>
 
 <%def name="event_grid_item(event)">
-    <div id="${event.canonical_name}" class="col-sm-3 col-xs-6">
+    <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6">
         <a class="btn btn-default btn-block btn-sm" 
             href="${EventHelper(event, request).url}" 
             >${EventHelper(event, request).link_text.decode('utf-8')}</a>
