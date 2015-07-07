@@ -38,7 +38,10 @@ ${current_event.get_numbered_link(request)}
 
     <dt>Clusters</dt>
     <dd><p>
-    %for cluster in clusters:
+    %for i, cluster in enumerate(clusters):
+        %if 0 < i:
+        | 
+        %endif
         ${cluster.get_long_link(request)}
     %endfor
     </p></dd>
