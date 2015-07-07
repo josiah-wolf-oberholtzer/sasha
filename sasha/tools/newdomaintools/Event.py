@@ -7,10 +7,6 @@ class Event(mongoengine.Document):
 
     description = mongoengine.StringField()
     fingering = mongoengine.EmbeddedDocumentField('Fingering')
-#    fingering = mongoengine.ListField(
-#        mongoengine.StringField(max_length=5),
-#        )
-    instrument = mongoengine.ReferenceField('Instrument')
     md5 = mongoengine.StringField(max_length=32)
     name = mongoengine.StringField(max_length=100)
     performer = mongoengine.ReferenceField('Performer')
@@ -50,7 +46,6 @@ class Event(mongoengine.Document):
             is_bracketed=True,
             keyword_argument_names=[
                 'name',
-                'instrument',
                 'fingering',
                 'partials',
                 ],
@@ -89,7 +84,7 @@ class Event(mongoengine.Document):
             instrument = newdomaintools.Instrument.objects(
                 name=instrument_name,
                 ).first()
-            query['instrument'] = instrument
+            query['fingering__instrument'] = instrument
         if with_keys:
             query['fingering__key_names__all'] = with_keys
         if without_keys:
@@ -114,7 +109,7 @@ class Event(mongoengine.Document):
     @property
     def canonical_fingering_name(self):
         fingering = self.fingering
-        instrument = self.instrument
+        instrument = fingering.instrument
         instrument_name = '_'.join(instrument.name.lower().split())
         return 'fingering__{}__{}'.format(
             instrument_name,

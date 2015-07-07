@@ -248,7 +248,6 @@ class Bootstrap(object):
                     )
             event = newdomaintools.Event(
                 fingering=fingering,
-                instrument=instrument,
                 name=fixture['name'],
                 performer=performer,
                 )
