@@ -2,7 +2,6 @@ from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
 from sashaweb.helpers.Helper import Helper
-from sashaweb.helpers.EventHelper import EventHelper
 from webhelpers.html import HTML
 
 
@@ -25,7 +24,7 @@ class ChordNotationHelper(Helper):
 
     @property
     def image_link(self):
-        event_url = EventHelper(self.event, self.request).url
+        event_url = self.event.get_url(self.request)
         return HTML.tag('a', href=event_url, c=self.image)
 
     @property

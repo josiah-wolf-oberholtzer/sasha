@@ -6,7 +6,6 @@
     from sasha import sasha_configuration
     from sasha.tools.domaintools import Event
     from sasha.tools.domaintools import Instrument
-    from sashaweb.helpers.EventHelper import EventHelper
     from sashaweb.helpers.FingeringHelper import FingeringHelper
     from sashaweb.helpers.InstrumentHelper import InstrumentHelper
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
@@ -21,7 +20,7 @@
 <h2>
 ${InstrumentHelper(current_event, request).link}
 |
-${EventHelper(current_event, request).numbered_link}
+${current_event.get_numbered_link(request)}
 </h2>
 </div>
 
@@ -31,10 +30,10 @@ ${EventHelper(current_event, request).numbered_link}
     <dd><p>${InstrumentHelper(current_event, request).link}</p></dd>
 
     <dt>Event &numero;</dt>
-    <dd><p>${EventHelper(current_event, request).numbered_link}</p></dd>
+    <dd><p>${current_event.get_numbered_link(request)}</p></dd>
 
     <dt>Audio MD5 hash</dt>
-    <dd><p>${EventHelper(current_event, request).md5_link}</p></dd>
+    <dd><p>${current_event.get_md5_link(request)}</p></dd>
 
     <dt>Key names</dt>
     <dd><p>${FingeringHelper(current_event, request).link}</p></dd>

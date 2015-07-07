@@ -4,7 +4,6 @@
     from sashaweb import helpers
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
     from sashaweb.helpers.ClusterHelper import ClusterHelper
-    from sashaweb.helpers.EventHelper import EventHelper
     from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
     from sashaweb.helpers.InstrumentHelper import InstrumentHelper
     from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
@@ -13,8 +12,8 @@
 <%def name="event_grid_item(event)">
     <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6">
         <a class="btn btn-default btn-block btn-sm" 
-            href="${EventHelper(event, request).url}" 
-            >${EventHelper(event, request).link_text.decode('utf-8')}</a>
+            href="${event.get_url(request)}" 
+            >${event.get_link_text().decode('utf-8')}</a>
         <a class="btn btn-default btn-block btn-sm" 
             href="${InstrumentHelper(event, request).url}" 
             >${InstrumentHelper(event, request).name}</a>

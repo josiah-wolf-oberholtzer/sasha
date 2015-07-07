@@ -1,13 +1,12 @@
-import os
-import shutil
-from abjad.tools import stringtools
+# -*- encoding: utf-8 -*-
 from abjad.tools import pitchtools
+from abjad.tools import stringtools
+from sasha.tools.domaintools.DomainObject import DomainObject
 from sqlalchemy import Column, Date, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
-
-from sasha.tools.domaintools.DomainObject import DomainObject
+from webhelpers.html import HTML
 
 
 class Event(DomainObject):
@@ -58,6 +57,22 @@ class Event(DomainObject):
         return '<{}({!r})>'.format(type(self).__name__, str(self.name))
 
     ### PUBLIC METHODS ###
+
+    def get_link_text(self):
+        return 'Event № {}'.format(self.id)
+
+    def get_md5_link(self, request):
+        href = self.get_url(request)
+        text = self.md5
+        return HTML.tag('a', href=href, c=text)
+
+    def get_numbered_link(self, request):
+        href = self.get_url(request)
+        text = self.get_link_text().decode('utf-8')
+        return HTML.tag('a', href=href, c=text)
+
+    def get_url(self, request):
+        return request.route_url('event', md5=self.md5)
 
     def query_audiodb(self, method, limit=10):
         '''Query events matched against an Event instance via `method`:

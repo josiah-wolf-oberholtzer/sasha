@@ -1,7 +1,6 @@
 from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
 from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
 from sashaweb.helpers.ClusterHelper import ClusterHelper
-from sashaweb.helpers.EventHelper import EventHelper
 from sashaweb.helpers.FingeringHelper import FingeringHelper
 from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
 from sashaweb.helpers.Helper import Helper
