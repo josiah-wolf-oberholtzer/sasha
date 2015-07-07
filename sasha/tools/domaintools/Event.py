@@ -237,8 +237,3 @@ class Event(DomainObject):
     def canonical_name(self):
         cls_name = stringtools.to_snake_case(type(self).__name__)
         return '{}__{}'.format(cls_name, self.md5)
-
-#    @property
-#    def source_audio(self):
-#        from sasha.tools.assettools import SourceAudio
-#        return SourceAudio(self)

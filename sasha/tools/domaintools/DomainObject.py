@@ -97,12 +97,5 @@ class DomainObject(object):
 
     ### PUBLIC PROPERTIES ###
 
-    @property
-    def canonical_name(self):
-        cls_name = stringtools.to_snake_case(type(self).__name__)
-        if hasattr(self, 'name'):
-            return '{}__{}'.format(cls_name, str(self.name))
-        return '{}__{}'.format(cls_name, self.id)
-
 
 DomainObject = declarative_base(cls=DomainObject)
