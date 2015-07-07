@@ -5,18 +5,17 @@
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
     from sashaweb.helpers.ClusterHelper import ClusterHelper
     from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
-    from sashaweb.helpers.InstrumentHelper import InstrumentHelper
     from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
 %>
 
-<%def name="event_grid_item(event)">
+<%def name="event_grid_item(event, instrument)">
     <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6">
         <a class="btn btn-default btn-block btn-sm" 
             href="${event.get_url(request)}" 
             >${event.get_link_text().decode('utf-8')}</a>
         <a class="btn btn-default btn-block btn-sm" 
-            href="${InstrumentHelper(event, request).url}" 
-            >${InstrumentHelper(event, request).name}</a>
+            href="${instrument.get_url(request)}" 
+            >${instrument.name}</a>
         ${MP3AudioHelper(event, request).audio}
         <div class="text-center event-image">
             ${FingeringNotationHelper(event, request).image_link}
@@ -149,8 +148,8 @@
                 <a class="btn btn-default" 
                 % endif
                     href="${current_route_url(request, _query={'instrument': 
-                        helpers.InstrumentHelper(instrument, request).snakecase_name
-                        })}">${helpers.InstrumentHelper(instrument, request).name}</a>
+                        instrument.snake_case_name
+                        })}">${instrument.name}</a>
             % endfor
         </div>
     </div>

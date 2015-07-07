@@ -46,8 +46,7 @@
                         aria-expanded="false">Instruments<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                     % for instrument in domaintools.Instrument.with_events():
-                        <% helper = helpers.InstrumentHelper(instrument, request) %>
-                        <li><a href="${helper.url}">${helper.name}</a></li>
+                        <li><a href="${instrument.get_url(request)}">${instrument.name}</a></li>
                     % endfor
                     </ul>
                 </li>

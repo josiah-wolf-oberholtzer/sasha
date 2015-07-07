@@ -7,7 +7,6 @@
     from sasha.tools.domaintools import Event
     from sasha.tools.domaintools import Instrument
     from sashaweb.helpers.FingeringHelper import FingeringHelper
-    from sashaweb.helpers.InstrumentHelper import InstrumentHelper
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
     from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
     from sashaweb.helpers.ClusterHelper import ClusterHelper
@@ -18,7 +17,7 @@
 
 <div class="page-header">
 <h2>
-${InstrumentHelper(current_event, request).link}
+${current_instrument.get_link(request)}
 |
 ${current_event.get_numbered_link(request)}
 </h2>
@@ -27,7 +26,7 @@ ${current_event.get_numbered_link(request)}
 <div class="row">
 <dl class="col-sm-6">
     <dt>Instrument</dt>
-    <dd><p>${InstrumentHelper(current_event, request).link}</p></dd>
+    <dd><p>${current_instrument.get_link(request)}</p></dd>
 
     <dt>Event &numero;</dt>
     <dd><p>${current_event.get_numbered_link(request)}</p></dd>
@@ -69,7 +68,7 @@ ${current_event.get_numbered_link(request)}
 <div class="page-header">
     <h2><small>
         Top ${len(chroma_events)}
-        Similar ${InstrumentHelper(current_event, request).link} Recordings via
+        Similar ${current_instrument.get_link(request)} Recordings via
         <a href="http://www.omras2.org/audioDB">AudioDB</a>
         <a href="http://en.wikipedia.org/wiki/Pitch_class">Chroma</a> Matching
     </small></h2>
@@ -80,7 +79,7 @@ ${current_event.get_numbered_link(request)}
     </div>
     <div class="row event-row">
     % endif
-    ${partials.event_grid_item(event)}
+    ${partials.event_grid_item(event, Instrument.get_one(id=event.instrument_id))}
 % endfor
 </div>
 % endif
@@ -89,7 +88,7 @@ ${current_event.get_numbered_link(request)}
 <div class="page-header">
     <h2><small>
         Top ${len(mfcc_events)}
-        Similar ${InstrumentHelper(current_event, request).link} Recordings via 
+        Similar ${current_instrument.get_link(request)} Recordings via 
         <a href="http://www.omras2.org/audioDB">AudioDB</a>
         <a href="http://en.wikipedia.org/wiki/Mel-frequency_cepstrum">MFCC</a> Matching
     </small></h2>
@@ -100,14 +99,14 @@ ${current_event.get_numbered_link(request)}
     </div>
     <div class="row event-row">
     % endif
-    ${partials.event_grid_item(event)}
+    ${partials.event_grid_item(event, Instrument.get_one(id=event.instrument_id))}
 % endfor
 </div>
 % endif
 
 <div class="page-header">
     <h2><small>
-        Top 12 Similar ${InstrumentHelper(current_event, request).link}
+        Top 12 Similar ${current_instrument.get_link(request)}
         Fingerings
     </small></h2>
 </div>

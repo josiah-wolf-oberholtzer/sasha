@@ -2,17 +2,13 @@
 
 <%namespace file="sashaweb:templates/partials.mako" name="partials" />
 
-<%!
-    from sashaweb import helpers
-%>
-
 <%block name="searchbar">
 <div class="row">
     <div class="col-sm-6">
         <div class="jumbotron">
             <div class="container">
                 <h2>Explore
-                    ${helpers.InstrumentHelper(instrument, request).link}
+                    ${instrument.get_link(request)}
                     multiphonics
                     </h2>
                 <p>Add constraints to find new multiphonics for this instrument.</p>

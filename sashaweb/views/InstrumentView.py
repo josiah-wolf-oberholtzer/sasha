@@ -49,10 +49,7 @@ class InstrumentView(SearchView):
             items_per_page=self.page_size,
             url=self.page_url,
             )
-        search_action = helpers.InstrumentHelper(
-            self.instrument,
-            self.request,
-            ).url
+        search_action = self.instrument.get_url(self.request)
         with_keys = ' '.join(
             x for x in self.idiom_parameters['with_keys'])
         without_keys = ' '.join(

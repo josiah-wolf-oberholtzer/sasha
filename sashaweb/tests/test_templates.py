@@ -34,13 +34,13 @@ class TemplateTests(unittest.TestCase):
 
     def test_event_01(self):
         event = sasha.Event.get_one(id=1)
-        instrument_name = event.instrument.name
+        instrument = sasha.Instrument.get_one(id=event.instrument_id)
         md5 = event.md5
         path = '/events/{}/'.format(md5)
         response = self.testapp.get(path, status=200)
         self.assertIn(
             '<title>SASHA | {} Event: {}</title>'.format(
-                instrument_name,
+                instrument.name,
                 md5,
                 ),
             response,

@@ -32,7 +32,7 @@ class EventView(SearchView):
             'clusters': self.clusters,
             'current_event': self.event,
             'fingerings': self.fingering.find_similar_fingerings(n=12),
-            'instrument_name': self.instrument.name,
+            'current_instrument': self.instrument,
             'mfcc_events': self.mfcc_events,
             'title': self.title,
             }

@@ -33,7 +33,7 @@
         </div>
         <div class="row event-row">
         % endif
-        ${partials.event_grid_item(event)}
+        ${partials.event_grid_item(event, event.instrument)}
     % endfor
     </div>
     ${partials.pagination(paginator)}

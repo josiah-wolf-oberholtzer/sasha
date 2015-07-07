@@ -1,8 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.orm import backref, relationship
-from sqlalchemy.ext.declarative import declared_attr
-
+from abjad.tools import stringtools
 from sasha.tools.domaintools.DomainObject import DomainObject
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.orm import backref, relationship
+from webhelpers.html import HTML
 
 
 class Instrument(DomainObject):
@@ -33,6 +34,20 @@ class Instrument(DomainObject):
 
     ### PUBLIC METHODS ###
 
+    def get_link_text(self):
+        return self.name
+
+    def get_link(self, request):
+        href = self.get_url(request)
+        text = self.get_link_text()
+        return HTML.tag('a', href=href, c=text)
+
+    def get_url(self, request):
+        return request.route_url(
+            'instrument',
+            instrument_name=self.dash_case_name,
+            )
+
     @classmethod
     def with_events(cls):
         from sasha import sasha_configuration
@@ -40,3 +55,13 @@ class Instrument(DomainObject):
         query = sasha_configuration.get_session().query(cls)
         query = query.join(Event).distinct().all()
         return query
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def dash_case_name(self):
+        return stringtools.to_dash_case(self.name)
+
+    @property
+    def snake_case_name(self):
+        return stringtools.to_snake_case(self.name)
