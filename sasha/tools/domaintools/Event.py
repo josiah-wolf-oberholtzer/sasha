@@ -59,20 +59,6 @@ class Event(DomainObject):
 
     ### PUBLIC METHODS ###
 
-    def export_assets_to_path(self, destination, klasses=[]):
-        name = self.name.partition('.')[0]
-        for klass in klasses:
-            asset = klass(self)
-            if isinstance(asset.path, str):
-                newname = os.path.basename(asset.path)
-                newname = newname.replace(self.canonical_event_name, name)
-                shutil.copy(asset.path, os.path.join(destination, newname))
-            elif isinstance(asset.path, dict):
-                for path in asset.path.values():
-                    newname = os.path.basename(path)
-                    newname = newname.replace(self.canonical_event_name, name)
-                    shutil.copy(path, os.path.join(destination, newname))
-
     def query_audiodb(self, method, limit=10):
         '''Query events matched against an Event instance via `method`:
 
