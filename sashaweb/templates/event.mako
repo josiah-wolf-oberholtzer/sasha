@@ -6,7 +6,6 @@
     from sasha import sasha_configuration
     from sasha.tools.domaintools import Event
     from sasha.tools.domaintools import Instrument
-    from sashaweb.helpers.FingeringHelper import FingeringHelper
     from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
     from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
     from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
@@ -34,7 +33,7 @@ ${current_event.get_numbered_link(request)}
     <dd><p>${current_event.get_md5_link(request)}</p></dd>
 
     <dt>Key names</dt>
-    <dd><p>${FingeringHelper(current_event, request).link}</p></dd>
+    <dd><p>${current_event.fingering.get_link(request)}</p></dd>
 
     <dt>Clusters</dt>
     <dd><p>

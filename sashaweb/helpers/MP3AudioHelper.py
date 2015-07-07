@@ -21,7 +21,6 @@ class MP3AudioHelper(Helper):
         source_tag = HTML.tag('source', type_='audio/mp3', src=self.static_url)
         audio_tag = HTML.tag('audio', controls='controls', c=[source_tag])
         div_tag = HTML.tag('div', class_='mp3', c=[audio_tag])
-
         return div_tag
 
     @property

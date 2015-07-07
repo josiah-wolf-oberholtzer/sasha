@@ -2,7 +2,6 @@ from sasha import sasha_configuration
 from sasha.tools import assettools
 from sasha.tools import domaintools
 from sashaweb.helpers.Helper import Helper
-from sashaweb.helpers.FingeringHelper import FingeringHelper
 from webhelpers.html import HTML
 
 
@@ -25,7 +24,8 @@ class FingeringNotationHelper(Helper):
 
     @property
     def image_link(self):
-        fingering_url = FingeringHelper(self.event, self.request).url
+        fingering = domaintools.Fingering.get_one(id=self.event.fingering_id)
+        fingering_url = fingering.get_url(self.request)
         return HTML.tag('a', href=fingering_url, c=self.image)
 
     @property

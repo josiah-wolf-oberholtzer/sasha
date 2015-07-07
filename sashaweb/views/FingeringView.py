@@ -81,8 +81,7 @@ class FingeringView(SearchView):
             'instrument_name': self.instrument.name,
             'title': self.title,
             'paginator': paginator,
-            'search_action': helpers.FingeringHelper(
-                self.fingering, self.request).url,
+            'search_action': self.fingering.get_url(self.request),
             'with_pitches': with_pitches,
             'without_pitches': without_pitches,
             'with_pitch_classes': with_pitch_classes,

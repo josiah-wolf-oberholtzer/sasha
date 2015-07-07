@@ -1,11 +1,10 @@
 from abjad.tools import stringtools
-
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.schema import UniqueConstraint
-
 from sasha.tools.domaintools.DomainObject import DomainObject
+from webhelpers.html import HTML
 
 
 class Fingering(DomainObject):
@@ -88,3 +87,27 @@ class Fingering(DomainObject):
         results.sort(key=lambda x: x[0], reverse=True)
         results = [x[1] for x in results][:n]
         return results
+
+    def get_url(self, request):
+        from sasha.tools import domaintools
+        instrument = domaintools.Instrument.get_one(id=self.instrument_id)
+        instrument_name = stringtools.to_dash_case(instrument.name)
+        compact_representation = self.compact_representation
+        return request.route_url(
+            'fingering',
+            instrument_name=instrument_name,
+            compact_representation=compact_representation,
+            )
+
+    ### PUBLIC PROPERTIES ###
+
+    def get_link(self, request):
+        fingering = type(self).get_one(id=self.id)
+        name = ' '.join([key.name for key in fingering.instrument_keys])
+        href = self.get_url(request)
+        text = name
+        return HTML.tag('a', href=href, c=text)
+
+    @property
+    def name(self):
+        return ' '.join([key.name for key in self.instrument_keys])

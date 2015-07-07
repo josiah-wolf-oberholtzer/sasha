@@ -1,6 +1,5 @@
 from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
 from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
-from sashaweb.helpers.FingeringHelper import FingeringHelper
 from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
 from sashaweb.helpers.Helper import Helper
 from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
