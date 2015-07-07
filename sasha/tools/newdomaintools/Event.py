@@ -112,6 +112,16 @@ class Event(mongoengine.Document):
         return 'event__{}'.format(self.md5)
 
     @property
+    def canonical_fingering_name(self):
+        fingering = self.fingering
+        instrument = self.instrument
+        instrument_name = '_'.join(instrument.name.lower().split())
+        return 'fingering__{}__{}'.format(
+            instrument_name,
+            fingering.compact_representation,
+            )
+
+    @property
     def clusters(self):
         from sasha.tools import newdomaintools
         return newdomaintools.Cluster.objects(events=self)
