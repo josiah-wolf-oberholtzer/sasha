@@ -242,7 +242,10 @@ class Bootstrap(object):
                 key_names=fixture['fingering'],
                 )
             fingering.compact_representation = \
-                fingering.generate_compact_representation()
+                newdomaintools.Fingering.get_compact_representation(
+                    fingering.key_names,
+                    instrument.key_names,
+                    )
             event = newdomaintools.Event(
                 fingering=fingering,
                 instrument=instrument,
