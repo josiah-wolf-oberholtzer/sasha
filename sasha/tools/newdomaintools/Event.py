@@ -58,9 +58,11 @@ class Event(mongoengine.Document):
     ### PUBLIC METHODS ###
 
     def query_audiodb(self, method, limit=10):
+        from sasha.tools import domaintools
         from sasha.tools import executabletools
         adb = executabletools.AudioDB(method)
-        return adb.query(self, limit)
+        event = domaintools.Event.get_one(name=self.name)
+        return adb.query(event, limit)
 
     @staticmethod
     def query_mongodb(
