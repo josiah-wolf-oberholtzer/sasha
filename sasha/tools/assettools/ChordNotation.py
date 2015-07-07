@@ -1,7 +1,6 @@
 import abjad
-
-from sasha.tools.assettools.Notation import Notation
 from sasha.tools.assettools.ChordAnalysis import ChordAnalysis
+from sasha.tools.assettools.Notation import Notation
 
 
 class ChordNotation(Notation):
@@ -35,7 +34,6 @@ class ChordNotation(Notation):
         analysis = ChordAnalysis(self)
         assert analysis.exists
         analysis = analysis.read()
-
         color_scalar = 60
         pitches = [x[0] for x in analysis]
         abs_amplitudes = [abs(x[1]) for x in analysis]

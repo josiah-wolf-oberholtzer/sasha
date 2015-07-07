@@ -20,6 +20,14 @@ class MP3Audio(Asset):
         if self.exists:
             os.remove(self.path)
 
+    def get_audio_tag(self, request):
+        from webhelpers.html import HTML
+        static_url = self.get_static_url(request)
+        source_tag = HTML.tag('source', type_='audio/mp3', src=static_url)
+        audio_tag = HTML.tag('audio', controls='controls', c=[source_tag])
+        div_tag = HTML.tag('div', class_='mp3', c=[audio_tag])
+        return div_tag
+
     def playback(self):
         Playback()(self.path)
 

@@ -70,6 +70,12 @@ class Notation(Asset):
         if os.path.exists(self.path):
             os.remove(self.path)
 
+    def get_image_link(self, request):
+        from webhelpers.html import HTML
+        href = self.event.get_url(request)
+        content = self.image_tag
+        return HTML.tag('a', href=href, c=content)
+
     def write(self, **kwargs):
         try:
             lily = self._make_illustration()
@@ -87,6 +93,11 @@ class Notation(Asset):
     @property
     def aa_factor(self):
         return self._aa_factor
+
+    @property
+    def image_tag(self):
+        from webhelpers.html import HTML
+        return HTML.tag('img', src=self.static_url)
 
     @property
     def resolution(self):

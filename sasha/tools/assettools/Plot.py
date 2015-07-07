@@ -28,20 +28,29 @@ class Plot(Asset):
         if self.exists:
             os.remove(self.path)
 
+    def get_image_link(self, request):
+        from webhelpers.html import HTML
+        href = self.event.get_url(request)
+        content = self.image_tag
+        return HTML.tag('a', href=href, c=content)
+
     def write(self, **kwargs):
         fig = self._build_plot()
-
         ax = fig.gca()
         xlabel = ax.get_xlabel()
         ylabel = ax.get_ylabel()
         font = {}
-#        font = {'fontname': 'Helvetica'}
         ax.set_xlabel(xlabel, **font)
         ax.set_ylabel(ylabel, **font)
-
         fig.set_size_inches(self._width, self._width * 0.5)
-        # pad_inches must be > 0
         output_directory, _ = os.path.split(self.path)
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
         fig.savefig(self.path, bbox_inches='tight', pad_inches=0.05)
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def image_tag(self):
+        from webhelpers.html import HTML
+        return HTML.tag('img', src=self.static_url)

@@ -1,5 +1,6 @@
 import abc
 import os
+from pyramid.url import static_url
 
 
 class Asset(object):
@@ -53,6 +54,11 @@ class Asset(object):
         build_path = os.path.join(media_path, name)
         return build_path
 
+    ### PUBLIC METHODS ###
+
+    def get_static_url(self, request):
+        return static_url(self.static_path, request)
+
     ### PUBLIC PROPERTIES ###
 
     @property
@@ -70,3 +76,11 @@ class Asset(object):
     @property
     def path(self):
         return self._build_path()
+
+    @property
+    def static_path(self):
+        from sasha import sasha_configuration
+        environment, path = self.path.partition(
+            sasha_configuration.environment,
+            )[1:]
+        return 'sashamedia:%s%s' % (environment, path)

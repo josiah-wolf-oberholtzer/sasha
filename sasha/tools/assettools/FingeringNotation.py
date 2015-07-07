@@ -88,3 +88,13 @@ class FingeringNotation(Notation):
         markup = markup.with_dimensions((-2.5, 2.5), (0, 15))
         markup = markup.scale((1.5, 1.5))
         return markup
+
+    ### PUBLIC METHODS ###
+
+    def get_image_link(self, request):
+        from webhelpers.html import HTML
+        from sasha.tools import domaintools
+        fingering = domaintools.Fingering.get_one(id=self.event.fingering_id)
+        href = fingering.get_url(request)
+        content = self.image_tag
+        return HTML.tag('a', href=href, c=content)
