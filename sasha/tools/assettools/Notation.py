@@ -72,9 +72,13 @@ class Notation(Asset):
 
     def get_image_link(self, request):
         from webhelpers.html import HTML
-        href = self.event.get_url(request)
-        content = self.image_tag
+        href = self.client.get_url(request)
+        content = self.get_image_tag(request)
         return HTML.tag('a', href=href, c=content)
+
+    def get_image_tag(self, request):
+        from webhelpers.html import HTML
+        return HTML.tag('img', src=self.get_static_url(request))
 
     def write(self, **kwargs):
         try:
@@ -93,11 +97,6 @@ class Notation(Asset):
     @property
     def aa_factor(self):
         return self._aa_factor
-
-    @property
-    def image_tag(self):
-        from webhelpers.html import HTML
-        return HTML.tag('img', src=self.static_url)
 
     @property
     def resolution(self):

@@ -6,11 +6,11 @@
     from sasha import sasha_configuration
     from sasha.tools.domaintools import Event
     from sasha.tools.domaintools import Instrument
-    from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
-    from sashaweb.helpers.ChromaNotationHelper import ChromaNotationHelper
-    from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
-    from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
-    from sashaweb.helpers.PartialTrackingPlotHelper import PartialTrackingPlotHelper
+    from sasha.tools.assettools.ChordNotation import ChordNotation
+    from sasha.tools.assettools.ChromaNotation import ChromaNotation
+    from sasha.tools.assettools.MP3Audio import MP3Audio
+    from sasha.tools.assettools.FingeringNotation import FingeringNotation
+    from sasha.tools.assettools.PartialTrackingPlot import PartialTrackingPlot
 %>
 
 <div class="page-header">
@@ -47,21 +47,21 @@ ${current_event.get_numbered_link(request)}
 </dl>
 <dl class="col-sm-3">
     <dt><p>Chord notation</p></dt>
-    <dd><p>${ChordNotationHelper(current_event, request).image_link}</p></dd>
+    <dd><p>${ChordNotation(current_event).get_image_link(request)}</p></dd>
 </dl>
 <dl class="col-sm-3">
     <dt><p>Fingering notation</p></dt>
-    <dd><p>${FingeringNotationHelper(current_event, request).image_link}</p></dd>
+    <dd><p>${FingeringNotation(current_event).get_image_link(request)}</p></dd>
 </dl>
 </div>
 
 <dl>
     <dt>Audio</dt>
-    <dd class="text-center"><p>${MP3AudioHelper(current_event, request).audio}</p></dd>
+    <dd class="text-center"><p>${MP3Audio(current_event).get_audio_tag(request)}</p></dd>
     <dt><p>Chroma notation</p></dt>
-    <dd class="text-center"><p>${ChromaNotationHelper(current_event, request).image_link}</p></dd>
+    <dd class="text-center"><p>${ChromaNotation(current_event).get_image_link(request)}</p></dd>
     <dt><p>Partial tracking analysis</p></dt>
-    <dd class="text-center"><p>${PartialTrackingPlotHelper(current_event, request).image_link}</p></dd>
+    <dd class="text-center"><p>${PartialTrackingPlot(current_event).get_image_link(request)}</p></dd>
 </dl>
 
 
@@ -115,7 +115,8 @@ ${current_event.get_numbered_link(request)}
 <div class="row">
 % for fingering in fingerings:
 <div class="col-xs-1 text-center">
-    <div class="annotation notations">${FingeringNotationHelper(fingering, request).image_link}</div>
+    <% event = Event.get_one(fingering_id=fingering.id) %>
+    <div class="annotation notations">${FingeringNotation(event).get_image_link(request)}</div>
 </div>
 % endfor
 </div>

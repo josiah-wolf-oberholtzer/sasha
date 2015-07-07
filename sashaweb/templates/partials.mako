@@ -2,9 +2,9 @@
     from pyramid.url import route_url, current_route_url
     from sasha import domaintools
     from sashaweb import helpers
-    from sashaweb.helpers.ChordNotationHelper import ChordNotationHelper
-    from sashaweb.helpers.FingeringNotationHelper import FingeringNotationHelper
-    from sashaweb.helpers.MP3AudioHelper import MP3AudioHelper
+    from sasha.tools.assettools.ChordNotation import ChordNotation
+    from sasha.tools.assettools.FingeringNotation import FingeringNotation
+    from sasha.tools.assettools.MP3Audio import MP3Audio
 %>
 
 <%def name="event_grid_item(event, instrument)">
@@ -15,10 +15,10 @@
         <a class="btn btn-default btn-block btn-sm" 
             href="${instrument.get_url(request)}" 
             >${instrument.name}</a>
-        ${MP3AudioHelper(event, request).audio}
+        ${MP3Audio(event).get_audio_tag(request)}
         <div class="text-center event-image">
-            ${FingeringNotationHelper(event, request).image_link}
-            ${ChordNotationHelper(event, request).image_link}
+            ${FingeringNotation(event).get_image_link(request)}
+            ${ChordNotation(event).get_image_link(request)}
         </div>
     </div>
 </%def>

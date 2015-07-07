@@ -94,7 +94,7 @@ class FingeringNotation(Notation):
     def get_image_link(self, request):
         from webhelpers.html import HTML
         from sasha.tools import domaintools
-        fingering = domaintools.Fingering.get_one(id=self.event.fingering_id)
+        fingering = domaintools.Fingering.get_one(id=self.client.fingering_id)
         href = fingering.get_url(request)
-        content = self.image_tag
+        content = self.get_image_tag(request)
         return HTML.tag('a', href=href, c=content)
