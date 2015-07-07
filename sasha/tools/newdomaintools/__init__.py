@@ -1,5 +1,7 @@
 from abjad.tools import systemtools
 
+from sasha.tools.newdomaintools.Fingering import Fingering
+
 systemtools.ImportManager.import_structured_package(
     __path__[0],
     globals(),

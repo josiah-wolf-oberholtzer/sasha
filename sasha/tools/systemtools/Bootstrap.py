@@ -237,8 +237,12 @@ class Bootstrap(object):
             performer = newdomaintools.Performer.objects(
                 name=fixture['performer'],
                 ).first()
+            fingering = newdomaintools.Fingering(
+                instrument=instrument,
+                key_names=fixture['fingering'],
+                )
             event = newdomaintools.Event(
-                fingering=fixture['fingering'],
+                fingering=fingering,
                 instrument=instrument,
                 name=fixture['name'],
                 performer=performer,

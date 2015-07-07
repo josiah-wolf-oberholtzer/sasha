@@ -6,9 +6,10 @@ class Event(mongoengine.Document):
     ### MONGOENGINE ###
 
     description = mongoengine.StringField()
-    fingering = mongoengine.ListField(
-        mongoengine.StringField(max_length=5),
-        )
+    fingering = mongoengine.EmbeddedDocumentField('Fingering')
+#    fingering = mongoengine.ListField(
+#        mongoengine.StringField(max_length=5),
+#        )
     instrument = mongoengine.ReferenceField('Instrument')
     md5 = mongoengine.StringField(max_length=32)
     name = mongoengine.StringField(max_length=100)
@@ -90,9 +91,9 @@ class Event(mongoengine.Document):
                 ).first()
             query['instrument'] = instrument
         if with_keys:
-            query['fingering__all'] = with_keys
+            query['fingering__key_names__all'] = with_keys
         if without_keys:
-            query['fingering__nin'] = without_keys
+            query['fingering__key_names__nin'] = without_keys
         if with_pitches:
             query['partials__pitch_number__all'] = with_pitches
         if without_pitches:
@@ -109,15 +110,6 @@ class Event(mongoengine.Document):
     @property
     def canonical_event_name(self):
         return 'event__{}'.format(self.md5)
-
-    @property
-    def canonical_fingering_name(self):
-        instrument = self.instrument
-        instrument_name = '_'.join(instrument.name.lower().split())
-        return 'fingering__{}__{}'.format(
-            instrument_name,
-            self.compact_fingering_representation,
-            )
 
     @property
     def clusters(self):
