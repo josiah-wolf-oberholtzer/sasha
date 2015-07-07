@@ -242,21 +242,3 @@ class Event(DomainObject):
     def source_audio(self):
         from sasha.tools.assettools import SourceAudio
         return SourceAudio(self)
-
-    @property
-    def pitches(self):
-        return tuple(
-            pitchtools.NamedPitch(x.pitch_number)
-            for x in self.partials
-            )
-
-    @property
-    def pitch_names(self):
-        return tuple(x.pitch_name for x in self.pitches)
-
-    @property
-    def pitch_classes(self):
-        return tuple(set(
-            pitchtools.NamedPitchClass(x.pitch_class_number)
-            for x in self.partials
-            ))
