@@ -1,7 +1,6 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import domaintools
-from sashaweb import helpers
 from sashaweb.views.SearchView import SearchView
 
 
@@ -49,7 +48,8 @@ class ClusterView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        paginator = helpers.Page(self.events,
+        from sashaweb import views
+        paginator = views.Page(self.events,
             page=self.page_number,
             items_per_page=self.page_size,
             url=self.page_url)

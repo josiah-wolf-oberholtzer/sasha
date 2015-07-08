@@ -3,7 +3,6 @@ from pyramid.view import view_config
 from sasha import sasha_configuration
 from sasha import domaintools
 from sashaweb.views.View import View
-from sashaweb import helpers
 from webhelpers import paginate
 from webhelpers.html import literal
 
@@ -33,8 +32,9 @@ class SearchView(View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
+        from sashaweb import views
         query = self.query()
-        paginator = helpers.Page(
+        paginator = views.Page(
             query,
             page=self.page_number,
             items_per_page=self.page_size,
