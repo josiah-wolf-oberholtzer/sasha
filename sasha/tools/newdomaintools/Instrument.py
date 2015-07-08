@@ -1,3 +1,5 @@
+from abjad.tools import stringtools
+from webhelpers.html import HTML
 import mongoengine
 
 
@@ -13,6 +15,20 @@ class Instrument(mongoengine.Document):
 
     ### PUBLIC METHODS ###
 
+    def get_link_text(self):
+        return self.name
+
+    def get_link(self, request):
+        href = self.get_url(request)
+        text = self.get_link_text()
+        return HTML.tag('a', href=href, c=text)
+
+    def get_url(self, request):
+        return request.route_url(
+            'instrument',
+            instrument_name=self.dash_case_name,
+            )
+
     @classmethod
     def with_events(cls):
         from sasha.tools import newdomaintools
@@ -23,3 +39,11 @@ class Instrument(mongoengine.Document):
     @property
     def children(self):
         return set(type(self).objects(parents=self))
+
+    @property
+    def dash_case_name(self):
+        return stringtools.to_dash_case(self.name)
+
+    @property
+    def snake_case_name(self):
+        return stringtools.to_snake_case(self.name)

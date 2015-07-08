@@ -99,14 +99,14 @@ class Fingering(DomainObject):
             compact_representation=compact_representation,
             )
 
-    ### PUBLIC PROPERTIES ###
-
     def get_link(self, request):
         fingering = type(self).get_one(id=self.id)
         name = ' '.join([key.name for key in fingering.instrument_keys])
         href = self.get_url(request)
         text = name
         return HTML.tag('a', href=href, c=text)
+
+    ### PUBLIC PROPERTIES ###
 
     @property
     def name(self):

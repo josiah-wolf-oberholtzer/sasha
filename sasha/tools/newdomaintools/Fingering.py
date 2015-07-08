@@ -1,4 +1,6 @@
 import mongoengine
+from abjad.tools import stringtools
+from webhelpers.html import HTML
 
 
 class Fingering(mongoengine.EmbeddedDocument):
@@ -50,6 +52,22 @@ class Fingering(mongoengine.EmbeddedDocument):
 
     ### PUBLIC METHODS ###
 
+    def find_similar_fingerings(self, n=10):
+        def compare(a, b):
+            return sum(1 for x, y in zip(a, b) if x == y)
+        results = []
+        fingerings = Fingering.get(instrument_id=self.instrument_id)
+        fingerings = (x for x in fingerings if x.id != self.id)
+        for fingering in fingerings:
+            comparison = compare(
+                self.compact_representation,
+                fingering.compact_representation,
+                )
+            results.append((comparison, fingering))
+        results.sort(key=lambda x: x[0], reverse=True)
+        results = [x[1] for x in results][:n]
+        return results
+
     @staticmethod
     def get_compact_representation(
         fingering_key_names,
@@ -62,3 +80,23 @@ class Fingering(mongoengine.EmbeddedDocument):
             else:
                 result += '0'
         return result
+
+    def get_link(self, request):
+        href = self.get_url(request)
+        text = self.name
+        return HTML.tag('a', href=href, c=text)
+
+    def get_url(self, request):
+        instrument_name = self.instrument.dash_case_name
+        compact_representation = self.compact_representation
+        return request.route_url(
+            'fingering',
+            instrument_name=instrument_name,
+            compact_representation=compact_representation,
+            )
+
+    ### PUBLIC PROPERTIES ###
+
+    @property
+    def name(self):
+        return ' '.join(self.key_names)

@@ -1,4 +1,6 @@
+# -*- encoding: utf-8 -*-
 import mongoengine
+from webhelpers.html import HTML
 
 
 class Event(mongoengine.Document):
@@ -52,6 +54,22 @@ class Event(mongoengine.Document):
             )
 
     ### PUBLIC METHODS ###
+
+    def get_link_text(self):
+        return 'Event № {}'.format(self.md5[-8:])
+
+    def get_md5_link(self, request):
+        href = self.get_url(request)
+        text = self.md5
+        return HTML.tag('a', href=href, c=text)
+
+    def get_numbered_link(self, request):
+        href = self.get_url(request)
+        text = self.get_link_text().decode('utf-8')
+        return HTML.tag('a', href=href, c=text)
+
+    def get_url(self, request):
+        return request.route_url('event', md5=self.md5)
 
     def query_audiodb(self, method, limit=10):
         from sasha.tools import domaintools
