@@ -28,6 +28,7 @@ class KMeansClustering(object):
             init='k-means++',
             n_clusters=self.cluster_count,
             n_init=10,
+            random_state=23,
             )
         if self.use_pca:
             vectors_r = self.decompose_vectors(vectors)

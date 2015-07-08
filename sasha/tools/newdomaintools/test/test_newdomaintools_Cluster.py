@@ -21,7 +21,7 @@ class ClusterTests(unittest.TestCase):
             )
         self.assertEqual(cluster.cluster_id, 1)
         self.assertEqual(cluster.feature, 'chroma')
-        self.assertEqual(len(cluster.events), 1)
+        self.assertEqual(len(cluster.events), 2)
 
     def test_Cluster_dash_case_feature_01(self):
         cluster = sasha.newdomaintools.Cluster.objects.get(
