@@ -55,9 +55,6 @@ class Event(mongoengine.Document):
 
     ### PUBLIC METHODS ###
 
-    def get_link_text(self):
-        return 'Event № {}'.format(self.md5[-8:])
-
     def get_md5_link(self, request):
         href = self.get_url(request)
         text = self.md5
@@ -65,7 +62,7 @@ class Event(mongoengine.Document):
 
     def get_numbered_link(self, request):
         href = self.get_url(request)
-        text = self.get_link_text().decode('utf-8')
+        text = self.link_text.decode('utf-8')
         return HTML.tag('a', href=href, c=text)
 
     def get_url(self, request):
@@ -138,3 +135,7 @@ class Event(mongoengine.Document):
     def clusters(self):
         from sasha.tools import newdomaintools
         return newdomaintools.Cluster.objects(events=self)
+
+    @property
+    def link_text(self):
+        return 'Event № {}'.format(self.md5[-8:])

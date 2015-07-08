@@ -58,9 +58,6 @@ class Event(DomainObject):
 
     ### PUBLIC METHODS ###
 
-    def get_link_text(self):
-        return 'Event № {}'.format(self.id)
-
     def get_md5_link(self, request):
         href = self.get_url(request)
         text = self.md5
@@ -68,7 +65,7 @@ class Event(DomainObject):
 
     def get_numbered_link(self, request):
         href = self.get_url(request)
-        text = self.get_link_text().decode('utf-8')
+        text = self.link_text.decode('utf-8')
         return HTML.tag('a', href=href, c=text)
 
     def get_url(self, request):
@@ -251,3 +248,7 @@ class Event(DomainObject):
             instrument_name,
             fingering.compact_representation,
             )
+
+    @property
+    def link_text(self):
+        return 'Event № {}'.format(self.id)

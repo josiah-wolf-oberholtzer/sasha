@@ -10,7 +10,7 @@
     <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6">
         <a class="btn btn-default btn-block btn-sm" 
             href="${event.get_url(request)}" 
-            >${event.get_link_text().decode('utf-8')}</a>
+            >${event.link_text.decode('utf-8')}</a>
         <a class="btn btn-default btn-block btn-sm" 
             href="${instrument.get_url(request)}" 
             >${instrument.name}</a>
