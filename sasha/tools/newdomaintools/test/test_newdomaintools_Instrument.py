@@ -1,96 +1,68 @@
-from sasha import sasha_configuration
-from sasha.tools.newdomaintools import Instrument
+# -*- encoding: utf-8 -*-
+from pyramid import testing
+import sasha
+import unittest
 
 
-sasha_configuration.environment = 'testing'
+class ClusterTests(unittest.TestCase):
 
+    def setUp(self):
+        sasha.sasha_configuration.environment = 'testing'
+        self.config = testing.setUp()
+        self.config.include('sasha')
 
-def test_Instrument_01():
+    def tearDown(self):
+        testing.tearDown()
 
-    aerophone = Instrument.objects(name='Aerophone').first()
-    saxophone = Instrument.objects(name='Saxophone').first()
-    alto_saxophone = Instrument.objects(name='Alto Saxophone').first()
-    soprano_saxophone = Instrument.objects(name='Soprano Saxophone').first()
+    def test_Instrument_01(self):
+        instrument = sasha.newdomaintools.Instrument.objects.get(
+            name='Alto Saxophone',
+            )
+        self.assertEqual(instrument.name, 'Alto Saxophone')
+        self.assertEqual(instrument.transposition, 3)
 
-    assert aerophone.children == set([
-        saxophone,
-        alto_saxophone,
-        soprano_saxophone,
-        ])
-    assert aerophone.key_names == []
-    assert aerophone.name == 'Aerophone'
-    assert aerophone.parents == []
-    assert aerophone.transposition == 0
+    def test_get_link(self):
+        instrument = sasha.newdomaintools.Instrument.objects.get(
+            name='Alto Saxophone',
+            )
+        request = testing.DummyRequest(
+            matchdict={
+                'instrument_name': instrument.dash_case_name,
+                },
+            )
+        link = instrument.get_link(request)
+        self.assertEqual(
+            link.decode('utf-8'),
+            '<a href="http://example.com/instruments/alto-saxophone/">Alto Saxophone</a>',
+            )
 
-    assert saxophone.children == set([
-        alto_saxophone,
-        soprano_saxophone,
-        ])
-    assert saxophone.key_names == []
-    assert saxophone.name == 'Saxophone'
-    assert saxophone.parents == [aerophone]
-    assert saxophone.transposition == 0
+    def test_get_url(self):
+        instrument = sasha.newdomaintools.Instrument.objects.get(
+            name='Alto Saxophone',
+            )
+        request = testing.DummyRequest(
+            matchdict={
+                'instrument_name': instrument.dash_case_name,
+                },
+            )
+        url = instrument.get_url(request)
+        self.assertEqual(url, 'http://example.com/instruments/alto-saxophone/')
 
-    assert alto_saxophone.children == set()
-    assert alto_saxophone.key_names == [
-        u'8va',
-        u'B',
-        u'Bf',
-        u'Bis',
-        u'C',
-        u'C1',
-        u'C2',
-        u'C3',
-        u'C4',
-        u'C5',
-        u'C6',
-        u'Cs',
-        u'Ef',
-        u'Gs',
-        u'L1',
-        u'L2',
-        u'L3',
-        u'LowA',
-        u'R1',
-        u'R2',
-        u'R3',
-        u'Ta',
-        u'Tc',
-        u'Tf',
-        u'X',
-        ]
-    assert alto_saxophone.name == 'Alto Saxophone'
-    assert alto_saxophone.parents == [saxophone, aerophone]
-    assert alto_saxophone.transposition == 3
+    def test_with_events(self):
+        instruments = sasha.newdomaintools.Instrument.with_events()
+        self.assertEqual(
+            set(_.name for _ in instruments),
+            set(['Alto Saxophone', 'Soprano Saxophone']),
+            )
 
-    assert soprano_saxophone.children == set()
-    assert soprano_saxophone.key_names == [
-        u'8va',
-        u'B',
-        u'Bf',
-        u'Bis',
-        u'C',
-        u'C1',
-        u'C2',
-        u'C3',
-        u'C4',
-        u'C5',
-        u'C6',
-        u'Cs',
-        u'Ef',
-        u'Gs',
-        u'L1',
-        u'L2',
-        u'L3',
-        u'LowA',
-        u'R1',
-        u'R2',
-        u'R3',
-        u'Ta',
-        u'Tc',
-        u'Tf',
-        u'X',
-        ]
-    assert soprano_saxophone.name == 'Soprano Saxophone'
-    assert soprano_saxophone.parents == [saxophone, aerophone]
-    assert soprano_saxophone.transposition == -2
+    def test_dash_case_name(self):
+        instrument = sasha.newdomaintools.Instrument.objects.get(
+            name='Alto Saxophone',
+            )
+        self.assertEqual(instrument.dash_case_name, 'alto-saxophone')
+
+    def test_snake_case_name(self):
+        instrument = sasha.newdomaintools.Instrument.objects.get(
+            name='Alto Saxophone',
+            )
+        self.assertEqual(instrument.snake_case_name, 'alto_saxophone')

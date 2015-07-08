@@ -32,7 +32,10 @@ class Instrument(mongoengine.Document):
     @classmethod
     def with_events(cls):
         from sasha.tools import newdomaintools
-        return newdomaintools.Event.objects.only('instrument').distinct()
+        object_ids = newdomaintools.Event.objects.only('fingering.instrument')
+        object_ids = object_ids.distinct('fingering.instrument')
+        result = newdomaintools.Instrument.objects(id__in=object_ids)
+        return result
 
     ### PUBLIC PROPERTIES ###
 
