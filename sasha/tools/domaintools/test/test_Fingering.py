@@ -3,5 +3,5 @@ from sasha import *
 
 sasha_configuration.environment = 'testing'
 
-def test_Performer___init___01():
-    performer = Performer()
+def test_Fingering_01():
+    fingering = Fingering()
