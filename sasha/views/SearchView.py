@@ -2,14 +2,14 @@ from abjad.tools import pitchtools
 from pyramid.view import view_config
 from sasha import sasha_configuration
 from sasha import domaintools
-from sashaweb.views.View import View
+from sasha.views.View import View
 from webhelpers import paginate
 from webhelpers.html import literal
 
 
 @view_config(
     route_name='search',
-    renderer='sashaweb:templates/search.mako',
+    renderer='sasha:templates/search.mako',
     )
 class SearchView(View):
 
@@ -32,7 +32,7 @@ class SearchView(View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sashaweb import views
+        from sasha import views
         query = self.query()
         paginator = views.Page(
             query,

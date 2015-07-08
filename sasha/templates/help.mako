@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:templates/base.mako"/>
+<%inherit file="sasha:templates/base.mako"/>
 
 <dl class="dl-horizontal">
 

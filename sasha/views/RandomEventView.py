@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from sasha import domaintools
 from sasha import sasha_configuration
-from sashaweb.views.View import View
+from sasha.views.View import View
 
 
 @view_config(route_name='random_event')

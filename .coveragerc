@@ -5,7 +5,6 @@ omit =
     setup.py
 source = 
     sasha
-    sashaweb
 
 [report]
 exclude_lines = 

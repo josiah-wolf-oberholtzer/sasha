@@ -1,10 +1,10 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sashaweb.views.View import View
+from sasha.views.View import View
 
 
 @view_config(
-    renderer='sashaweb:templates/error_404.mako',
+    renderer='sasha:templates/error_404.mako',
     context=HTTPNotFound,
     )
 class Error404View(View):

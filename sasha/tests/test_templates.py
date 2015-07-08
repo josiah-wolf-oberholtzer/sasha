@@ -1,4 +1,4 @@
-from sashaweb import main
+from sasha import main
 from webtest import TestApp
 import os
 import sasha

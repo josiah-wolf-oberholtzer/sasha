@@ -2,12 +2,12 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import domaintools
 from sasha import sasha_configuration
-from sashaweb.views.SearchView import SearchView
+from sasha.views.SearchView import SearchView
 
 
 @view_config(
     route_name='fingering',
-    renderer='sashaweb:templates/fingering.mako',
+    renderer='sasha:templates/fingering.mako',
     )
 class FingeringView(SearchView):
 
@@ -47,7 +47,7 @@ class FingeringView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sashaweb import views
+        from sasha import views
         query = self.query()
         paginator = views.Page(
             query,

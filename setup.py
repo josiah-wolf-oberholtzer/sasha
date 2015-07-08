@@ -31,17 +31,16 @@ def main():
         author_email='josiah.oberholtzer@gmail.com',
         entry_points='''\
             [paste.app_factory]
-            main = sashaweb:main
+            main = sasha:main
             ''',
         install_requires=requires,
-        name='sashaweb',
+        name='sasha',
         packages=[
             'sasha',
-            'sashaweb',
             'sashamedia',
             ],
         tests_require=requires,
-        test_suite='sashaweb.tests',
+        test_suite='sasha.tests',
         url='sasha.mbrsi.org',
         version='0.1',
         zip_safe=False,

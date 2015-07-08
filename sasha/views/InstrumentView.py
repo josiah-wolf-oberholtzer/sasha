@@ -2,13 +2,13 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import sasha_configuration
 from sasha import domaintools
-from sashaweb.views.SearchView import SearchView
+from sasha.views.SearchView import SearchView
 from webhelpers import paginate
 
 
 @view_config(
     route_name='instrument',
-    renderer='sashaweb:templates/instrument.mako',
+    renderer='sasha:templates/instrument.mako',
     )
 class InstrumentView(SearchView):
 
@@ -41,7 +41,7 @@ class InstrumentView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sashaweb import views
+        from sasha import views
         query = self.query()
         paginator = views.Page(
             query,

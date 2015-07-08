@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:templates/base.mako"/>
+<%inherit file="sasha:templates/base.mako"/>
 
 <div class="jumbotron">
     <div class="container">

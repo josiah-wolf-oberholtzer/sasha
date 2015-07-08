@@ -1,6 +1,6 @@
-<%inherit file="sashaweb:templates/base.mako"/>
+<%inherit file="sasha:templates/base.mako"/>
 
-<%namespace file="sashaweb:templates/partials.mako" name="partials" />
+<%namespace file="sasha:templates/partials.mako" name="partials" />
 
 <%!
     from sasha import sasha_configuration

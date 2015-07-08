@@ -1,4 +1,4 @@
-<%inherit file="sashaweb:templates/search.mako"/>
+<%inherit file="sasha:templates/search.mako"/>
 
 <%!
     from sasha.tools.assettools import FingeringNotation

@@ -1,12 +1,12 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import domaintools
-from sashaweb.views.SearchView import SearchView
+from sasha.views.SearchView import SearchView
 
 
 @view_config(
     route_name='cluster',
-    renderer='sashaweb:templates/cluster.mako',
+    renderer='sasha:templates/cluster.mako',
     )
 class ClusterView(SearchView):
 
@@ -48,7 +48,7 @@ class ClusterView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sashaweb import views
+        from sasha import views
         paginator = views.Page(self.events,
             page=self.page_number,
             items_per_page=self.page_size,

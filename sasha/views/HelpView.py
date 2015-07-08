@@ -1,18 +1,18 @@
 from pyramid.view import view_config
-from sashaweb.views.View import View
+from sasha.views.View import View
 
 
 @view_config(
-    route_name='home',
-    renderer='sashaweb:templates/home.mako',
+    route_name='help',
+    renderer='sasha:templates/help.mako',
     )
-class HomeView(View):
+class HelpView(View):
 
     ### SPECIAL METHODS ###
 
     def __call__(self):
         return {
-            'body_class': 'home',
+            'body_class': 'help',
             'title': self.title,
             }
 
@@ -20,4 +20,4 @@ class HomeView(View):
 
     @property
     def title(self):
-        return 'SASHA | Home'
+        return 'SASHA | Help'

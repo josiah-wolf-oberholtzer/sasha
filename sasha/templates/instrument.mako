@@ -1,6 +1,6 @@
-<%inherit file="sashaweb:templates/search.mako"/>
+<%inherit file="sasha:templates/search.mako"/>
 
-<%namespace file="sashaweb:templates/partials.mako" name="partials" />
+<%namespace file="sasha:templates/partials.mako" name="partials" />
 
 <%block name="searchbar">
 <div class="row">

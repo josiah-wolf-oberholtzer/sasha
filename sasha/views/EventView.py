@@ -1,11 +1,11 @@
 from pyramid.view import view_config
 from sasha import *
-from sashaweb.views.SearchView import SearchView
+from sasha.views.SearchView import SearchView
 
 
 @view_config(
     route_name='event',
-    renderer='sashaweb:templates/event.mako',
+    renderer='sasha:templates/event.mako',
     )
 class EventView(SearchView):
 

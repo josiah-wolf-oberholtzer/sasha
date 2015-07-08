@@ -1,6 +1,6 @@
 from pyramid import testing
 from pyramid.httpexceptions import HTTPFound
-from sashaweb import views
+from sasha import views
 import os
 import sasha
 import unittest
@@ -11,7 +11,7 @@ class ViewTests(unittest.TestCase):
     def setUp(self):
         sasha.sasha_configuration.environment = 'testing'
         self.config = testing.setUp()
-        self.config.include('sashaweb')
+        self.config.include('sasha')
 
     def tearDown(self):
         testing.tearDown()
