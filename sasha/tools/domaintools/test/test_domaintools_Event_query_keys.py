@@ -1,4 +1,5 @@
-from sasha import *
+from sasha import sasha_configuration
+from sasha.tools import domaintools
 
 
 sasha_configuration.environment = 'testing'
@@ -7,7 +8,7 @@ sasha_configuration.environment = 'testing'
 def test_Event_query_keys_01():
     with_keys = []
     without_keys = []
-    query = Event.query_keys('Alto Saxophone', with_keys, without_keys)
+    query = domaintools.Event.query_keys('Alto Saxophone', with_keys, without_keys)
     events = list(query)
     assert len(events) == 10
     for event in events:
@@ -17,7 +18,7 @@ def test_Event_query_keys_01():
 def test_Event_query_keys_02():
     with_keys = ['Bf']
     without_keys = []
-    query = Event.query_keys('Alto Saxophone', with_keys, without_keys)
+    query = domaintools.Event.query_keys('Alto Saxophone', with_keys, without_keys)
     events = list(query)
     assert len(events) == 7
     for event in events:
@@ -29,7 +30,7 @@ def test_Event_query_keys_02():
 def test_Event_query_keys_03():
     with_keys = ['Bf', '8va']
     without_keys = []
-    query = Event.query_keys('Alto Saxophone', with_keys, without_keys)
+    query = domaintools.Event.query_keys('Alto Saxophone', with_keys, without_keys)
     events = list(query)
     assert len(events) == 2
     for event in events:
@@ -42,7 +43,7 @@ def test_Event_query_keys_03():
 def test_Event_query_keys_04():
     with_keys = ['Bf']
     without_keys = ['R2']
-    query = Event.query_keys('Alto Saxophone', with_keys, without_keys)
+    query = domaintools.Event.query_keys('Alto Saxophone', with_keys, without_keys)
     events = list(query)
     assert len(events) == 3
     for event in events:
