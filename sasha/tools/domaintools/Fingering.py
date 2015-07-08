@@ -77,12 +77,14 @@ class Fingering(DomainObject):
             return sum(1 for x, y in zip(a, b) if x == y)
         results = []
         fingerings = Fingering.get(instrument_id=self.instrument_id)
-        fingerings = (x for x in fingerings if x.id != self.id)
+        self_repr = self.compact_representation
+        visited_fingerings = set([self_repr])
         for fingering in fingerings:
-            comparison = compare(
-                self.compact_representation,
-                fingering.compact_representation,
-                )
+            expr_repr = fingering.compact_representation
+            if self_repr == expr_repr or expr_repr in visited_fingerings:
+                continue
+            visited_fingerings.add(expr_repr)
+            comparison = compare(self_repr, expr_repr)
             results.append((comparison, fingering))
         results.sort(key=lambda x: x[0], reverse=True)
         results = [x[1] for x in results][:n]
