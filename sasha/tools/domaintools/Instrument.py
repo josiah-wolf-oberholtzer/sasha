@@ -34,12 +34,9 @@ class Instrument(DomainObject):
 
     ### PUBLIC METHODS ###
 
-    def get_link_text(self):
-        return self.name
-
     def get_link(self, request):
         href = self.get_url(request)
-        text = self.get_link_text()
+        text = self.name
         return HTML.tag('a', href=href, c=text)
 
     def get_url(self, request):
