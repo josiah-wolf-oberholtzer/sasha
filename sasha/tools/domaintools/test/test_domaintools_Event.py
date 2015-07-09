@@ -15,7 +15,7 @@ class EventTests(unittest.TestCase):
         testing.tearDown()
 
     def test_Event_01(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         self.assertEqual(event.name, 'event__alto_saxophone__br_042.aif')
         self.assertEqual(event.md5, 'bae113a08990072eb1bfd9c85b8cce34')
         self.assertEqual(event.instrument.name, 'Alto Saxophone')
@@ -25,7 +25,7 @@ class EventTests(unittest.TestCase):
             )
 
     def test_Event_get_md5_link(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         request = testing.DummyRequest(matchdict={'md5': event.md5})
         link = event.get_md5_link(request)
         self.assertEqual(
@@ -34,7 +34,7 @@ class EventTests(unittest.TestCase):
             )
 
     def test_Event_get_numbered_link(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         request = testing.DummyRequest(matchdict={'md5': event.md5})
         link = event.get_numbered_link(request)
         self.assertEqual(
@@ -43,7 +43,7 @@ class EventTests(unittest.TestCase):
             )
 
     def test_Event_get_url(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         request = testing.DummyRequest(matchdict={'md5': event.md5})
         url = event.get_url(request)
         self.assertEqual(
@@ -52,19 +52,19 @@ class EventTests(unittest.TestCase):
             )
 
     def test_Event_canonical_event_name(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         self.assertEqual(
             event.canonical_event_name,
             'event__bae113a08990072eb1bfd9c85b8cce34',
             )
 
     def test_Event_canonical_fingering_name(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         self.assertEqual(
             event.canonical_fingering_name,
             'fingering__alto_saxophone__0010000000001010001110000',
             )
 
     def test_Event_link_text(self):
-        event = sasha.domaintools.Event.get_one(id=1)
+        event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         self.assertEqual(event.link_text, 'Event № 1')
