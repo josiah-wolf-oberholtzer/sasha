@@ -2,10 +2,6 @@
 
 <%namespace file="sasha:templates/partials.mako" name="partials" />
 
-<%!
-    from sasha import Instrument
-%>
-
 <%block name="searchbar">
 <div class="row">
     <div class="col-sm-6">
@@ -37,7 +33,7 @@
         </div>
         <div class="row event-row">
         % endif
-        ${partials.event_grid_item(event, Instrument.get_one(id=event.instrument_id))}
+        ${partials.event_grid_item(event, event.fingering.instrument)}
     % endfor
     </div>
     ${partials.pagination(paginator)}
