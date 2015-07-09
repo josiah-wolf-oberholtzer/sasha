@@ -4,8 +4,7 @@
 
 <%!
     from sasha import sasha_configuration
-    from sasha.tools.domaintools import Event
-    from sasha.tools.domaintools import Instrument
+    from sasha.tools.newdomaintools import Event
     from sasha.tools.assettools.ChordNotation import ChordNotation
     from sasha.tools.assettools.ChromaNotation import ChromaNotation
     from sasha.tools.assettools.MP3Audio import MP3Audio
@@ -80,7 +79,7 @@ ${current_event.get_numbered_link(request)}
     </div>
     <div class="row event-row">
     % endif
-    ${partials.event_grid_item(event, Instrument.get_one(id=event.instrument_id))}
+    ${partials.event_grid_item(event, event.fingering.instrument)}
 % endfor
 </div>
 % endif
@@ -100,7 +99,7 @@ ${current_event.get_numbered_link(request)}
     </div>
     <div class="row event-row">
     % endif
-    ${partials.event_grid_item(event, Instrument.get_one(id=event.instrument_id))}
+    ${partials.event_grid_item(event, event.fingering.instrument)}
 % endfor
 </div>
 % endif
@@ -115,7 +114,7 @@ ${current_event.get_numbered_link(request)}
 <div class="row">
 % for fingering in fingerings:
 <div class="col-xs-1 text-center">
-    <% event = Event.get_one(fingering_id=fingering.id) %>
+    <% event = Event.objects(fingering=fingering).first() %>
     <div class="annotation notations">${FingeringNotation(event).get_image_link(request)}</div>
 </div>
 % endfor
