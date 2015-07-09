@@ -37,10 +37,9 @@ class EventTests(unittest.TestCase):
         event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
         request = testing.DummyRequest(matchdict={'md5': event.md5})
         link = event.get_numbered_link(request)
-        self.assertEqual(
-            link.encode('utf-8'),
-            '<a href="http://example.com/events/bae113a08990072eb1bfd9c85b8cce34/">Event № 1</a>',
-            )
+        expected = '<a href="http://example.com/events/{}/">Event № {}</a>'
+        expected = expected.format(event.md5, event.id)
+        self.assertEqual(link.encode('utf-8'), expected)
 
     def test_Event_get_url(self):
         event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
@@ -67,4 +66,4 @@ class EventTests(unittest.TestCase):
 
     def test_Event_link_text(self):
         event = sasha.domaintools.Event.get_one(name='event__alto_saxophone__br_042.aif')
-        self.assertEqual(event.link_text, 'Event № 1')
+        self.assertEqual(event.link_text, 'Event № {}'.format(event.id))
