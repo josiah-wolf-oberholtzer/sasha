@@ -26,9 +26,6 @@ class FingeringNotation(Notation):
         return build_path
 
     def _make_illustration(self, *args):
-        #from sasha.tools import domaintools
-        #client = domaintools.Event.get_one(id=self.client.id)
-        #fingering = domaintools.Fingering.get_one(id=client.fingering_id)
         fingering = self.client.fingering
         markup = self._make_markup(fingering.key_names)
         illustration = markup.__illustrate__()
@@ -93,8 +90,6 @@ class FingeringNotation(Notation):
 
     def get_image_link(self, request):
         from webhelpers.html import HTML
-        from sasha.tools import domaintools
-        fingering = domaintools.Fingering.get_one(id=self.client.fingering_id)
-        href = fingering.get_url(request)
+        href = self.client.fingering.get_url(request)
         content = self.get_image_tag(request)
         return HTML.tag('a', href=href, c=content)
