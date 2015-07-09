@@ -10,7 +10,7 @@ class Event(mongoengine.Document):
     description = mongoengine.StringField()
     fingering = mongoengine.EmbeddedDocumentField('Fingering')
     md5 = mongoengine.StringField(max_length=32)
-    name = mongoengine.StringField(max_length=100)
+    name = mongoengine.StringField(max_length=100, unique=True)
     performer = mongoengine.ReferenceField('Performer')
     partials = mongoengine.EmbeddedDocumentListField('Partial')
 
