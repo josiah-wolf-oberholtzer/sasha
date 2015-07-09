@@ -69,11 +69,9 @@ class Event(mongoengine.Document):
         return request.route_url('event', md5=self.md5)
 
     def query_audiodb(self, method, limit=10):
-        from sasha.tools import domaintools
         from sasha.tools import executabletools
         adb = executabletools.AudioDB(method)
-        event = domaintools.Event.get_one(name=self.name)
-        return adb.query(event, limit)
+        return adb.query(self, limit)
 
     @staticmethod
     def query_mongodb(

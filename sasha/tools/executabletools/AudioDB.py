@@ -61,7 +61,7 @@ class AudioDB(Executable):
             os.remove(self.path)
 
     def populate(self, events):
-        from sasha.tools.domaintools import Event
+        from sasha.tools.newdomaintools import Event
         from sasha.tools.assettools import LogPowerAnalysis
         assert len(events) and all(isinstance(x, Event) for x in events)
         assert all(LogPowerAnalysis(x).exists for x in events)
@@ -102,13 +102,13 @@ class AudioDB(Executable):
         shutil.rmtree(temporary_directory_path)
 
     def query(self, target, n=10, events=None):
-        from sasha.tools import domaintools
+        from sasha.tools import newdomaintools
         if not events:
             events = []
-        if not isinstance(target, domaintools.Event):
-            target = domaintools.Event(target)
+        if not isinstance(target, newdomaintools.Event):
+            target = newdomaintools.Event(target)
         assert 0 < n
-        assert all([isinstance(x, domaintools.Event) for x in events])
+        assert all([isinstance(x, newdomaintools.Event) for x in events])
         feature = self.asset_class(target)
         command = '{} -d {} -Q sequence -e -n 1 -l 20 -R 1 -f {}'.format(
             self.executable,
@@ -140,7 +140,7 @@ class AudioDB(Executable):
         for x in q:
             distance = float(x[1])
             name = os.path.basename(x[0])
-            event = domaintools.Event.get(name=name)[0]
+            event = newdomaintools.Event.objects.get(name=name)
             if event.name == target.name:
                 continue
             results.append((distance, event))
