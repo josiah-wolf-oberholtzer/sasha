@@ -170,8 +170,8 @@ class Bootstrap(object):
     def populate_audiodb_databases(self):
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
-        from sasha.tools.domaintools import Event
-        events = Event.get()
+        from sasha.tools.newdomaintools import Event
+        events = Event.objects.all()
         assert 0 < len(events)
         for name in sasha_configuration['audioDB']:
             adb = AudioDB(name)

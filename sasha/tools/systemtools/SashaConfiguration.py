@@ -1,4 +1,3 @@
-import inspect
 import json
 import logging
 import mongoengine
@@ -97,17 +96,6 @@ class SashaConfiguration(dict):
 
     def get_binary(self, name):
         return self['binaries'][name]
-
-    def get_domain_classes(self):
-        from sasha.tools import domaintools
-        klasses = set()
-        for x in dir(domaintools):
-            klass = getattr(domaintools, x)
-            if hasattr(klass, '__bases__') and \
-                domaintools.DomainObject in inspect.getmro(klass) and \
-                klass.__module__.startswith('sasha'):
-                klasses.add(klass)
-        return tuple(klasses)
 
     def get_fixtures(self, cls):
         from sasha import sasha_configuration
