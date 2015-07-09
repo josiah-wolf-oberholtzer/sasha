@@ -1,7 +1,7 @@
 from sasha import sasha_configuration
-from sasha.tools import domaintools
-from sasha.tools import systemtools
 from sasha.tools import executabletools
+from sasha.tools import newdomaintools
+from sasha.tools import systemtools
 
 
 sasha_configuration.environment = 'testing'
@@ -15,8 +15,8 @@ def test_Bootstrap_populate_audiodb_databases_01():
     bootstrap.create_sqlite_database()
     bootstrap.populate_sqlite_primary()
 
-    event_class = domaintools.Event
-    event_count = sasha_configuration.get_session().query(event_class).count()
+    event_class = newdomaintools.Event
+    event_count = event_class.objects.count()
     assert 0 < event_count
 
     assert executabletools.AudioDB('chroma').exists

@@ -43,12 +43,10 @@ class Bootstrap(object):
         return mapping
 
     @staticmethod
-    def _populate_all_assets_for_object(args):
-        domain_class, object_id, asset_classes = args
-        obj = domain_class.get_one(id=object_id)
-        print('Populating assets for {}'.format(obj))
+    def _populate_all_assets_for_object(event, asset_classes):
+        print('Populating assets for {}'.format(event))
         for asset_class in asset_classes:
-            asset = asset_class(obj)
+            asset = asset_class(event)
             try:
                 if hasattr(asset, 'write'):
                     message = 'Writing {} to {}.'
@@ -117,14 +115,13 @@ class Bootstrap(object):
         metadata.create_all(engine)
 
     def delete_all_assets(self):
-        from sasha import sasha_configuration
-        from sasha.tools.assettools import AssetDependencyGraph
-        for klass in sasha_configuration.get_domain_classes():
-            plugins = AssetDependencyGraph(klass).in_order()
-            for instance in klass.get():
-                for plugin in plugins:
-                    if hasattr(plugin, 'delete'):
-                        plugin(instance).delete()
+        from sasha.tools import newdomaintools
+        from sasha.tools import assettools
+        asset_classes = assettools.AssetDependencyGraph().in_order()
+        for event in newdomaintools.Event.objects:
+            for asset_class in asset_classes:
+                if hasattr(asset_class, 'delete'):
+                    asset_class(event).delete()
 
     def delete_audiodb_databases(self):
         from sasha import sasha_configuration
@@ -146,22 +143,17 @@ class Bootstrap(object):
             os.remove(path)
 
     def populate_all_assets(self):
-        from sasha.tools import domaintools
+        from sasha.tools import newdomaintools
         from sasha.tools.assettools import AssetDependencyGraph
-        events = domaintools.Event.get()
-        log_message = 'Populating all {} assets for {} objects.'.format(
-            domaintools.Event.__name__,
-            len(events),
+        events = newdomaintools.Event.objects
+        log_message = 'Populating all assets for {} events.'.format(
+            events.count(),
             )
         print(log_message)
         dependency_graph = AssetDependencyGraph()
         asset_classes = dependency_graph.in_order()
-        triples = [
-            (domaintools.Event, event.id, asset_classes)
-            for event in events
-            ]
-        for triple in triples:
-            self._populate_all_assets_for_object(triple)
+        for event in events:
+            self._populate_all_assets_for_event(event, asset_classes)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():
 #                    pool = multiprocessing.Pool()
@@ -251,7 +243,7 @@ class Bootstrap(object):
                 name=fixture['name'],
                 performer=performer,
                 )
-            event.md5 = assettools.SourceAudio(event.name).md5
+            event.md5 = assettools.SourceAudio(event).md5
             events.append(event)
         newdomaintools.Event.objects.insert(events)
 
