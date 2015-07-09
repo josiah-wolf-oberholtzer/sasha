@@ -21,14 +21,17 @@ class Asset(object):
 
     def __init__(self, expr):
         from sasha.tools import domaintools
-        if isinstance(expr, domaintools.Event):
+        from sasha.tools import newdomaintools
+        if isinstance(expr, newdomaintools.Event):
             client = expr
+        elif isinstance(expr, domaintools.Event):
+            client = newdomaintools.Event.objects.get(name=expr.name)
         elif isinstance(expr, Asset):
             client = expr.client
         elif isinstance(expr, (str, unicode)):
-            client = domaintools.Event.get(name=expr)[0]
+            client = newdomaintools.Event.objects.get(name=expr)
         elif isinstance(expr, int):
-            client = domaintools.Event.get(id=expr)[0]
+            client = newdomaintools.Event.objects[expr]
         else:
             message = 'Cannot instantiate {} from {!r}'
             message = message.format(type(self), expr)

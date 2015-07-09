@@ -26,11 +26,11 @@ class FingeringNotation(Notation):
         return build_path
 
     def _make_illustration(self, *args):
-        from sasha.tools import domaintools
-        client = domaintools.Event.get_one(id=self.client.id)
-        fingering = domaintools.Fingering.get_one(id=client.fingering_id)
-        key_names = [x.name for x in fingering.instrument_keys]
-        markup = self._make_markup(key_names)
+        #from sasha.tools import domaintools
+        #client = domaintools.Event.get_one(id=self.client.id)
+        #fingering = domaintools.Fingering.get_one(id=client.fingering_id)
+        fingering = self.client.fingering
+        markup = self._make_markup(fingering.key_names)
         illustration = markup.__illustrate__()
         return illustration
 

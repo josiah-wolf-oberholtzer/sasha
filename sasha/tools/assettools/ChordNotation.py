@@ -50,11 +50,10 @@ class ChordNotation(Notation):
     ### PUBLIC METHODS ###
 
     def write(self, **kwargs):
-        from sasha import Instrument
         lily = self._make_illustration()
         self._asset = lily
         transposed = self._make_illustration()
-        instrument = Instrument.get_one(id=self.client.instrument_id)
+        instrument = self.client.fingering.instrument
         transposition = abjad.pitchtools.NumberedInterval(
             instrument.transposition)
         for leaf in abjad.iterate(transposed).by_class(abjad.scoretools.Leaf):
