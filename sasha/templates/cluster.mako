@@ -3,7 +3,7 @@
 <%namespace file="sasha:templates/partials.mako" name="partials"/>
 
 <%!
-    from sasha import domaintools
+    from sasha import newdomaintools
 %>
 
 <%block name="searchbar">
@@ -16,7 +16,7 @@
 </div>
 
 <form class="form-horizontal">
-    ${partials.instrument_listing(instrument, domaintools.Instrument.with_events())}
+    ${partials.instrument_listing(instrument, newdomaintools.Instrument.with_events())}
     ${partials.cluster_listing(current_cluster, all_clusters, 'chroma', 'Chroma')}
     ${partials.cluster_listing(current_cluster, all_clusters, 'constant_q', 'Constant-Q')}
     ${partials.cluster_listing(current_cluster, all_clusters, 'mfcc', 'MFCC')}

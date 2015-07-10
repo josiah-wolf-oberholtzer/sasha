@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha import domaintools
 from sasha import sasha_configuration
+from sasha.tools import domaintools
 from sasha.views.SearchView import SearchView
 
 
