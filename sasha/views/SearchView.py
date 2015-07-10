@@ -349,54 +349,14 @@ class SearchView(View):
         return processed_params
 
     def query(self):
-
-        query = None
-
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')
-        if with_pitches or without_pitches:
-
-            # print 'WITH_PITCHES: %r' % with_pitches
-            # print 'WITHOUT_PITCHES: %r' % without_pitches
-
-            query = domaintools.Event.query_pitches(
-                with_pitches=with_pitches, without_pitches=without_pitches)
-
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        if with_pitch_classes or without_pitch_classes:
-
-            # print 'WITH_PITCH_CLASSES: %r' % with_pitch_classes
-            # print 'WITHOUT_PITCH_CLASSES: %r' % without_pitch_classes
-
-            pitch_class_query = domaintools.Event.query_pitch_classes(
-                with_pcs=with_pitch_classes, without_pcs=without_pitch_classes)
-            if query is None:
-                query = pitch_class_query
-            else:
-                query = query.intersect(pitch_class_query)
-
-            print query
-
-        with_instruments = self.instrument_parameters.get('with_instruments')
-        without_instruments = self.instrument_parameters.get('without_instruments')
-        if with_instruments or without_instruments:
-
-            #print 'WITH_INSTRUMENTS: %r' % with_instruments
-            #print 'WITHOUT_INSTRUMENTS: %r' % without_instruments
-
-            instrument_query = sasha_configuration.get_session().query(domaintools.Event).join(domaintools.Instrument)
-            if with_instruments:
-                instrument_query = instrument_query.filter(domaintools.Instrument.name.in_(with_instruments))
-            if without_instruments:
-                for instrument_name in without_instruments:
-                    instrument_query = instrument_query.filter(domaintools.Instrument.name!=instrument_name)
-            if query is None:
-                query = instrument_query
-            else:
-                query = query.intersect(instrument_query)
-
-        if query is None:
-            query = sasha_configuration.get_session().query(domaintools.Event)
-
+        query = newdomaintools.Event.query_mongodb(
+            with_pitches=with_pitches,
+            without_pitches=without_pitches,
+            with_pitch_classes=with_pitch_classes,
+            without_pitch_classes=without_pitch_classes,
+            )
         return query
