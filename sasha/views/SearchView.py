@@ -1,7 +1,8 @@
 from abjad.tools import pitchtools
 from pyramid.view import view_config
 from sasha import sasha_configuration
-from sasha import domaintools
+from sasha.tools import domaintools
+from sasha.tools import newdomaintools
 from sasha.views.View import View
 from webhelpers import paginate
 from webhelpers.html import literal
@@ -25,7 +26,6 @@ class SearchView(View):
 
     def __init__(self, request):
         View.__init__(self, request)
-        self._instrument_parameters = self.process_instrument_params(self.request.params)
         self._layout_parameters = self.process_layout_params(self.request.params)
         self._pitch_parameters = self.process_pitch_params(self.request.params)
 
@@ -120,114 +120,57 @@ class SearchView(View):
 
         Returns dictionary of processed params.
         '''
-
         processed_params = {}
-
-        if not isinstance(instrument, domaintools.Instrument):
-            instrument = domaintools.Instrument.get_one(name=instrument)
-
-        # instrument keys to include
+        if not isinstance(instrument, newdomaintools.Instrument):
+            if not isinstance(instrument, (str, unicode)):
+                instrument = instrument.name
+            instrument = newdomaintools.Instrument.objects.get(name=instrument)
         with_keys = params.get('with_keys')
         if with_keys is not None:
             keys_to_process = str(with_keys).split()
             processed_keys = []
             bad_keys = []
             for key in keys_to_process:
-                result = domaintools.InstrumentKey.get(name=key, instrument=instrument)
-                if len(result) == 1:
-                    processed_keys.append(result[0].name)
+                if key not in instrument.key_names:
+                    processed_keys.append(key)
                 else:
                     bad_keys.append(key)
             processed_params['with_keys'] = processed_keys
             if bad_keys:
-                self.request.session.flash(literal("%s has no key(s) named: %s" %
-                    (instrument.name, ', '.join(['<em>%s</em>' % x for x in bad_keys]))))
+                bad_keys = ('<em>{}</em>'.format(_) for _ in bad_keys)
+                bad_keys = ', '.join(bad_keys)
+                message = '{} has no key(s) named: {}'
+                message = message.format(instrument.name, bad_keys)
+                self.reqeust.session.flash(literal(message))
         else:
             processed_params['with_keys'] = []
-
-        # instrument keys to exclude
         without_keys = params.get('without_keys')
         if without_keys is not None:
             keys_to_process = str(without_keys).split()
             processed_keys = []
             bad_keys = []
             for key in keys_to_process:
-                result = domaintools.InstrumentKey.get(name=key, instrument=instrument)
-                if len(result) == 1:
-                    processed_keys.append(result[0].name)
+                if key not in instrument.key_names:
+                    processed_keys.append(key)
                 else:
                     bad_keys.append(key)
             processed_params['without_keys'] = processed_keys
             if bad_keys:
-                self.request.session.flash(literal("%s has no key(s) named: %s" %
-                    (instrument.name, ', '.join(['<em>%s</em>' % x for x in bad_keys]))))
+                bad_keys = ('<em>{}</em>'.format(_) for _ in bad_keys)
+                bad_keys = ', '.join(bad_keys)
+                message = '{} has no key(s) named: {}'
+                message = message.format(instrument.name, bad_keys)
+                self.reqeust.session.flash(literal(message))
         else:
             processed_params['without_keys'] = []
-
-        key_intersection = set(processed_params['with_keys']).intersection(set(processed_params['without_keys']))
+        key_intersection = set(processed_params['with_keys']).intersection(
+            set(processed_params['without_keys']))
         if key_intersection:
-            self.request.session.flash(
-                literal('Included and dis-included keys overlap: %s' %
-                    ' '.join(['<em>%s</em>' % x for x in key_intersection])))
-
-        return processed_params
-
-    def process_instrument_params(self, params):
-        '''Process instrument inclusion/exclusion query parameters.
-
-        Handles:
-
-            * `with_instruments`
-            * `without_instruments`
-
-        Instrument names should be lowercase, underscore delimited, and
-        separated by plus-signs (+).
-
-        Warnings are added to the session flash queue.
-
-        Returns dictionary of processed parameters.
-        '''
-
-        processed_params = {}
-
-        # instruments to include in the search
-        with_instruments = params.get('with_instruments')
-        if with_instruments is not None:
-            instruments_to_process = str(with_instruments).split()
-            processed_instruments = []
-            bad_instruments = []
-            for instrument in instruments_to_process:
-                instrument_name = instrument.replace('_', ' ').title()
-                try:
-                    instrument = domaintools.Instrument.get_one(name=instrument_name)
-                    processed_instruments.append(instrument_name)
-                except:
-                    bad_instruments.append(instrument_name)
-            processed_params['with_instruments'] = processed_instruments
-            if bad_instruments:
-                self.request.session.flash('Bad instrument names: %s' % ', '.join([repr(x) for x in bad_instruments]))
-        else:
-            processed_params['with_instruments'] = []
-
-        # instruments to exclude from the search
-        without_instruments = params.get('without_instruments')
-        if without_instruments is not None:
-            instruments_to_process = str(without_instruments).split()
-            processed_instruments = []
-            bad_instruments = []
-            for instrument in instruments_to_process:
-                instrument_name = instrument.replace('_', ' ').title()
-                try:
-                    instrument = domaintools.Instrument.get_one(name=instrument_name)
-                    processed_instruments.append(instrument_name)
-                except:
-                    bad_instruments.append(instrument_name)
-            processed_params['without_instruments'] = processed_instruments
-            if bad_instruments:
-                self.request.session.flash('Bad instrument names: %s' % ', '.join([repr(x) for x in bad_instruments]))
-        else:
-            processed_params['without_instruments'] = []
-
+            bad_keys = ('<em>{}</em>'.format(_) for _ in key_intersection)
+            bad_keys = ', '.join(bad_keys)
+            message = 'Included and dis-included keys overlap: {}'
+            message = message.format(bad_keys)
+            self.request.session.flash(literal(message))
         return processed_params
 
     def process_layout_params(self, params):
