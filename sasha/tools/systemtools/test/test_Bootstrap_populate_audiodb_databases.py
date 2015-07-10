@@ -11,12 +11,7 @@ def test_Bootstrap_populate_audiodb_databases_01():
 
     bootstrap = systemtools.Bootstrap()
 
-    bootstrap.delete_sqlite_database()
-    bootstrap.create_sqlite_database()
-    bootstrap.populate_sqlite_primary()
-
-    event_class = newdomaintools.Event
-    event_count = event_class.objects.count()
+    event_count = newdomaintools.Event.objects.count()
     assert 0 < event_count
 
     assert executabletools.AudioDB('chroma').exists

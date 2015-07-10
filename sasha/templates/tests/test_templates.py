@@ -33,8 +33,8 @@ class TemplateTests(unittest.TestCase):
             )
 
     def test_event_01(self):
-        event = sasha.Event.get_one(id=1)
-        instrument = sasha.Instrument.get_one(id=event.instrument_id)
+        event = sasha.Event.objects.first()
+        instrument = event.fingering.instrument
         md5 = event.md5
         path = '/events/{}/'.format(md5)
         response = self.testapp.get(path, status=200)
@@ -47,11 +47,12 @@ class TemplateTests(unittest.TestCase):
             )
 
     def test_fingering_01(self):
-        fingering = sasha.Fingering.get_one(id=1)
+        event = sasha.Event.objects.first()
+        fingering = event.fingering
         instrument_name = fingering.instrument.name
         instrument_dashcase_name = instrument_name.lower().replace(' ', '-')
         compact_representation = fingering.compact_representation
-        instrument_keys = ' '.join(_.name for _ in fingering.instrument_keys)
+        instrument_keys = ' '.join(fingering.key_names)
         path = '/instruments/{}/{}/'.format(
             instrument_dashcase_name,
             compact_representation,

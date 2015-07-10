@@ -21,7 +21,7 @@ class ViewTests(unittest.TestCase):
         "Clustering is broken under Travis-CI."
         )
     def test_ClusterView_01(self):
-        cluster = sasha.Cluster.get_one(id=1)
+        cluster = sasha.Cluster.objects.first()
         request = testing.DummyRequest(
             matchdict={
                 'feature': cluster.feature,
@@ -40,9 +40,9 @@ class ViewTests(unittest.TestCase):
             )
 
     def test_EventView_01(self):
-        event = sasha.Event.get_one(id=1)
+        event = sasha.Event.objects.first()
         md5 = event.md5
-        instrument = event.instrument
+        instrument = event.fingering.instrument
         request = testing.DummyRequest(
             matchdict={
                 'md5': event.md5,
@@ -60,11 +60,10 @@ class ViewTests(unittest.TestCase):
             )
 
     def test_FingeringView_01(self):
-        event = sasha.Event.get_one(id=1)
-        instrument = event.instrument
+        event = sasha.Event.objects.first()
+        instrument = event.fingering.instrument
         instrument_name = instrument.name.lower().replace(' ', '-')
-        instrument_keys = event.fingering.instrument_keys
-        instrument_keys = ' '.join(_.name for _ in instrument_keys)
+        instrument_keys = ' '.join(event.fingering.key_names)
         fingering = event.fingering
         compact_representation = fingering.compact_representation
         request = testing.DummyRequest(

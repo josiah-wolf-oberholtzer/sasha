@@ -1,6 +1,5 @@
 import numpy
 from sasha.tools import assettools
-from sasha.tools import domaintools
 from sasha.tools import newdomaintools
 
 
@@ -21,9 +20,9 @@ class KMeansClustering(object):
 
     ### SPECIAL METHODS ###
 
-    def __call__(self, use_mongodb=False):
+    def __call__(self):
         from sklearn.cluster import KMeans
-        events, vectors = self.build_corpus(use_mongodb=use_mongodb)
+        events, vectors = self.build_corpus()
         k_means = KMeans(
             init='k-means++',
             n_clusters=self.cluster_count,
@@ -37,10 +36,7 @@ class KMeansClustering(object):
             k_means.fit(vectors)
         k_means_labels = k_means.labels_
         clusters = {}
-        if use_mongodb:
-            cluster_class = newdomaintools.Cluster
-        else:
-            cluster_class = domaintools.Cluster
+        cluster_class = newdomaintools.Cluster
         for event, k_means_label in zip(events, k_means_labels):
             if k_means_label not in clusters:
                 clusters[k_means_label] = cluster_class(
@@ -56,13 +52,10 @@ class KMeansClustering(object):
 
     ### PUBLIC METHODS ###
 
-    def build_corpus(self, use_mongodb=False):
+    def build_corpus(self):
         from sklearn import preprocessing
         vectors = []
-        if use_mongodb:
-            events = newdomaintools.Event.objects
-        else:
-            events = domaintools.Event.get()
+        events = newdomaintools.Event.objects
         events = sorted(events, key=lambda x: x.name)
         for event in events:
             feature = self.feature_class(event.name)

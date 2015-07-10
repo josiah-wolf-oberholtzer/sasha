@@ -4,8 +4,6 @@ import mongoengine
 import os
 from ConfigParser import ConfigParser
 from abjad.tools import stringtools
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 
 class SashaConfiguration(dict):
@@ -130,14 +128,6 @@ class SashaConfiguration(dict):
         if not os.path.isabs(path):
             path = os.path.abspath(os.path.join(sasha_root, path))
         return path
-
-    def get_session(self):
-        database_path = os.path.join(
-            self.get_media_path('databases'),
-            self['sqlite']['sqlite'],
-            )
-        engine = create_engine('sqlite:///{}'.format(database_path))
-        return sessionmaker(bind=engine)()
 
     ### PUBLIC PROPERTIES ###
 

@@ -20,12 +20,9 @@ class Asset(object):
     ### INITIALIZER ###
 
     def __init__(self, expr):
-        from sasha.tools import domaintools
         from sasha.tools import newdomaintools
         if isinstance(expr, newdomaintools.Event):
             client = expr
-        elif isinstance(expr, domaintools.Event):
-            client = newdomaintools.Event.objects.get(name=expr.name)
         elif isinstance(expr, Asset):
             client = expr.client
         elif isinstance(expr, (str, unicode)):
