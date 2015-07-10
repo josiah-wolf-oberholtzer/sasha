@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import sasha_configuration
-from sasha.tools import domaintools
+from sasha.tools import newdomaintools
 from sasha.views.SearchView import SearchView
 
 
@@ -18,7 +18,7 @@ class FingeringView(SearchView):
         instrument_name = self.request.matchdict['instrument_name']
         instrument_name = instrument_name.replace('-', ' ').title()
         try:
-            self._instrument = domaintools.Instrument.get_one(
+            self._instrument = newdomaintools.Instrument.objects.get(
                 name=instrument_name,
                 )
         except:
@@ -28,10 +28,9 @@ class FingeringView(SearchView):
             raise HTTPNotFound(message)
         compact_representation = self.request.matchdict['compact_representation']
         try:
-            self._fingering = domaintools.Fingering.get_one(
-                instrument=self.instrument,
-                compact_representation=compact_representation,
-                )
+            self._event = newdomaintools.Event.objects(
+                fingering__compact_representation=compact_representation,
+                ).first()
         except:
             message = "SASHA couldn't find any {} fingering whose compact "
             message += "representation is <em>{}</em>"
@@ -40,7 +39,6 @@ class FingeringView(SearchView):
                 compact_representation,
                 )
             raise HTTPNotFound(message)
-        self._instrument_keys = tuple(self.fingering.instrument_keys)
         self._layout_parameters = self.process_layout_params(self.request.params)
         self._pitch_parameters = self.process_pitch_params(self.request.params)
 
@@ -55,7 +53,6 @@ class FingeringView(SearchView):
             items_per_page=self.page_size,
             url=self.page_url,
             )
-        instrument_keys = ' '.join([key.name for key in self.instrument_keys])
         with_pitches = ' '.join(
             '{}{}'.format(x.pitch_class_name, x.octave_number)
             for x in self.pitch_parameters['with_pitches']
@@ -74,14 +71,14 @@ class FingeringView(SearchView):
             )
         return {
             'body_class': 'search',
-            'fingering': self.fingering,
-            'fingerings': self.fingering.find_similar_fingerings(n=12),
+            'fingering': self.event.fingering,
+            'fingerings': self.event.fingering.find_similar_fingerings(n=12),
             'instrument': self.instrument,
-            'instrument_keys': instrument_keys,
+            'instrument_keys': ' '.join(self.event.fingering.key_names),
             'instrument_name': self.instrument.name,
             'title': self.title,
             'paginator': paginator,
-            'search_action': self.fingering.get_url(self.request),
+            'search_action': self.event.fingering.get_url(self.request),
             'with_pitches': with_pitches,
             'without_pitches': without_pitches,
             'with_pitch_classes': with_pitch_classes,
@@ -91,8 +88,12 @@ class FingeringView(SearchView):
     ### PUBLIC ATTRIBUTES ###
 
     @property
+    def event(self):
+        return self._event
+
+    @property
     def events(self):
-        return domaintools.Event.get(fingering_id=self.fingering.id)
+        return newdomaintools.Event.objects(fingering=self.event.fingering)
 
     @property
     def fingering(self):
@@ -101,10 +102,6 @@ class FingeringView(SearchView):
     @property
     def instrument(self):
         return self._instrument
-
-    @property
-    def instrument_keys(self):
-        return self._instrument_keys
 
     @property
     def layout_parameters(self):
@@ -120,8 +117,10 @@ class FingeringView(SearchView):
 
     @property
     def title(self):
-        return 'SASHA | %s Fingering: %s' % (self.instrument.name,
-            ' '.join([key.name for key in self.instrument_keys]))
+        return 'SASHA | {} Fingering: {}'.format(
+            self.event.fingering.instrument.name,
+            ' '.join(self.event.fingering.key_names),
+            )
 
     @property
     def request(self):
@@ -130,29 +129,16 @@ class FingeringView(SearchView):
     ### PUBLIC METHODS ###
 
     def query(self):
-        query = sasha_configuration.get_session().query(domaintools.Event)
-        query = query.join(domaintools.Fingering)
-        query = query.filter(domaintools.Fingering.id == self.fingering.id)
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')
-        if with_pitches or without_pitches:
-            #print 'WITH_PITCHES: %r' % with_pitches
-            #print 'WITHOUT_PITCHES: %r' % without_pitches
-            query = query.intersect(
-                domaintools.Event.query_pitches(
-                    with_pitches,
-                    without_pitches,
-                    ),
-                )
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        if with_pitch_classes or without_pitch_classes:
-            #print 'WITH_PITCH_CLASSES: %r' % with_pitch_classes
-            #print 'WITHOUT_PITCH_CLASSES: %r' % without_pitch_classes
-            query = query.intersect(
-                domaintools.Event.query_pitch_classes(
-                    with_pitch_classes,
-                    without_pitch_classes,
-                    ),
-                )
+        query = newdomaintools.Event.query_mongodb(
+            with_pitches=with_pitches,
+            without_pitches=without_pitches,
+            with_pitch_classes=with_pitch_classes,
+            without_pitch_classes=without_pitch_classes,
+            )
+        compact_representation = self.event.fingering.compact_representation
+        query = query(fingering__compact_representation=compact_representation)
         return query

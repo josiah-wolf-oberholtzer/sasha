@@ -76,12 +76,6 @@ class ViewTests(unittest.TestCase):
         view = views.FingeringView(request)
         info = view()
         self.assertEqual(info['body_class'], 'search')
-        self.assertEqual(info['fingering'].id, fingering.id)
-        self.assertEqual(
-            set(_.id for _ in info['fingerings']),
-            set(_.id for _ in fingering.find_similar_fingerings(12)),
-            )
-        self.assertEqual(info['instrument'].id, instrument.id)
         self.assertEqual(info['instrument_keys'], instrument_keys)
         self.assertEqual(info['instrument_name'], instrument.name)
         self.assertEqual(
