@@ -3,7 +3,7 @@
 <%!
     import datetime
     from pyramid.url import current_route_url
-    from sasha.tools import domaintools
+    from sasha.tools import newdomaintools
 %>
 <head profile="http://gmpg.org/xfn/11">
     <title>${title}</title>
@@ -44,7 +44,7 @@
                         role="button" aria-haspopup="true" 
                         aria-expanded="false">Instruments<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                    % for instrument in domaintools.Instrument.with_events():
+                    % for instrument in newdomaintools.Instrument.with_events():
                         <li><a href="${instrument.get_url(request)}">${instrument.name}</a></li>
                     % endfor
                     </ul>
@@ -54,7 +54,7 @@
                         role="button" aria-haspopup="true" 
                         aria-expanded="false">Clusters<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                    % for cluster in domaintools.Cluster.get():
+                    % for cluster in newdomaintools.Cluster.objects:
                         <li>${cluster.get_long_link(request)}</li>
                     % endfor
                     </ul>
