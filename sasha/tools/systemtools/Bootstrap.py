@@ -310,7 +310,7 @@ class Bootstrap(object):
                 instrument=instrument,
                 name=name,
                 performer=performer)
-            md5 = assettools.SourceAudio(event).md5
+            md5 = assettools.SourceAudio(event.name).md5
             event.md5 = md5
             session.add(event)
         session.commit()
