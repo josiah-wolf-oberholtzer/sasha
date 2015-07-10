@@ -1,7 +1,6 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha import sasha_configuration
-from sasha import domaintools
+from sasha import newdomaintools
 from sasha.views.SearchView import SearchView
 from webhelpers import paginate
 
@@ -19,7 +18,7 @@ class InstrumentView(SearchView):
         instrument_name = self.request.matchdict['instrument_name']
         instrument_name = instrument_name.replace('-', ' ').title()
         try:
-            self._instrument = domaintools.Instrument.get_one(
+            self._instrument = newdomaintools.Instrument.objects.get(
                 name=instrument_name,
                 )
         except:
@@ -88,50 +87,28 @@ class InstrumentView(SearchView):
     ### PUBLIC METHODS ###
 
     def query(self):
-        query = sasha_configuration.get_session().query(domaintools.Event)
-        query = query.join(domaintools.Instrument)
-        query = query.filter(domaintools.Instrument.id == self.instrument.id)
         with_pitches = self.pitch_parameters.get('with_pitches')
         without_pitches = self.pitch_parameters.get('without_pitches')
-        if with_pitches or without_pitches:
-            #print 'WITH_PITCHES: %r' % with_pitches
-            #print 'WITHOUT_PITCHES: %r' % without_pitches
-            query = query.intersect(
-                domaintools.Event.query_pitches(
-                    with_pitches,
-                    without_pitches,
-                    ),
-                )
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        if with_pitch_classes or without_pitch_classes:
-            #print 'WITH_PITCH_CLASSES: %r' % with_pitch_classes
-            #print 'WITHOUT_PITCH_CLASSES: %r' % without_pitch_classes
-            query = query.intersect(
-                domaintools.Event.query_pitch_classes(
-                    with_pitch_classes,
-                    without_pitch_classes,
-                    ),
-                )
         with_keys = self.idiom_parameters.get('with_keys')
         without_keys = self.idiom_parameters.get('without_keys')
-        if with_keys or without_keys:
-            #print 'WITH_KEYS: %r' % with_keys
-            #print 'WITHOUT_KEYS: %r' % without_keys
-            query = query.intersect(
-                domaintools.Event.query_keys(
-                    self.instrument.name,
-                    with_keys,
-                    without_keys,
-                    ),
-                )
+        query = newdomaintools.Event.query_mongodb(
+            instrument_name=self._instrument.name,
+            with_keys=with_keys,
+            with_pitch_classes=with_pitch_classes,
+            with_pitches=with_pitches,
+            without_keys=without_keys,
+            without_pitch_classes=without_pitch_classes,
+            without_pitches=without_pitches,
+            )
         return query
 
     ### PUBLIC ATTRIBUTES ###
 
     @property
     def events(self):
-        return Event.get(instrument=self.instrument)
+        return newdomaintools.Event.objects(fingering__instrument=self.instrument)
 
     @property
     def idiom_parameters(self):
