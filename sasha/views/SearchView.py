@@ -1,7 +1,5 @@
 from abjad.tools import pitchtools
 from pyramid.view import view_config
-from sasha import sasha_configuration
-from sasha.tools import domaintools
 from sasha.tools import newdomaintools
 from sasha.views.View import View
 from webhelpers import paginate
