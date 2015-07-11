@@ -20,10 +20,6 @@ class TemplateTests(unittest.TestCase):
             response,
             )
 
-    @unittest.skipIf(
-        os.environ.get('TRAVIS') == 'true',
-        "Clustering is broken under Travis-CI."
-        )
     def test_cluster_01(self):
         path = '/clusters/chroma/1/'
         response = self.testapp.get(path, status=200)

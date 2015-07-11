@@ -16,10 +16,6 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
-    @unittest.skipIf(
-        os.environ.get('TRAVIS') == 'true',
-        "Clustering is broken under Travis-CI."
-        )
     def test_ClusterView_01(self):
         cluster = sasha.Cluster.objects.first()
         request = testing.DummyRequest(
