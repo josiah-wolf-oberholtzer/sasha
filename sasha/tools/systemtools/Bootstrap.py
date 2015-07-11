@@ -10,14 +10,14 @@ class Bootstrap(object):
 
     def __call__(self):
         self.delete_mongodb_database()
-        self.delete_audiodb_databases()
         self.create_mongodb_database()
         self.populate_mongodb_primary()
         self.populate_all_assets()
-        self.create_audiodb_databases()
-        self.populate_audiodb_databases()
         self.populate_mongodb_clusters()
         self.populate_mongodb_partials()
+        self.delete_audiodb_databases()
+        self.create_audiodb_databases()
+        self.populate_audiodb_databases()
 
     ### PRIVATE METHODS ###
 
@@ -141,7 +141,7 @@ class Bootstrap(object):
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
         from sasha.tools.newdomaintools import Event
-        events = Event.objects[:]
+        events = tuple(Event.objects)
         assert 0 < len(events)
         for name in sasha_configuration['audioDB']:
             adb = AudioDB(name)
