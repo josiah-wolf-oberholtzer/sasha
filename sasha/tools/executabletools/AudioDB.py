@@ -48,13 +48,28 @@ class AudioDB(Executable):
                 self.delete()
             else:
                 raise Exception('Database already exists.')
+
         command = '{} -N --datasize=100 -d {}'
         command = command.format(self.executable, self.path)
+        print(command)
         out, err = self._exec(command)
+        if out or err:
+            print(out)
+            print(err)
+
         command = '{} -L -d {}'.format(self.executable, self.path)
+        print(command)
         out, err = self._exec(command)
+        if out or err:
+            print(out)
+            print(err)
+
         command = '{} -P -d {}'.format(self.executable, self.path)
+        print(command)
         out, err = self._exec(command)
+        if out or err:
+            print(out)
+            print(err)
 
     def delete(self):
         if self.exists:
@@ -98,6 +113,7 @@ class AudioDB(Executable):
             feature_file_path,
             log_power_file_path,
             )
+        print(command)
         stdout, stderr = self._exec(command)
         shutil.rmtree(temporary_directory_path)
 
@@ -115,7 +131,6 @@ class AudioDB(Executable):
             self.path,
             feature.path,
             )
-        print(command)
         if events:
             if target not in events:
                 events.append(target)
@@ -128,13 +143,19 @@ class AudioDB(Executable):
                 temporary_file.write('{}\n'.format(event.name))
             temporary_file.close()
             command += ' -r {} -K {}'.format(len(events), temporary_file.name)
+            print(command)
             out, err = self._exec(command)
+            if out or err:
+                print(out)
+                print(err)
             os.unlink(temporary_file.name)
         else:
             command += ' -r {}'.format(n + 1)
+            print(command)
             out, err = self._exec(command)
-            print(out)
-            print(err)
+            if out or err:
+                print(out)
+                print(err)
         q = [_.split() for _ in out.split('\n') if _]
         results = []
         for x in q:
@@ -171,7 +192,12 @@ class AudioDB(Executable):
 
     @property
     def status(self):
-        out, err = self._exec('{} -d {} -S'.format(self.executable, self.path))
+        command = '{} -d {} -S'.format(self.executable, self.path)
+        print(command)
+        out, err = self._exec(command)
+        if out or err:
+            print(out)
+            print(err)
         lines = out.splitlines()
         lines = [_ for _ in lines if _]
         status = {}

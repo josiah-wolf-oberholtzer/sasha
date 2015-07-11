@@ -85,16 +85,19 @@ class Bootstrap(object):
 
     ### PUBLIC METHODS ###
 
-    def create_audiodb_databases(self):
+    @staticmethod
+    def create_audiodb_databases():
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
         for name in sasha_configuration['audioDB']:
             AudioDB(name).create()
 
-    def create_mongodb_database(self):
+    @staticmethod
+    def create_mongodb_database():
         pass
 
-    def delete_all_assets(self):
+    @staticmethod
+    def delete_all_assets():
         from sasha.tools import newdomaintools
         from sasha.tools import assettools
         asset_classes = assettools.AssetDependencyGraph().in_order()
@@ -103,19 +106,22 @@ class Bootstrap(object):
                 if hasattr(asset_class, 'delete'):
                     asset_class(event).delete()
 
-    def delete_audiodb_databases(self):
+    @staticmethod
+    def delete_audiodb_databases():
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
         for name in sasha_configuration['audioDB']:
             AudioDB(name).delete()
 
-    def delete_mongodb_database(self):
+    @staticmethod
+    def delete_mongodb_database():
         from sasha import sasha_configuration
         client = sasha_configuration.mongodb_client
         if client is not None:
             client.drop_database(sasha_configuration.mongodb_database_name)
 
-    def populate_all_assets(self):
+    @staticmethod
+    def populate_all_assets():
         from sasha.tools import newdomaintools
         events = newdomaintools.Event.objects
         log_message = 'Populating all assets for {} events.'.format(
@@ -123,21 +129,22 @@ class Bootstrap(object):
             )
         print(log_message)
         for event in events:
-            self._populate_all_assets_for_event(event)
+            Bootstrap._populate_all_assets_for_event(event)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():
 #                    pool = multiprocessing.Pool()
 #                    pool.map_async(
-#                        self._populate_all_assets_for_object,
+#                        Bootstrap._populate_all_assets_for_object,
 #                        triples,
 #                        )
 #                    pool.close()
 #                    pool.join()
 #                else:
 #                    for triple in triples:
-#                        self._populate_all_assets_for_object(triple)
+#                        Bootstrap._populate_all_assets_for_object(triple)
 
-    def populate_audiodb_databases(self):
+    @staticmethod
+    def populate_audiodb_databases():
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
         from sasha.tools.newdomaintools import Event
@@ -147,7 +154,8 @@ class Bootstrap(object):
             adb = AudioDB(name)
             adb.populate(events)
 
-    def populate_mongodb_primary(self):
+    @staticmethod
+    def populate_mongodb_primary():
         from sasha import sasha_configuration
         from sasha.tools import assettools
         from sasha.tools import newdomaintools
@@ -164,7 +172,7 @@ class Bootstrap(object):
         # Populate instruments.
         instrument_fixtures = sasha_configuration.get_fixtures(
             newdomaintools.Instrument)
-        instrument_fixtures = self._sort_instrument_fixtures(
+        instrument_fixtures = Bootstrap._sort_instrument_fixtures(
             instrument_fixtures)
         instruments = []
         for fixture in instrument_fixtures:
@@ -175,7 +183,7 @@ class Bootstrap(object):
                 )
             instruments.append(instrument)
         newdomaintools.Instrument.objects.insert(instruments)
-        instrument_mapping = self._collect_instrument_parents(
+        instrument_mapping = Bootstrap._collect_instrument_parents(
             instrument_fixtures)
         for child_name, parent_names in instrument_mapping.items():
             if not parent_names:
@@ -217,7 +225,8 @@ class Bootstrap(object):
             events.append(event)
         newdomaintools.Event.objects.insert(events)
 
-    def populate_mongodb_clusters(self):
+    @staticmethod
+    def populate_mongodb_clusters():
         from sasha.tools import analysistools
         from sasha.tools import newdomaintools
         chroma_kmeans = analysistools.KMeansClustering(
@@ -241,7 +250,8 @@ class Bootstrap(object):
         all_clusters.extend(mfcc_kmeans())
         newdomaintools.Cluster.objects.insert(all_clusters)
 
-    def populate_mongodb_partials(self):
+    @staticmethod
+    def populate_mongodb_partials():
         from sasha.tools import assettools
         from sasha.tools import newdomaintools
         for event in newdomaintools.Event.objects:
@@ -261,9 +271,16 @@ class Bootstrap(object):
             event.partials = partials
             event.save()
 
-    def rebuild_mongodb_database(self):
-        self.delete_mongodb_database()
-        self.create_mongodb_database()
-        self.populate_mongodb_primary()
-        self.populate_mongodb_clusters()
-        self.populate_mongodb_partials()
+    @staticmethod
+    def rebuild_mongodb_database():
+        Bootstrap.delete_mongodb_database()
+        Bootstrap.create_mongodb_database()
+        Bootstrap.populate_mongodb_primary()
+        Bootstrap.populate_mongodb_clusters()
+        Bootstrap.populate_mongodb_partials()
+
+    @staticmethod
+    def rebuild_audiodb_databases():
+        Bootstrap.delete_audiodb_databases()
+        Bootstrap.create_audiodb_databases()
+        Bootstrap.populate_audiodb_databases()
