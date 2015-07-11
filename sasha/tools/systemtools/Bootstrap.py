@@ -35,7 +35,10 @@ class Bootstrap(object):
         return mapping
 
     @staticmethod
-    def _populate_all_assets_for_object(event, asset_classes):
+    def _populate_all_assets_for_event(event):
+        from sasha.tools.assettools import AssetDependencyGraph
+        dependency_graph = AssetDependencyGraph()
+        asset_classes = dependency_graph.in_order()
         print('Populating assets for {}'.format(event))
         for asset_class in asset_classes:
             asset = asset_class(event)
@@ -114,16 +117,13 @@ class Bootstrap(object):
 
     def populate_all_assets(self):
         from sasha.tools import newdomaintools
-        from sasha.tools.assettools import AssetDependencyGraph
         events = newdomaintools.Event.objects
         log_message = 'Populating all assets for {} events.'.format(
             events.count(),
             )
         print(log_message)
-        dependency_graph = AssetDependencyGraph()
-        asset_classes = dependency_graph.in_order()
         for event in events:
-            self._populate_all_assets_for_event(event, asset_classes)
+            self._populate_all_assets_for_event(event)
 #            if triples:
 #                if 1 < multiprocessing.cpu_count():
 #                    pool = multiprocessing.Pool()
