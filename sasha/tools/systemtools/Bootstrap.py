@@ -35,19 +35,32 @@ class Bootstrap(object):
         return mapping
 
     @staticmethod
-    def _populate_all_assets_for_event(event):
+    def _populate_all_assets_for_event(event, event_index, event_total):
         from sasha.tools.assettools import AssetDependencyGraph
         dependency_graph = AssetDependencyGraph()
         asset_classes = dependency_graph.in_order()
-        print('Populating assets for {}'.format(event))
-        for asset_class in asset_classes:
+        message = 'Populating assets for {} of {}: {}'.format(
+            event_index,
+            event_total,
+            event.name,
+            )
+        print(message)
+        asset_classes = tuple(_ for _ in asset_classes if hasattr(_, 'write'))
+        for asset_index, asset_class in enumerate(asset_classes, 1):
             asset = asset_class(event)
             try:
-                if hasattr(asset, 'write'):
-                    message = 'Writing {} to {}.'
-                    message = message.format(asset, asset.path)
-                    print(message)
-                    asset.write(parallel=False)
+                message = '\t[{}/{}: {}/{}] {}'
+                message = message.format(
+                    event_index,
+                    event_total,
+                    asset_index,
+                    len(asset_classes),
+                    asset,
+                    )
+                print(message)
+                message = '\t\tWriting to {}.'.format(asset.path)
+                print(message)
+                asset.write(parallel=False)
             except:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 traceback.print_exc()
@@ -124,24 +137,15 @@ class Bootstrap(object):
     def populate_all_assets():
         from sasha.tools import newdomaintools
         events = newdomaintools.Event.objects
-        log_message = 'Populating all assets for {} events.'.format(
-            events.count(),
-            )
-        print(log_message)
-        for event in events:
-            Bootstrap._populate_all_assets_for_event(event)
-#            if triples:
-#                if 1 < multiprocessing.cpu_count():
-#                    pool = multiprocessing.Pool()
-#                    pool.map_async(
-#                        Bootstrap._populate_all_assets_for_object,
-#                        triples,
-#                        )
-#                    pool.close()
-#                    pool.join()
-#                else:
-#                    for triple in triples:
-#                        Bootstrap._populate_all_assets_for_object(triple)
+        event_count = events.count()
+        message = 'Populating all assets for {} events.'.format(event_count)
+        print(message)
+        for event_index, event in enumerate(events, 1):
+            Bootstrap._populate_all_assets_for_event(
+                event,
+                event_index,
+                event_count,
+                )
 
     @staticmethod
     def populate_audiodb_databases():
