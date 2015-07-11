@@ -49,6 +49,10 @@ class AudioDB(Executable):
             else:
                 raise Exception('Database already exists.')
 
+        directory_path, file_name = os.path.split(self.path)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
+
         command = '{} -N --datasize=100 -d {}'
         command = command.format(self.executable, self.path)
         print(command)
