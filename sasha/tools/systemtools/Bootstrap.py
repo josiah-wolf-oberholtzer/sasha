@@ -175,6 +175,7 @@ class Bootstrap(object):
                 name=fixture['name'],
                 )
             performers.append(performer)
+        assert performers
         modeltools.Performer.objects.insert(performers)
         # Populate instruments.
         instrument_fixtures = sasha_configuration.get_fixtures(
@@ -189,6 +190,7 @@ class Bootstrap(object):
                 transposition=int(fixture['transposition']),
                 )
             instruments.append(instrument)
+        assert instruments
         modeltools.Instrument.objects.insert(instruments)
         instrument_mapping = Bootstrap._collect_instrument_parents(
             instrument_fixtures)
@@ -230,6 +232,7 @@ class Bootstrap(object):
                 )
             event.md5 = assettools.SourceAudio(event).md5
             events.append(event)
+        assert events
         modeltools.Event.objects.insert(events)
 
     @staticmethod
