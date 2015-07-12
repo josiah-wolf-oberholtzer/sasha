@@ -47,6 +47,5 @@ def main(global_config, **settings):
     session_factory = UnencryptedCookieSessionFactoryConfig('hobbeshobbertson')
     config = Configurator(settings=settings, session_factory=session_factory)
     config.include(includeme)
-    sasha_configuration.environment = 'development'
     sasha_configuration.connect()
     return config.make_wsgi_app()
