@@ -21,6 +21,7 @@ def includeme(config):
     config.add_route('instrument', '/instruments/{instrument_name}/')
     config.add_route('random_event', '/random/')
     config.add_route('search', '/search/')
+    config.add_route('favicon', '/favicon.ico')
     config.add_static_view(
         'assets/mp3s',
         'sashamedia:{}/mp3s/'.format(sasha_configuration.environment),
