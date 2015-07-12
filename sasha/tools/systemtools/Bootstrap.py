@@ -1,4 +1,5 @@
 from __future__ import print_function
+import os
 import sys
 import traceback
 from abjad.tools import pitchtools
@@ -58,7 +59,8 @@ class Bootstrap(object):
                     asset,
                     )
                 print(message)
-                message = '\t\tWriting to {}.'.format(asset.path)
+                message = '\t\tWriting to {}.'.format(
+                    os.path.relpath(asset.path))
                 print(message)
                 asset.write(parallel=False)
             except:
