@@ -16,6 +16,7 @@ class Bootstrap(object):
         self.populate_all_assets()
         self.populate_mongodb_clusters()
         self.populate_mongodb_partials()
+        self.populate_mongodb_spectral_descriptors()
         self.delete_audiodb_databases()
         self.create_audiodb_databases()
         self.populate_audiodb_databases()
@@ -278,12 +279,21 @@ class Bootstrap(object):
             event.save()
 
     @staticmethod
+    def populate_mongodb_spectral_descriptors():
+        from sasha.tools import modeltools
+        for event in modeltools.Event.objects:
+            descriptors = modeltools.Descriptors.from_event(event)
+            event.descriptors = descriptors
+            event.save()
+
+    @staticmethod
     def rebuild_mongodb_database():
         Bootstrap.delete_mongodb_database()
         Bootstrap.create_mongodb_database()
         Bootstrap.populate_mongodb_primary()
         Bootstrap.populate_mongodb_clusters()
         Bootstrap.populate_mongodb_partials()
+        Bootstrap.populate_mongodb_spectral_descriptors()
 
     @staticmethod
     def rebuild_audiodb_databases():
