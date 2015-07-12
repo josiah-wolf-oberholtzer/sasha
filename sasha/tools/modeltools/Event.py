@@ -5,6 +5,19 @@ from webhelpers.html import HTML
 
 class Event(mongoengine.Document):
 
+    ### CLASS VARIABLES ###
+
+    order_by = {
+        None: 'md5',
+        'spectral_centroid': 'descriptors__spectral_centroid',
+        'spectral_crest': 'descriptors__spectral_crest',
+        'spectral_flatness': 'descriptors__spectral_flatness',
+        'spectral_kurtosis': 'descriptors__spectral_kurtosis',
+        'spectral_rolloff': 'descriptors__spectral_rolloff',
+        'spectral_skewness': 'descriptors__spectral_skewness',
+        'spectral_spread': 'descriptors__spectral_spread',
+        }
+
     ### MONGOENGINE ###
 
     description = mongoengine.StringField()
@@ -14,6 +27,10 @@ class Event(mongoengine.Document):
     name = mongoengine.StringField(max_length=100, unique=True)
     performer = mongoengine.ReferenceField('Performer')
     partials = mongoengine.EmbeddedDocumentListField('Partial')
+
+    meta = {
+        'ordering': ['-md5'],
+        }
 
     ### SPECIAL METHODS ###
 
