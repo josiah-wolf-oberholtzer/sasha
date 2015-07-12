@@ -1,5 +1,6 @@
 from abjad.tools import systemtools
 
+from sasha.tools.modeltools.Descriptors import Descriptors
 from sasha.tools.modeltools.Fingering import Fingering
 
 systemtools.ImportManager.import_structured_package(
