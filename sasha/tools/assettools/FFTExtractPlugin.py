@@ -51,8 +51,12 @@ class FFTExtractPlugin(Asset):
 
     @property
     def mean(self):
+        if self.asset is None:
+            self.read()
         return self._mean
 
     @property
     def std(self):
+        if self.asset is None:
+            self.read()
         return self._std
