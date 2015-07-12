@@ -1,6 +1,6 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha.tools import models
+from sasha.tools import modeltools
 from sasha.views.SearchView import SearchView
 from webhelpers import paginate
 
@@ -18,7 +18,7 @@ class InstrumentView(SearchView):
         instrument_name = self.request.matchdict['instrument_name']
         instrument_name = instrument_name.replace('-', ' ').title()
         try:
-            self._instrument = models.Instrument.objects.get(
+            self._instrument = modeltools.Instrument.objects.get(
                 name=instrument_name,
                 )
         except:
@@ -93,7 +93,7 @@ class InstrumentView(SearchView):
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
         with_keys = self.idiom_parameters.get('with_keys')
         without_keys = self.idiom_parameters.get('without_keys')
-        query = models.Event.query_mongodb(
+        query = modeltools.Event.query_mongodb(
             instrument_name=self._instrument.name,
             with_keys=with_keys,
             with_pitch_classes=with_pitch_classes,
@@ -108,7 +108,7 @@ class InstrumentView(SearchView):
 
     @property
     def events(self):
-        return models.Event.objects(fingering__instrument=self.instrument)
+        return modeltools.Event.objects(fingering__instrument=self.instrument)
 
     @property
     def idiom_parameters(self):

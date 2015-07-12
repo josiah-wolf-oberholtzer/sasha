@@ -1,6 +1,6 @@
 from sasha import sasha_configuration
 from sasha.tools import executabletools
-from sasha.tools import models
+from sasha.tools import modeltools
 from sasha.tools import systemtools
 
 
@@ -11,7 +11,7 @@ def test_Bootstrap_populate_audiodb_databases_01():
 
     bootstrap = systemtools.Bootstrap()
 
-    event_count = models.Event.objects.count()
+    event_count = modeltools.Event.objects.count()
     assert 0 < event_count
 
     assert executabletools.AudioDB('chroma').exists

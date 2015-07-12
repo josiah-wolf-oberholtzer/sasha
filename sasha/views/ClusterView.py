@@ -1,6 +1,6 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha.tools import models
+from sasha.tools import modeltools
 from sasha.views.SearchView import SearchView
 
 
@@ -17,7 +17,7 @@ class ClusterView(SearchView):
         feature = self.request.matchdict['feature'].replace('-', '_')
         cluster_id = int(self.request.matchdict['cluster_id'])
         try:
-            self._current_cluster = models.Cluster.objects.get(
+            self._current_cluster = modeltools.Cluster.objects.get(
                 feature=feature,
                 cluster_id=cluster_id,
                 )
@@ -33,7 +33,7 @@ class ClusterView(SearchView):
         if instrument_name:
             instrument_name = instrument_name.replace('_', ' ').title()
             try:
-                self._instrument = models.Instrument.objects.get(
+                self._instrument = modeltools.Instrument.objects.get(
                     name=instrument_name,
                     )
             except:
@@ -71,7 +71,7 @@ class ClusterView(SearchView):
     @property
     def all_clusters(self):
         clusters = {}
-        for cluster in models.Cluster.objects:
+        for cluster in modeltools.Cluster.objects:
             if cluster.feature not in clusters:
                 clusters[cluster.feature] = []
             clusters[cluster.feature].append(cluster)

@@ -55,9 +55,9 @@ class Fingering(mongoengine.EmbeddedDocument):
     def find_similar_fingerings(self, n=10):
         def compare(a, b):
             return sum(1 for x, y in zip(a, b) if x == y)
-        from sasha.tools import models
+        from sasha.tools import modeltools
         results = []
-        events = models.Event.objects(
+        events = modeltools.Event.objects(
             fingering__instrument=self.instrument,
             )
         self_repr = self.compact_representation

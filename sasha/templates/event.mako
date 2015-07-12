@@ -4,7 +4,7 @@
 
 <%!
     from sasha import sasha_configuration
-    from sasha.tools.models import Event
+    from sasha.tools.modeltools import Event
     from sasha.tools.assettools.ChordNotation import ChordNotation
     from sasha.tools.assettools.ChromaNotation import ChromaNotation
     from sasha.tools.assettools.MP3Audio import MP3Audio

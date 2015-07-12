@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha.views.SearchView import SearchView
 from sasha.tools import executabletools
-from sasha.tools import models
+from sasha.tools import modeltools
 
 
 @view_config(
@@ -17,7 +17,7 @@ class EventView(SearchView):
         self._request = request
         md5 = self.request.matchdict['md5']
         try:
-            self._event = models.Event.objects.get(md5=md5)
+            self._event = modeltools.Event.objects.get(md5=md5)
         except:
             message = "SASHA couldn't find an Event linked to <em>{}</em>."
             message = message.format(md5)
@@ -42,7 +42,7 @@ class EventView(SearchView):
     @property
     def chroma_events(self):
         adb = executabletools.AudioDB('chroma')
-        events = models.Event.objects(
+        events = modeltools.Event.objects(
             fingering__instrument=self.event.fingering.instrument,
             )
         result = adb.query(self.event, 12, events)
@@ -55,7 +55,7 @@ class EventView(SearchView):
     @property
     def mfcc_events(self):
         adb = executabletools.AudioDB('mfcc')
-        events = models.Event.objects(
+        events = modeltools.Event.objects(
             fingering__instrument=self.event.fingering.instrument,
             )
         result = adb.query(self.event, 12, events)

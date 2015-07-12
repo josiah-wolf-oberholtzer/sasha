@@ -1,6 +1,6 @@
 from abjad.tools import pitchtools
 from pyramid.view import view_config
-from sasha.tools import models
+from sasha.tools import modeltools
 from sasha.views.View import View
 from webhelpers import paginate
 from webhelpers.html import literal
@@ -119,10 +119,10 @@ class SearchView(View):
         Returns dictionary of processed params.
         '''
         processed_params = {}
-        if not isinstance(instrument, models.Instrument):
+        if not isinstance(instrument, modeltools.Instrument):
             if not isinstance(instrument, (str, unicode)):
                 instrument = instrument.name
-            instrument = models.Instrument.objects.get(name=instrument)
+            instrument = modeltools.Instrument.objects.get(name=instrument)
         with_keys = params.get('with_keys')
         if with_keys is not None:
             keys_to_process = str(with_keys).split()
@@ -351,7 +351,7 @@ class SearchView(View):
         without_pitches = self.pitch_parameters.get('without_pitches')
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        query = models.Event.query_mongodb(
+        query = modeltools.Event.query_mongodb(
             with_pitches=with_pitches,
             without_pitches=without_pitches,
             with_pitch_classes=with_pitch_classes,

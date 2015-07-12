@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha import sasha_configuration
-from sasha.tools import models
+from sasha.tools import modeltools
 from sasha.views.SearchView import SearchView
 
 
@@ -18,7 +18,7 @@ class FingeringView(SearchView):
         instrument_name = self.request.matchdict['instrument_name']
         instrument_name = instrument_name.replace('-', ' ').title()
         try:
-            self._instrument = models.Instrument.objects.get(
+            self._instrument = modeltools.Instrument.objects.get(
                 name=instrument_name,
                 )
         except:
@@ -28,7 +28,7 @@ class FingeringView(SearchView):
             raise HTTPNotFound(message)
         compact_representation = self.request.matchdict['compact_representation']
         try:
-            self._event = models.Event.objects(
+            self._event = modeltools.Event.objects(
                 fingering__compact_representation=compact_representation,
                 ).first()
         except:
@@ -93,7 +93,7 @@ class FingeringView(SearchView):
 
     @property
     def events(self):
-        return models.Event.objects(fingering=self.event.fingering)
+        return modeltools.Event.objects(fingering=self.event.fingering)
 
     @property
     def fingering(self):
@@ -133,7 +133,7 @@ class FingeringView(SearchView):
         without_pitches = self.pitch_parameters.get('without_pitches')
         with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
         without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        query = models.Event.query_mongodb(
+        query = modeltools.Event.query_mongodb(
             with_pitches=with_pitches,
             without_pitches=without_pitches,
             with_pitch_classes=with_pitch_classes,

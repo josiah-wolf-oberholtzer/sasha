@@ -113,10 +113,10 @@ class Bootstrap(object):
 
     @staticmethod
     def delete_all_assets():
-        from sasha.tools import models
+        from sasha.tools import modeltools
         from sasha.tools import assettools
         asset_classes = assettools.AssetDependencyGraph().in_order()
-        for event in models.Event.objects:
+        for event in modeltools.Event.objects:
             for asset_class in asset_classes:
                 if hasattr(asset_class, 'delete'):
                     asset_class(event).delete()
@@ -137,8 +137,8 @@ class Bootstrap(object):
 
     @staticmethod
     def populate_all_assets():
-        from sasha.tools import models
-        events = models.Event.objects
+        from sasha.tools import modeltools
+        events = modeltools.Event.objects
         event_count = events.count()
         message = 'Populating all assets for {} events.'.format(event_count)
         print(message)
@@ -153,7 +153,7 @@ class Bootstrap(object):
     def populate_audiodb_databases():
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
-        from sasha.tools.models import Event
+        from sasha.tools.modeltools import Event
         events = tuple(Event.objects)
         assert 0 < len(events)
         for name in sasha_configuration['audioDB']:
@@ -164,77 +164,77 @@ class Bootstrap(object):
     def populate_mongodb_primary():
         from sasha import sasha_configuration
         from sasha.tools import assettools
-        from sasha.tools import models
+        from sasha.tools import modeltools
         # Populate performers.
         performer_fixtures = sasha_configuration.get_fixtures(
-            models.Performer)
+            modeltools.Performer)
         performers = []
         for fixture in performer_fixtures:
-            performer = models.Performer(
+            performer = modeltools.Performer(
                 name=fixture['name'],
                 )
             performers.append(performer)
-        models.Performer.objects.insert(performers)
+        modeltools.Performer.objects.insert(performers)
         # Populate instruments.
         instrument_fixtures = sasha_configuration.get_fixtures(
-            models.Instrument)
+            modeltools.Instrument)
         instrument_fixtures = Bootstrap._sort_instrument_fixtures(
             instrument_fixtures)
         instruments = []
         for fixture in instrument_fixtures:
-            instrument = models.Instrument(
+            instrument = modeltools.Instrument(
                 key_names=fixture['key_names'],
                 name=fixture['name'],
                 transposition=int(fixture['transposition']),
                 )
             instruments.append(instrument)
-        models.Instrument.objects.insert(instruments)
+        modeltools.Instrument.objects.insert(instruments)
         instrument_mapping = Bootstrap._collect_instrument_parents(
             instrument_fixtures)
         for child_name, parent_names in instrument_mapping.items():
             if not parent_names:
                 continue
-            child = models.Instrument.objects(name=child_name).first()
+            child = modeltools.Instrument.objects(name=child_name).first()
             parents = []
             for parent_name in parent_names:
-                parent = models.Instrument.objects(
+                parent = modeltools.Instrument.objects(
                     name=parent_name).first()
                 parents.append(parent)
             child.parents = parents
             child.save()
         # Populate events.
         event_fixtures = sasha_configuration.get_fixtures(
-            models.Event)
+            modeltools.Event)
         events = []
         for fixture in event_fixtures:
-            instrument = models.Instrument.objects(
+            instrument = modeltools.Instrument.objects(
                 name=fixture['instrument'],
                 ).first()
-            performer = models.Performer.objects(
+            performer = modeltools.Performer.objects(
                 name=fixture['performer'],
                 ).first()
-            fingering = models.Fingering(
+            fingering = modeltools.Fingering(
                 instrument=instrument,
                 key_names=fixture['fingering'],
                 )
             fingering.compact_representation = \
-                models.Fingering.get_compact_representation(
+                modeltools.Fingering.get_compact_representation(
                     fingering.key_names,
                     instrument.key_names,
                     )
-            event = models.Event(
+            event = modeltools.Event(
                 fingering=fingering,
                 name=fixture['name'],
                 performer=performer,
                 )
             event.md5 = assettools.SourceAudio(event).md5
             events.append(event)
-        models.Event.objects.insert(events)
+        modeltools.Event.objects.insert(events)
 
     @staticmethod
     def populate_mongodb_clusters():
         from sasha.tools import analysistools
-        from sasha.tools import models
+        from sasha.tools import modeltools
         chroma_kmeans = analysistools.KMeansClustering(
             feature='chroma',
             cluster_count=9,
@@ -254,20 +254,20 @@ class Bootstrap(object):
         all_clusters.extend(chroma_kmeans())
         all_clusters.extend(constant_q_kmeans())
         all_clusters.extend(mfcc_kmeans())
-        models.Cluster.objects.insert(all_clusters)
+        modeltools.Cluster.objects.insert(all_clusters)
 
     @staticmethod
     def populate_mongodb_partials():
         from sasha.tools import assettools
-        from sasha.tools import models
-        for event in models.Event.objects:
+        from sasha.tools import modeltools
+        for event in modeltools.Event.objects:
             chord = assettools.ChordAnalysis(event.name).read()
             partials = []
             for pitch_number, amplitude in chord:
                 pitch = pitchtools.NamedPitch(pitch_number)
                 pitch_class_number = pitch.pitch_class_number
                 octave_number = pitch.octave_number
-                partial = models.Partial(
+                partial = modeltools.Partial(
                     amplitude=amplitude,
                     octave_number=octave_number,
                     pitch_class_number=pitch_class_number,

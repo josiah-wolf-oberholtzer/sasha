@@ -31,10 +31,10 @@ class Instrument(mongoengine.Document):
 
     @classmethod
     def with_events(cls):
-        from sasha.tools import models
-        object_ids = models.Event.objects.only('fingering.instrument')
+        from sasha.tools import modeltools
+        object_ids = modeltools.Event.objects.only('fingering.instrument')
         object_ids = object_ids.distinct('fingering.instrument')
-        result = models.Instrument.objects(id__in=object_ids)
+        result = modeltools.Instrument.objects(id__in=object_ids)
         return result
 
     ### PUBLIC PROPERTIES ###

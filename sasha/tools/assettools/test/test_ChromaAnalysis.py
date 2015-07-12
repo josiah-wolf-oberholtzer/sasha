@@ -1,14 +1,14 @@
 import os
 from sasha import sasha_configuration
 from sasha.tools import assettools
-from sasha.tools import models
+from sasha.tools import modeltools
 
 
 sasha_configuration.environment = 'testing'
 
 
 def test_ChromaAnalysis_01():
-    event = models.Event.objects.get(name='event__alto_saxophone__br_042.aif')
+    event = modeltools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
     analysis = assettools.ChromaAnalysis(event)
     analysis.delete()
     assert not analysis.exists
@@ -17,8 +17,8 @@ def test_ChromaAnalysis_01():
 
 
 def test_ChromaAnalysis_02():
-    event_a = models.Event.objects.get(name='event__alto_saxophone__br_042.aif')
-    event_b = models.Event.objects.get(name='event__alto_saxophone__br_123.aif')
+    event_a = modeltools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
+    event_b = modeltools.Event.objects.get(name='event__alto_saxophone__br_123.aif')
     analysis_a = assettools.ChromaAnalysis(event_a)
     analysis_b = assettools.ChromaAnalysis(event_b)
     assert analysis_a.path == os.path.join(

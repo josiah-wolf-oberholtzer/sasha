@@ -1,7 +1,7 @@
 import os
 from sasha import sasha_configuration
 from sasha.tools import assettools
-from sasha.tools import models
+from sasha.tools import modeltools
 import unittest
 
 
@@ -14,9 +14,9 @@ class LinearSpectrumAnalysisTests(unittest.TestCase):
         pass
 
     def test___init__(self):
-        event_a = models.Event.objects.get(
+        event_a = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
-        event_b = models.Event.objects.get(
+        event_b = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_123.aif')
         analysis_a = assettools.LinearSpectrumAnalysis(event_a)
         analysis_b = assettools.LinearSpectrumAnalysis(event_b)
@@ -36,7 +36,7 @@ class LinearSpectrumAnalysisTests(unittest.TestCase):
             )
 
     def test_write(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         analysis.delete()
@@ -45,42 +45,42 @@ class LinearSpectrumAnalysisTests(unittest.TestCase):
         self.assertTrue(analysis.exists)
 
     def test_calculate_spectral_centroid(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_centroid()
         self.assertAlmostEqual(result, 783.7433598705129)
 
     def test_calculate_spectral_crest(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_crest()
         self.assertAlmostEqual(result, 0.075993532431403346)
 
     def test_calculate_spectral_flatness(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_flatness()
         self.assertAlmostEqual(result, 4.247625609963788e-05)
 
     def test_calculate_spectral_kurtosis(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_kurtosis()
         self.assertAlmostEqual(result, 1389.031871906816)
 
     def test_calculate_spectral_skewness(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_skewness()
         self.assertAlmostEqual(result, 34.80170954439035)
 
     def test_calculate_spectral_spread(self):
-        event = models.Event.objects.get(
+        event = modeltools.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         analysis = assettools.LinearSpectrumAnalysis(event)
         result = analysis.calculate_spectral_spread()

@@ -5,4 +5,4 @@ from sasha.tools import systemtools
 from sasha.tools import analysistools
 from sasha.tools import assettools
 from sasha.tools import executabletools
-from sasha.tools import models
+from sasha.tools import modeltools
