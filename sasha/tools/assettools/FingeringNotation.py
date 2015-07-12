@@ -10,15 +10,15 @@ class FingeringNotation(Notation):
 
     __requires__ = None
     __slots__ = ()
-    plugin_label = 'fingering'
+    asset_label = 'fingering'
 
     ### PRIVATE METHODS ###
 
     def _build_path(self):
         from sasha import sasha_configuration
         name = str(self.client.canonical_fingering_name)
-        if self.plugin_label:
-            name += '__{}'.format(self.plugin_label)
+        if self.asset_label:
+            name += '__{}'.format(self.asset_label)
         if self.file_suffix:
             name += '.{}'.format(self.file_suffix)
         media_path = sasha_configuration.get_media_path(self.media_type)

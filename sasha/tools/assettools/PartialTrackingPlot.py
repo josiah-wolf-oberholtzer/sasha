@@ -8,7 +8,7 @@ class PartialTrackingPlot(Plot):
 
     __requires__ = PartialTrackingAnalysis
     __slots__ = ()
-    plugin_label = 'partials'
+    asset_label = 'partials'
 
     ### PRIVATE METHODS ###
 

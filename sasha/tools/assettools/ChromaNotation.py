@@ -13,7 +13,7 @@ class ChromaNotation(Notation):
 
     __requires__ = ChromaAnalysis
     __slots__ = ()
-    plugin_label = 'chroma'
+    asset_label = 'chroma'
 
     ### PRIVATE METHODS ###
 

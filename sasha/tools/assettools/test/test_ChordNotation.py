@@ -9,11 +9,11 @@ sasha_configuration.environment = 'testing'
 
 def test_ChordNotation_01():
     event = modeltools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
-    plugin = assettools.ChordNotation(event)
-    plugin.delete()
-    assert not plugin.exists
-    plugin.write()
-    assert plugin.exists
+    asset = assettools.ChordNotation(event)
+    asset.delete()
+    assert not asset.exists
+    asset.write()
+    assert asset.exists
 
 
 def test_ChordNotation_02():

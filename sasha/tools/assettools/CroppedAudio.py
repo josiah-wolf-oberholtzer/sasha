@@ -12,7 +12,7 @@ class CroppedAudio(Asset):
     __slots__ = ()
     file_suffix = 'aif'
     media_type = 'source_audio'
-    plugin_label = 'cropped'
+    asset_label = 'cropped'
 
     ### PUBLIC METHODS ###
 

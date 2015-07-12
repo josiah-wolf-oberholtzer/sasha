@@ -9,7 +9,7 @@ class ChordNotation(Notation):
 
     __requires__ = ChordAnalysis
     __slots__ = ()
-    plugin_label = 'chord'
+    asset_label = 'chord'
 
     ### PRIVATE METHODS ###
 

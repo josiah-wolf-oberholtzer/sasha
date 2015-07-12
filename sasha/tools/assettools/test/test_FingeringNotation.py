@@ -10,11 +10,11 @@ sasha_configuration.environment = 'testing'
 
 def test_FingeringNotation_01():
     event = modeltools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
-    plugin = assettools.FingeringNotation(event)
-    plugin.delete()
-    assert not plugin.exists
-    plugin.write()
-    assert plugin.exists
+    asset = assettools.FingeringNotation(event)
+    asset.delete()
+    assert not asset.exists
+    asset.write()
+    assert asset.exists
 
 
 def test_FingeringNotation_02():
