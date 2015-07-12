@@ -2,7 +2,7 @@
 
 <%!
     from sasha.tools.assettools import FingeringNotation
-    from sasha.tools.newdomaintools import Event
+    from sasha.tools.models import Event
 %>
 
 <%block name="other">

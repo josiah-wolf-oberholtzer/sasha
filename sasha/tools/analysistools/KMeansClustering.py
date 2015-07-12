@@ -1,6 +1,6 @@
 import numpy
 from sasha.tools import assettools
-from sasha.tools import newdomaintools
+from sasha.tools import models
 
 
 class KMeansClustering(object):
@@ -36,7 +36,7 @@ class KMeansClustering(object):
             k_means.fit(vectors)
         k_means_labels = k_means.labels_
         clusters = {}
-        cluster_class = newdomaintools.Cluster
+        cluster_class = models.Cluster
         for event, k_means_label in zip(events, k_means_labels):
             if k_means_label not in clusters:
                 clusters[k_means_label] = cluster_class(
@@ -55,7 +55,7 @@ class KMeansClustering(object):
     def build_corpus(self):
         from sklearn import preprocessing
         vectors = []
-        events = newdomaintools.Event.objects
+        events = models.Event.objects
         events = sorted(events, key=lambda x: x.name)
         for event in events:
             feature = self.feature_class(event.name)

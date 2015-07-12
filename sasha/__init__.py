@@ -3,7 +3,7 @@ sasha_configuration = SashaConfiguration()
 del SashaConfiguration
 
 from sasha.tools import *
-from sasha.tools.newdomaintools import *
+from sasha.tools.models import *
 from sasha.tools.executabletools import AudioDB
 del tools
 

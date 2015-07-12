@@ -15,14 +15,14 @@ class ClusterTests(unittest.TestCase):
         testing.tearDown()
 
     def test_Instrument_01(self):
-        instrument = sasha.newdomaintools.Instrument.objects.get(
+        instrument = sasha.models.Instrument.objects.get(
             name='Alto Saxophone',
             )
         self.assertEqual(instrument.name, 'Alto Saxophone')
         self.assertEqual(instrument.transposition, 3)
 
     def test_get_link(self):
-        instrument = sasha.newdomaintools.Instrument.objects.get(
+        instrument = sasha.models.Instrument.objects.get(
             name='Alto Saxophone',
             )
         request = testing.DummyRequest(
@@ -37,7 +37,7 @@ class ClusterTests(unittest.TestCase):
             )
 
     def test_get_url(self):
-        instrument = sasha.newdomaintools.Instrument.objects.get(
+        instrument = sasha.models.Instrument.objects.get(
             name='Alto Saxophone',
             )
         request = testing.DummyRequest(
@@ -49,20 +49,20 @@ class ClusterTests(unittest.TestCase):
         self.assertEqual(url, 'http://example.com/instruments/alto-saxophone/')
 
     def test_with_events(self):
-        instruments = sasha.newdomaintools.Instrument.with_events()
+        instruments = sasha.models.Instrument.with_events()
         self.assertEqual(
             set(_.name for _ in instruments),
             set(['Alto Saxophone', 'Soprano Saxophone']),
             )
 
     def test_dash_case_name(self):
-        instrument = sasha.newdomaintools.Instrument.objects.get(
+        instrument = sasha.models.Instrument.objects.get(
             name='Alto Saxophone',
             )
         self.assertEqual(instrument.dash_case_name, 'alto-saxophone')
 
     def test_snake_case_name(self):
-        instrument = sasha.newdomaintools.Instrument.objects.get(
+        instrument = sasha.models.Instrument.objects.get(
             name='Alto Saxophone',
             )
         self.assertEqual(instrument.snake_case_name, 'alto_saxophone')

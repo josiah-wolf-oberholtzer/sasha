@@ -1,7 +1,7 @@
 import random
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
-from sasha.tools import newdomaintools
+from sasha.tools import models
 from sasha.views.View import View
 
 
@@ -17,7 +17,7 @@ class RandomEventView(View):
 
     @property
     def location(self):
-        event_count = newdomaintools.Event.objects.count()
+        event_count = models.Event.objects.count()
         event_index = random.randrange(event_count)
-        event = newdomaintools.Event.objects[event_index]
+        event = models.Event.objects[event_index]
         return self.request.route_url('event', md5=event.md5)

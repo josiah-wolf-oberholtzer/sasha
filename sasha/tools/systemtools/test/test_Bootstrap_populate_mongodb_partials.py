@@ -1,5 +1,5 @@
 from sasha import sasha_configuration
-from sasha.tools import newdomaintools
+from sasha.tools import models
 from sasha.tools import systemtools
 
 
@@ -14,7 +14,7 @@ def test_Bootstrap_populate_mongodb_partials_01():
     bootstrap.populate_mongodb_primary()
     bootstrap.populate_mongodb_partials()
 
-    for event in newdomaintools.Event.objects:
+    for event in models.Event.objects:
         assert event.partials
 
     bootstrap.rebuild_mongodb_database()

@@ -1,5 +1,5 @@
 from sasha import sasha_configuration
-from sasha.tools import newdomaintools
+from sasha.tools import models
 from sasha.tools import systemtools
 
 
@@ -11,9 +11,9 @@ def test_Bootstrap_delete_mongodb_database_01():
     bootstrap = systemtools.Bootstrap()
     bootstrap.delete_mongodb_database()
 
-    event_count = newdomaintools.Event.objects.count()
-    instrument_count = newdomaintools.Instrument.objects.count()
-    performer_count = newdomaintools.Performer.objects.count()
+    event_count = models.Event.objects.count()
+    instrument_count = models.Instrument.objects.count()
+    performer_count = models.Performer.objects.count()
 
     assert 0 == event_count
     assert 0 == instrument_count

@@ -15,21 +15,21 @@ class FingeringTests(unittest.TestCase):
         testing.tearDown()
 
     def test_Fingering_01(self):
-        event = sasha.newdomaintools.Event.objects.get(
+        event = sasha.models.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         fingering = event.fingering
         self.assertEqual(fingering.instrument.name, 'Alto Saxophone')
         self.assertEqual(fingering.compact_representation, '0010000000001010001110000')
 
     def test_find_similar_fingerings(self):
-        event = sasha.newdomaintools.Event.objects.get(
+        event = sasha.models.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         fingering = event.fingering
         similar_fingerings = fingering.find_similar_fingerings()
         self.assertEqual(len(similar_fingerings), 4)
 
     def test_get_url(self):
-        event = sasha.newdomaintools.Event.objects.get(
+        event = sasha.models.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         fingering = event.fingering
         request = testing.DummyRequest(
@@ -45,7 +45,7 @@ class FingeringTests(unittest.TestCase):
             )
 
     def test_get_link(self):
-        event = sasha.newdomaintools.Event.objects.get(
+        event = sasha.models.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         fingering = event.fingering
         request = testing.DummyRequest(
@@ -61,7 +61,7 @@ class FingeringTests(unittest.TestCase):
             )
 
     def test_name(self):
-        event = sasha.newdomaintools.Event.objects.get(
+        event = sasha.models.Event.objects.get(
             name='event__alto_saxophone__br_042.aif')
         fingering = event.fingering
         self.assertEqual(

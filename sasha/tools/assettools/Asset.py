@@ -20,15 +20,15 @@ class Asset(object):
     ### INITIALIZER ###
 
     def __init__(self, expr):
-        from sasha.tools import newdomaintools
-        if isinstance(expr, newdomaintools.Event):
+        from sasha.tools import models
+        if isinstance(expr, models.Event):
             client = expr
         elif isinstance(expr, Asset):
             client = expr.client
         elif isinstance(expr, (str, unicode)):
-            client = newdomaintools.Event.objects.get(name=expr)
+            client = models.Event.objects.get(name=expr)
         elif isinstance(expr, int):
-            client = newdomaintools.Event.objects[expr]
+            client = models.Event.objects[expr]
         else:
             message = 'Cannot instantiate {} from {!r}'
             message = message.format(type(self), expr)

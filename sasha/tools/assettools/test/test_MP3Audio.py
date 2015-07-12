@@ -1,14 +1,14 @@
 import os
 from sasha import sasha_configuration
 from sasha.tools import assettools
-from sasha.tools import newdomaintools
+from sasha.tools import models
 
 
 sasha_configuration.environment = 'testing'
 
 
 def test_MP3Audio_01():
-    event = newdomaintools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
+    event = models.Event.objects.get(name='event__alto_saxophone__br_042.aif')
     analysis = assettools.MP3Audio(event)
     analysis.delete()
     assert not analysis.exists
@@ -17,8 +17,8 @@ def test_MP3Audio_01():
 
 
 def test_MP3Audio_02():
-    event_a = newdomaintools.Event.objects.get(name='event__alto_saxophone__br_042.aif')
-    event_b = newdomaintools.Event.objects.get(name='event__alto_saxophone__br_123.aif')
+    event_a = models.Event.objects.get(name='event__alto_saxophone__br_042.aif')
+    event_b = models.Event.objects.get(name='event__alto_saxophone__br_123.aif')
     analysis_a = assettools.MP3Audio(event_a)
     analysis_b = assettools.MP3Audio(event_b)
     assert analysis_a.path == os.path.join(

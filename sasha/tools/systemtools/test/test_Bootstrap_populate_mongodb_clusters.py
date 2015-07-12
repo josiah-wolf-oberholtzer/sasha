@@ -1,5 +1,5 @@
 from sasha import sasha_configuration
-from sasha.tools import newdomaintools
+from sasha.tools import models
 from sasha.tools import systemtools
 
 
@@ -14,7 +14,7 @@ def test_Bootstrap_populate_mongodb_clusters_01():
     bootstrap.populate_mongodb_primary()
     bootstrap.populate_mongodb_clusters()
 
-    clusters = newdomaintools.Cluster.objects.all()
+    clusters = models.Cluster.objects.all()
     assert clusters
 
     for cluster in clusters:

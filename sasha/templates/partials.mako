@@ -1,6 +1,6 @@
 <%!
     from pyramid.url import route_url, current_route_url
-    from sasha.tools import newdomaintools
+    from sasha.tools import models
     from sasha.tools.assettools.ChordNotation import ChordNotation
     from sasha.tools.assettools.FingeringNotation import FingeringNotation
     from sasha.tools.assettools.MP3Audio import MP3Audio
@@ -139,7 +139,7 @@
             % endif
                 href="${current_route_url(request, _query={'instrument': ''})}"
                 >All Instruments</a>
-            % for instrument in newdomaintools.Instrument.with_events():
+            % for instrument in models.Instrument.with_events():
                 % if current_instrument is not None and instrument.id == current_instrument.id:
                 <a class="btn btn-default active" 
                 % else:

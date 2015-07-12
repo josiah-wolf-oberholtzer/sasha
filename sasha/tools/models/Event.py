@@ -83,7 +83,7 @@ class Event(mongoengine.Document):
         with_pitch_classes=None,
         without_pitch_classes=None,
         ):
-        from sasha.tools import newdomaintools
+        from sasha.tools import models
         query = {}
         with_keys = with_keys or []
         with_pitch_classes = with_pitch_classes or []
@@ -94,7 +94,7 @@ class Event(mongoengine.Document):
         if with_keys or without_keys:
             assert instrument_name is not None
         if instrument_name:
-            instrument = newdomaintools.Instrument.objects(
+            instrument = models.Instrument.objects(
                 name=instrument_name,
                 ).first()
             query['fingering__instrument'] = instrument
@@ -110,7 +110,7 @@ class Event(mongoengine.Document):
             query['partials__pitch_class_number__all'] = with_pitch_classes
         if without_pitch_classes:
             query['partials__pitch_class_number__nin'] = without_pitch_classes
-        query = newdomaintools.Event.objects(**query)
+        query = models.Event.objects(**query)
         return query
 
     ### PUBLIC PROPERTIES ###
@@ -131,8 +131,8 @@ class Event(mongoengine.Document):
 
     @property
     def clusters(self):
-        from sasha.tools import newdomaintools
-        return newdomaintools.Cluster.objects(events=self)
+        from sasha.tools import models
+        return models.Cluster.objects(events=self)
 
     @property
     def link_text(self):

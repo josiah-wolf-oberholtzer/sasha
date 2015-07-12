@@ -113,10 +113,10 @@ class Bootstrap(object):
 
     @staticmethod
     def delete_all_assets():
-        from sasha.tools import newdomaintools
+        from sasha.tools import models
         from sasha.tools import assettools
         asset_classes = assettools.AssetDependencyGraph().in_order()
-        for event in newdomaintools.Event.objects:
+        for event in models.Event.objects:
             for asset_class in asset_classes:
                 if hasattr(asset_class, 'delete'):
                     asset_class(event).delete()
@@ -137,8 +137,8 @@ class Bootstrap(object):
 
     @staticmethod
     def populate_all_assets():
-        from sasha.tools import newdomaintools
-        events = newdomaintools.Event.objects
+        from sasha.tools import models
+        events = models.Event.objects
         event_count = events.count()
         message = 'Populating all assets for {} events.'.format(event_count)
         print(message)
@@ -153,7 +153,7 @@ class Bootstrap(object):
     def populate_audiodb_databases():
         from sasha import sasha_configuration
         from sasha.tools.executabletools import AudioDB
-        from sasha.tools.newdomaintools import Event
+        from sasha.tools.models import Event
         events = tuple(Event.objects)
         assert 0 < len(events)
         for name in sasha_configuration['audioDB']:
@@ -164,77 +164,77 @@ class Bootstrap(object):
     def populate_mongodb_primary():
         from sasha import sasha_configuration
         from sasha.tools import assettools
-        from sasha.tools import newdomaintools
+        from sasha.tools import models
         # Populate performers.
         performer_fixtures = sasha_configuration.get_fixtures(
-            newdomaintools.Performer)
+            models.Performer)
         performers = []
         for fixture in performer_fixtures:
-            performer = newdomaintools.Performer(
+            performer = models.Performer(
                 name=fixture['name'],
                 )
             performers.append(performer)
-        newdomaintools.Performer.objects.insert(performers)
+        models.Performer.objects.insert(performers)
         # Populate instruments.
         instrument_fixtures = sasha_configuration.get_fixtures(
-            newdomaintools.Instrument)
+            models.Instrument)
         instrument_fixtures = Bootstrap._sort_instrument_fixtures(
             instrument_fixtures)
         instruments = []
         for fixture in instrument_fixtures:
-            instrument = newdomaintools.Instrument(
+            instrument = models.Instrument(
                 key_names=fixture['key_names'],
                 name=fixture['name'],
                 transposition=int(fixture['transposition']),
                 )
             instruments.append(instrument)
-        newdomaintools.Instrument.objects.insert(instruments)
+        models.Instrument.objects.insert(instruments)
         instrument_mapping = Bootstrap._collect_instrument_parents(
             instrument_fixtures)
         for child_name, parent_names in instrument_mapping.items():
             if not parent_names:
                 continue
-            child = newdomaintools.Instrument.objects(name=child_name).first()
+            child = models.Instrument.objects(name=child_name).first()
             parents = []
             for parent_name in parent_names:
-                parent = newdomaintools.Instrument.objects(
+                parent = models.Instrument.objects(
                     name=parent_name).first()
                 parents.append(parent)
             child.parents = parents
             child.save()
         # Populate events.
         event_fixtures = sasha_configuration.get_fixtures(
-            newdomaintools.Event)
+            models.Event)
         events = []
         for fixture in event_fixtures:
-            instrument = newdomaintools.Instrument.objects(
+            instrument = models.Instrument.objects(
                 name=fixture['instrument'],
                 ).first()
-            performer = newdomaintools.Performer.objects(
+            performer = models.Performer.objects(
                 name=fixture['performer'],
                 ).first()
-            fingering = newdomaintools.Fingering(
+            fingering = models.Fingering(
                 instrument=instrument,
                 key_names=fixture['fingering'],
                 )
             fingering.compact_representation = \
-                newdomaintools.Fingering.get_compact_representation(
+                models.Fingering.get_compact_representation(
                     fingering.key_names,
                     instrument.key_names,
                     )
-            event = newdomaintools.Event(
+            event = models.Event(
                 fingering=fingering,
                 name=fixture['name'],
                 performer=performer,
                 )
             event.md5 = assettools.SourceAudio(event).md5
             events.append(event)
-        newdomaintools.Event.objects.insert(events)
+        models.Event.objects.insert(events)
 
     @staticmethod
     def populate_mongodb_clusters():
         from sasha.tools import analysistools
-        from sasha.tools import newdomaintools
+        from sasha.tools import models
         chroma_kmeans = analysistools.KMeansClustering(
             feature='chroma',
             cluster_count=9,
@@ -254,20 +254,20 @@ class Bootstrap(object):
         all_clusters.extend(chroma_kmeans())
         all_clusters.extend(constant_q_kmeans())
         all_clusters.extend(mfcc_kmeans())
-        newdomaintools.Cluster.objects.insert(all_clusters)
+        models.Cluster.objects.insert(all_clusters)
 
     @staticmethod
     def populate_mongodb_partials():
         from sasha.tools import assettools
-        from sasha.tools import newdomaintools
-        for event in newdomaintools.Event.objects:
+        from sasha.tools import models
+        for event in models.Event.objects:
             chord = assettools.ChordAnalysis(event.name).read()
             partials = []
             for pitch_number, amplitude in chord:
                 pitch = pitchtools.NamedPitch(pitch_number)
                 pitch_class_number = pitch.pitch_class_number
                 octave_number = pitch.octave_number
-                partial = newdomaintools.Partial(
+                partial = models.Partial(
                     amplitude=amplitude,
                     octave_number=octave_number,
                     pitch_class_number=pitch_class_number,
