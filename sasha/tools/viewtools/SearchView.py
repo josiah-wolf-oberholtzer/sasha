@@ -1,7 +1,7 @@
 from abjad.tools import pitchtools
 from pyramid.view import view_config
 from sasha.tools import modeltools
-from sasha.views.View import View
+from sasha.tools.viewtools.View import View
 from webhelpers import paginate
 from webhelpers.html import literal
 
@@ -30,9 +30,9 @@ class SearchView(View):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sasha import views
+        from sasha.tools import viewtools
         query = self.query()
-        paginator = views.Page(
+        paginator = viewtools.Page(
             query,
             page=self.page_number,
             items_per_page=self.page_size,

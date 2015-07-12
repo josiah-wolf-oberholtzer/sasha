@@ -1,7 +1,6 @@
 from pyramid import testing
 from pyramid.httpexceptions import HTTPFound
-from sasha import views
-import os
+from sasha.tools import viewtools
 import sasha
 import unittest
 
@@ -24,7 +23,7 @@ class ViewTests(unittest.TestCase):
                 'cluster_id': cluster.cluster_id,
                 },
             )
-        view = views.ClusterView(request)
+        view = viewtools.ClusterView(request)
         info = view()
         self.assertEqual(info['body_class'], 'clusters')
         self.assertEqual(
@@ -44,7 +43,7 @@ class ViewTests(unittest.TestCase):
                 'md5': event.md5,
                 },
             )
-        view = views.EventView(request)
+        view = viewtools.EventView(request)
         info = view()
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(
@@ -68,7 +67,7 @@ class ViewTests(unittest.TestCase):
                 'instrument_name': instrument_name,
                 },
             )
-        view = views.FingeringView(request)
+        view = viewtools.FingeringView(request)
         info = view()
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(info['instrument_keys'], instrument_keys)
@@ -95,14 +94,14 @@ class ViewTests(unittest.TestCase):
 
     def test_HelpView_01(self):
         request = testing.DummyRequest()
-        view = views.HelpView(request)
+        view = viewtools.HelpView(request)
         info = view()
         self.assertEqual(info['body_class'], 'help')
         self.assertEqual(info['title'], 'SASHA | Help')
 
     def test_HomeView_01(self):
         request = testing.DummyRequest()
-        view = views.HomeView(request)
+        view = viewtools.HomeView(request)
         info = view()
         self.assertEqual(info['body_class'], 'home')
         self.assertEqual(info['title'], 'SASHA | Home')
@@ -113,21 +112,21 @@ class ViewTests(unittest.TestCase):
                 'instrument_name': 'alto-saxophone',
                 },
             )
-        view = views.InstrumentView(request)
+        view = viewtools.InstrumentView(request)
         info = view()
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(info['title'], 'SASHA | Instrument: Alto Saxophone')
 
     def test_RandomEventView_01(self):
         request = testing.DummyRequest()
-        view = views.RandomEventView(request)
+        view = viewtools.RandomEventView(request)
         info = view()
         self.assertEqual(type(info), HTTPFound)
         self.assertIn('/events/', info.location)
 
     def test_SearchView_01(self):
         request = testing.DummyRequest()
-        view = views.SearchView(request)
+        view = viewtools.SearchView(request)
         info = view()
         self.assertEqual(info['body_class'], 'search')
         self.assertEqual(info['title'], 'SASHA | Search')

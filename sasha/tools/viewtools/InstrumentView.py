@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha.tools import modeltools
-from sasha.views.SearchView import SearchView
+from sasha.tools.viewtools.SearchView import SearchView
 from webhelpers import paginate
 
 
@@ -40,9 +40,9 @@ class InstrumentView(SearchView):
     ### SPECIAL METHODS ###
 
     def __call__(self):
-        from sasha import views
+        from sasha.tools import viewtools
         query = self.query()
-        paginator = views.Page(
+        paginator = viewtools.Page(
             query,
             page=self.page_number,
             items_per_page=self.page_size,

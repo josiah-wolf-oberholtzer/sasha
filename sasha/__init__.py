@@ -38,7 +38,7 @@ def includeme(config):
         )
     config.add_static_view('docs', 'sasha:docs/build/html/', cache_max_age=3600)
     config.add_static_view('static', 'static', cache_max_age=3600)
-    config.scan('sasha.views')
+    config.scan('sasha')
 
 
 def main(global_config, **settings):
@@ -47,4 +47,6 @@ def main(global_config, **settings):
     session_factory = UnencryptedCookieSessionFactoryConfig('hobbeshobbertson')
     config = Configurator(settings=settings, session_factory=session_factory)
     config.include(includeme)
+    sasha_configuration.environment = 'development'
+    sasha_configuration.connect()
     return config.make_wsgi_app()
