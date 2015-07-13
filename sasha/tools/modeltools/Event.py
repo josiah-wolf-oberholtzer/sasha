@@ -20,6 +20,7 @@ class Event(mongoengine.Document):
 
     ### MONGOENGINE ###
 
+    clusters = mongoengine.ListField(mongoengine.ReferenceField('Cluster'))
     description = mongoengine.StringField()
     descriptors = mongoengine.EmbeddedDocumentField('Descriptors')
     fingering = mongoengine.EmbeddedDocumentField('Fingering')
@@ -146,11 +147,6 @@ class Event(mongoengine.Document):
             instrument_name,
             fingering.compact_representation,
             )
-
-    @property
-    def clusters(self):
-        from sasha.tools import modeltools
-        return modeltools.Cluster.objects(events=self)
 
     @property
     def link_text(self):

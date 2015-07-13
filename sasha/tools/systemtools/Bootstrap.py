@@ -259,6 +259,10 @@ class Bootstrap(object):
         all_clusters.extend(constant_q_kmeans())
         all_clusters.extend(mfcc_kmeans())
         modeltools.Cluster.objects.insert(all_clusters)
+        for cluster in modeltools.Cluster.objects:
+            for event in cluster.events:
+                event.clusters.append(cluster)
+                event.save()
 
     @staticmethod
     def populate_mongodb_partials():

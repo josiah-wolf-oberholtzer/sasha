@@ -48,7 +48,10 @@ class ClusterView(SearchView):
 
     def __call__(self):
         from sasha.tools import viewtools
-        query = self.current_cluster.events
+        query = modeltools.Event.objects(
+            clusters=self.current_cluster,
+            fingering__instrument=self.instrument,
+            )
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],
