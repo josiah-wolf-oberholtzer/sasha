@@ -1,6 +1,5 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
-from sasha import sasha_configuration
 from sasha.tools import modeltools
 from sasha.tools.viewtools.SearchView import SearchView
 
@@ -14,7 +13,7 @@ class FingeringView(SearchView):
     ### INITIALIZER ###
 
     def __init__(self, request):
-        self._request = request
+        SearchView.__init__(self, request)
         instrument_name = self.request.matchdict['instrument_name']
         instrument_name = instrument_name.replace('-', ' ').title()
         try:
@@ -39,35 +38,37 @@ class FingeringView(SearchView):
                 compact_representation,
                 )
             raise HTTPNotFound(message)
-        self._layout_parameters = self.process_layout_parameters(self.request.params)
-        self._pitch_parameters = self.process_pitch_parameters(self.request.params)
 
     ### SPECIAL METHODS ###
 
     def __call__(self):
         from sasha.tools import viewtools
-        query = self.query()
+
+        query = modeltools.Event.query_mongodb(**self.search_parameters)
+        compact_representation = self.event.fingering.compact_representation
+        query = query(fingering__compact_representation=compact_representation)
+
         paginator = viewtools.Page(
             query,
-            page=self.page_number,
-            items_per_page=self.page_size,
+            page=self.layout_parameters['page_number'],
+            items_per_page=self.layout_parameters['page_size'],
             url=self.page_url,
             )
         with_pitches = ' '.join(
             '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.pitch_parameters['with_pitches']
+            for x in self.search_parameters['with_pitches']
             )
         without_pitches = ' '.join(
             '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.pitch_parameters['without_pitches']
+            for x in self.search_parameters['without_pitches']
             )
         with_pitch_classes = ' '.join(
             str(x)
-            for x in self.pitch_parameters['with_pitch_classes'],
+            for x in self.search_parameters['with_pitch_classes'],
             )
         without_pitch_classes = ' '.join(
             str(x)
-            for x in self.pitch_parameters['without_pitch_classes'],
+            for x in self.search_parameters['without_pitch_classes'],
             )
         return {
             'body_class': 'search',
@@ -92,10 +93,6 @@ class FingeringView(SearchView):
         return self._event
 
     @property
-    def events(self):
-        return modeltools.Event.objects(fingering=self.event.fingering)
-
-    @property
     def fingering(self):
         return self._fingering
 
@@ -104,41 +101,8 @@ class FingeringView(SearchView):
         return self._instrument
 
     @property
-    def layout_parameters(self):
-        return self._layout_parameters
-
-    @property
-    def page_number(self):
-        return int(self.layout_parameters['page'])
-
-    @property
-    def page_size(self):
-        return int(self.layout_parameters['n'])
-
-    @property
     def title(self):
         return 'SASHA | {} Fingering: {}'.format(
             self.event.fingering.instrument.name,
             ' '.join(self.event.fingering.key_names),
             )
-
-    @property
-    def request(self):
-        return self._request
-
-    ### PUBLIC METHODS ###
-
-    def query(self):
-        with_pitches = self.pitch_parameters.get('with_pitches')
-        without_pitches = self.pitch_parameters.get('without_pitches')
-        with_pitch_classes = self.pitch_parameters.get('with_pitch_classes')
-        without_pitch_classes = self.pitch_parameters.get('without_pitch_classes')
-        query = modeltools.Event.query_mongodb(
-            with_pitches=with_pitches,
-            without_pitches=without_pitches,
-            with_pitch_classes=with_pitch_classes,
-            without_pitch_classes=without_pitch_classes,
-            )
-        compact_representation = self.event.fingering.compact_representation
-        query = query(fingering__compact_representation=compact_representation)
-        return query

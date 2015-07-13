@@ -1,3 +1,6 @@
+from webhelpers import paginate
+
+
 class View(object):
 
     ### INITIALIZER ###
@@ -8,9 +11,13 @@ class View(object):
     ### PUBLIC ATTRIBUTES ###
 
     @property
-    def title(self):
-        return 'SASHA'
+    def page_url(self):
+        return paginate.PageURL_WebOb(self.request)
 
     @property
     def request(self):
         return self._request
+
+    @property
+    def title(self):
+        return 'SASHA'

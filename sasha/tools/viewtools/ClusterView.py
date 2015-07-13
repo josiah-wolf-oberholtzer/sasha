@@ -13,7 +13,8 @@ class ClusterView(SearchView):
     ### INITIALIZER ###
 
     def __init__(self, request):
-        self._request = request
+        SearchView.__init__(self, request)
+
         feature = self.request.matchdict['feature'].replace('-', '_')
         cluster_id = int(self.request.matchdict['cluster_id'])
         try:
@@ -42,17 +43,18 @@ class ClusterView(SearchView):
                 raise HTTPNotFound(message)
         else:
             self._instrument = None
-        self._layout_parameters = self.process_layout_params(
-            self.request.params)
 
     ### SPECIAL METHODS ###
 
     def __call__(self):
         from sasha.tools import viewtools
-        paginator = viewtools.Page(self.events,
-            page=self.page_number,
-            items_per_page=self.page_size,
-            url=self.page_url)
+        query = self.current_cluster.events
+        paginator = viewtools.Page(
+            query,
+            page=self.layout_parameters['page_number'],
+            items_per_page=self.layout_parameters['page_size'],
+            url=self.page_url,
+            )
         return {
             'all_clusters': self.all_clusters,
             'body_class': 'clusters',
@@ -78,15 +80,6 @@ class ClusterView(SearchView):
         for v in clusters.values():
             v.sort(key=lambda x: x.cluster_id)
         return clusters
-
-    @property
-    def events(self):
-        if self.instrument is None:
-            return self._events
-        return [
-            event for event in self._events
-            if event.instrument_id == self.instrument.id
-            ]
 
     @property
     def instrument(self):
