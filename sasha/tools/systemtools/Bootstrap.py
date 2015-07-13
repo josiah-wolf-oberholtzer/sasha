@@ -143,6 +143,7 @@ class Bootstrap(object):
         event_count = events.count()
         message = 'Populating all assets for {} events.'.format(event_count)
         print(message)
+        events = tuple(events)
         for event_index, event in enumerate(events, 1):
             Bootstrap._populate_all_assets_for_event(
                 event,
