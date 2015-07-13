@@ -23,9 +23,9 @@ def test_PartialTrackingPlot_02():
     analysis_b = assettools.PartialTrackingPlot(event_b)
     assert analysis_a.path == os.path.join(
         sasha_configuration.get_media_path('plots'),
-        'event__{}__partials.png'.format(event_a.md5),
+        'event__{}__partials.svg'.format(event_a.md5),
         )
     assert analysis_b.path == os.path.join(
         sasha_configuration.get_media_path('plots'),
-        'event__{}__partials.png'.format(event_b.md5),
+        'event__{}__partials.svg'.format(event_b.md5),
         )

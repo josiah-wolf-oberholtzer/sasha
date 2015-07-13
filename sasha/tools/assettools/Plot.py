@@ -13,7 +13,7 @@ class Plot(Asset):
 
     __slots__ = ()
     _width = 8
-    file_suffix = 'png'
+    file_suffix = 'svg'
     media_type = 'plots'
 
     ### PRIVATE METHODS ###
