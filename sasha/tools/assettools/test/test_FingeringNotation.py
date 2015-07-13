@@ -34,14 +34,14 @@ def test_FingeringNotation_02():
     analysis_b = assettools.FingeringNotation(event_b)
     assert analysis_a.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'fingering__{}__{}__fingering.png'.format(
+        'fingering__{}__{}__fingering.svg'.format(
             instrument_a,
             fingering_a,
             ),
         )
     assert analysis_b.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'fingering__{}__{}__fingering.png'.format(
+        'fingering__{}__{}__fingering.svg'.format(
             instrument_b,
             fingering_b,
             ),

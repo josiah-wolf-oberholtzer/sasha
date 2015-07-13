@@ -1,7 +1,7 @@
+from __future__ import print_function
 import abc
 import os
 from sasha.tools.assettools.Asset import Asset
-from sasha.tools.executabletools import Convert
 from sasha.tools.executabletools import Executable
 
 
@@ -10,7 +10,7 @@ class Notation(Asset):
     ### CLASS VARIABLES ###
 
     __slots__ = ()
-    file_suffix = 'png'
+    file_suffix = 'svg'
     media_type = 'scores'
 
     ### PRIVATE METHODS ###
@@ -21,37 +21,44 @@ class Notation(Asset):
 
     def _path_to_lilypond_path(self, path):
         from sasha import sasha_configuration
-        path = self._strip_file_suffix(path)
-        path = path.partition(sasha_configuration.get_media_path('scores'))[-1]
-        return sasha_configuration.get_media_path('lilypond') + path + '.ly'
+        _, filename = os.path.split(path)
+        suffixless_filename, _ = os.path.splitext(filename)
+        lilypond_directory = sasha_configuration.get_media_path('lilypond')
+        lilypond_filename = suffixless_filename + '.ly'
+        return os.path.join(lilypond_directory, lilypond_filename)
 
-    def _path_to_ps_path(self, path):
-        return self._strip_file_suffix(path) + '.ps'
-
-    def _strip_file_suffix(self, path):
-        return path.partition('.{}'.format(self.file_suffix))[0]
-
-    def _save_lilypond_file_as_png(self, lilypond_file):
+    def _save_lilypond_file_as_svg(self, lilypond_file):
         import abjad
         from sasha import sasha_configuration
-        output_path = self._build_path()
-        lilypond_path = self._path_to_lilypond_path(output_path)
-        suffixless_path = self._strip_file_suffix(output_path)
+
+        output_filepath = self._build_path()
+        output_directory, output_filename = os.path.split(output_filepath)
+        if not os.path.exists(output_directory):
+            os.makedirs(output_directory)
+
+        lilypond_path = self._path_to_lilypond_path(output_filepath)
         lilypond_directory, _ = os.path.split(lilypond_path)
         if not os.path.exists(lilypond_directory):
             os.makedirs(lilypond_directory)
-        png_directory, _ = os.path.split(output_path)
-        if not os.path.exists(png_directory):
-            os.makedirs(png_directory)
+
+        suffixless_filepath, _ = os.path.splitext(output_filepath)
+        preview_filepath = '{}.preview.{}'.format(
+            suffixless_filepath, self.file_suffix)
+
         abjad.persist(lilypond_file).as_ly(lilypond_path)
-        command = '{} --png -dresolution=72 -danti-alias-factor=4 -o {} {}'
+        command = '{} -dbackend=svg -dpreview -dno-point-and-click -o {} {}'
         command = command.format(
             sasha_configuration.get_binary('lilypond'),
-            suffixless_path,
+            suffixless_filepath,
             lilypond_path,
             )
         out, err = Executable()._exec(command)
-        Convert()(output_path, output_path)
+        if out or err:
+            print(out)
+            print(err)
+
+        os.remove(output_filepath)
+        os.rename(preview_filepath, output_filepath)
 
     ### PUBLIC METHODS ###
 
@@ -73,10 +80,12 @@ class Notation(Asset):
         try:
             lilypond_file = self._make_illustration()
             self._asset = lilypond_file
-            self._save_lilypond_file_as_png(lilypond_file)
+            self._save_lilypond_file_as_svg(lilypond_file)
         except:
             import sys
             import traceback
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            print '\n'.join(traceback.format_exception(
-                exc_type, exc_value, exc_traceback))
+            message = '\n'.join(
+                traceback.format_exception(exc_type, exc_value, exc_traceback),
+                )
+            print(message)

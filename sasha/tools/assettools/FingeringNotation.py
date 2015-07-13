@@ -80,10 +80,9 @@ class FingeringNotation(Notation):
                 ),
             )
         markup = markup.override(('size', 0.5))
-        markup = markup.override(('thickness', 0.1))
-        markup = markup.scale((1.5, 1.5))
-        markup = markup.with_dimensions((-2.5, 2.5), (0, 15))
-        markup = markup.scale((1.5, 1.5))
+        markup = markup.override(('thickness', 0.15))
+        markup = markup.scale((2, 2))
+        markup = markup.pad_around(0.25)
         return markup
 
     ### PUBLIC METHODS ###

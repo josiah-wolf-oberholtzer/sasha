@@ -23,9 +23,9 @@ def test_ChromaNotation_02():
     analysis_b = assettools.ChromaNotation(event_b)
     assert analysis_a.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'event__{}__chroma.png'.format(event_a.md5),
+        'event__{}__chroma.svg'.format(event_a.md5),
         )
     assert analysis_b.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'event__{}__chroma.png'.format(event_b.md5),
+        'event__{}__chroma.svg'.format(event_b.md5),
         )

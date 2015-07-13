@@ -23,9 +23,9 @@ def test_ChordNotation_02():
     analysis_b = assettools.ChordNotation(event_b)
     assert analysis_a.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'event__{}__chord.png'.format(event_a.md5),
+        'event__{}__chord.svg'.format(event_a.md5),
         )
     assert analysis_b.path == os.path.join(
         sasha_configuration.get_media_path('scores'),
-        'event__{}__chord.png'.format(event_b.md5),
+        'event__{}__chord.svg'.format(event_b.md5),
         )
