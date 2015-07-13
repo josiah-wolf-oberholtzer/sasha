@@ -46,17 +46,3 @@ class ChordNotation(Notation):
         else:
             colors = [0]
         return zip(pitches, colors)
-
-    ### PUBLIC METHODS ###
-
-    def write(self, **kwargs):
-        lily = self._make_illustration()
-        self._asset = lily
-        transposed = self._make_illustration()
-        instrument = self.client.fingering.instrument
-        transposition = abjad.pitchtools.NumberedInterval(
-            instrument.transposition)
-        for leaf in abjad.iterate(transposed).by_class(abjad.scoretools.Leaf):
-            abjad.pitchtools.transpose_pitch_carrier_by_interval(
-                leaf, transposition)
-        self._save_lily_to_png(lily)

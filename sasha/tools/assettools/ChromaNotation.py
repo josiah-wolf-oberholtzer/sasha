@@ -32,7 +32,7 @@ class ChromaNotation(Notation):
         for i, val in enumerate(chroma_mean):
             x_extent = (0, 1.25)
             y_extent = ((val * -5.) - 0.75, (val * 5.) + 0.75)
-            markup = markuptools.Markup.filled_box(x_extent, y_extent, 1) 
+            markup = markuptools.Markup.filled_box(x_extent, y_extent, 1)
             markup = markuptools.Markup(markup, 'up')
             attach(markup, v_mean[i])
             color = (90 - int(val * 90))

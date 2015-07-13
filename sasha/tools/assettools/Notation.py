@@ -10,8 +10,6 @@ class Notation(Asset):
     ### CLASS VARIABLES ###
 
     __slots__ = ()
-    _aa_factor = 4
-    _resolution = 72
     file_suffix = 'png'
     media_type = 'scores'
 
@@ -21,7 +19,7 @@ class Notation(Asset):
     def _make_illustration(self):
         raise NotImplemented
 
-    def _path_to_lily_path(self, path):
+    def _path_to_lilypond_path(self, path):
         from sasha import sasha_configuration
         path = self._strip_file_suffix(path)
         path = path.partition(sasha_configuration.get_media_path('scores'))[-1]
@@ -33,36 +31,27 @@ class Notation(Asset):
     def _strip_file_suffix(self, path):
         return path.partition('.{}'.format(self.file_suffix))[0]
 
-    def _save_lily_to_png(self, lily):
+    def _save_lilypond_file_as_png(self, lilypond_file):
         import abjad
         from sasha import sasha_configuration
-        png_path = self._build_path()
-        lily_path = self._path_to_lily_path(png_path)
-        suffixless_path = self._strip_file_suffix(png_path)
-        ps_path = self._path_to_ps_path(png_path)
-        lily_directory, _ = os.path.split(lily_path)
-        if not os.path.exists(lily_directory):
-            os.makedirs(lily_directory)
-        png_directory, _ = os.path.split(png_path)
+        output_path = self._build_path()
+        lilypond_path = self._path_to_lilypond_path(output_path)
+        suffixless_path = self._strip_file_suffix(output_path)
+        lilypond_directory, _ = os.path.split(lilypond_path)
+        if not os.path.exists(lilypond_directory):
+            os.makedirs(lilypond_directory)
+        png_directory, _ = os.path.split(output_path)
         if not os.path.exists(png_directory):
             os.makedirs(png_directory)
-        abjad.persist(lily).as_ly(lily_path)
-        cmd = '{} --png -dresolution={} -danti-alias-factor={} -o {} {}'.format(
+        abjad.persist(lilypond_file).as_ly(lilypond_path)
+        command = '{} --png -dresolution=72 -danti-alias-factor=4 -o {} {}'
+        command = command.format(
             sasha_configuration.get_binary('lilypond'),
-            self.resolution,
-            self.aa_factor,
             suffixless_path,
-            lily_path,
+            lilypond_path,
             )
-        out, err = Executable()._exec(cmd)
-        # sometimes LilyPond doesn't delete the PostScript
-        if os.path.exists(ps_path):
-            os.remove(ps_path)
-        # sometimes LilyPond (or something else?) appends '.old'
-        if os.path.exists(png_path + '.old'):
-            os.remove(png_path)
-            os.rename(png_path + '.old', png_path)
-        Convert()(png_path, png_path)
+        out, err = Executable()._exec(command)
+        Convert()(output_path, output_path)
 
     ### PUBLIC METHODS ###
 
@@ -82,22 +71,12 @@ class Notation(Asset):
 
     def write(self, **kwargs):
         try:
-            lily = self._make_illustration()
-            self._asset = lily
-            self._save_lily_to_png(lily)
+            lilypond_file = self._make_illustration()
+            self._asset = lilypond_file
+            self._save_lilypond_file_as_png(lilypond_file)
         except:
             import sys
             import traceback
             exc_type, exc_value, exc_traceback = sys.exc_info()
             print '\n'.join(traceback.format_exception(
                 exc_type, exc_value, exc_traceback))
-
-    ### PUBLIC PROPERTIES ###
-
-    @property
-    def aa_factor(self):
-        return self._aa_factor
-
-    @property
-    def resolution(self):
-        return self._resolution
