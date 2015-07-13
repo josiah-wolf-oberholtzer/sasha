@@ -39,8 +39,8 @@ class FingeringView(SearchView):
                 compact_representation,
                 )
             raise HTTPNotFound(message)
-        self._layout_parameters = self.process_layout_params(self.request.params)
-        self._pitch_parameters = self.process_pitch_params(self.request.params)
+        self._layout_parameters = self.process_layout_parameters(self.request.params)
+        self._pitch_parameters = self.process_pitch_parameters(self.request.params)
 
     ### SPECIAL METHODS ###
 

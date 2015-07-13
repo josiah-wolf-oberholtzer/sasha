@@ -24,8 +24,8 @@ class SearchView(View):
 
     def __init__(self, request):
         View.__init__(self, request)
-        self._layout_parameters = self.process_layout_params(self.request.params)
-        self._pitch_parameters = self.process_pitch_params(self.request.params)
+        self._layout_parameters = self.process_layout_parameters(self.request.params)
+        self._pitch_parameters = self.process_pitch_parameters(self.request.params)
 
     ### SPECIAL METHODS ###
 
@@ -102,7 +102,7 @@ class SearchView(View):
 
     ### PUBLIC METHODS ###
 
-    def process_idiom_params(self, instrument, params):
+    def process_idiom_parameters(self, instrument, params):
         '''Process idiom query parameters.
 
         Handles:
@@ -118,7 +118,7 @@ class SearchView(View):
 
         Returns dictionary of processed params.
         '''
-        processed_params = {}
+        processed_parameters = {}
         if not isinstance(instrument, modeltools.Instrument):
             if not isinstance(instrument, (str, unicode)):
                 instrument = instrument.name
@@ -133,7 +133,7 @@ class SearchView(View):
                     processed_keys.append(key)
                 else:
                     bad_keys.append(key)
-            processed_params['with_keys'] = processed_keys
+            processed_parameters['with_keys'] = processed_keys
             if bad_keys:
                 bad_keys = ('<em>{}</em>'.format(_) for _ in bad_keys)
                 bad_keys = ', '.join(bad_keys)
@@ -141,7 +141,7 @@ class SearchView(View):
                 message = message.format(instrument.name, bad_keys)
                 self.reqeust.session.flash(literal(message))
         else:
-            processed_params['with_keys'] = []
+            processed_parameters['with_keys'] = []
         without_keys = params.get('without_keys')
         if without_keys is not None:
             keys_to_process = str(without_keys).split()
@@ -152,7 +152,7 @@ class SearchView(View):
                     processed_keys.append(key)
                 else:
                     bad_keys.append(key)
-            processed_params['without_keys'] = processed_keys
+            processed_parameters['without_keys'] = processed_keys
             if bad_keys:
                 bad_keys = ('<em>{}</em>'.format(_) for _ in bad_keys)
                 bad_keys = ', '.join(bad_keys)
@@ -160,18 +160,18 @@ class SearchView(View):
                 message = message.format(instrument.name, bad_keys)
                 self.reqeust.session.flash(literal(message))
         else:
-            processed_params['without_keys'] = []
-        key_intersection = set(processed_params['with_keys']).intersection(
-            set(processed_params['without_keys']))
+            processed_parameters['without_keys'] = []
+        key_intersection = set(processed_parameters['with_keys']).intersection(
+            set(processed_parameters['without_keys']))
         if key_intersection:
             bad_keys = ('<em>{}</em>'.format(_) for _ in key_intersection)
             bad_keys = ', '.join(bad_keys)
             message = 'Included and dis-included keys overlap: {}'
             message = message.format(bad_keys)
             self.request.session.flash(literal(message))
-        return processed_params
+        return processed_parameters
 
-    def process_layout_params(self, params):
+    def process_layout_parameters(self, params):
         '''Process page layout query parameters.
 
         Handles:
@@ -187,54 +187,54 @@ class SearchView(View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = {}
+        processed_parameters = {}
 
         # max number of items on page
         n = params.get('n')
         if n is not None:
             try:
                 n = max(int(n), 1)
-                processed_params['n'] = n
+                processed_parameters['n'] = n
             except:
-                processed_params['n'] = 20
+                processed_parameters['n'] = 20
         else:
-            processed_params['n'] = 20
+            processed_parameters['n'] = 20
 
         # page order (ascending, descending)
         order = params.get('order')
         if order is not None and str(order) in self._order_options:
-            processed_params['order'] = str(order)
+            processed_parameters['order'] = str(order)
         else:
-            processed_params['order'] = 'asc'
+            processed_parameters['order'] = 'asc'
 
         # page number
         page = params.get('page')
         if page is not None:
             try:
                 page = max(int(page), 1)
-                processed_params['page'] = page
+                processed_parameters['page'] = page
             except:
-                processed_params['page'] = 1
+                processed_parameters['page'] = 1
         else:
-            processed_params['page'] = 1
+            processed_parameters['page'] = 1
 
         # column to sort by
         sortby = params.get('sortby')
         if sortby is not None and str(sortby) in self._sortby_options:
-            processed_params['sortby'] = str(sortby)
+            processed_parameters['sortby'] = str(sortby)
         else:
-            processed_params['sortby'] = 'event'
+            processed_parameters['sortby'] = 'event'
 
         # page view style
         view = params.get('view')
         if view is not None and str(view) in self._view_options:
-            processed_params['view'] = str(view)
+            processed_parameters['view'] = str(view)
         else:
-            processed_params['view'] = 'row'
+            processed_parameters['view'] = 'row'
 
-        return processed_params
+        return processed_parameters
 
-    def process_pitch_params(self, params):
+    def process_pitch_parameters(self, params):
         '''Process pitch and pitch class inclusion/exclusion query parameters.
 
         Handles:
@@ -252,7 +252,7 @@ class SearchView(View):
         Returns dictionary of processed parameters.
         '''
 
-        processed_params = {}
+        processed_parameters = {}
 
         with_pitches = params.get('with_pitches')
         if with_pitches is not None:
@@ -268,12 +268,12 @@ class SearchView(View):
                     processed_pitches.append(pitchtools.NamedPitch(pitch_class, int(octave)))
                 else:
                     bad_pitches.append(pitch)
-            processed_params['with_pitches'] = sorted(processed_pitches)
+            processed_parameters['with_pitches'] = sorted(processed_pitches)
             if bad_pitches:
                 self.request.session.flash(literal(
                     'No such pitch name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitches])))
         else:
-            processed_params['with_pitches'] = []
+            processed_parameters['with_pitches'] = []
 
         without_pitches = params.get('without_pitches')
         if without_pitches is not None:
@@ -289,12 +289,12 @@ class SearchView(View):
                     processed_pitches.append(pitchtools.NamedPitch(pitch_class, int(octave)))
                 else:
                     bad_pitches.append(pitch)
-            processed_params['without_pitches'] = sorted(processed_pitches)
+            processed_parameters['without_pitches'] = sorted(processed_pitches)
             if bad_pitches:
                 self.request.session.flash(literal(
                     'No such pitch name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitches])))
         else:
-            processed_params['without_pitches'] = []
+            processed_parameters['without_pitches'] = []
 
         with_pitch_classes = params.get('with_pitch_classes')
         if with_pitch_classes is not None:
@@ -306,12 +306,12 @@ class SearchView(View):
                     processed_pitch_classes.append(pitchtools.NamedPitchClass(pitch_class))
                 else:
                     bad_pitch_classes.append(pitch_class)
-            processed_params['with_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
+            processed_parameters['with_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
             if bad_pitch_classes:
                 self.request.session.flash(literal(
                     'No such pitch class name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitch_classes])))
         else:
-            processed_params['with_pitch_classes'] = []
+            processed_parameters['with_pitch_classes'] = []
 
         without_pitch_classes = params.get('without_pitch_classes')
         if without_pitch_classes is not None:
@@ -323,15 +323,15 @@ class SearchView(View):
                     processed_pitch_classes.append(pitchtools.NamedPitchClass(pitch_class))
                 else:
                     bad_pitch_classes.append(pitch_class)
-            processed_params['without_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
+            processed_parameters['without_pitch_classes'] = sorted(processed_pitch_classes, key=lambda x: float(x))
             if bad_pitch_classes:
                 self.request.session.flash(literal(
                     'No such pitch class name(s): %s' % ', '.join(['<em>%s</em>' % x for x in bad_pitch_classes])))
         else:
-            processed_params['without_pitch_classes'] = []
+            processed_parameters['without_pitch_classes'] = []
 
-        pitch_intersection = set(processed_params['with_pitches']).intersection(set(processed_params['without_pitches']))
-        pitch_class_intersection = set(processed_params['with_pitch_classes']).intersection(set(processed_params['without_pitch_classes']))
+        pitch_intersection = set(processed_parameters['with_pitches']).intersection(set(processed_parameters['without_pitches']))
+        pitch_class_intersection = set(processed_parameters['with_pitch_classes']).intersection(set(processed_parameters['without_pitch_classes']))
 
         if pitch_intersection:
             self.request.session.flash(
@@ -344,7 +344,7 @@ class SearchView(View):
                 literal('Included and dis-included pitch classes overlap: %s' %
                     ' '.join(['<em>%s</em>' % x for x in pitch_class_intersection])))
 
-        return processed_params
+        return processed_parameters
 
     def query(self):
         with_pitches = self.pitch_parameters.get('with_pitches')

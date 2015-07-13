@@ -26,14 +26,14 @@ class InstrumentView(SearchView):
             message += '''<em>{!r}</em> might be.'''
             message = message.format(instrument_name)
             raise HTTPNotFound(message)
-        self._idiom_parameters = self.process_idiom_params(
+        self._idiom_parameters = self.process_idiom_parameters(
             self.instrument,
             self.request.params,
             )
-        self._layout_parameters = self.process_layout_params(
+        self._layout_parameters = self.process_layout_parameters(
             self.request.params,
             )
-        self._pitch_parameters = self.process_pitch_params(
+        self._pitch_parameters = self.process_pitch_parameters(
             self.request.params,
             )
 
