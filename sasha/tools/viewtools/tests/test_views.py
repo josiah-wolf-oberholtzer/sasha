@@ -86,10 +86,10 @@ class ViewTests(unittest.TestCase):
                 instrument_keys
                 ),
             )
-        self.assertEqual(info['with_pitch_classes'], '')
-        self.assertEqual(info['with_pitches'], '')
-        self.assertEqual(info['without_pitch_classes'], '')
-        self.assertEqual(info['without_pitches'], '')
+        self.assertEqual(info['search_parameters']['with_pitch_classes'], set())
+        self.assertEqual(info['search_parameters']['with_pitches'], set())
+        self.assertEqual(info['search_parameters']['without_pitch_classes'], set())
+        self.assertEqual(info['search_parameters']['without_pitches'], set())
         self.assertIsNotNone(info['paginator'])
 
     def test_HelpView_01(self):

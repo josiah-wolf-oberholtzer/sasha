@@ -13,10 +13,14 @@
         </div>
     </div>
     <form action="${search_action}" method="get" class="col-sm-6">
-        ${partials.search_form_group_with_pitches(with_pitches)}
-        ${partials.search_form_group_without_pitches(without_pitches)}
-        ${partials.search_form_group_with_pitch_classes(with_pitch_classes)}
-        ${partials.search_form_group_without_pitch_classes(without_pitch_classes)}
+        ${partials.search_form_group_with_pitches(
+            search_parameters['with_pitches'])}
+        ${partials.search_form_group_without_pitches(
+            search_parameters['without_pitches'])}
+        ${partials.search_form_group_with_pitch_classes(
+            search_parameters['with_pitch_classes'])}
+        ${partials.search_form_group_without_pitch_classes(
+            search_parameters['without_pitch_classes'])}
         <div class="form-group">
             <button type="submit" class="btn btn-default">Search</button>
         </div>

@@ -49,26 +49,6 @@ class InstrumentView(SearchView):
             url=self.page_url,
             )
         search_action = self.instrument.get_url(self.request)
-        with_keys = ' '.join(
-            x for x in self.search_parameters['with_keys'])
-        without_keys = ' '.join(
-            x for x in self.search_parameters['without_keys'])
-        with_pitches = ' '.join(
-            '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.search_parameters['with_pitches']
-            )
-        without_pitches = ' '.join(
-            '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.search_parameters['without_pitches']
-            )
-        with_pitch_classes = ' '.join(
-            str(x)
-            for x in self.search_parameters['with_pitch_classes'],
-            )
-        without_pitch_classes = ' '.join(
-            str(x)
-            for x in self.search_parameters['without_pitch_classes'],
-            )
         return {
             'body_class': 'search',
             'instrument': self.instrument,
@@ -76,12 +56,7 @@ class InstrumentView(SearchView):
             'title': self.title,
             'paginator': paginator,
             'search_action': search_action,
-            'with_keys': with_keys,
-            'without_keys': without_keys,
-            'with_pitches': with_pitches,
-            'without_pitches': without_pitches,
-            'with_pitch_classes': with_pitch_classes,
-            'without_pitch_classes': without_pitch_classes,
+            'search_parameters': self.search_parameters,
             }
 
     ### PUBLIC ATTRIBUTES ###

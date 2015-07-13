@@ -36,6 +36,12 @@
 </%def>
 
 <%def name="search_form_group_with_pitches(with_pitches)">
+    <%
+    with_pitches = ' '.join(
+        '{}{}'.format(_.pitch_class_name, _.octave_number)
+        for x in with_pitches
+        )
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">With pitches</span>
@@ -48,6 +54,12 @@
 </%def>
 
 <%def name="search_form_group_without_pitches(without_pitches)">
+    <%
+    without_pitches = ' '.join(
+        '{}{}'.format(x.pitch_class_name, x.octave_number)
+        for x in without_pitches
+        )
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Without pitches</span>
@@ -60,6 +72,9 @@
 </%def>
 
 <%def name="search_form_group_with_pitch_classes(with_pitch_classes)">
+    <%
+    with_pitch_classes = ' '.join(str(x) for x in with_pitch_classes)
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">With pitch-classes</span>
@@ -72,6 +87,9 @@
 </%def>
 
 <%def name="search_form_group_without_pitch_classes(without_pitch_classes)">
+    <%
+    without_pitch_classes = ' '.join(str(x) for x in without_pitch_classes)
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Without pitch-classes</span>
@@ -84,6 +102,9 @@
 </%def>
 
 <%def name="search_form_group_with_keys(with_keys)">
+    <%
+    with_keys = ' '.join(x for x in sorted(with_keys))
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">With keys</span>
@@ -96,6 +117,9 @@
 </%def>
 
 <%def name="search_form_group_without_keys(without_keys)">
+    <%
+    without_keys = ' '.join(x for x in sorted(without_keys))
+    %>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Without keys</span>

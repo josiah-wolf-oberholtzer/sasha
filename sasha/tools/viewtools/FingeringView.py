@@ -54,22 +54,6 @@ class FingeringView(SearchView):
             items_per_page=self.layout_parameters['page_size'],
             url=self.page_url,
             )
-        with_pitches = ' '.join(
-            '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.search_parameters['with_pitches']
-            )
-        without_pitches = ' '.join(
-            '{}{}'.format(x.pitch_class_name, x.octave_number)
-            for x in self.search_parameters['without_pitches']
-            )
-        with_pitch_classes = ' '.join(
-            str(x)
-            for x in self.search_parameters['with_pitch_classes'],
-            )
-        without_pitch_classes = ' '.join(
-            str(x)
-            for x in self.search_parameters['without_pitch_classes'],
-            )
         return {
             'body_class': 'search',
             'fingering': self.event.fingering,
@@ -80,10 +64,7 @@ class FingeringView(SearchView):
             'title': self.title,
             'paginator': paginator,
             'search_action': self.event.fingering.get_url(self.request),
-            'with_pitches': with_pitches,
-            'without_pitches': without_pitches,
-            'with_pitch_classes': with_pitch_classes,
-            'without_pitch_classes': without_pitch_classes,
+            'search_parameters': self.search_parameters,
             }
 
     ### PUBLIC ATTRIBUTES ###
