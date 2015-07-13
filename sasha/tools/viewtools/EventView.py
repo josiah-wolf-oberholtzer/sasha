@@ -67,7 +67,3 @@ class EventView(SearchView):
             self.event.fingering.instrument.name,
             self.event.md5,
             )
-
-    @property
-    def request(self):
-        return self._request
