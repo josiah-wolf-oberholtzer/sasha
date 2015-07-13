@@ -16,6 +16,7 @@ class SearchView(View):
     def __init__(self, request):
         View.__init__(self, request)
         (
+            order_by,
             page_number,
             page_size,
             ) = self.process_layout_parameters(
@@ -30,6 +31,7 @@ class SearchView(View):
             without_pitch_classes,
             ) = self.process_pitch_class_parameters(self.request.params)
         self._layout_parameters = {
+            'order_by': order_by,
             'page_number': page_number,
             'page_size': page_size,
             }
@@ -45,6 +47,7 @@ class SearchView(View):
     def __call__(self):
         from sasha.tools import viewtools
         query = modeltools.Event.query_mongodb(**self.search_parameters)
+        query = query.order_by(self.layout_parameters['order_by'])
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],
@@ -136,6 +139,9 @@ class SearchView(View):
         return processed_pitch_classes, bad_pitch_classes
 
     def process_layout_parameters(self, params):
+        order_by = params.get('order_by', None)
+        if order_by not in modeltools.Event.order_by:
+            order_by = 'md5'
         page_size = params.get('n', 20)
         if page_size:
             try:
@@ -152,7 +158,11 @@ class SearchView(View):
                 page_number = 1
         else:
             page_number = 1
-        return int(page_number), int(page_size)
+        return (
+            order_by,
+            int(page_number),
+            int(page_size),
+            )
 
     def process_pitch_parameters(self, params):
         with_pitches, bad_with_pitches = self.process_pitches(

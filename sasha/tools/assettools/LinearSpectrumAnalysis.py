@@ -18,7 +18,7 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
     def calculate_spectral_centroid(self):
         from sasha.tools import assettools
         _, sample_rate = assettools.SourceAudio(self).read()
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         bin_frequency_span = (sample_rate / 2.0) / len(spectrum)
         numerator = 0
         denominator = 0
@@ -30,7 +30,7 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
         return centroid
 
     def calculate_spectral_crest(self):
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         spectral_sum = numpy.sum(spectrum)
         max_frequency_index = numpy.argmax(spectrum)
         spectral_maximum = spectrum[max_frequency_index]
@@ -38,20 +38,20 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
         return crest
 
     def calculate_spectral_flatness(self):
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         geometric_mean = stats.mstats.gmean(spectrum)
         arithmetic_mean = spectrum.mean()
         flatness = geometric_mean / arithmetic_mean
         return flatness
 
     def calculate_spectral_kurtosis(self):
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         kurtosis = stats.kurtosis(spectrum)
         return kurtosis
 
     def calculate_spectral_rolloff(self):
         from sasha.tools import assettools
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         _, sample_rate = assettools.SourceAudio(self).read()
         bin_frequency_span = (sample_rate / 2.0) / len(spectrum)
         spectral_sum = numpy.sum(spectrum)
@@ -66,13 +66,13 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
         return frequency
 
     def calculate_spectral_skewness(self):
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         skewness = stats.skew(spectrum)
         return skewness
 
     def calculate_spectral_spread(self):
         from sasha.tools import assettools
-        spectrum = self.mean
+        spectrum = abs(self.mean)
         _, sample_rate = assettools.SourceAudio(self).read()
         centroid = self.calculate_spectral_centroid()
         bin_frequency_span = (sample_rate / 2.0) / len(spectrum)

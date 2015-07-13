@@ -43,11 +43,10 @@ class FingeringView(SearchView):
 
     def __call__(self):
         from sasha.tools import viewtools
-
         query = modeltools.Event.query_mongodb(**self.search_parameters)
         compact_representation = self.event.fingering.compact_representation
         query = query(fingering__compact_representation=compact_representation)
-
+        query = query.order_by(self.layout_parameters['order_by'])
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],

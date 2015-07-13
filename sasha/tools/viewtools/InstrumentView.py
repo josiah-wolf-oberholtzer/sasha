@@ -2,7 +2,6 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from sasha.tools import modeltools
 from sasha.tools.viewtools.SearchView import SearchView
-from webhelpers import paginate
 
 
 @view_config(
@@ -42,6 +41,7 @@ class InstrumentView(SearchView):
     def __call__(self):
         from sasha.tools import viewtools
         query = modeltools.Event.query_mongodb(**self.search_parameters)
+        query = query.order_by(self.layout_parameters['order_by'])
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],

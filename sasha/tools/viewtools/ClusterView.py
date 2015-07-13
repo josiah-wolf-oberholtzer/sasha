@@ -14,7 +14,6 @@ class ClusterView(SearchView):
 
     def __init__(self, request):
         SearchView.__init__(self, request)
-
         feature = self.request.matchdict['feature'].replace('-', '_')
         cluster_id = int(self.request.matchdict['cluster_id'])
         try:
@@ -52,6 +51,7 @@ class ClusterView(SearchView):
             clusters=self.current_cluster,
             fingering__instrument=self.instrument,
             )
+        query = query.order_by(self.layout_parameters['order_by'])
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],
