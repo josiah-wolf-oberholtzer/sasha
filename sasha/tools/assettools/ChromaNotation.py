@@ -39,10 +39,9 @@ class ChromaNotation(Notation):
             color = schemetools.SchemeColor('grey{}'.format(color))
             override(v_mean[i]).text_script.color = color
         for i, val in enumerate(chroma_std):
-            markup = r"\filled-box #'(0 . 1.25) #'({} . {}) #1".format(
-                (val * -5.) - 0.75,
-                (val * 5.) + 0.75,
-                )
+            x_extent = (0, 1.25)
+            y_extent = ((val * -5.) - 0.75, (val * 5.) + 0.75)
+            markup = markuptools.Markup.filled_box(x_extent, y_extent, 1)
             markup = markuptools.Markup(markup, 'down')
             attach(markup, v_std[i])
             color = (90 - int(val * 90))
