@@ -16,12 +16,12 @@ class PartialTrackingAnalysis(Asset):
 
     ### PRIVATE METHODS ###
 
-    def _find_tracks(self, parallel=True, **kwargs):
+    def _find_tracks(self, parallel=False, **kwargs):
         from sasha.tools.analysistools import PeakDetector
         from sasha.tools.analysistools import PartialTracker
         with systemtools.Timer('Finding peaks:'):
             peak_detector = PeakDetector(max_peak_count=15)
-            frames = peak_detector(SourceAudio(self), parallel=True)
+            frames = peak_detector(SourceAudio(self), parallel=False)
         with systemtools.Timer('Finding tracks:'):
             tracks = PartialTracker(min_track_length=10)(frames)
         for track in tracks:
