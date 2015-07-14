@@ -51,7 +51,9 @@ class ClusterView(SearchView):
             clusters=self.current_cluster,
             fingering__instrument=self.instrument,
             )
-        query = query.order_by(self.layout_parameters['order_by'])
+        order_by = self.layout_parameters['order_by']
+        order_by = modeltools.Event.order_by[order_by]
+        query = query.order_by(order_by)
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],

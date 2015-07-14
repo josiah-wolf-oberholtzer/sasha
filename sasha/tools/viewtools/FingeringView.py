@@ -46,7 +46,9 @@ class FingeringView(SearchView):
         query = modeltools.Event.query_mongodb(**self.search_parameters)
         compact_representation = self.event.fingering.compact_representation
         query = query(fingering__compact_representation=compact_representation)
-        query = query.order_by(self.layout_parameters['order_by'])
+        order_by = self.layout_parameters['order_by']
+        order_by = modeltools.Event.order_by[order_by]
+        query = query.order_by(order_by)
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],

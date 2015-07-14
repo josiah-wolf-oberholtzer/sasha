@@ -47,9 +47,9 @@ class SearchView(View):
     def __call__(self):
         from sasha.tools import viewtools
         query = modeltools.Event.query_mongodb(**self.search_parameters)
-        query = query.order_by(
-            modeltools.Event.order_by[self.layout_parameters['order_by']],
-            )
+        order_by = self.layout_parameters['order_by']
+        order_by = modeltools.Event.order_by[order_by]
+        query = query.order_by(order_by)
         paginator = viewtools.Page(
             query,
             page=self.layout_parameters['page_number'],
