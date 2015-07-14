@@ -9,6 +9,7 @@ class Event(mongoengine.Document):
 
     order_by = {
         None: 'md5',
+        'md5': 'md5',
         'spectral_centroid': 'descriptors__spectral_centroid',
         'spectral_crest': 'descriptors__spectral_crest',
         'spectral_flatness': 'descriptors__spectral_flatness',
