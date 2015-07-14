@@ -61,7 +61,8 @@ install:
     - cp sasha/sasha.example.cfg sasha/sasha.cfg
 
 script:
-    - coverage run -a sasha/scr/bootstrap-testing-environment
+    - coverage run -a sasha/scr/sasha-bootstrap testing
+    - coverage run -a sasha/scr/sasha-rebuild-databases testing
     - coverage run -a `which py.test` -rf -vv sasha
 
 after_success:

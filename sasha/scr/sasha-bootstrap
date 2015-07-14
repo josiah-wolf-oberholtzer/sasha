@@ -1,0 +1,12 @@
+#! /usr/bin/env python
+
+if __name__ == '__main__':
+    import sasha
+    import sys
+    if len(sys.argv) < 2:
+        environment = 'testing'
+    else:
+        environment = sys.argv[1]
+    print('Bootstrapping SASHA {} environment.'.format(environment))
+    sasha.sasha_configuration.environment = environment
+    sasha.sasha_configuration.bootstrap()

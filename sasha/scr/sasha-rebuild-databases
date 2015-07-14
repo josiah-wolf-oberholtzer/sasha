@@ -1,0 +1,13 @@
+#! /usr/bin/env python
+
+if __name__ == '__main__':
+    import sasha
+    import sys
+    if len(sys.argv) < 2:
+        environment = 'testing'
+    else:
+        environment = sys.argv[1]
+    sasha.sasha_configuration.environment = environment
+    print('Rebuilding SASHA {} databases.'.format(environment))
+    sasha.systemtools.Bootstrap.rebuild_mongodb_database()
+    sasha.systemtools.Bootstrap.rebuild_audiodb_databases()
