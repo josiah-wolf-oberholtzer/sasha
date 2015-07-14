@@ -20,7 +20,7 @@ class ChordNotation(Notation):
             for pitch, color in pairs:
                 if note_head.written_pitch == pitch:
                     color = abjad.schemetools.SchemeColor(
-                        'grey{}'.format(color),
+                        'grey{}'.format(int(color)),
                         )
                     note_head.tweak.color = color
         score, treble_staff, bass_staff = \
@@ -45,4 +45,5 @@ class ChordNotation(Notation):
             colors = [color_scalar * x for x in norm_amplitudes]
         else:
             colors = [0]
+        colors = [int(_) for _ in colors]
         return zip(pitches, colors)
