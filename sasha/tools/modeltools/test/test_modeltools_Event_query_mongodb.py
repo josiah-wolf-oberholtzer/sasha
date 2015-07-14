@@ -52,7 +52,7 @@ def test_Event_query_mongodb_02():
         u'event__alto_saxophone__kientzy_47__t3.aif',
         ]
     events = modeltools.Event.query_mongodb(
-        with_pitches=[15, 24, 30],
+        with_pitches=[15, 24, 20.5],
         ).order_by('name')
     assert list(event.name for event in events) == [
         u'event__alto_saxophone__kientzy_47__t3.aif',
@@ -200,6 +200,7 @@ def test_Event_query_mongodb_07():
         u'event__alto_saxophone__br_123.aif',
         u'event__alto_saxophone__kientzy_19__t1.aif',
         u'event__alto_saxophone__kientzy_47__t2.aif',
+        u'event__alto_saxophone__kientzy_47__t3.aif',
         ]
     events = modeltools.Event.query_mongodb(
         with_pitch_classes=[1.5, 8.5],
@@ -211,7 +212,7 @@ def test_Event_query_mongodb_07():
         ]
     events = modeltools.Event.query_mongodb(
         with_pitch_classes=[1.5, 8.5],
-        without_pitch_classes=[6, 10.5],
+        without_pitch_classes=[6, 7],
         ).order_by('name')
     assert list(event.name for event in events) == [
         u'event__alto_saxophone__br_042.aif',
