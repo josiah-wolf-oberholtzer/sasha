@@ -7,7 +7,7 @@
 %>
 
 <%def name="event_grid_item(event, instrument)">
-    <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6">
+    <div id="${event.canonical_event_name}" class="col-sm-3 col-xs-6 event-grid">
         <a class="btn btn-default btn-block btn-sm" 
             href="${event.get_url(request)}" 
             >${event.link_text.decode('utf-8')}</a>
