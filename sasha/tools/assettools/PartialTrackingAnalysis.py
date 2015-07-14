@@ -1,5 +1,6 @@
 import os
 import struct
+from abjad.tools import systemtools
 from sasha.tools.assettools.Asset import Asset
 from sasha.tools.assettools.SourceAudio import SourceAudio
 
@@ -15,12 +16,14 @@ class PartialTrackingAnalysis(Asset):
 
     ### PRIVATE METHODS ###
 
-    def _find_tracks(self, parallel=False, **kwargs):
+    def _find_tracks(self, parallel=True, **kwargs):
         from sasha.tools.analysistools import PeakDetector
         from sasha.tools.analysistools import PartialTracker
-        peak_detector = PeakDetector(max_peak_count=15)
-        frames = peak_detector(SourceAudio(self), parallel=False)
-        tracks = PartialTracker(min_track_length=10)(frames)
+        with systemtools.Timer('Finding peaks:'):
+            peak_detector = PeakDetector(max_peak_count=15)
+            frames = peak_detector(SourceAudio(self), parallel=True)
+        with systemtools.Timer('Finding tracks:'):
+            tracks = PartialTracker(min_track_length=10)(frames)
         for track in tracks:
             for peak in track:
                 peak.previous_peak = peak.next_peak = None

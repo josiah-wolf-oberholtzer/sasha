@@ -8,6 +8,7 @@ try:
     print('Using pyfftw.')
 except ImportError:
     from numpy.fft import rfft
+from abjad.tools import systemtools
 
 
 class Frame(object):
@@ -54,40 +55,49 @@ class Frame(object):
         max_peak_count=None,
         max_peak_frequency=None,
         min_peak_frequency=None,
+        proc_name=None,
         ):
         # from sasha import sasha_configuration
-        fft = rfft(self.windowed_audio)
-        peaks = []
-        mag = abs(fft)
-        prev_mag = numpy.abs(mag[0])
-        this_mag = numpy.abs(mag[1])
-        next_mag = None
-        for bin in range(2, len(mag) - 1):
-            next_mag = numpy.abs(mag[bin])
-            if (
-                prev_mag < this_mag and
-                next_mag < this_mag
-                ):
-                frequency = (bin - 1) * self.fundamental
-                amplitude = this_mag
-                phase = numpy.angle(fft[bin - 1])
-                peak = Peak(
-                    frequency,
-                    amplitude,
-                    phase,
-                    frame_id=self.frame_id,
+        try:
+            with systemtools.Timer('\t{}: [{}] Computing RFFT:'.format(
+                proc_name, self.frame_id)):
+                fft = rfft(self.windowed_audio)
+            with systemtools.Timer('\t{}: [{}] Locating peaks:'.format(
+                proc_name, self.frame_id)):
+                peaks = []
+                mag = abs(fft)
+                prev_mag = numpy.abs(mag[0])
+                this_mag = numpy.abs(mag[1])
+                next_mag = None
+                for bin in range(2, len(mag) - 1):
+                    next_mag = numpy.abs(mag[bin])
+                    if (
+                        prev_mag < this_mag and
+                        next_mag < this_mag
+                        ):
+                        frequency = (bin - 1) * self.fundamental
+                        amplitude = this_mag
+                        phase = numpy.angle(fft[bin - 1])
+                        peak = Peak(
+                            frequency,
+                            amplitude,
+                            phase,
+                            frame_id=self.frame_id,
+                            )
+                        peaks.append(peak)
+                    prev_mag = this_mag
+                    this_mag = next_mag
+                self._peaks = self._filter_peaks(
+                    peaks,
+                    max_peak_count=max_peak_count,
+                    max_peak_frequency=max_peak_frequency,
+                    min_peak_frequency=min_peak_frequency,
                     )
-                peaks.append(peak)
-            prev_mag = this_mag
-            this_mag = next_mag
-        self._peaks = self._filter_peaks(
-            peaks,
-            max_peak_count=max_peak_count,
-            max_peak_frequency=max_peak_frequency,
-            min_peak_frequency=min_peak_frequency,
-            )
-        self._frequencies = tuple(_.frequency for _ in self)
-        self._midis = tuple(_.midis for _ in self)
+                self._frequencies = tuple(_.frequency for _ in self)
+                self._midis = tuple(_.midis for _ in self)
+        except:
+            import traceback
+            traceback.print_exc()
 
     def __eq__(self, other):
         if type(self) == type(other) and \

@@ -1,3 +1,5 @@
+from __future__ import print_function
+#import time
 import multiprocessing
 import numpy
 from sasha.tools.analysistools.Frame import Frame
@@ -26,11 +28,11 @@ class PeakDetector(object):
         min_peak_frequency=100,
         ):
         self._frame_size = 16384
-        self._hop_size = 256
+        self._hop_size = 1024
         self._max_peak_count = int(max_peak_count)
         self._max_peak_frequency = float(max_peak_frequency)
         self._min_peak_frequency = float(min_peak_frequency)
-        self._window_size = 2048
+        self._window_size = 4096
 
     ### SPECIAL METHODS ###
 
@@ -57,15 +59,27 @@ class PeakDetector(object):
                 worker.start()
             for task in tasks:
                 task_queue.put(task)
-            for i in xrange(len(tasks)):
-                frames.append(result_queue.get())
             for worker in workers:
                 task_queue.put(None)
+            #while result_queue.empty():
+            #    time.sleep(0.001)
+            for i in xrange(len(tasks)):
+                #print('\t', i + 1, len(tasks), result_queue.empty())
+                #while result_queue.empty():
+                #    time.sleep(0.1)
+                #    print('\t', i + 1, len(tasks), result_queue.empty())
+                frames.append(result_queue.get())
+            print('Joining task queue.')
             task_queue.join()
+            print('Closing result queue.')
             result_queue.close()
+            print('Closing task queue.')
             task_queue.close()
             for worker in workers:
+                print('Joining worker {}.'.format(worker))
                 worker.join()
+            for worker in workers:
+                worker.terminate()
         else:
             for task in tasks:
                 task(
