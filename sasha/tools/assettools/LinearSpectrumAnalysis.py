@@ -1,6 +1,5 @@
 import math
 import numpy
-from scipy import stats
 from sasha.tools.executabletools import FFTExtract
 from sasha.tools.assettools.CroppedAudio import CroppedAudio
 from sasha.tools.assettools.FFTExtractPlugin import FFTExtractPlugin
@@ -38,15 +37,23 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
         return crest
 
     def calculate_spectral_flatness(self):
-        spectrum = abs(self.mean)
-        geometric_mean = stats.mstats.gmean(spectrum)
-        arithmetic_mean = spectrum.mean()
-        flatness = geometric_mean / arithmetic_mean
+        try:
+            from scipy import stats
+            spectrum = abs(self.mean)
+            geometric_mean = stats.mstats.gmean(spectrum)
+            arithmetic_mean = spectrum.mean()
+            flatness = geometric_mean / arithmetic_mean
+        except ImportError:
+            flatness = 0.
         return flatness
 
     def calculate_spectral_kurtosis(self):
-        spectrum = abs(self.mean)
-        kurtosis = stats.kurtosis(spectrum)
+        try:
+            from scipy import stats
+            spectrum = abs(self.mean)
+            kurtosis = stats.kurtosis(spectrum)
+        except ImportError:
+            kurtosis = 0.
         return kurtosis
 
     def calculate_spectral_rolloff(self):
@@ -66,8 +73,12 @@ class LinearSpectrumAnalysis(FFTExtractPlugin):
         return frequency
 
     def calculate_spectral_skewness(self):
-        spectrum = abs(self.mean)
-        skewness = stats.skew(spectrum)
+        try:
+            from scipy import stats
+            spectrum = abs(self.mean)
+            skewness = stats.skew(spectrum)
+        except ImportError:
+            skewness = 0.
         return skewness
 
     def calculate_spectral_spread(self):
