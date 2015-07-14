@@ -157,40 +157,66 @@ class ViewTests(unittest.TestCase):
         request = testing.DummyRequest(params={'order_by': 'spectral_centroid'})
         view = viewtools.SearchView(request)
         info = view()
-        event_names = list((_.name, _.descriptors.spectral_centroid)
-            for _ in info['paginator'])
+        events = list(info['paginator'])
+        event_names = [_.name for _ in events]
+        descriptors = [_.descriptors.spectral_centroid for _ in events]
         self.assertEqual(event_names, [
-            (u'event__alto_saxophone__kientzy_19__t1.aif', 427.48599731362873),
-            (u'event__alto_saxophone__kientzy_47__t1.aif', 428.5720050601167),
-            (u'event__alto_saxophone__kientzy_26__w_8va__t2.aif', 535.4457268047546),
-            (u'event__alto_saxophone__kientzy_47__t2.aif', 621.4469657297443),
-            (u'event__alto_saxophone__kientzy_19__t2.aif', 651.9741133257897),
-            (u'event__soprano_saxophone__br_073.aif', 740.5378291954424),
-            (u'event__alto_saxophone__kientzy_47__t3.aif', 762.2123493774226),
-            (u'event__alto_saxophone__br_042.aif', 783.7433598705129),
-            (u'event__alto_saxophone__kientzy_19__t3.aif', 834.7059641208233),
-            (u'event__alto_saxophone__kientzy_26__w_8va__t1.aif', 841.0573636793752),
-            (u'event__soprano_saxophone__chromatic_scale_a4.aif', 892.1187465661267),
-            (u'event__alto_saxophone__br_123.aif', 1434.896511826344),
+            u'event__alto_saxophone__kientzy_19__t1.aif',
+            u'event__alto_saxophone__kientzy_47__t1.aif',
+            u'event__alto_saxophone__kientzy_26__w_8va__t2.aif',
+            u'event__alto_saxophone__kientzy_47__t2.aif',
+            u'event__alto_saxophone__kientzy_19__t2.aif',
+            u'event__soprano_saxophone__br_073.aif',
+            u'event__alto_saxophone__kientzy_47__t3.aif',
+            u'event__alto_saxophone__br_042.aif',
+            u'event__alto_saxophone__kientzy_19__t3.aif',
+            u'event__alto_saxophone__kientzy_26__w_8va__t1.aif',
+            u'event__soprano_saxophone__chromatic_scale_a4.aif',
+            u'event__alto_saxophone__br_123.aif',
             ])
+        self.assertAlmostEqual(descriptors[0], 427.48599731362873)
+        self.assertAlmostEqual(descriptors[1], 428.5720050601167)
+        self.assertAlmostEqual(descriptors[2], 535.4457268047546)
+        self.assertAlmostEqual(descriptors[3], 621.4469657297443)
+        self.assertAlmostEqual(descriptors[4], 651.9741133257897)
+        self.assertAlmostEqual(descriptors[5], 740.5378291954424)
+        self.assertAlmostEqual(descriptors[6], 762.2123493774226)
+        self.assertAlmostEqual(descriptors[7], 783.7433598705129)
+        self.assertAlmostEqual(descriptors[8], 834.7059641208233)
+        self.assertAlmostEqual(descriptors[9], 841.0573636793752)
+        self.assertAlmostEqual(descriptors[10], 892.1187465661267)
+        self.assertAlmostEqual(descriptors[11], 1434.896511826344)
 
     def test_SearchView_04(self):
         request = testing.DummyRequest(params={'order_by': 'spectral_flatness'})
         view = viewtools.SearchView(request)
         info = view()
-        event_names = list((_.name, _.descriptors.spectral_flatness)
-            for _ in info['paginator'])
+        events = list(info['paginator'])
+        event_names = [_.name for _ in events]
+        descriptors = [_.descriptors.spectral_flatness for _ in events]
         self.assertEqual(event_names, [
-            (u'event__soprano_saxophone__chromatic_scale_a4.aif', 6.133884443473832e-06),
-            (u'event__alto_saxophone__kientzy_19__t2.aif', 6.514721098324684e-06),
-            (u'event__alto_saxophone__kientzy_47__t2.aif', 6.684449488983703e-06),
-            (u'event__alto_saxophone__kientzy_47__t1.aif', 1.484247381410036e-05),
-            (u'event__alto_saxophone__kientzy_26__w_8va__t2.aif', 2.172923157666239e-05),
-            (u'event__alto_saxophone__kientzy_26__w_8va__t1.aif', 2.2554557049246036e-05),
-            (u'event__soprano_saxophone__br_073.aif', 2.4911581005520397e-05),
-            (u'event__alto_saxophone__kientzy_19__t1.aif', 2.6801641813076304e-05),
-            (u'event__alto_saxophone__br_042.aif', 4.2476256099637914e-05),
-            (u'event__alto_saxophone__kientzy_19__t3.aif', 4.629470463010788e-05),
-            (u'event__alto_saxophone__kientzy_47__t3.aif', 6.498449590485768e-05),
-            (u'event__alto_saxophone__br_123.aif', 7.134360563288096e-05),
+            u'event__soprano_saxophone__chromatic_scale_a4.aif',
+            u'event__alto_saxophone__kientzy_19__t2.aif',
+            u'event__alto_saxophone__kientzy_47__t2.aif',
+            u'event__alto_saxophone__kientzy_47__t1.aif',
+            u'event__alto_saxophone__kientzy_26__w_8va__t2.aif',
+            u'event__alto_saxophone__kientzy_26__w_8va__t1.aif',
+            u'event__soprano_saxophone__br_073.aif',
+            u'event__alto_saxophone__kientzy_19__t1.aif',
+            u'event__alto_saxophone__br_042.aif',
+            u'event__alto_saxophone__kientzy_19__t3.aif',
+            u'event__alto_saxophone__kientzy_47__t3.aif',
+            u'event__alto_saxophone__br_123.aif',
             ])
+        self.assertAlmostEqual(descriptors[0], 6.133884443473832e-06)
+        self.assertAlmostEqual(descriptors[1], 6.514721098324684e-06)
+        self.assertAlmostEqual(descriptors[2], 6.684449488983703e-06)
+        self.assertAlmostEqual(descriptors[3], 1.484247381410036e-05)
+        self.assertAlmostEqual(descriptors[4], 2.172923157666239e-05)
+        self.assertAlmostEqual(descriptors[5], 2.2554557049246036e-05)
+        self.assertAlmostEqual(descriptors[6], 2.4911581005520397e-05)
+        self.assertAlmostEqual(descriptors[7], 2.6801641813076304e-05)
+        self.assertAlmostEqual(descriptors[8], 4.2476256099637914e-05)
+        self.assertAlmostEqual(descriptors[9], 4.629470463010788e-05)
+        self.assertAlmostEqual(descriptors[10], 6.498449590485768e-05)
+        self.assertAlmostEqual(descriptors[11], 7.134360563288096e-05)
