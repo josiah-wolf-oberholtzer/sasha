@@ -31,6 +31,9 @@ class FFTExtract(Executable):
         analysis_directory, _ = os.path.split(analysis_filename)
         if not os.path.exists(analysis_directory):
             os.makedirs(analysis_directory)
+        plan_directory, _ = os.path.split(self.plan_path)
+        if not os.path.exists(plan_directory):
+            os.makedirs(plan_directory)
         if os.path.exists(analysis_filename):
             if not overwrite:
                 raise Exception('File exists: {}'.format(analysis_filename))
