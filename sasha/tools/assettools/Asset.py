@@ -83,4 +83,4 @@ class Asset(object):
         environment, path = self.path.partition(
             sasha_configuration.environment,
             )[1:]
-        return 'sashamedia:%s%s' % (environment, path)
+        return 'sasha:sashamedia/%s%s' % (environment, path)

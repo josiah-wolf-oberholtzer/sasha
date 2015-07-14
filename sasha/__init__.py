@@ -24,17 +24,17 @@ def includeme(config):
     config.add_route('favicon', '/favicon.ico')
     config.add_static_view(
         'assets/mp3s',
-        'sashamedia:{}/mp3s/'.format(sasha_configuration.environment),
+        'sasha:sashamedia/{}/mp3s/'.format(sasha_configuration.environment),
         cache_max_age=3600,
         )
     config.add_static_view(
         'assets/plots',
-        'sashamedia:{}/plots/'.format(sasha_configuration.environment),
+        'sasha:sashamedia/{}/plots/'.format(sasha_configuration.environment),
         cache_max_age=3600,
         )
     config.add_static_view(
         'assets/scores',
-        'sashamedia:{}/scores/'.format(sasha_configuration.environment),
+        'sasha:sashamedia/{}/scores/'.format(sasha_configuration.environment),
         cache_max_age=3600,
         )
     config.add_static_view('docs', 'sasha:docs/build/html/', cache_max_age=3600)

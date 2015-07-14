@@ -37,7 +37,6 @@ def main():
         name='sasha',
         packages=[
             'sasha',
-            'sashamedia',
             ],
         tests_require=requires,
         test_suite='sasha.tests',
