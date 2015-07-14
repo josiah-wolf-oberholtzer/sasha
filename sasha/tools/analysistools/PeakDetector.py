@@ -46,6 +46,9 @@ class PeakDetector(object):
         if parallel:
             task_queue = multiprocessing.JoinableQueue()
             result_queue = multiprocessing.Queue()
+            worker_count = multiprocessing.cpu_count() * 2
+            if 8 < worker_count:
+                worker_count = 8
             workers = [
                 PeakDetectionWorker(
                     task_queue,
@@ -54,7 +57,8 @@ class PeakDetector(object):
                     max_peak_frequency=self.max_peak_frequency,
                     min_peak_frequency=self.min_peak_frequency,
                     )
-                for i in range(multiprocessing.cpu_count() * 2)]
+                for _ in range(worker_count)
+                ]
             for worker in workers:
                 worker.start()
             for task in tasks:
