@@ -97,3 +97,19 @@ class TemplateTests(unittest.TestCase):
             '<title>SASHA | Search</title>',
             response,
             )
+
+    def test_search_02(self):
+        path = '/search/?with_pitches=d4&without_pitches=d4'
+        response = self.testapp.get(path, status=200)
+        self.assertIn(
+            '<title>SASHA | Search</title>',
+            response,
+            )
+
+    def test_search_03(self):
+        path = '/search/?with_pitch_classes=d&without_pitch_classes=d'
+        response = self.testapp.get(path, status=200)
+        self.assertIn(
+            '<title>SASHA | Search</title>',
+            response,
+            )

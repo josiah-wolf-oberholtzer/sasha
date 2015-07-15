@@ -110,3 +110,19 @@ class SearchViewTests(unittest.TestCase):
         self.assertAlmostEqual(descriptors[9], 4.629470463010788e-05)
         self.assertAlmostEqual(descriptors[10], 6.498449590485768e-05)
         self.assertAlmostEqual(descriptors[11], 7.134360563288096e-05)
+
+    def test_SearchView_05(self):
+        request = testing.DummyRequest(params={
+            'with_pitches': 'd4',
+            'without_pitches': 'd4',
+            })
+        view = viewtools.SearchView(request)
+        info = view()
+
+    def test_SearchView_06(self):
+        request = testing.DummyRequest(params={
+            'with_pitch_classes': 'd',
+            'without_pitch_classes': 'd',
+            })
+        view = viewtools.SearchView(request)
+        info = view()

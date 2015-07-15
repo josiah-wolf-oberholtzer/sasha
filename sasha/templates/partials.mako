@@ -38,7 +38,7 @@
 <%def name="search_form_group_with_pitches(with_pitches)">
     <%
     with_pitches = ' '.join(
-        '{}{}'.format(_.pitch_class_name, _.octave_number)
+        '{}{}'.format(x.pitch_class_name, x.octave_number)
         for x in with_pitches
         )
     %>
