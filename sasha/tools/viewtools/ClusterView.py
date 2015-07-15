@@ -47,10 +47,11 @@ class ClusterView(SearchView):
 
     def __call__(self):
         from sasha.tools import viewtools
-        query = modeltools.Event.objects(
-            clusters=self.current_cluster,
-            fingering__instrument=self.instrument,
-            )
+        query_keys = {}
+        query_keys['clusters'] = self.current_cluster
+        if self.instrument is not None:
+            query_keys['fingering__instrument'] = self.instrument
+        query = modeltools.Event.objects(**query_keys)
         order_by = self.layout_parameters['order_by']
         order_by = modeltools.Event.order_by[order_by]
         query = query.order_by(order_by)
@@ -65,7 +66,7 @@ class ClusterView(SearchView):
             'body_class': 'clusters',
             'current_cluster': self.current_cluster,
             'layout_parameters': self.layout_parameters,
-            'instrument': self.instrument,
+            'current_instrument': self.instrument,
             'paginator': paginator,
             'title': self.title,
             }

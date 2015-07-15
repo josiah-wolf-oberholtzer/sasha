@@ -16,9 +16,9 @@
 </div>
 
 <form class="form-horizontal">
-    ${partials.instrument_listing(instrument, modeltools.Instrument.with_events())}
-    ${partials.cluster_listing(current_cluster, all_clusters, 'chroma', 'Chroma')}
-    ${partials.cluster_listing(current_cluster, all_clusters, 'constant_q', 'Constant-Q')}
-    ${partials.cluster_listing(current_cluster, all_clusters, 'mfcc', 'MFCC')}
+    ${partials.instrument_listing(current_instrument, modeltools.Instrument.with_events())}
+    ${partials.cluster_listing(current_instrument, current_cluster, all_clusters, 'chroma', 'Chroma')}
+    ${partials.cluster_listing(current_instrument, current_cluster, all_clusters, 'constant_q', 'Constant-Q')}
+    ${partials.cluster_listing(current_instrument, current_cluster, all_clusters, 'mfcc', 'MFCC')}
 </form>
 </%block>

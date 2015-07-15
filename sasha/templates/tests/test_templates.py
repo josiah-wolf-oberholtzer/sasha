@@ -28,6 +28,15 @@ class TemplateTests(unittest.TestCase):
             response,
             )
 
+    def test_cluster_02(self):
+        path = '/clusters/mfcc/3/?instrument=alto_saxophone'
+        response = self.testapp.get(path, status=200)
+        self.assertIn(
+            '<title>SASHA | MFCC Cluster No.3</title>',
+            response,
+            )
+
+
     def test_event_01(self):
         event = sasha.Event.objects.first()
         instrument = event.fingering.instrument

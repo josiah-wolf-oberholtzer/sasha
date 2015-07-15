@@ -151,7 +151,10 @@
     </div>
 </%def>
 
-<%def name="cluster_listing(current_cluster, all_clusters, feature_name, feature_title)">
+<%def name="cluster_listing(current_instrument, current_cluster, all_clusters, feature_name, feature_title)">
+<%
+    instrument_name = current_instrument.snake_case_name if current_instrument is not None else ''
+%>
 <div class="form-group">
     <label class="col-sm-3 control-label">${feature_title} Clusters</label>
     <div class="col-sm-9">
@@ -162,8 +165,13 @@
             % else:
             <a class="btn btn-default"
             % endif
-                href="${cluster.get_url(request)}">
-                ${cluster.short_link_text.decode('utf-8')}
+                href="${request.route_url(
+                    'cluster',
+                    feature=cluster.feature,
+                    cluster_id=cluster.cluster_id,
+                    _query={'instrument': instrument_name},
+                    )
+                    }">${cluster.short_link_text.decode('utf-8')}</a>
             </a>
         % endfor
         </div>       
