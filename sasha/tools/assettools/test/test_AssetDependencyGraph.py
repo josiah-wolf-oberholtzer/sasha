@@ -18,6 +18,7 @@ def test_AssetDependencyGraph_01():
         assettools.LogPowerAnalysis,
         assettools.MFCCAnalysis,
         assettools.PartialTrackingPlot,
+        assettools.ArpeggioNotation,
         assettools.ChordNotation,
         assettools.ChromaNotation,
         )
