@@ -137,6 +137,7 @@
             <span class="input-group-addon">Order by</span>
             <select class="form-control" name="order_by">
                 <option ${'selected' if order_by == 'md5' else ''} value="md5">MD5 Hash</option>
+                <option ${'selected' if order_by == 'log_harmonicity' else ''} value="log_harmonicity">Log Harmonicity</option>
                 <option ${'selected' if order_by == 'spectral_centroid' else ''} value="spectral_centroid">Spectral Centroid</option>
                 <option ${'selected' if order_by == 'spectral_crest' else ''} value="spectral_crest">Spectral Crest</option>
                 <option ${'selected' if order_by == 'spectral_flatness' else ''} value="spectral_flatness">Spectral Flatness</option>
