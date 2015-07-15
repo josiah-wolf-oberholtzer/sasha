@@ -59,6 +59,7 @@ class SearchView(View):
         search_action = self.request.route_url('search')
         return {
             'body_class': 'search',
+            'layout_parameters': self.layout_parameters,
             'paginator': paginator,
             'search_action': search_action,
             'search_parameters': self.search_parameters,

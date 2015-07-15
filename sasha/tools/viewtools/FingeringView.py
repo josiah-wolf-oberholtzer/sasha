@@ -62,10 +62,11 @@ class FingeringView(SearchView):
             'instrument': self.instrument,
             'instrument_keys': ' '.join(self.event.fingering.key_names),
             'instrument_name': self.instrument.name,
-            'title': self.title,
+            'layout_parameters': self.layout_parameters,
             'paginator': paginator,
             'search_action': self.event.fingering.get_url(self.request),
             'search_parameters': self.search_parameters,
+            'title': self.title,
             }
 
     ### PUBLIC ATTRIBUTES ###

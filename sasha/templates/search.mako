@@ -21,6 +21,7 @@
             search_parameters['with_pitch_classes'])}
         ${partials.search_form_group_without_pitch_classes(
             search_parameters['without_pitch_classes'])}
+        ${partials.search_form_group_order_by(layout_parameters['order_by'])}
         <div class="form-group">
             <button type="submit" class="btn btn-default">Search</button>
         </div>

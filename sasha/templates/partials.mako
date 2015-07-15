@@ -131,6 +131,25 @@
     </div>
 </%def>
 
+<%def name="search_form_group_order_by(order_by)">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">Order by</span>
+            <select class="form-control" name="order_by">
+                <option ${'selected' if order_by == 'md5' else ''} value="md5">MD5 Hash</option>
+                <option ${'selected' if order_by == 'spectral_centroid' else ''} value="spectral_centroid">Spectral Centroid</option>
+                <option ${'selected' if order_by == 'spectral_crest' else ''} value="spectral_crest">Spectral Crest</option>
+                <option ${'selected' if order_by == 'spectral_flatness' else ''} value="spectral_flatness">Spectral Flatness</option>
+                <option ${'selected' if order_by == 'spectral_kurtosis' else ''} value="spectral_kurtosis">Spectral Kurtosis</option>
+                <option ${'selected' if order_by == 'spectral_rolloff' else ''} value="spectral_rolloff">Spectral Rolloff</option>
+                <option ${'selected' if order_by == 'spectral_skewness' else ''} value="spectral_skewness">Spectral Skewness</option>
+                <option ${'selected' if order_by == 'spectral_spread' else ''} value="spectral_spread">Spectral Spread</option>
+            </select>
+            <span class="input-group-addon">?</span>
+        </div>
+    </div>
+</%def>
+
 <%def name="cluster_listing(current_cluster, all_clusters, feature_name, feature_title)">
 <div class="form-group">
     <label class="col-sm-3 control-label">${feature_title} Clusters</label>

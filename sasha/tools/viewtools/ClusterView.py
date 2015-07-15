@@ -64,6 +64,7 @@ class ClusterView(SearchView):
             'all_clusters': self.all_clusters,
             'body_class': 'clusters',
             'current_cluster': self.current_cluster,
+            'layout_parameters': self.layout_parameters,
             'instrument': self.instrument,
             'paginator': paginator,
             'title': self.title,

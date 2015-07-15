@@ -55,10 +55,11 @@ class InstrumentView(SearchView):
             'body_class': 'search',
             'instrument': self.instrument,
             'instrument_name': self.instrument.name,
-            'title': self.title,
+            'layout_parameters': self.layout_parameters,
             'paginator': paginator,
             'search_action': search_action,
             'search_parameters': self.search_parameters,
+            'title': self.title,
             }
 
     ### PUBLIC ATTRIBUTES ###
