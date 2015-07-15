@@ -5,6 +5,7 @@
 <%!
     from sasha import sasha_configuration
     from sasha.tools.modeltools import Event
+    from sasha.tools.assettools.ArpeggioNotation import ArpeggioNotation
     from sasha.tools.assettools.ChordNotation import ChordNotation
     from sasha.tools.assettools.ChromaNotation import ChromaNotation
     from sasha.tools.assettools.MP3Audio import MP3Audio
@@ -44,11 +45,9 @@ ${current_event.get_numbered_link(request)}
     %endfor
     </p></dd>
 </dl>
-<dl class="col-sm-3">
+<dl class="col-sm-6">
     <dt><p>Chord notation</p></dt>
-    <dd><p>${ChordNotation(current_event).get_image_link(request)}</p></dd>
-</dl>
-<dl class="col-sm-3">
+    <dd><p>${ArpeggioNotation(current_event).get_image_link(request)}</p></dd>
     <dt><p>Fingering notation</p></dt>
     <dd><p>${FingeringNotation(current_event).get_image_link(request)}</p></dd>
 </dl>
