@@ -13,6 +13,11 @@ class Notation(Asset):
     file_suffix = 'svg'
     media_type = 'scores'
 
+    ### SPECIAL METHODS ###
+
+    def __illustrate__(self):
+        return self._make_illustration()
+
     ### PRIVATE METHODS ###
 
     @abc.abstractmethod
