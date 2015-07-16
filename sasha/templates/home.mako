@@ -11,16 +11,3 @@
         timbral, harmonic and idiomatic descriptors.</p>
     </div>
 </div>
-
-<p>SASHA makes use of a wide variety of projects and tools from the Python
-community and beyond, including:</p>
-
-<ul>
-    <li>Abjad</li>
-    <li>AudioDB</li>
-    <li>fftExtract</li>
-    <li>LilyPond</li>
-    <li>Numpy</li>
-    <li>SciPy</li>
-    <li>Scikit-Learn</li>
-</ul>
