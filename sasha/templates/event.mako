@@ -23,19 +23,57 @@ ${current_event.get_numbered_link(request)}
 
 <div class="row">
 <dl class="col-sm-6">
-    <dt>Instrument</dt>
+    <dt>
+      <p>Instrument</p>
+    </dt>
     <dd><p>${current_instrument.get_link(request)}</p></dd>
 
-    <dt>Event &numero;</dt>
+    <dt>
+      <p>Event &numero;</p>
+    </dt>
     <dd><p>${current_event.get_numbered_link(request)}</p></dd>
 
-    <dt>Audio MD5 hash</dt>
+    <dt data-toggle="modal" data-target="#modal-info-md5">
+      <p>Audio MD5 Hash <span class="badge">?</span></p>
+    </dt>
     <dd><p>${current_event.get_md5_link(request)}</p></dd>
 
-    <dt>Key names</dt>
+<div id="modal-info-md5" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">MD5 Hash</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
+    <dt data-toggle="modal" data-target="#modal-info-key-names">
+      <p>Key Names <span class="badge">?</span></p>
+    </dt>
     <dd><p>${current_event.fingering.get_link(request)}</p></dd>
 
-    <dt>Clusters</dt>
+<div id="modal-info-key-names" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Key Names</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
+    <dt data-toggle="modal" data-target="#modal-info-clusters">
+      <p>Clusters <span class="badge">?</span></p>
+    </dt>
     <dd><p>
     %for i, cluster in enumerate(clusters):
         %if 0 < i:
@@ -44,22 +82,96 @@ ${current_event.get_numbered_link(request)}
         ${cluster.get_long_link(request)}
     %endfor
     </p></dd>
+
+<div id="modal-info-clusters" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Clusters</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
 </dl>
 <dl class="col-sm-6">
-    <dt><p>Chord notation</p></dt>
+
+    <dt data-toggle="modal" data-target="#modal-info-arpeggio-notation">
+      <p>Arpeggio Notation <span class="badge">?</span></p>
+    </dt>
     <dd><p>${ArpeggioNotation(current_event).get_image_link(request)}</p></dd>
-    <dt><p>Fingering notation</p></dt>
+
+<div id="modal-info-arpeggio-notation" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Arpeggio Notation</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
+    <dt>
+      <p>Fingering notation</p>
+    </dt>
     <dd><p>${FingeringNotation(current_event).get_image_link(request)}</p></dd>
+
 </dl>
 </div>
 
 <dl>
-    <dt>Audio</dt>
+
+    <dt>
+      <p>Audio</p>
+    </dt>
     <dd class="text-center"><p>${MP3Audio(current_event).get_audio_tag(request)}</p></dd>
-    <dt><p>Chroma notation</p></dt>
+
+    <dt data-toggle="modal" data-target="#modal-info-chroma-notation">
+      <p>Chroma notation <span class="badge">?</span></p>
+    </dt>
     <dd class="text-center"><p>${ChromaNotation(current_event).get_image_link(request)}</p></dd>
-    <dt><p>Partial tracking analysis</p></dt>
+
+<div id="modal-info-chroma-notation" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Chroma Notation</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
+    <dt data-toggle="modal" data-target="#modal-info-partial-tracking-plot">
+      <p>Partial tracking analysis <span class="badge">?</span></p>
+    </dt>
     <dd class="text-center"><p>${PartialTrackingPlot(current_event).get_image_link(request)}</p></dd>
+
+<div id="modal-info-partial-tracking-plot" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Partial Tracking Plot</h4>
+      </div>
+      <div class="modal-body">
+        Info
+      </div>
+    </div>
+  </div>
+</div>
+
 </dl>
 
 
