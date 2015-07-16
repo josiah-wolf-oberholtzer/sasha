@@ -15,7 +15,6 @@ audio {
 }
 
 .event-row {
-    padding-top: 20px;
     }
 
 .event-image {
@@ -33,4 +32,6 @@ audio {
     }
 
 .event-grid {
+    height: 220px;
+    padding-bottom: 20px;
     }
