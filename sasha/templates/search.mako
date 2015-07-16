@@ -13,6 +13,9 @@
         </div>
     </div>
     <form action="${search_action}" method="get" class="col-sm-6">
+        ${partials.search_form_modal_info_pitches()}
+        ${partials.search_form_modal_info_pitch_classes()}
+        ${partials.search_form_modal_info_order_by()}
         ${partials.search_form_group_with_pitches(
             search_parameters['with_pitches'])}
         ${partials.search_form_group_without_pitches(
