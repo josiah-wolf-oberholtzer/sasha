@@ -28,7 +28,9 @@ class ChordNotation(Notation):
         comment = abjad.indicatortools.LilyPondComment(
             str(self.client.name), 'before')
         abjad.attach(comment, score)
-        return score
+        lilypond_file = abjad.lilypondfiletools.make_basic_lilypond_file(score)
+        lilypond_file.global_staff_size = 14
+        return lilypond_file
 
     def _get_pitches_and_colors(self):
         analysis = ChordAnalysis(self)
