@@ -79,7 +79,7 @@ class Notation(Asset):
 
     def get_image_tag(self, request):
         from webhelpers.html import HTML
-        return HTML.tag('img', src=self.get_static_url(request))
+        return HTML.tag('img', src=self.get_static_path(request))
 
     def write(self, **kwargs):
         try:

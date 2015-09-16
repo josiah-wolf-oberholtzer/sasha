@@ -22,8 +22,8 @@ class MP3Audio(Asset):
 
     def get_audio_tag(self, request):
         from webhelpers.html import HTML
-        static_url = self.get_static_url(request)
-        source_tag = HTML.tag('source', type_='audio/mp3', src=static_url)
+        static_path = self.get_static_path(request)
+        source_tag = HTML.tag('source', type_='audio/mp3', src=static_path)
         audio_tag = HTML.tag('audio', controls='controls', c=[source_tag])
         div_tag = HTML.tag('div', class_='mp3', c=[audio_tag])
         return div_tag

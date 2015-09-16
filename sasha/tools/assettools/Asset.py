@@ -1,6 +1,6 @@
 import abc
 import os
-from pyramid.url import static_url
+from pyramid.url import static_path
 
 
 class Asset(object):
@@ -56,8 +56,8 @@ class Asset(object):
 
     ### PUBLIC METHODS ###
 
-    def get_static_url(self, request):
-        return static_url(self.static_path, request)
+    def get_static_path(self, request):
+        return static_path(self.static_path, request)
 
     ### PUBLIC PROPERTIES ###
 
