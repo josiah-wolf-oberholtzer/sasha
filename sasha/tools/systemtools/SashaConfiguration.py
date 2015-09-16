@@ -50,7 +50,7 @@ class SashaConfiguration(dict):
 
     def connect(self):
         if self._mongodb_client is not None:
-            self._mongodb_client.disconnect()
+            self._mongodb_client.close()
         self._mongodb_client = mongoengine.connect(self.mongodb_database_name)
 
     @staticmethod
