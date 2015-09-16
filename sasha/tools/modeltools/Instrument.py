@@ -27,6 +27,7 @@ class Instrument(mongoengine.Document):
         return request.route_url(
             'instrument',
             instrument_name=self.dash_case_name,
+            _app_url='',
             )
 
     @classmethod

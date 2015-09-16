@@ -88,7 +88,11 @@ class Event(mongoengine.Document):
         return HTML.tag('a', href=href, c=text)
 
     def get_url(self, request):
-        return request.route_url('event', md5=self.md5)
+        return request.route_url(
+            'event',
+            md5=self.md5,
+            _app_url='',
+            )
 
     def query_audiodb(self, method, limit=10):
         from sasha.tools import executabletools

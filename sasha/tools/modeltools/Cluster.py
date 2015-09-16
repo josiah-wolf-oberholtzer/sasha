@@ -30,6 +30,7 @@ class Cluster(mongoengine.Document):
             'cluster',
             feature=self.dash_case_feature,
             cluster_id=self.cluster_id,
+            _app_url='',
             )
 
     ### PUBLIC PROPERTIES ###

@@ -98,6 +98,7 @@ class Fingering(mongoengine.EmbeddedDocument):
             'fingering',
             instrument_name=instrument_name,
             compact_representation=compact_representation,
+            _app_url='',
             )
 
     ### PUBLIC PROPERTIES ###
