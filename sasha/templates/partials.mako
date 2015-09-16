@@ -1,5 +1,5 @@
 <%!
-    from pyramid.url import route_url, current_route_url
+    from pyramid.url import route_path, current_route_url
     from sasha.tools import modeltools
     from sasha.tools.assettools.ChordNotation import ChordNotation
     from sasha.tools.assettools.FingeringNotation import FingeringNotation
@@ -327,7 +327,7 @@
             % else:
             <a class="btn btn-default"
             % endif
-                href="${request.route_url(
+                href="${request.route_path(
                     'cluster',
                     feature=cluster.feature,
                     cluster_id=cluster.cluster_id,

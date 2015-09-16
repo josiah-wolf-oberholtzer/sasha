@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 <%!
     import datetime
-    from pyramid.url import current_route_url
     from sasha.tools import modeltools
 %>
 <head profile="http://gmpg.org/xfn/11">
@@ -17,8 +16,8 @@
     <meta property="og:url" content="http://sasha.mbrsi.org/search/" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
-    <link rel="icon" type="image/png" href="${request.static_url('sasha:static/img/favicon.ico')}"/>
-    <link rel="stylesheet" href="${request.static_url('sasha:static/css/sasha.v2.css')}"/>
+    <link rel="icon" type="image/png" href="${request.static_path('sasha:static/img/favicon.ico')}"/>
+    <link rel="stylesheet" href="${request.static_path('sasha:static/css/sasha.v2.css')}"/>
 </head>
 
 <body class="${body_class}">
