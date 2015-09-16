@@ -151,4 +151,4 @@ class SashaConfiguration(dict):
 
     @property
     def mongodb_database_name(self):
-        return 'sasha:{}'.format(self.environment)
+        return 'sasha-{}'.format(self.environment)
