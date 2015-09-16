@@ -37,8 +37,16 @@ def includeme(config):
         'sasha:sashamedia/{}/scores/'.format(sasha_configuration.environment),
         cache_max_age=3600,
         )
-    config.add_static_view('docs', 'sasha:docs/build/html/', cache_max_age=3600)
-    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view(
+        'docs',
+        'sasha:docs/build/html/',
+        cache_max_age=3600,
+        )
+    config.add_static_view(
+        'static',
+        'sasha:static/',
+        cache_max_age=3600,
+        )
     config.scan('sasha')
 
 

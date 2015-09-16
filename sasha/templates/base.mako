@@ -16,8 +16,8 @@
     <meta property="og:url" content="http://sasha.mbrsi.org/search/" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
-    <link rel="icon" type="image/png" href="${request.static_path('sasha:static/img/favicon.ico')}"/>
-    <link rel="stylesheet" href="${request.static_path('sasha:static/css/sasha.v2.css')}"/>
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico"/>
+    <link rel="stylesheet" href="/static/css/sasha.v2.css"/>
 </head>
 
 <body class="${body_class}">
